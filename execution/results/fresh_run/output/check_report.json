@@ -1,0 +1,231 @@
+{
+ "status": "success",
+ "reason": "all checks pass; 17 items await author confirmation",
+ "items": [
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F18 (metric = roc_auc_score) but its value is not in the sentence",
+   "unit": "u8",
+   "line": 7
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence",
+   "unit": "u15",
+   "line": 21
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence",
+   "unit": "u15",
+   "line": 21
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F6 (auc_test.metric = auc_test) but its value is not in the sentence",
+   "unit": "u15",
+   "line": 21
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F14 (stratify = y) but its value is not in the sentence",
+   "unit": "u17",
+   "line": 21
+  }
+ ],
+ "coverage": [
+  {
+   "element": "E_steps",
+   "category": "steps",
+   "label": "ordered procedure (input -> operation -> output per step)",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  },
+  {
+   "element": "E_dataset",
+   "category": "data",
+   "label": "dataset name and source",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u10"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_dataset_version",
+   "category": "data",
+   "label": "dataset version / release / snapshot date",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u10",
+    "u20"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_split",
+   "category": "data",
+   "label": "split sizes/ratios and how they were drawn",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u6",
+    "u8",
+    "u15",
+    "u17",
+    "u22"
+   ],
+   "facts_cited": [
+    "F12",
+    "F15"
+   ]
+  },
+  {
+   "element": "E_preproc",
+   "category": "data",
+   "label": "preprocessing / filtering",
+   "level": "recommended",
+   "status": "marked_gap",
+   "units": [
+    "u10"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_software",
+   "category": "setup",
+   "label": "software and versions",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u6",
+    "u10",
+    "u19",
+    "u20"
+   ],
+   "facts_cited": [
+    "F10"
+   ]
+  },
+  {
+   "element": "E_seed",
+   "category": "repro",
+   "label": "random seed(s)",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u17",
+    "u22"
+   ],
+   "facts_cited": [
+    "F24"
+   ]
+  },
+  {
+   "element": "E_repeats",
+   "category": "control",
+   "label": "number of repetitions / replicates and how results are aggregated",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u15",
+    "u17",
+    "u20"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_baseline",
+   "category": "control",
+   "label": "baselines with versions and same-budget conditions",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u16"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_metric",
+   "category": "control",
+   "label": "evaluation metrics / measured outcomes",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u6",
+    "u8",
+    "u12",
+    "u15",
+    "u17",
+    "u19",
+    "u22"
+   ],
+   "facts_cited": [
+    "F18",
+    "F4",
+    "F2",
+    "F6"
+   ]
+  },
+  {
+   "element": "E_stats",
+   "category": "control",
+   "label": "statistical test / uncertainty estimate",
+   "level": "recommended",
+   "status": "covered",
+   "units": [
+    "u15",
+    "u17"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_code",
+   "category": "repro",
+   "label": "code version and run commands",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u20"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_data_access",
+   "category": "repro",
+   "label": "data availability / access",
+   "level": "recommended",
+   "status": "marked_gap",
+   "units": [
+    "u10"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_limits",
+   "category": "repro",
+   "label": "limitations tied to concrete failure scenarios",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  }
+ ],
+ "limitations": {
+  "sentences": 1,
+  "anchored": 1,
+  "generic": 0
+ },
+ "stages": []
+}

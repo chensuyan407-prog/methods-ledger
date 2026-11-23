@@ -1,0 +1,11 @@
+{
+ "case_id": "dev_ml_textcls",
+ "task": "根据实验材料撰写论文第3节“方法与实验”（中文，面向期刊审稿人），需包含方法步骤、实验设置、数据集与划分、参数表、对照实验、可复现性与限制。不得补造材料中没有的数值。",
+ "output_contract": {
+  "methods_section": "可编辑的方法与实验章节正文（Markdown）",
+  "parameter_table": "参数表：名称、取值、单位、作用对象、来源",
+  "source_map": "正文数字与关键论断的来源映射",
+  "open_questions": "材料缺口与需作者确认的问题",
+  "status": "success|partial|failed"
+ }
+}

@@ -1,0 +1,14 @@
+﻿name,canonical,category,value,unit,applies_to,source,fact,source_kind,status
+duration,duration,params,45 min,,text/duration,notebook_2024-05.txt:3,F15,doc_kv,CONFLICT C1 - author to confirm
+temperature,temperature,params,25 °C,,-,reader_settings.txt:7,F41,doc_kv,cited in text; other values: reader_settings.txt:7=25
+wavelength,wavelength,params,570 nm,,-,reader_settings.txt:4,F33,doc_kv,cited in text; other values: reader_settings.txt:4=570; reader_settings.txt:5=630
+lot / catalogue number,lot,data,KX-0412,,-,notebook_2024-05.txt:2,F14,doc_kv,cited in text
+reagent / material,reagent,data,ATCC CCL-2,,-,notebook_2024-05.txt:1,F13,doc_kv,cited in text
+instrument,instrument,setup,BioTek Synergy H1,,-,reader_settings.txt:1,F30,doc_kv,cited in text
+software (Software),software,setup,Gen5 3.11,,-,reader_settings.txt:2,F31,doc_kv,cited in text
+statistics software (r),software_stats,setup,4.3.1,,-,analysis.R:1,F3,code,cited in text
+statistics software (drc),software_stats,setup,3.0-1,,-,analysis.R:2,F4,code,cited in text
+significance level,alpha_level,control,0.05,,-,analysis.R:9,F2,code,cited in text
+repetitions / replicates,n_runs,control,3,,-,notebook_2024-05.txt:4,F16,doc_kv,cited in text
+statistical test,statistical_test,control,one-way ANOVA,,-,analysis.R:7,F6,code,cited in text; other values: analysis.R:7=Dunnett; analysis.R:8=aov
+random seed,seed,repro,7,,set,analysis.R:3,F5,code,cited in text

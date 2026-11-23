@@ -1,0 +1,8 @@
+Instrument: BioTek Synergy H1
+Software: Gen5 3.11
+Read type: Absorbance endpoint
+Wavelength: 570 nm
+Reference wavelength: 630 nm
+Read height: 8.5 mm
+Temperature: 25 °C
+Shake: 5 s linear before read

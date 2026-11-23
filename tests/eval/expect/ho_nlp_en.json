@@ -1,0 +1,9 @@
+{"lang": "en", "profile": "ml",
+ "facts": [["lora_r", "8"], ["lora_alpha", "16"], ["dropout", "0.05"], ["optimizer", "adamw"], ["learning_rate", "4e-4"], ["learning_rate", "1e-5"],
+  ["weight_decay", "0.1"], ["scheduler", "linear"], ["warmup", "0.06"], ["batch_size", "16"], ["batch_size", "32"], ["grad_accum", "2"],
+  ["epochs", "20"], ["epochs", "10"], ["max_length", "128"], ["precision", "true"], ["dataset", "glue"], ["dataset_version", "bcdcba79"],
+  ["seed", "1"], ["n_runs", "3"], ["num_gpus", "4"], ["hardware", "A100"], ["python", "3.10.13"], ["torch", "2.2.1"], ["software", "4.40.0"],
+  ["software", "0.10.0"], ["cuda", "12.1"], ["n_train", "67349"], ["n_val", "872"], ["code_version", "4be1d0e"], ["model", "roberta-large"],
+  ["command", "torchrun"], ["metric", "accuracy"]],
+ "conflicts": ["batch_size", "grad_accum"],
+ "gaps": ["E_stats", "E_limits"]}

@@ -1,0 +1,7 @@
+method,seed,eval_accuracy
+lora,1,0.9622
+lora,2,0.9576
+lora,3,0.9599
+full_ft,1,0.9633
+full_ft,2,0.9587
+full_ft,3,0.9610

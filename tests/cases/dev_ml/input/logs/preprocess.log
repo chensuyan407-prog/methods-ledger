@@ -1,0 +1,5 @@
+2024-03-02 10:11:05 INFO $ python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/
+2024-03-02 10:12:40 INFO loaded 74000 raw documents
+2024-03-02 10:12:41 INFO removed 1210 documents outside length range [20, 2000]
+2024-03-02 10:12:43 INFO removed 790 exact duplicates
+2024-03-02 10:12:44 INFO 57600 train samples, 7200 val samples, 7200 test samples

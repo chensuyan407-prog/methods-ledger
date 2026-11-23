@@ -1,0 +1,181 @@
+{
+ "status": "success",
+ "reason": "all checks pass; 10 items await author confirmation",
+ "items": [],
+ "coverage": [
+  {
+   "element": "E_steps",
+   "category": "steps",
+   "label": "有序步骤（每步输入→操作→输出）",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  },
+  {
+   "element": "E_system",
+   "category": "data",
+   "label": "模拟体系与模型（规模、力场/泛函）",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u14"
+   ],
+   "facts_cited": [
+    "F34",
+    "F4",
+    "F33"
+   ]
+  },
+  {
+   "element": "E_conditions",
+   "category": "params",
+   "label": "操作条件（含单位）",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u6",
+    "u8",
+    "u12",
+    "u15",
+    "u16",
+    "u29",
+    "u30"
+   ],
+   "facts_cited": [
+    "F40",
+    "F13",
+    "F6",
+    "F11",
+    "F8",
+    "F10",
+    "F43"
+   ]
+  },
+  {
+   "element": "E_hardware",
+   "category": "setup",
+   "label": "硬件（设备型号与数量）",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u20"
+   ],
+   "facts_cited": [
+    "F15",
+    "F35"
+   ]
+  },
+  {
+   "element": "E_software",
+   "category": "setup",
+   "label": "软件及版本",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u17",
+    "u20",
+    "u25"
+   ],
+   "facts_cited": [
+    "F32"
+   ]
+  },
+  {
+   "element": "E_seed",
+   "category": "repro",
+   "label": "随机种子",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u23"
+   ],
+   "facts_cited": [
+    "F7"
+   ]
+  },
+  {
+   "element": "E_repeats",
+   "category": "control",
+   "label": "重复次数/平行样数及结果汇总方式",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u12",
+    "u23"
+   ],
+   "facts_cited": [
+    "F44"
+   ]
+  },
+  {
+   "element": "E_metric",
+   "category": "control",
+   "label": "评价指标/测量结局",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u10",
+    "u12",
+    "u14",
+    "u15",
+    "u16",
+    "u20",
+    "u23",
+    "u29"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_stats",
+   "category": "control",
+   "label": "统计检验/不确定度估计",
+   "level": "recommended",
+   "status": "covered",
+   "units": [
+    "u23"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_code",
+   "category": "repro",
+   "label": "代码版本与运行命令",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u25"
+   ],
+   "facts_cited": [
+    "F20"
+   ]
+  },
+  {
+   "element": "E_data_access",
+   "category": "repro",
+   "label": "数据获取方式",
+   "level": "recommended",
+   "status": "marked_gap",
+   "units": [
+    "u26"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_limits",
+   "category": "repro",
+   "label": "落到具体失效场景的限制条件",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  }
+ ],
+ "limitations": {
+  "sentences": 3,
+  "anchored": 3,
+  "generic": 0
+ },
+ "stages": []
+}

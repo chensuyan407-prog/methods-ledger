@@ -1,0 +1,113 @@
+{
+ "tool": "methods-ledger",
+ "version": "0.1.0",
+ "case_id": "dev_wetlab_mtt",
+ "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\work",
+ "lang": "en",
+ "profile": "wetlab",
+ "profile_scores": {
+  "ml": 0,
+  "wetlab": 14,
+  "simulation": 0,
+  "stats": 0
+ },
+ "contract": [
+  {
+   "name": "methods_markdown",
+   "desc": "editable Methods section"
+  },
+  {
+   "name": "parameters",
+   "desc": "table of conditions with sources"
+  },
+  {
+   "name": "evidence",
+   "desc": "source for each number"
+  },
+  {
+   "name": "author_queries",
+   "desc": "missing or conflicting items"
+  },
+  {
+   "name": "status",
+   "desc": "success|partial|failed"
+  }
+ ],
+ "files": [
+  {
+   "path": "analysis.R",
+   "bytes": 318,
+   "sha256": "df8ff88757304dda01fdca26da768ba3639b3def5e6f2d1bc25c427387c8eafb",
+   "problems": [],
+   "class": "code",
+   "lines": 10,
+   "n_facts": 7
+  },
+  {
+   "path": "case.json",
+   "bytes": 601,
+   "sha256": "297944448718813172c425a64f78e7aa9f83f3a01050db5c22eee53a146bc0c3",
+   "problems": [],
+   "class": "case",
+   "lines": 4
+  },
+  {
+   "path": "notebook_2024-05.txt",
+   "bytes": 319,
+   "sha256": "a48a720a82c2cc55595f3a8727cbd0306b65d76d6bbfd72e469470a1655e70ea",
+   "problems": [],
+   "class": "doc",
+   "lines": 6,
+   "n_facts": 9
+  },
+  {
+   "path": "protocol.md",
+   "bytes": 523,
+   "sha256": "317b0421f05ed5c292a0b27d1254679122f8b33fd3d5807f9e3f8bab14b88c3b",
+   "problems": [],
+   "class": "doc",
+   "lines": 12,
+   "n_facts": 13
+  },
+  {
+   "path": "reader_settings.txt",
+   "bytes": 199,
+   "sha256": "810f6d7e6f236562cb0de8c3de22e99bac574db6046a36f4dc10c74ccaf0e1a4",
+   "problems": [],
+   "class": "doc",
+   "lines": 9,
+   "n_facts": 17
+  },
+  {
+   "path": "viability_summary.csv",
+   "bytes": 128,
+   "sha256": "e3e212783ad755f024e4913a13520b44205f120b77b45417eccd6bf43a538e3a",
+   "problems": [],
+   "class": "table",
+   "lines": 8,
+   "table": {
+    "rows": 6,
+    "columns": [
+     "concentration_uM",
+     "mean_viability_pct",
+     "sd_pct",
+     "n"
+    ]
+   },
+   "n_facts": 19
+  }
+ ],
+ "problems": [],
+ "task_excerpt": "Write the Materials and Methods section (English, for a cell-biology journal) for the cytotoxicity experiment, from the protocol, notebook, plate-reader export and analysis script. Include materials, procedure, instrument settings, controls, replicates, statistics, and reproducibility notes. Do not invent values.",
+ "stages": [],
+ "series": [],
+ "extract_seconds": 0.01,
+ "case_keys": [
+  "case_id",
+  "output_contract",
+  "task"
+ ]
+}

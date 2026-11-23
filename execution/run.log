@@ -1,0 +1,145 @@
+# methods-ledger 0.1.0 self-evaluation, started 2026-11-23T10:20:30.741306Z
+$ python tests/run_eval.py --cases all --out execution/results
+{
+ "tag": "",
+ "cases": [
+  "dev_ml",
+  "dev_sim",
+  "dev_wetlab",
+  "ho_nlp_en",
+  "ho_stats"
+ ],
+ "seconds": 30.9,
+ "extraction": {
+  "fact_recall": 0.9213,
+  "facts_expected": 127,
+  "facts_found": 117,
+  "conflict_recall": 1.0,
+  "conflicts_expected": 6,
+  "conflicts_found": 6,
+  "conflicts_unexpected": 0,
+  "conflict_precision": 1.0,
+  "gap_recall": 1.0,
+  "gaps_expected": 12,
+  "gaps_found": 12,
+  "profile_correct": 5,
+  "language_correct": 5
+ },
+ "gold_drafts": {
+  "n": 5,
+  "without_fail": 5
+ },
+ "mutations": {
+  "n": 100,
+  "caught_fail": 0.97,
+  "caught_any": 0.97,
+  "baseline_grep": 0.52,
+  "baseline_checklist": 0.35,
+  "by_type": {
+   "wrong_value": {
+    "n": 29,
+    "caught_fail": 29,
+    "caught_any": 29,
+    "baseline_grep": 25,
+    "baseline_checklist": 0
+   },
+   "invented_number": {
+    "n": 10,
+    "caught_fail": 9,
+    "caught_any": 9,
+    "baseline_grep": 10,
+    "baseline_checklist": 0
+   },
+   "unmarked_conflict": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "missing_element": {
+    "n": 31,
+    "caught_fail": 30,
+    "caught_any": 30,
+    "baseline_grep": 8,
+    "baseline_checklist": 30
+   },
+   "boilerplate_limits": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 5
+   },
+   "fabricated_command": {
+    "n": 2,
+    "caught_fail": 2,
+    "caught_any": 2,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_version": {
+    "n": 4,
+    "caught_fail": 4,
+    "caught_any": 4,
+    "baseline_grep": 4,
+    "baseline_checklist": 0
+   },
+   "wrong_name": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "placeholder": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_citation": {
+    "n": 4,
+    "caught_fail": 3,
+    "caught_any": 3,
+    "baseline_grep": 0,
+    "baseline_checklist": 0
+   }
+  }
+ },
+ "robustness": {
+  "n": 13,
+  "passed": 13,
+  "failed": []
+ }
+}
+[exit 0, 31.1 s]
+
+$ python tests/fresh_run.py
+$ python.exe ml_extract.py --case case.json --out output --work work
+case_id: fresh_xgb_credit
+language: en   profile: generic   files: 4   facts: 24   conflicts: 0   gaps: 11   (0.01 s)
+contract fields: methods, parameters, sources, open_questions
+  case           case.json  facts=0
+  table          metrics.csv  facts=7
+  code           model.ipynb  facts=11
+  config         xgb_params.json  facts=6
+next: read <tmp>\work\facts.md, write <tmp>\work\draft.md
+
+[exit 0]
+$ cp tests/fresh_case/draft.md work/draft.md   (draft written by the agent after reading work/facts.md)
+$ python.exe ml_build.py --work work --out output
+status: success - all checks pass; 17 items await author confirmation
+fails 0  warns 5  facts cited 22  questions 17  preview: pymupdf story, 2 pages
+warn T05 l.7: cited F18 (metric = roc_auc_score) but its value is not in the sentence
+warn T05 l.21: cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence
+warn T05 l.21: cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence
+warn T05 l.21: cited F6 (auc_test.metric = auc_test) but its value is not in the sentence
+warn T05 l.21: cited F14 (stratify = y) but its value is not in the sentence
+outputs in <tmp>\output
+
+[exit 0]
+total 0.5 s
+[exit 0, 0.6 s]
+wall 31.66 s

@@ -1,0 +1,3 @@
+{"case_id": "ho_nlp_sst2",
+ "task": "Draft Section 4 'Experimental Setup' (English, NeurIPS style) for our LoRA fine-tuning study from the configs, launch script, logs and results. Report datasets and splits, hyperparameters, baselines, compute, seeds/repetitions and reproducibility. Flag anything missing.",
+ "output_contract": [{"name": "section_md", "description": "Experimental Setup section in Markdown"}, {"name": "hyperparameter_table", "description": "hyperparameters with sources"}, {"name": "provenance", "description": "where each number comes from"}, {"name": "issues_for_authors", "description": "gaps and conflicts"}, {"name": "status"}]}

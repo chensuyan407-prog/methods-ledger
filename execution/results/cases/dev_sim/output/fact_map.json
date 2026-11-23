@@ -1,0 +1,805 @@
+[
+ {
+  "unit": "u3",
+  "line": 5,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "1.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u4",
+  "line": 5,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "体系构建：读入数据文件 water_4096.data ，体系含 4096 个 TIP4P/2005 水分子 ，共 12288 个原子 ，置于立方盒子中 。",
+  "facts": [
+   {
+    "id": "F26",
+    "value": "4096 molecules",
+    "source": "log.lammps:5",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F34",
+    "value": "4096 molecules",
+    "source": "log.lammps:5",
+    "kind": "log",
+    "key": "text.system_size.molecules"
+   },
+   {
+    "id": "F25",
+    "value": "12288 atoms",
+    "source": "log.lammps:4",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F33",
+    "value": "12288 atoms",
+    "source": "log.lammps:4",
+    "kind": "log",
+    "key": "text.system_size.atoms"
+   },
+   {
+    "id": "SRC:in.npt:4",
+    "value": "read_data       water_4096.data",
+    "source": "in.npt:4",
+    "kind": "source-line"
+   },
+   {
+    "id": "SRC:notes_gbk.txt:1",
+    "value": "体系：4096 个 TIP4P/2005 水分子，立方盒子。",
+    "source": "notes_gbk.txt:1",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "4096",
+    "value": 4096.0,
+    "matched": "F26",
+    "how": "tag"
+   },
+   {
+    "token": "12288",
+    "value": 12288.0,
+    "matched": "F25",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u5",
+  "line": 6,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "2.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u6",
+  "line": 6,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "初始化：按 298.0 K 的高斯分布生成初始速度 。",
+  "facts": [
+   {
+    "id": "F6",
+    "value": "298.0",
+    "source": "in.npt:7",
+    "kind": "config",
+    "key": "velocity.initial_temperature"
+   },
+   {
+    "id": "F7",
+    "value": "4928459",
+    "source": "in.npt:7",
+    "kind": "config",
+    "key": "velocity.seed"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "298.0",
+    "value": 298.0,
+    "matched": "F6",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u7",
+  "line": 7,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "3.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u8",
+  "line": 7,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "平衡：先进行 100 ps 的 NVT 平衡 。",
+  "facts": [
+   {
+    "id": "F39",
+    "value": "先 NVT 平衡 100 ps，再 NPT 生产 1 ns。",
+    "source": "notes_gbk.txt:2",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F43",
+    "value": "100 ps",
+    "source": "notes_gbk.txt:2",
+    "kind": "doc_kv",
+    "key": "text.duration.平衡"
+   }
+  ],
+  "numbers": [],
+  "gaps": [
+   "NVT 平衡的输入文件未提供，请补充其控温方式与参数"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u9",
+  "line": 8,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "4.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u10",
+  "line": 8,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "生产：在 NPT 系综下运行 500000 步 ，输出每 1000 步的热力学量 。",
+  "facts": [
+   {
+    "id": "F13",
+    "value": "500000",
+    "source": "in.npt:12",
+    "kind": "config",
+    "key": "run"
+   },
+   {
+    "id": "F9",
+    "value": "npt",
+    "source": "in.npt:10",
+    "kind": "config",
+    "key": "fix"
+   },
+   {
+    "id": "SRC:in.npt:11",
+    "value": "thermo          1000",
+    "source": "in.npt:11",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u11",
+  "line": 9,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "5.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u12",
+  "line": 9,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.1 计算流程",
+  "text": "分析：密度取生产段后 500 ps 的平均值 。",
+  "facts": [
+   {
+    "id": "SRC:notes_gbk.txt:4",
+    "value": "密度取后 500 ps 平均。",
+    "source": "notes_gbk.txt:4",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "500",
+    "value": 500.0,
+    "matched": "SRC",
+    "how": "source-line"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u14",
+  "line": 13,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.2 力场与模拟参数",
+  "text": "采用 TIP4P/2005 水模型 ，非键相互作用为 lj/cut/tip4p/long，截断 12.0 Å ，长程静电用 PPPM（精度 1.0e-5） ，并用 SHAKE 约束水分子几何（容差 0.0001） 。",
+  "facts": [
+   {
+    "id": "F4",
+    "value": "lj/cut/tip4p/long 1 2 1 1 0.1546 12.0",
+    "source": "in.npt:5",
+    "kind": "config",
+    "key": "pair_style"
+   },
+   {
+    "id": "SRC:in.npt:1",
+    "value": "# TIP4P/2005 water, NPT production",
+    "source": "in.npt:1",
+    "kind": "source-line"
+   },
+   {
+    "id": "SRC:in.npt:6",
+    "value": "kspace_style    pppm/tip4p 1.0e-5",
+    "source": "in.npt:6",
+    "kind": "source-line"
+   },
+   {
+    "id": "SRC:in.npt:9",
+    "value": "fix             1 all shake 0.0001 20 0 b 1 a 1",
+    "source": "in.npt:9",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "12.0",
+    "value": 12.0,
+    "matched": "F4",
+    "how": "tag"
+   },
+   {
+    "token": "1.0e-5",
+    "value": 1e-05,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "0.0001",
+    "value": 0.0001,
+    "matched": "SRC",
+    "how": "source-line"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u15",
+  "line": 13,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.2 力场与模拟参数",
+  "text": "时间步长为 2.0 fs ，因此 500000 步对应 1 ns ，与笔记中的 1 ns 生产时长一致 。",
+  "facts": [
+   {
+    "id": "F8",
+    "value": "2.0",
+    "source": "in.npt:8",
+    "kind": "config",
+    "key": "timestep"
+   },
+   {
+    "id": "F39",
+    "value": "先 NVT 平衡 100 ps，再 NPT 生产 1 ns。",
+    "source": "notes_gbk.txt:2",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F43",
+    "value": "100 ps",
+    "source": "notes_gbk.txt:2",
+    "kind": "doc_kv",
+    "key": "text.duration.平衡"
+   },
+   {
+    "id": "F13",
+    "value": "500000",
+    "source": "in.npt:12",
+    "kind": "config",
+    "key": "run",
+    "via": "calc"
+   },
+   {
+    "id": "F8",
+    "value": "2.0",
+    "source": "in.npt:8",
+    "kind": "config",
+    "key": "timestep",
+    "via": "calc"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2.0",
+    "value": 2.0,
+    "matched": "F8",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "CALC",
+    "how": "calc"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F39",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C1 输入文件为 2.0 fs，笔记写 1 fs（与 Vega 2005 一致）；正文按实际输入文件写 2.0 fs"
+  ],
+  "status": "ok"
+ },
+ {
+  "unit": "u16",
+  "line": 13,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.2 力场与模拟参数",
+  "text": "温度控制在 298.0 K（阻尼 100.0） ，压强 1.0 atm（阻尼 1000.0）各向同性耦合 ；",
+  "facts": [
+   {
+    "id": "F10",
+    "value": "298.0 298.0 100.0",
+    "source": "in.npt:10",
+    "kind": "config",
+    "key": "temp"
+   },
+   {
+    "id": "F11",
+    "value": "1.0 1.0 1000.0",
+    "source": "in.npt:10",
+    "kind": "config",
+    "key": "press"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "298.0",
+    "value": 298.0,
+    "matched": "F10",
+    "how": "tag"
+   },
+   {
+    "token": "100.0",
+    "value": 100.0,
+    "matched": "F10",
+    "how": "tag"
+   },
+   {
+    "token": "1.0",
+    "value": 1.0,
+    "matched": "F11",
+    "how": "tag"
+   },
+   {
+    "token": "1000.0",
+    "value": 1000.0,
+    "matched": "F11",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u17",
+  "line": 13,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.2 力场与模拟参数",
+  "text": "LAMMPS 采用 real 单位制 。",
+  "facts": [
+   {
+    "id": "SRC:in.npt:2",
+    "value": "units           real",
+    "source": "in.npt:2",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u18",
+  "line": 15,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.2 力场与模拟参数",
+  "text": "",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u20",
+  "line": 19,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.3 软硬件环境",
+  "text": "模拟使用 LAMMPS（2 Aug 2023 - Update 1） ，在 1 个节点 的 32 个 MPI 进程上运行 ，处理器为 Intel(R) Xeon(R) Gold 6248R ；",
+  "facts": [
+   {
+    "id": "F23",
+    "value": "LAMMPS (2 Aug 2023 - Update 1)",
+    "source": "log.lammps:1",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F32",
+    "value": "2 Aug 2023 - Update 1",
+    "source": "log.lammps:1",
+    "kind": "log",
+    "key": "version.lammps"
+   },
+   {
+    "id": "F15",
+    "value": "1",
+    "source": "job.slurm:3",
+    "kind": "cli",
+    "key": "nodes"
+   },
+   {
+    "id": "F16",
+    "value": "32",
+    "source": "job.slurm:4",
+    "kind": "cli",
+    "key": "ntasks"
+   },
+   {
+    "id": "F27",
+    "value": "Running on 32 MPI tasks, Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+    "source": "log.lammps:6",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F35",
+    "value": "Intel(R) Xeon(R) Gold 6248R",
+    "source": "log.lammps:6",
+    "kind": "log",
+    "key": "cpu"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2",
+    "value": 2.0,
+    "matched": "F23",
+    "how": "tag"
+   },
+   {
+    "token": "2023",
+    "value": 2023.0,
+    "matched": "F23",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F23",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F15",
+    "how": "tag"
+   },
+   {
+    "token": "32",
+    "value": 32.0,
+    "matched": "F16",
+    "how": "tag"
+   },
+   {
+    "token": "6248",
+    "value": 6248.0,
+    "matched": "F27",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u21",
+  "line": 19,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.3 软硬件环境",
+  "text": "生产段总墙钟时间 11:27:15 。",
+  "facts": [
+   {
+    "id": "F31",
+    "value": "Total wall time: 11:27:15",
+    "source": "log.lammps:11",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F36",
+    "value": "11:27:15",
+    "source": "log.lammps:11",
+    "kind": "log",
+    "key": "wall_time"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "11",
+    "value": 11.0,
+    "matched": "F31",
+    "how": "tag"
+   },
+   {
+    "token": "27",
+    "value": 27.0,
+    "matched": "F31",
+    "how": "tag"
+   },
+   {
+    "token": "15",
+    "value": 15.0,
+    "matched": "F31",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u23",
+  "line": 23,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.4 重复与统计",
+  "text": "仅模拟了一条轨迹 ，初始速度随机种子为 4928459 ，因此未给出轨迹间的统计误差 。",
+  "facts": [
+   {
+    "id": "F44",
+    "value": "1",
+    "source": "notes_gbk.txt:5",
+    "kind": "doc_kv",
+    "key": "n_runs"
+   },
+   {
+    "id": "F7",
+    "value": "4928459",
+    "source": "in.npt:7",
+    "kind": "config",
+    "key": "velocity.seed"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "4928459",
+    "value": 4928459.0,
+    "matched": "F7",
+    "how": "tag"
+   }
+  ],
+  "gaps": [
+   "是否补充不同速度种子的独立轨迹，或用分块平均给出密度的标准误？"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u25",
+  "line": 27,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.5 可复现性",
+  "text": "运行命令为 `lmp -in in.npt -log log.lammps` ，作业脚本见 job.slurm 。",
+  "facts": [
+   {
+    "id": "F20",
+    "value": "lmp -in in.npt -log log.lammps",
+    "source": "job.slurm:8",
+    "kind": "cli",
+    "key": "command"
+   },
+   {
+    "id": "F21",
+    "value": "in.npt",
+    "source": "job.slurm:8",
+    "kind": "cli",
+    "key": "in"
+   },
+   {
+    "id": "F22",
+    "value": "log.lammps",
+    "source": "job.slurm:8",
+    "kind": "cli",
+    "key": "log"
+   },
+   {
+    "id": "SRC:job.slurm:1",
+    "value": "#!/bin/bash",
+    "source": "job.slurm:1",
+    "kind": "source-line"
+   },
+   {
+    "id": "F20",
+    "value": "lmp -in in.npt -log log.lammps",
+    "source": "job.slurm:8",
+    "kind": "cli",
+    "key": "command"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u26",
+  "line": 27,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.5 可复现性",
+  "text": "数据文件 water_4096.data 未包含在材料中 。",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "请说明 water_4096.data 的生成方式或公开获取方式"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u28",
+  "line": 31,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.6 局限",
+  "text": "- 结果仅基于单条轨迹 ，未估计初始条件带来的涨落。",
+  "facts": [
+   {
+    "id": "F44",
+    "value": "1",
+    "source": "notes_gbk.txt:5",
+    "kind": "doc_kv",
+    "key": "n_runs"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u29",
+  "line": 31,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.6 局限",
+  "text": "- 仅在 298.0 K、1.0 atm 单一状态点模拟 ，其他温度压强下的密度未验证。",
+  "facts": [
+   {
+    "id": "F10",
+    "value": "298.0 298.0 100.0",
+    "source": "in.npt:10",
+    "kind": "config",
+    "key": "temp"
+   },
+   {
+    "id": "F11",
+    "value": "1.0 1.0 1000.0",
+    "source": "in.npt:10",
+    "kind": "config",
+    "key": "press"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "298.0",
+    "value": 298.0,
+    "matched": "F10",
+    "how": "tag"
+   },
+   {
+    "token": "1.0",
+    "value": 1.0,
+    "matched": "F11",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u30",
+  "line": 31,
+  "type": "sentence",
+  "section": "2 计算方法 > 2.6 局限",
+  "text": "- 时间步长 2.0 fs 与笔记中 1 fs 的说法不一致 。",
+  "facts": [
+   {
+    "id": "F8",
+    "value": "2.0",
+    "source": "in.npt:8",
+    "kind": "config",
+    "key": "timestep"
+   },
+   {
+    "id": "F40",
+    "value": "1",
+    "source": "notes_gbk.txt:3",
+    "kind": "doc_kv",
+    "key": "text.步长"
+   },
+   {
+    "id": "F41",
+    "value": "步长 1 fs（与 Vega 2005 一致）。",
+    "source": "notes_gbk.txt:3",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2.0",
+    "value": 2.0,
+    "matched": "F8",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F40",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C1 若作者实际意图为 1 fs，则生产时长仅为 0.5 ns"
+  ],
+  "status": "ok"
+ }
+]

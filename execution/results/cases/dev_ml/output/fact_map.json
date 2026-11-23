@@ -1,0 +1,1256 @@
+[
+ {
+  "unit": "u3",
+  "line": 5,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "1.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u4",
+  "line": 5,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "数据清洗：输入为原始数据包 thucnews_2016.zip（共 74000 篇文档） ；",
+  "facts": [
+   {
+    "id": "F60",
+    "value": "data/raw/thucnews_2016.zip",
+    "source": "logs/preprocess.log:1",
+    "kind": "cli",
+    "key": "raw"
+   },
+   {
+    "id": "F55",
+    "value": "loaded 74000 raw documents",
+    "source": "logs/preprocess.log:2",
+    "kind": "doc",
+    "key": "log_line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "74000",
+    "value": 74000.0,
+    "matched": "F55",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u5",
+  "line": 5,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "运行 `src/preprocess.py`，剔除长度不在 [20, 2000] 字符范围内的文档 1210 篇 ，再按全文精确去重剔除 790 篇 ；",
+  "facts": [
+   {
+    "id": "F104",
+    "value": "20",
+    "source": "src/preprocess.py:4",
+    "kind": "code",
+    "key": "MIN_CHARS"
+   },
+   {
+    "id": "F105",
+    "value": "2000",
+    "source": "src/preprocess.py:5",
+    "kind": "code",
+    "key": "MAX_CHARS"
+   },
+   {
+    "id": "F56",
+    "value": "removed 1210 documents outside length range [20, 2000]",
+    "source": "logs/preprocess.log:3",
+    "kind": "doc",
+    "key": "log_line"
+   },
+   {
+    "id": "F57",
+    "value": "removed 790 exact duplicates",
+    "source": "logs/preprocess.log:4",
+    "kind": "doc",
+    "key": "log_line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "1210",
+    "value": 1210.0,
+    "matched": "F56",
+    "how": "tag"
+   },
+   {
+    "token": "790",
+    "value": 790.0,
+    "matched": "F57",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u6",
+  "line": 5,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "输出为保留的 72000 篇文档 。",
+  "facts": [
+   {
+    "id": "F55",
+    "value": "loaded 74000 raw documents",
+    "source": "logs/preprocess.log:2",
+    "kind": "doc",
+    "key": "log_line",
+    "via": "calc"
+   },
+   {
+    "id": "F56",
+    "value": "removed 1210 documents outside length range [20, 2000]",
+    "source": "logs/preprocess.log:3",
+    "kind": "doc",
+    "key": "log_line",
+    "via": "calc"
+   },
+   {
+    "id": "F57",
+    "value": "removed 790 exact duplicates",
+    "source": "logs/preprocess.log:4",
+    "kind": "doc",
+    "key": "log_line",
+    "via": "calc"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "72000",
+    "value": 72000.0,
+    "matched": "CALC",
+    "how": "calc"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u7",
+  "line": 6,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "2.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u8",
+  "line": 6,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "数据划分：先以 test_size=0.2 分层抽取 ，再将剩余部分按 test_size=0.5 等分为验证集与测试集 ，两次划分的随机种子均为 2023 ；",
+  "facts": [
+   {
+    "id": "F106",
+    "value": "0.2",
+    "source": "src/preprocess.py:10",
+    "kind": "code",
+    "key": "test_size"
+   },
+   {
+    "id": "F108",
+    "value": "0.5",
+    "source": "src/preprocess.py:11",
+    "kind": "code",
+    "key": "test_size"
+   },
+   {
+    "id": "F107",
+    "value": "2023",
+    "source": "src/preprocess.py:10",
+    "kind": "code",
+    "key": "random_state"
+   },
+   {
+    "id": "F109",
+    "value": "2023",
+    "source": "src/preprocess.py:11",
+    "kind": "code",
+    "key": "random_state"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0.2",
+    "value": 0.2,
+    "matched": "F106",
+    "how": "tag"
+   },
+   {
+    "token": "0.5",
+    "value": 0.5,
+    "matched": "F108",
+    "how": "tag"
+   },
+   {
+    "token": "2023",
+    "value": 2023.0,
+    "matched": "F107",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u9",
+  "line": 6,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "输出训练集 57600 条、验证集 7200 条、测试集 7200 条 ，与数据说明中的 8:1:1 划分一致 。",
+  "facts": [
+   {
+    "id": "F62",
+    "value": "57600",
+    "source": "logs/preprocess.log:5",
+    "kind": "log",
+    "key": "n_train"
+   },
+   {
+    "id": "F63",
+    "value": "7200",
+    "source": "logs/preprocess.log:5",
+    "kind": "log",
+    "key": "n_val"
+   },
+   {
+    "id": "F64",
+    "value": "7200",
+    "source": "logs/preprocess.log:5",
+    "kind": "log",
+    "key": "n_test"
+   },
+   {
+    "id": "F9",
+    "value": "8:1:1, stratified by label for the train/rest split",
+    "source": "data_card.md:7",
+    "kind": "doc_kv",
+    "key": "Split"
+   },
+   {
+    "id": "F12",
+    "value": "8:1:1",
+    "source": "data_card.md:7",
+    "kind": "doc_kv",
+    "key": "split_ratio"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "57600",
+    "value": 57600.0,
+    "matched": "F62",
+    "how": "tag"
+   },
+   {
+    "token": "7200",
+    "value": 7200.0,
+    "matched": "F63",
+    "how": "tag"
+   },
+   {
+    "token": "7200",
+    "value": 7200.0,
+    "matched": "F63",
+    "how": "tag"
+   },
+   {
+    "token": "8",
+    "value": 8.0,
+    "matched": "F9",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F9",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F9",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u10",
+  "line": 7,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "3.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u11",
+  "line": 7,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "模型微调：以 `src/train.py` 加载预训练模型 bert-base-chinese ，在训练集上微调 5 个 epoch ，每个 epoch 结束后在验证集上计算 macro-F1 。",
+  "facts": [
+   {
+    "id": "F30",
+    "value": "bert-base-chinese",
+    "source": "configs/train.yaml:3",
+    "kind": "config",
+    "key": "model.name"
+   },
+   {
+    "id": "F68",
+    "value": "5",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "epochs"
+   },
+   {
+    "id": "F48",
+    "value": "macro_f1",
+    "source": "configs/train.yaml:24",
+    "kind": "config",
+    "key": "eval.metric"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "5",
+    "value": 5.0,
+    "matched": "F68",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u12",
+  "line": 8,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "4.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u13",
+  "line": 8,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "检查点选择与测试：按验证集 macro-F1 选择第 4 个 epoch 的检查点 ，测试集只评测一次 。",
+  "facts": [
+   {
+    "id": "F76",
+    "value": "epoch 4",
+    "source": "logs/train_bert_seed42.log:11",
+    "kind": "log",
+    "key": "checkpoint"
+   },
+   {
+    "id": "F18",
+    "value": "- 测试集只评一次，按验证集 macro-F1 选 epoch 4 的检查点。",
+    "source": "notes.md:5",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u14",
+  "line": 9,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "5.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u15",
+  "line": 9,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.1 方法步骤",
+  "text": "基线：以 `src/baseline.py` 训练 TF-IDF + 逻辑回归基线 ，在同一测试集上评测 。",
+  "facts": [
+   {
+    "id": "F24",
+    "value": "tfidf_logreg",
+    "source": "configs/baseline_tfidf.yaml:2",
+    "kind": "config",
+    "key": "baseline.name"
+   },
+   {
+    "id": "F53",
+    "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+    "source": "logs/baseline.log:1",
+    "kind": "cli",
+    "key": "command"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u17",
+  "line": 13,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.2 实验设置",
+  "text": "微调在 1 块 NVIDIA A100-SXM4-80GB 上完成 ，软件环境为 PyTorch 2.1.2+cu121、CUDA 12.1 、transformers 4.36.2 与 scikit-learn 1.3.2 ，训练启用 fp16 混合精度 。",
+  "facts": [
+   {
+    "id": "F98",
+    "value": "NVIDIA A100-SXM4-80GB",
+    "source": "logs/train_bert_seed42.log:3",
+    "kind": "log",
+    "key": "gpu"
+   },
+   {
+    "id": "F99",
+    "value": "1",
+    "source": "logs/train_bert_seed42.log:3",
+    "kind": "log",
+    "key": "num_gpus"
+   },
+   {
+    "id": "F95",
+    "value": "2.1.2+cu121",
+    "source": "logs/train_bert_seed42.log:2",
+    "kind": "log",
+    "key": "version.torch"
+   },
+   {
+    "id": "F96",
+    "value": "12.1",
+    "source": "logs/train_bert_seed42.log:2",
+    "kind": "log",
+    "key": "version.cuda"
+   },
+   {
+    "id": "F20",
+    "value": "4.36.2",
+    "source": "requirements.txt:2",
+    "kind": "env",
+    "key": "version.transformers"
+   },
+   {
+    "id": "F21",
+    "value": "1.3.2",
+    "source": "requirements.txt:3",
+    "kind": "env",
+    "key": "version.scikit-learn"
+   },
+   {
+    "id": "F46",
+    "value": "true",
+    "source": "configs/train.yaml:21",
+    "kind": "config",
+    "key": "train.fp16"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F99",
+    "how": "tag"
+   },
+   {
+    "token": "12.1",
+    "value": 12.1,
+    "matched": "F96",
+    "how": "tag"
+   },
+   {
+    "token": "2.1.2+cu121",
+    "matched": "F95",
+    "how": "version-tag"
+   },
+   {
+    "token": "4.36.2",
+    "matched": "F20",
+    "how": "version-tag"
+   },
+   {
+    "token": "1.3.2",
+    "matched": "F21",
+    "how": "version-tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u18",
+  "line": 13,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.2 实验设置",
+  "text": "numpy 仅给出版本下限 >=1.24 。",
+  "facts": [
+   {
+    "id": "F22",
+    "value": ">=1.24",
+    "source": "requirements.txt:4",
+    "kind": "env",
+    "key": "version.numpy"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "1.24",
+    "value": 1.24,
+    "matched": "F22",
+    "how": "tag"
+   }
+  ],
+  "gaps": [
+   "请提供实际安装的 numpy 版本（pip freeze）"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u20",
+  "line": 17,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.3 数据集与划分",
+  "text": "实验使用 THUCNews 的 10 类子集 ，数据来源为 http://thuctc.thunlp.org/ ，许可为仅限研究使用 。",
+  "facts": [
+   {
+    "id": "F1",
+    "value": "THUCNews (subset of 10 categories)",
+    "source": "data_card.md:2",
+    "kind": "doc_kv",
+    "key": "Name"
+   },
+   {
+    "id": "F37",
+    "value": "10",
+    "source": "configs/train.yaml:11",
+    "kind": "config",
+    "key": "data.num_classes"
+   },
+   {
+    "id": "F3",
+    "value": "http://thuctc.thunlp.org/",
+    "source": "data_card.md:3",
+    "kind": "doc_kv",
+    "key": "Source"
+   },
+   {
+    "id": "F4",
+    "value": "research use only",
+    "source": "data_card.md:4",
+    "kind": "doc_kv",
+    "key": "License"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "10",
+    "value": 10.0,
+    "matched": "F1",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u21",
+  "line": 17,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.3 数据集与划分",
+  "text": "原始数据包下载于 2024-02-28 ；",
+  "facts": [
+   {
+    "id": "F11",
+    "value": "downloaded 2024-02-28",
+    "source": "data_card.md:5",
+    "kind": "doc_kv",
+    "key": "snapshot"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2024",
+    "value": 2024.0,
+    "matched": "F11",
+    "how": "tag"
+   },
+   {
+    "token": "02",
+    "value": 2.0,
+    "matched": "F11",
+    "how": "tag"
+   },
+   {
+    "token": "28",
+    "value": 28.0,
+    "matched": "F11",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u22",
+  "line": 17,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.3 数据集与划分",
+  "text": "THUCNews 本身未给出版本号 。",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u23",
+  "line": 17,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.3 数据集与划分",
+  "text": "划分方式见 3.1 第 2 步。",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u25",
+  "line": 21,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.4 参数设置",
+  "text": "BERT 微调使用 AdamW 优化器 ，学习率 2e-5 ，权重衰减 0.01 ，批大小 32 ，最大序列长度 256 ，dropout 0.1 ，线性学习率调度并以 0.1 的比例预热 ，梯度裁剪阈值 1.0 。",
+  "facts": [
+   {
+    "id": "F38",
+    "value": "AdamW",
+    "source": "configs/train.yaml:13",
+    "kind": "config",
+    "key": "train.optimizer"
+   },
+   {
+    "id": "F66",
+    "value": "2e-05",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "lr"
+   },
+   {
+    "id": "F92",
+    "value": "2e-5",
+    "source": "logs/train_bert_seed42.log:1",
+    "kind": "cli",
+    "key": "lr"
+   },
+   {
+    "id": "F40",
+    "value": "0.01",
+    "source": "configs/train.yaml:15",
+    "kind": "config",
+    "key": "train.weight_decay"
+   },
+   {
+    "id": "F67",
+    "value": "32",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "batch_size"
+   },
+   {
+    "id": "F70",
+    "value": "256",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "max_length"
+   },
+   {
+    "id": "F32",
+    "value": "0.1",
+    "source": "configs/train.yaml:5",
+    "kind": "config",
+    "key": "model.dropout"
+   },
+   {
+    "id": "F44",
+    "value": "linear",
+    "source": "configs/train.yaml:19",
+    "kind": "config",
+    "key": "train.scheduler"
+   },
+   {
+    "id": "F71",
+    "value": "0.1",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "warmup_ratio"
+   },
+   {
+    "id": "F45",
+    "value": "1.0",
+    "source": "configs/train.yaml:20",
+    "kind": "config",
+    "key": "train.max_grad_norm"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2e-5",
+    "value": 2e-05,
+    "matched": "F66",
+    "how": "tag"
+   },
+   {
+    "token": "0.01",
+    "value": 0.01,
+    "matched": "F40",
+    "how": "tag"
+   },
+   {
+    "token": "32",
+    "value": 32.0,
+    "matched": "F67",
+    "how": "tag"
+   },
+   {
+    "token": "256",
+    "value": 256.0,
+    "matched": "F70",
+    "how": "tag"
+   },
+   {
+    "token": "0.1",
+    "value": 0.1,
+    "matched": "F32",
+    "how": "tag"
+   },
+   {
+    "token": "0.1",
+    "value": 0.1,
+    "matched": "F71",
+    "how": "tag"
+   },
+   {
+    "token": "1.0",
+    "value": 1.0,
+    "matched": "F45",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5"
+  ],
+  "status": "ok"
+ },
+ {
+  "unit": "u26",
+  "line": 21,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.4 参数设置",
+  "text": "基线的 TF-IDF 取 1–2 元语法 、最多 50000 个特征 ，逻辑回归 C=1.0、求解器 liblinear ，未调参 。",
+  "facts": [
+   {
+    "id": "F25",
+    "value": "[1, 2]",
+    "source": "configs/baseline_tfidf.yaml:3",
+    "kind": "config",
+    "key": "baseline.ngram_range"
+   },
+   {
+    "id": "F26",
+    "value": "50000",
+    "source": "configs/baseline_tfidf.yaml:4",
+    "kind": "config",
+    "key": "baseline.max_features"
+   },
+   {
+    "id": "F27",
+    "value": "1.0",
+    "source": "configs/baseline_tfidf.yaml:5",
+    "kind": "config",
+    "key": "baseline.C"
+   },
+   {
+    "id": "F28",
+    "value": "liblinear",
+    "source": "configs/baseline_tfidf.yaml:6",
+    "kind": "config",
+    "key": "baseline.solver"
+   },
+   {
+    "id": "F17",
+    "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+    "source": "notes.md:4",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F25",
+    "how": "tag"
+   },
+   {
+    "token": "2",
+    "value": 2.0,
+    "matched": "F25",
+    "how": "tag"
+   },
+   {
+    "token": "50000",
+    "value": 50000.0,
+    "matched": "F26",
+    "how": "tag"
+   },
+   {
+    "token": "1.0",
+    "value": 1.0,
+    "matched": "F27",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u27",
+  "line": 23,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.4 参数设置",
+  "text": "",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u29",
+  "line": 27,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.5 对照实验与评价",
+  "text": "主要评价指标为测试集 macro-F1，同时报告准确率 。",
+  "facts": [
+   {
+    "id": "F48",
+    "value": "macro_f1",
+    "source": "configs/train.yaml:24",
+    "kind": "config",
+    "key": "eval.metric"
+   },
+   {
+    "id": "F78",
+    "value": "0.941",
+    "source": "logs/train_bert_seed42.log:12",
+    "kind": "log",
+    "key": "accuracy"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u30",
+  "line": 27,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.5 对照实验与评价",
+  "text": "BERT 与 TF-IDF 基线使用同一划分的训练集与测试集 ；",
+  "facts": [
+   {
+    "id": "F53",
+    "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+    "source": "logs/baseline.log:1",
+    "kind": "cli",
+    "key": "command"
+   },
+   {
+    "id": "F90",
+    "value": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42",
+    "source": "logs/train_bert_seed42.log:1",
+    "kind": "cli",
+    "key": "command"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u31",
+  "line": 27,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.5 对照实验与评价",
+  "text": "基线未做超参数搜索 ，因此两者的调参预算不同。",
+  "facts": [
+   {
+    "id": "F17",
+    "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+    "source": "notes.md:4",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u32",
+  "line": 27,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.5 对照实验与评价",
+  "text": "每个模型只运行了一次（BERT 种子 42） ；",
+  "facts": [
+   {
+    "id": "F16",
+    "value": "- 只跑了 seed 42 一次，时间不够。",
+    "source": "notes.md:3",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F69",
+    "value": "42",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "seed"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "42",
+    "value": 42.0,
+    "matched": "F16",
+    "how": "tag"
+   }
+  ],
+  "gaps": [
+   "是否补充多种子重复实验并报告均值±标准差？"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u33",
+  "line": 27,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.5 对照实验与评价",
+  "text": "未进行统计检验 。",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u35",
+  "line": 31,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.6 可复现性",
+  "text": "代码版本为提交 9f3c2ab 。",
+  "facts": [
+   {
+    "id": "F65",
+    "value": "9f3c2ab",
+    "source": "logs/train_bert_seed42.log:4",
+    "kind": "log",
+    "key": "commit"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "9",
+    "value": 9.0,
+    "matched": "F65",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u36",
+  "line": 31,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.6 可复现性",
+  "text": "依次运行以下命令可复现数据划分、BERT 微调和基线：",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u37",
+  "line": 33,
+  "type": "code",
+  "section": "3 方法与实验 > 3.6 可复现性",
+  "text": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/\npython src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42\npython src/baseline.py --config configs/baseline_tfidf.yaml",
+  "facts": [
+   {
+    "id": "F59",
+    "value": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/",
+    "source": "logs/preprocess.log:1",
+    "kind": "cli",
+    "key": "command"
+   },
+   {
+    "id": "F90",
+    "value": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42",
+    "source": "logs/train_bert_seed42.log:1",
+    "kind": "cli",
+    "key": "command"
+   },
+   {
+    "id": "F53",
+    "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+    "source": "logs/baseline.log:1",
+    "kind": "cli",
+    "key": "command"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u38",
+  "line": 39,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.6 可复现性",
+  "text": "训练随机种子为 42 ，数据划分种子为 2023 。",
+  "facts": [
+   {
+    "id": "F69",
+    "value": "42",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "seed"
+   },
+   {
+    "id": "F107",
+    "value": "2023",
+    "source": "src/preprocess.py:10",
+    "kind": "code",
+    "key": "random_state"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "42",
+    "value": 42.0,
+    "matched": "F69",
+    "how": "tag"
+   },
+   {
+    "token": "2023",
+    "value": 2023.0,
+    "matched": "F107",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u40",
+  "line": 43,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.7 限制条件",
+  "text": "- 所有结果来自单一种子（42）的单次运行 ，未估计随机初始化带来的方差。",
+  "facts": [
+   {
+    "id": "F16",
+    "value": "- 只跑了 seed 42 一次，时间不够。",
+    "source": "notes.md:3",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "42",
+    "value": 42.0,
+    "matched": "F16",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u41",
+  "line": 43,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.7 限制条件",
+  "text": "- 基线未调参而 BERT 使用了经调整的学习率 ，比较不在相同调参预算下进行。",
+  "facts": [
+   {
+    "id": "F14",
+    "value": "- BERT 微调学习率最终用 2e-5，比配置里的 3e-5 稳定。",
+    "source": "notes.md:2",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F17",
+    "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+    "source": "notes.md:4",
+    "kind": "doc",
+    "key": "sentence"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u42",
+  "line": 43,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.7 限制条件",
+  "text": "- 仅在 THUCNews 10 类子集、长度 20–2000 字符的文档上评测 ，更长文档会被 256 的最大序列长度截断 ，其效果未测试。",
+  "facts": [
+   {
+    "id": "F37",
+    "value": "10",
+    "source": "configs/train.yaml:11",
+    "kind": "config",
+    "key": "data.num_classes"
+   },
+   {
+    "id": "F104",
+    "value": "20",
+    "source": "src/preprocess.py:4",
+    "kind": "code",
+    "key": "MIN_CHARS"
+   },
+   {
+    "id": "F105",
+    "value": "2000",
+    "source": "src/preprocess.py:5",
+    "kind": "code",
+    "key": "MAX_CHARS"
+   },
+   {
+    "id": "F70",
+    "value": "256",
+    "source": "logs/train_bert_seed42.log:5",
+    "kind": "log",
+    "key": "max_length"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "10",
+    "value": 10.0,
+    "matched": "F37",
+    "how": "tag"
+   },
+   {
+    "token": "20",
+    "value": 20.0,
+    "matched": "F104",
+    "how": "tag"
+   },
+   {
+    "token": "2000",
+    "value": 2000.0,
+    "matched": "F105",
+    "how": "tag"
+   },
+   {
+    "token": "256",
+    "value": 256.0,
+    "matched": "F70",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u43",
+  "line": 43,
+  "type": "sentence",
+  "section": "3 方法与实验 > 3.7 限制条件",
+  "text": "- 仅在单块 A100 上训练 ，未验证其他硬件与 fp16 关闭时的结果。",
+  "facts": [
+   {
+    "id": "F98",
+    "value": "NVIDIA A100-SXM4-80GB",
+    "source": "logs/train_bert_seed42.log:3",
+    "kind": "log",
+    "key": "gpu"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ }
+]

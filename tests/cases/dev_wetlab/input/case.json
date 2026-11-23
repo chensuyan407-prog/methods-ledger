@@ -1,0 +1,3 @@
+{"case_id": "dev_wetlab_mtt",
+ "task": "Write the Materials and Methods section (English, for a cell-biology journal) for the cytotoxicity experiment, from the protocol, notebook, plate-reader export and analysis script. Include materials, procedure, instrument settings, controls, replicates, statistics, and reproducibility notes. Do not invent values.",
+ "output_contract": {"methods_markdown": "editable Methods section", "parameters": "table of conditions with sources", "evidence": "source for each number", "author_queries": "missing or conflicting items", "status": "success|partial|failed"}}

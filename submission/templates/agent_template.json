@@ -1,0 +1,7 @@
+{
+ "resolutions": [{"conflict": "C1", "use": "F66", "reason": "value of the logged run; config value was not used"}],
+ "accept": {"N03@u12": "number restated from the table two sentences earlier"},
+ "fields": {"<contract field name>": {"kind": "methods_text"}},
+ "notes": ["anything the author should know"],
+ "status_note": ""
+}

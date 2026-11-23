@@ -1,0 +1,114 @@
+{
+ "tag": "",
+ "cases": [
+  "dev_ml",
+  "dev_sim",
+  "dev_wetlab",
+  "ho_nlp_en",
+  "ho_stats"
+ ],
+ "seconds": 30.9,
+ "extraction": {
+  "fact_recall": 0.9213,
+  "facts_expected": 127,
+  "facts_found": 117,
+  "conflict_recall": 1.0,
+  "conflicts_expected": 6,
+  "conflicts_found": 6,
+  "conflicts_unexpected": 0,
+  "conflict_precision": 1.0,
+  "gap_recall": 1.0,
+  "gaps_expected": 12,
+  "gaps_found": 12,
+  "profile_correct": 5,
+  "language_correct": 5
+ },
+ "gold_drafts": {
+  "n": 5,
+  "without_fail": 5
+ },
+ "mutations": {
+  "n": 100,
+  "caught_fail": 0.97,
+  "caught_any": 0.97,
+  "baseline_grep": 0.52,
+  "baseline_checklist": 0.35,
+  "by_type": {
+   "wrong_value": {
+    "n": 29,
+    "caught_fail": 29,
+    "caught_any": 29,
+    "baseline_grep": 25,
+    "baseline_checklist": 0
+   },
+   "invented_number": {
+    "n": 10,
+    "caught_fail": 9,
+    "caught_any": 9,
+    "baseline_grep": 10,
+    "baseline_checklist": 0
+   },
+   "unmarked_conflict": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "missing_element": {
+    "n": 31,
+    "caught_fail": 30,
+    "caught_any": 30,
+    "baseline_grep": 8,
+    "baseline_checklist": 30
+   },
+   "boilerplate_limits": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 5
+   },
+   "fabricated_command": {
+    "n": 2,
+    "caught_fail": 2,
+    "caught_any": 2,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_version": {
+    "n": 4,
+    "caught_fail": 4,
+    "caught_any": 4,
+    "baseline_grep": 4,
+    "baseline_checklist": 0
+   },
+   "wrong_name": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "placeholder": {
+    "n": 5,
+    "caught_fail": 5,
+    "caught_any": 5,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_citation": {
+    "n": 4,
+    "caught_fail": 3,
+    "caught_any": 3,
+    "baseline_grep": 0,
+    "baseline_checklist": 0
+   }
+  }
+ },
+ "robustness": {
+  "n": 13,
+  "passed": 13,
+  "failed": []
+ }
+}

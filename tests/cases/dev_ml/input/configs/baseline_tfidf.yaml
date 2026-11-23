@@ -1,0 +1,7 @@
+baseline:
+  name: tfidf_logreg
+  ngram_range: [1, 2]
+  max_features: 50000
+  C: 1.0
+  solver: liblinear
+seed: 42

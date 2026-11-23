@@ -1,0 +1,927 @@
+[
+ {
+  "unit": "u3",
+  "line": 5,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "1.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u4",
+  "line": 5,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "Cell seeding: HeLa cells (ATCC CCL-2, passage 12) were seeded at 5,000 cells per well in 96-well plates in 100 µL DMEM with 10% FBS ; output: plates P1–P3 .",
+  "facts": [
+   {
+    "id": "F8",
+    "value": "2024-05-06 seeded plates P1-P3, HeLa passage 12 (ATCC CCL-2)",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F13",
+    "value": "ATCC CCL-2",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc_kv",
+    "key": "lot"
+   },
+   {
+    "id": "F17",
+    "value": "1. Seed HeLa cells at 5,000 cells per well in 96-well plates (100 µL DMEM + 10% FBS).",
+    "source": "protocol.md:3",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F8",
+    "value": "2024-05-06 seeded plates P1-P3, HeLa passage 12 (ATCC CCL-2)",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F13",
+    "value": "ATCC CCL-2",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc_kv",
+    "key": "lot"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "12",
+    "value": 12.0,
+    "matched": "F8",
+    "how": "tag"
+   },
+   {
+    "token": "5,000",
+    "value": 5000.0,
+    "matched": "F17",
+    "how": "tag"
+   },
+   {
+    "token": "96",
+    "value": 96.0,
+    "matched": "F17",
+    "how": "tag"
+   },
+   {
+    "token": "100",
+    "value": 100.0,
+    "matched": "F17",
+    "how": "tag"
+   },
+   {
+    "token": "10%",
+    "value": 10.0,
+    "matched": "F17",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u5",
+  "line": 6,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "2.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u6",
+  "line": 6,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "Attachment: plates were incubated for 24 h at 37 °C and 5% CO2 .",
+  "facts": [
+   {
+    "id": "F18",
+    "value": "2. Incubate 24 h at 37 °C, 5% CO2.",
+    "source": "protocol.md:4",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F26",
+    "value": "24 h",
+    "source": "protocol.md:4",
+    "kind": "doc_kv",
+    "key": "text.duration.incubat"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "24",
+    "value": 24.0,
+    "matched": "F18",
+    "how": "tag"
+   },
+   {
+    "token": "37",
+    "value": 37.0,
+    "matched": "F18",
+    "how": "tag"
+   },
+   {
+    "token": "5%",
+    "value": 5.0,
+    "matched": "F18",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u7",
+  "line": 7,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "3.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u8",
+  "line": 7,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "Treatment: cells were treated with compound K-17 (lot KX-0412) at 0, 1, 5, 10, 50 and 100 µM with a final DMSO concentration of 0.1% , then incubated for 48 h .",
+  "facts": [
+   {
+    "id": "F9",
+    "value": "2024-05-07 treatment K-17 lot KX-0412, dilution series as SOP",
+    "source": "notebook_2024-05.txt:2",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F14",
+    "value": "KX-0412",
+    "source": "notebook_2024-05.txt:2",
+    "kind": "doc_kv",
+    "key": "lot"
+   },
+   {
+    "id": "F19",
+    "value": "3. Treat with compound K-17 at 0, 1, 5, 10, 50 and 100 µM (final DMSO 0.1%).",
+    "source": "protocol.md:5",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F20",
+    "value": "4. Incubate 48 h.",
+    "source": "protocol.md:6",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F27",
+    "value": "48 h",
+    "source": "protocol.md:6",
+    "kind": "doc_kv",
+    "key": "text.duration.incubat"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0",
+    "value": 0.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "5",
+    "value": 5.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "10",
+    "value": 10.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "50",
+    "value": 50.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "100",
+    "value": 100.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "0.1%",
+    "value": 0.1,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "48",
+    "value": 48.0,
+    "matched": "F20",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u9",
+  "line": 8,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "4.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u10",
+  "line": 8,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "MTT labelling: 10 µL MTT (5 mg/mL) was added per well and incubated at 37 °C for 45 min .",
+  "facts": [
+   {
+    "id": "F10",
+    "value": "2024-05-09 MTT added; incubation 45 min this time (reader booked)",
+    "source": "notebook_2024-05.txt:3",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F15",
+    "value": "45 min",
+    "source": "notebook_2024-05.txt:3",
+    "kind": "doc_kv",
+    "key": "text.duration.MTT"
+   },
+   {
+    "id": "SRC:protocol.md:7",
+    "value": "5. Add 10 µL MTT (5 mg/mL) per well and incubate 30 min at 37 °C.",
+    "source": "protocol.md:7",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "10",
+    "value": 10.0,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "5",
+    "value": 5.0,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "37",
+    "value": 37.0,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "45",
+    "value": 45.0,
+    "matched": "F10",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C1 the SOP specifies 30 min; the notebook records 45 min for this run because the reader was booked. Text uses the notebook value"
+  ],
+  "status": "ok"
+ },
+ {
+  "unit": "u11",
+  "line": 9,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "5.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u12",
+  "line": 9,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "Solubilisation: the medium was removed, 100 µL DMSO was added and the plates were shaken for 10 min .",
+  "facts": [
+   {
+    "id": "F22",
+    "value": "6. Remove medium, add 100 µL DMSO, shake 10 min.",
+    "source": "protocol.md:8",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F29",
+    "value": "10 min",
+    "source": "protocol.md:8",
+    "kind": "doc_kv",
+    "key": "text.duration.shak"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "100",
+    "value": 100.0,
+    "matched": "F22",
+    "how": "tag"
+   },
+   {
+    "token": "10",
+    "value": 10.0,
+    "matched": "F22",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C2 the reader additionally shakes 5 s before reading (reader_settings.txt:8)"
+  ],
+  "status": "ok"
+ },
+ {
+  "unit": "u13",
+  "line": 10,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "6.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u14",
+  "line": 10,
+  "type": "sentence",
+  "section": "Materials and Methods > Procedure",
+  "text": "Readout: absorbance was read at 570 nm with a 630 nm reference (decision rule for exclusion: wells with visible contamination were excluded; well H12 on plate P2 was excluded ).",
+  "facts": [
+   {
+    "id": "F23",
+    "value": "7. Read absorbance at 570 nm (reference 630 nm).",
+    "source": "protocol.md:9",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F12",
+    "value": "well H12 on P2 contaminated, excluded",
+    "source": "notebook_2024-05.txt:5",
+    "kind": "doc_kv",
+    "key": "note"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "570",
+    "value": 570.0,
+    "matched": "F23",
+    "how": "tag"
+   },
+   {
+    "token": "630",
+    "value": 630.0,
+    "matched": "F23",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u16",
+  "line": 14,
+  "type": "sentence",
+  "section": "Materials and Methods > Instrument settings",
+  "text": "Absorbance was measured on a BioTek Synergy H1 with Gen5 3.11 as an endpoint read at 570 nm with a 630 nm reference wavelength , a read height of 8.5 mm and a chamber temperature of 25 °C .",
+  "facts": [
+   {
+    "id": "F30",
+    "value": "BioTek Synergy H1",
+    "source": "reader_settings.txt:1",
+    "kind": "doc_kv",
+    "key": "Instrument"
+   },
+   {
+    "id": "F31",
+    "value": "Gen5 3.11",
+    "source": "reader_settings.txt:2",
+    "kind": "doc_kv",
+    "key": "Software"
+   },
+   {
+    "id": "F32",
+    "value": "Software: Gen5 3.11",
+    "source": "reader_settings.txt:2",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F33",
+    "value": "570 nm",
+    "source": "reader_settings.txt:4",
+    "kind": "doc_kv",
+    "key": "Wavelength"
+   },
+   {
+    "id": "F34",
+    "value": "570",
+    "source": "reader_settings.txt:4",
+    "kind": "doc_kv",
+    "key": "text.Wavelength"
+   },
+   {
+    "id": "F35",
+    "value": "Wavelength: 570 nm",
+    "source": "reader_settings.txt:4",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F36",
+    "value": "630 nm",
+    "source": "reader_settings.txt:5",
+    "kind": "doc_kv",
+    "key": "Reference wavelength"
+   },
+   {
+    "id": "F37",
+    "value": "630",
+    "source": "reader_settings.txt:5",
+    "kind": "doc_kv",
+    "key": "text.wavelength"
+   },
+   {
+    "id": "F38",
+    "value": "Reference wavelength: 630 nm",
+    "source": "reader_settings.txt:5",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F41",
+    "value": "25 °C",
+    "source": "reader_settings.txt:7",
+    "kind": "doc_kv",
+    "key": "Temperature"
+   },
+   {
+    "id": "F42",
+    "value": "25",
+    "source": "reader_settings.txt:7",
+    "kind": "doc_kv",
+    "key": "text.Temperature"
+   },
+   {
+    "id": "F43",
+    "value": "Temperature: 25 °C",
+    "source": "reader_settings.txt:7",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "SRC:reader_settings.txt:3",
+    "value": "Read type: Absorbance endpoint",
+    "source": "reader_settings.txt:3",
+    "kind": "source-line"
+   },
+   {
+    "id": "SRC:reader_settings.txt:6",
+    "value": "Read height: 8.5 mm",
+    "source": "reader_settings.txt:6",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "3.11",
+    "value": 3.11,
+    "matched": "F31",
+    "how": "tag"
+   },
+   {
+    "token": "570",
+    "value": 570.0,
+    "matched": "F33",
+    "how": "tag"
+   },
+   {
+    "token": "630",
+    "value": 630.0,
+    "matched": "F36",
+    "how": "tag"
+   },
+   {
+    "token": "8.5",
+    "value": 8.5,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "25",
+    "value": 25.0,
+    "matched": "F41",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u18",
+  "line": 18,
+  "type": "sentence",
+  "section": "Materials and Methods > Controls, replicates and statistics",
+  "text": "Each plate included vehicle wells (0.1% DMSO), blank wells (medium only) and a doxorubicin 1 µM positive control .",
+  "facts": [
+   {
+    "id": "SRC:protocol.md:11",
+    "value": "Controls: vehicle (0.1% DMSO), blank wells (medium only), positive control doxorubicin 1 µM.",
+    "source": "protocol.md:11",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0.1%",
+    "value": 0.1,
+    "matched": "SRC",
+    "how": "source-line"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "SRC",
+    "how": "source-line"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u19",
+  "line": 18,
+  "type": "sentence",
+  "section": "Materials and Methods > Controls, replicates and statistics",
+  "text": "Plates P1–P3 were three independent experiments ; viability is reported as mean ± SD with n = 3 per concentration .",
+  "facts": [
+   {
+    "id": "F11",
+    "value": "2024-05-09 read on Synergy H1 (BioTek), plates P1-P3 = three independent experiments",
+    "source": "notebook_2024-05.txt:4",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F16",
+    "value": "3",
+    "source": "notebook_2024-05.txt:4",
+    "kind": "doc_kv",
+    "key": "n_runs"
+   },
+   {
+    "id": "F48",
+    "value": "100.0",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.mean_viability_pct"
+   },
+   {
+    "id": "F49",
+    "value": "4.1",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.sd_pct"
+   },
+   {
+    "id": "F50",
+    "value": "3",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.n"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "3",
+    "value": 3.0,
+    "matched": "F50",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u20",
+  "line": 18,
+  "type": "sentence",
+  "section": "Materials and Methods > Controls, replicates and statistics",
+  "text": "Concentration–response curves were fitted with a four-parameter log-logistic model (LL.4) to estimate the IC50 with delta-method intervals .",
+  "facts": [
+   {
+    "id": "SRC:analysis.R:5",
+    "value": "fit <- drm(mean_viability_pct ~ concentration_uM, data = dat, fct = LL.4())",
+    "source": "analysis.R:5",
+    "kind": "source-line"
+   },
+   {
+    "id": "SRC:analysis.R:6",
+    "value": "ED(fit, 50, interval = \"delta\")",
+    "source": "analysis.R:6",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u21",
+  "line": 18,
+  "type": "sentence",
+  "section": "Materials and Methods > Controls, replicates and statistics",
+  "text": "Treatment groups were compared with the vehicle by one-way ANOVA with Dunnett's post hoc test at alpha = 0.05 .",
+  "facts": [
+   {
+    "id": "F6",
+    "value": "one-way ANOVA",
+    "source": "analysis.R:7",
+    "kind": "code",
+    "key": "statistical_test"
+   },
+   {
+    "id": "F7",
+    "value": "Dunnett",
+    "source": "analysis.R:7",
+    "kind": "code",
+    "key": "statistical_test"
+   },
+   {
+    "id": "F2",
+    "value": "0.05",
+    "source": "analysis.R:9",
+    "kind": "code",
+    "key": "alpha"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0.05",
+    "value": 0.05,
+    "matched": "F2",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u22",
+  "line": 18,
+  "type": "sentence",
+  "section": "Materials and Methods > Controls, replicates and statistics",
+  "text": "Analyses used R 4.3.1 and drc 3.0-1 with set.seed(7) .",
+  "facts": [
+   {
+    "id": "F3",
+    "value": "4.3.1",
+    "source": "analysis.R:1",
+    "kind": "code",
+    "key": "version.r"
+   },
+   {
+    "id": "F4",
+    "value": "3.0-1",
+    "source": "analysis.R:2",
+    "kind": "code",
+    "key": "version.drc"
+   },
+   {
+    "id": "F5",
+    "value": "7",
+    "source": "analysis.R:3",
+    "kind": "code",
+    "key": "set.seed"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "3.0",
+    "value": 3.0,
+    "matched": "F4",
+    "how": "tag"
+   },
+   {
+    "token": "1",
+    "value": 1.0,
+    "matched": "F4",
+    "how": "tag"
+   },
+   {
+    "token": "7",
+    "value": 7.0,
+    "matched": "F5",
+    "how": "tag"
+   },
+   {
+    "token": "4.3.1",
+    "matched": "F3",
+    "how": "version-tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u24",
+  "line": 22,
+  "type": "sentence",
+  "section": "Materials and Methods > Data availability and reproducibility",
+  "text": "The plate-reader export and analysis script are part of the study materials .",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "Where will raw absorbance data and analysis.R be deposited (repository/DOI)?"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u25",
+  "line": 22,
+  "type": "sentence",
+  "section": "Materials and Methods > Data availability and reproducibility",
+  "text": "Background subtraction and normalisation to vehicle .",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "How were blank subtraction and normalisation to vehicle computed?"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u27",
+  "line": 26,
+  "type": "sentence",
+  "section": "Materials and Methods > Limitations",
+  "text": "- Only one cell line (HeLa, passage 12) was tested ; responses of other cell types are unknown. - The MTT incubation (45 min) deviated from the SOP (30 min) in all three experiments , so absolute absorbance values may not be comparable with SOP runs. - Each concentration rests on n = 3 independent experiments ; one well was lost to contamination .",
+  "facts": [
+   {
+    "id": "F8",
+    "value": "2024-05-06 seeded plates P1-P3, HeLa passage 12 (ATCC CCL-2)",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F13",
+    "value": "ATCC CCL-2",
+    "source": "notebook_2024-05.txt:1",
+    "kind": "doc_kv",
+    "key": "lot"
+   },
+   {
+    "id": "F10",
+    "value": "2024-05-09 MTT added; incubation 45 min this time (reader booked)",
+    "source": "notebook_2024-05.txt:3",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F15",
+    "value": "45 min",
+    "source": "notebook_2024-05.txt:3",
+    "kind": "doc_kv",
+    "key": "text.duration.MTT"
+   },
+   {
+    "id": "F21",
+    "value": "5. Add 10 µL MTT (5 mg/mL) per well and incubate 30 min at 37 °C.",
+    "source": "protocol.md:7",
+    "kind": "doc",
+    "key": "sentence"
+   },
+   {
+    "id": "F28",
+    "value": "30 min",
+    "source": "protocol.md:7",
+    "kind": "doc_kv",
+    "key": "text.duration.MTT"
+   },
+   {
+    "id": "F48",
+    "value": "100.0",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.mean_viability_pct"
+   },
+   {
+    "id": "F49",
+    "value": "4.1",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.sd_pct"
+   },
+   {
+    "id": "F50",
+    "value": "3",
+    "source": "viability_summary.csv:2",
+    "kind": "table",
+    "key": "0.n"
+   },
+   {
+    "id": "F12",
+    "value": "well H12 on P2 contaminated, excluded",
+    "source": "notebook_2024-05.txt:5",
+    "kind": "doc_kv",
+    "key": "note"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "12",
+    "value": 12.0,
+    "matched": "F8",
+    "how": "tag"
+   },
+   {
+    "token": "45",
+    "value": 45.0,
+    "matched": "F10",
+    "how": "tag"
+   },
+   {
+    "token": "30",
+    "value": 30.0,
+    "matched": "F21",
+    "how": "tag"
+   },
+   {
+    "token": "3",
+    "value": 3.0,
+    "matched": "F50",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [
+   "C1 confirm the deviation applied to all plates"
+  ],
+  "status": "ok"
+ }
+]

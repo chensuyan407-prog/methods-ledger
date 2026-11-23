@@ -1,0 +1,2487 @@
+{
+ "extraction": [
+  {
+   "case": "dev_ml",
+   "facts_expected": 38,
+   "facts_found": 36,
+   "facts_missed": [
+    "regularization_c=1.0",
+    "n_samples=74000"
+   ],
+   "conflicts_expected": [
+    "learning_rate"
+   ],
+   "conflicts_found": [
+    "learning_rate"
+   ],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_repeats",
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_repeats",
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_software"
+   ],
+   "profile_expected": "ml",
+   "profile": "ml",
+   "lang_expected": "zh",
+   "lang": "zh"
+  },
+  {
+   "case": "dev_sim",
+   "facts_expected": 19,
+   "facts_found": 18,
+   "facts_missed": [
+    "cutoff=12.0"
+   ],
+   "conflicts_expected": [
+    "timestep"
+   ],
+   "conflicts_found": [
+    "timestep"
+   ],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_stats",
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_stats",
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_metric"
+   ],
+   "profile_expected": "simulation",
+   "profile": "simulation",
+   "lang_expected": "zh",
+   "lang": "zh"
+  },
+  {
+   "case": "dev_wetlab",
+   "facts_expected": 23,
+   "facts_found": 19,
+   "facts_missed": [
+    "temperature=37",
+    "concentration=5 mg/mL",
+    "volume=100",
+    "n_samples=5,000"
+   ],
+   "conflicts_expected": [
+    "duration"
+   ],
+   "conflicts_found": [
+    "duration"
+   ],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_metric",
+    "E_steps"
+   ],
+   "profile_expected": "wetlab",
+   "profile": "wetlab",
+   "lang_expected": "en",
+   "lang": "en"
+  },
+  {
+   "case": "ho_nlp_en",
+   "facts_expected": 33,
+   "facts_found": 30,
+   "facts_missed": [
+    "dataset_version=bcdcba79",
+    "n_runs=3",
+    "metric=accuracy"
+   ],
+   "conflicts_expected": [
+    "batch_size",
+    "grad_accum"
+   ],
+   "conflicts_found": [
+    "batch_size",
+    "grad_accum"
+   ],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_baseline",
+    "E_data_access",
+    "E_metric",
+    "E_repeats"
+   ],
+   "profile_expected": "ml",
+   "profile": "ml",
+   "lang_expected": "en",
+   "lang": "en"
+  },
+  {
+   "case": "ho_stats",
+   "facts_expected": 14,
+   "facts_found": 14,
+   "facts_missed": [],
+   "conflicts_expected": [
+    "n_imputations"
+   ],
+   "conflicts_found": [
+    "n_imputations"
+   ],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_code",
+    "E_controls",
+    "E_metric",
+    "E_repeats",
+    "E_split",
+    "E_steps"
+   ],
+   "profile_expected": "stats",
+   "profile": "stats",
+   "lang_expected": "zh",
+   "lang": "zh"
+  }
+ ],
+ "gold": [
+  {
+   "case": "dev_ml",
+   "status": "success",
+   "fails": [],
+   "warns": 4,
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "facts_cited": 56,
+   "questions": 11,
+   "coverage": {
+    "E_steps": "covered",
+    "E_dataset": "covered",
+    "E_dataset_version": "covered",
+    "E_split": "covered",
+    "E_preproc": "covered",
+    "E_model": "covered",
+    "E_hparams": "covered",
+    "E_hardware": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_repeats": "covered",
+    "E_baseline": "covered",
+    "E_metric": "covered",
+    "E_stats": "covered",
+    "E_code": "covered",
+    "E_data_access": "covered",
+    "E_limits": "covered"
+   }
+  },
+  {
+   "case": "dev_sim",
+   "status": "success",
+   "fails": [],
+   "warns": 0,
+   "warn_codes": [],
+   "facts_cited": 28,
+   "questions": 10,
+   "coverage": {
+    "E_steps": "covered",
+    "E_system": "covered",
+    "E_conditions": "covered",
+    "E_hardware": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_repeats": "covered",
+    "E_metric": "covered",
+    "E_stats": "covered",
+    "E_code": "covered",
+    "E_data_access": "marked_gap",
+    "E_limits": "covered"
+   }
+  },
+  {
+   "case": "dev_wetlab",
+   "status": "success",
+   "fails": [],
+   "warns": 2,
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "facts_cited": 41,
+   "questions": 11,
+   "coverage": {
+    "E_steps": "covered",
+    "E_materials": "covered",
+    "E_conditions": "covered",
+    "E_instrument": "covered",
+    "E_software": "covered",
+    "E_repeats": "covered",
+    "E_controls": "covered",
+    "E_metric": "covered",
+    "E_stats": "covered",
+    "E_data_access": "marked_gap",
+    "E_limits": "covered"
+   }
+  },
+  {
+   "case": "ho_nlp_en",
+   "status": "success",
+   "fails": [],
+   "warns": 14,
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "facts_cited": 68,
+   "questions": 13,
+   "coverage": {
+    "E_steps": "covered",
+    "E_dataset": "covered",
+    "E_dataset_version": "covered",
+    "E_split": "covered",
+    "E_preproc": "missing",
+    "E_model": "covered",
+    "E_hparams": "covered",
+    "E_hardware": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_repeats": "covered",
+    "E_baseline": "covered",
+    "E_metric": "covered",
+    "E_stats": "marked_gap",
+    "E_code": "covered",
+    "E_data_access": "missing",
+    "E_limits": "covered"
+   }
+  },
+  {
+   "case": "ho_stats",
+   "status": "success",
+   "fails": [],
+   "warns": 1,
+   "warn_codes": [
+    "T05"
+   ],
+   "facts_cited": 26,
+   "questions": 15,
+   "coverage": {
+    "E_steps": "covered",
+    "E_dataset": "covered",
+    "E_dataset_version": "covered",
+    "E_split": "marked_gap",
+    "E_preproc": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_controls": "marked_gap",
+    "E_metric": "covered",
+    "E_stats": "covered",
+    "E_code": "covered",
+    "E_data_access": "marked_gap",
+    "E_limits": "covered"
+   }
+  }
+ ],
+ "mutations": [
+  {
+   "case": "dev_ml",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "74000->75000",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "0.2->0.4",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "57600->58600",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "8->16",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "1.24->2.48",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "28->56",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F24",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "L02"
+   ],
+   "warn_codes": [
+    "K03",
+    "L01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "5 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_hparams",
+   "type": "missing_element",
+   "note": "6 sentences on E_hparams removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "P01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_split",
+   "type": "missing_element",
+   "note": "9 sentences on E_split removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "7 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_baseline",
+   "type": "missing_element",
+   "note": "7 sentences on E_baseline removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "P01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_repeats",
+   "type": "missing_element",
+   "note": "3 sentences on E_repeats removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "drop_E_hardware",
+   "type": "missing_element",
+   "note": "2 sentences on E_hardware removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_ml",
+   "id": "cmd_edit",
+   "type": "fabricated_command",
+   "note": "python src/preprocess.py --raw data/raw/ -> python src/preprocess.py --raw data/raw/",
+   "expected": [
+    "P02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "P02"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "2.1.2+cu121->2.1.2+cu124",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01",
+    "N02"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "thucnews_2016->thucnews_5016",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N02"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_ml",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "2e-5->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "M01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "4096->5096",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "12.0->24",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "T02"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "1000.0->2000",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "6248->7248",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "15->30",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F1",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "L02"
+   ],
+   "warn_codes": [
+    "L01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "1 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "4 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_E_conditions",
+   "type": "missing_element",
+   "note": "7 sentences on E_conditions removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_E_repeats",
+   "type": "missing_element",
+   "note": "2 sentences on E_repeats removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "drop_E_hardware",
+   "type": "missing_element",
+   "note": "1 sentences on E_hardware removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_sim",
+   "id": "cmd_edit",
+   "type": "fabricated_command",
+   "note": "lmp -in in.npt -log log.lammps -> lmp -in in.npt -log log.lammps --fast",
+   "expected": [
+    "P02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "P02"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "water_4096->water_7096",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N02"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "2023->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "M01"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_sim",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@log.lammps:5]] -> @log.lammps:1",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "T02"
+   ],
+   "warn_codes": [],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "12->24",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "T02"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "100->200",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "37->74",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "10->20",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "0.1%->0.2%",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "100->200",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": false,
+   "caught_any": false,
+   "any_new_fail": false,
+   "fail_codes": [],
+   "warn_codes": [
+    "N02",
+    "N03",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F1",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "T02"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "N02"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "L02"
+   ],
+   "warn_codes": [
+    "L01",
+    "N02"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "2 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_E_conditions",
+   "type": "missing_element",
+   "note": "9 sentences on E_conditions removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_E_repeats",
+   "type": "missing_element",
+   "note": "4 sentences on E_repeats removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "drop_E_instrument",
+   "type": "missing_element",
+   "note": "5 sentences on E_instrument removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": false,
+   "caught_any": false,
+   "any_new_fail": false,
+   "fail_codes": [],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "4.3.1->4.3.4",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "CCL-2->CCL-5",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N02"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "45->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "M01"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "dev_wetlab",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@notebook_2024-05.txt:1]] -> @notebook_2024-05.txt:5",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "T02"
+   ],
+   "warn_codes": [
+    "N02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "67349->68349",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "357,199,876->357200876",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "16->32",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "0.1->0.2",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "128->256",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "0.1->0.2",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F35",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "L02"
+   ],
+   "warn_codes": [
+    "K02",
+    "L01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "7 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_hparams",
+   "type": "missing_element",
+   "note": "5 sentences on E_hparams removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "N03",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_split",
+   "type": "missing_element",
+   "note": "2 sentences on E_split removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "1 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_baseline",
+   "type": "missing_element",
+   "note": "3 sentences on E_baseline removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_repeats",
+   "type": "missing_element",
+   "note": "12 sentences on E_repeats removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "P01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_hardware",
+   "type": "missing_element",
+   "note": "6 sentences on E_hardware removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "3.10.13->3.10.16",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "SST-2->SST-5",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "32->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "M01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@run_glue.py:10]] -> @run_glue.py:6",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": false,
+   "caught_any": false,
+   "any_new_fail": false,
+   "fail_codes": [],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "2023->3023",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "2023->3023",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "120->240",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "120->240",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "77->154",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "2500->3500",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F9",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "L02"
+   ],
+   "warn_codes": [
+    "L01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "1 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_split",
+   "type": "missing_element",
+   "note": "1 sentences on E_split removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "2 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "4.3.2->4.3.5",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "XJ-2023-118->XJ-5023-118",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "N02"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "2500->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "M01"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  },
+  {
+   "case": "ho_stats",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@问卷说明.md:2]] -> @问卷说明.md:3",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "T02"
+   ],
+   "warn_codes": [
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": false
+  }
+ ],
+ "robustness": [
+  {
+   "check": "missing_case_json",
+   "pass": true,
+   "detail": "case_id=in status=partial"
+  },
+  {
+   "check": "empty_materials",
+   "pass": true,
+   "detail": "status=failed; reason=no readable materials and no draft"
+  },
+  {
+   "check": "binary_and_xlsx_skipped",
+   "pass": true,
+   "detail": "{'results.xlsx': 'binary-skipped', 'weights.pt': 'binary-skipped'}"
+  },
+  {
+   "check": "malformed_configs_no_crash",
+   "pass": true,
+   "detail": "classes config/config"
+  },
+  {
+   "check": "huge_log_200k_lines",
+   "pass": true,
+   "detail": "27.4 s, 527 facts"
+  },
+  {
+   "check": "no_draft_partial",
+   "pass": true,
+   "detail": "status=partial"
+  },
+  {
+   "check": "bad_tags_reported",
+   "pass": true,
+   "detail": "fail codes ['K01', 'T01', 'T03', 'T06']"
+  },
+  {
+   "check": "deterministic_rebuild",
+   "pass": true,
+   "detail": "result.json identical except timestamps/history"
+  },
+  {
+   "check": "json_schema_contract_mapped",
+   "pass": true,
+   "detail": "types: ['str', 'list', 'list', 'list']"
+  },
+  {
+   "check": "invalid_agent_json_ignored",
+   "pass": true,
+   "detail": "noted in uncertainty"
+  },
+  {
+   "check": "old_draft_diff_recorded",
+   "pass": true,
+   "detail": "1 change records"
+  },
+  {
+   "check": "docx_material_read",
+   "pass": true,
+   "detail": "seed 11 + incubation 30 min from DOCX"
+  },
+  {
+   "check": "pdf_material_read",
+   "pass": true,
+   "detail": "learning rate 0.004 from PDF"
+  }
+ ]
+}

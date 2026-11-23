@@ -1,0 +1,648 @@
+{
+ "_doc": "Required elements of a methods/experiments chapter. An element is covered in the materials when a fact with one of `keys` exists (or a material line matches `material_patterns`), and covered in the draft when a sentence matches `draft_patterns` (en|zh) AND carries a fact/source tag, or the draft marks it as a gap ([[GAP:...]]). level: required = FAIL when neither covered nor marked; recommended = warn. profiles: which domain profiles need the element (all = every profile).",
+ "categories": {
+  "steps": {
+   "en": "Method steps",
+   "zh": "方法步骤"
+  },
+  "setup": {
+   "en": "Experimental setup",
+   "zh": "实验设置"
+  },
+  "params": {
+   "en": "Parameters",
+   "zh": "参数"
+  },
+  "data": {
+   "en": "Datasets and splits",
+   "zh": "数据集与划分"
+  },
+  "control": {
+   "en": "Baselines / controls and evaluation",
+   "zh": "对照与评价"
+  },
+  "repro": {
+   "en": "Reproducibility and limitations",
+   "zh": "可复现性与限制"
+  }
+ },
+ "elements": [
+  {
+   "id": "E_steps",
+   "category": "steps",
+   "level": "required",
+   "profiles": [
+    "all"
+   ],
+   "keys": [],
+   "label": {
+    "en": "ordered procedure (input -> operation -> output per step)",
+    "zh": "有序步骤（每步输入→操作→输出）"
+   },
+   "draft_patterns": {
+    "en": "(?im)^\\s*(?:\\d+[.)]|step\\s*\\d+|[-*]\\s+\\*\\*?step)",
+    "zh": "(?m)^\\s*(?:\\d+[.)、）]|步骤\\s*\\d+|（\\d+）|\\(\\d+\\)|第[一二三四五六七八九十]+步)"
+   },
+   "question": {
+    "en": "Confirm the order of the processing stages and the output of each stage.",
+    "zh": "请确认各处理阶段的先后顺序及每一步的产出。"
+   }
+  },
+  {
+   "id": "E_dataset",
+   "category": "data",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "dataset",
+    "data_path",
+    "n_samples",
+    "n_train",
+    "source_url"
+   ],
+   "label": {
+    "en": "dataset name and source",
+    "zh": "数据集名称与来源"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\b(dataset|corpus|benchmark|data were|data was|cohort|records|survey|questionnaire|participants|respondents)\\b",
+    "zh": "数据集|语料|数据来源|样本来源|队列|问卷|调查|研究对象|受试者"
+   },
+   "question": {
+    "en": "Name the dataset and where it was obtained (URL/DOI/accession).",
+    "zh": "请给出数据集名称及获取来源（URL/DOI/编号）。"
+   }
+  },
+  {
+   "id": "E_dataset_version",
+   "category": "data",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "dataset_version"
+   ],
+   "label": {
+    "en": "dataset version / release / snapshot date",
+    "zh": "数据集版本/发布号/快照日期"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\b(version|revision|v\\d|release|snapshot|accessed)\\b",
+    "zh": "版本|发布|快照|下载于|获取于|修订|revision|调查(时间|于)|至"
+   },
+   "question": {
+    "en": "Which dataset version/release (or download date) was used? Different versions change sample counts and splits.",
+    "zh": "使用的是哪个数据集版本/发布号（或下载日期）？版本不同会改变样本数与划分。"
+   }
+  },
+  {
+   "id": "E_split",
+   "category": "data",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "split_ratio",
+    "test_size",
+    "val_size",
+    "train_size",
+    "n_train",
+    "n_val",
+    "n_test",
+    "k_folds"
+   ],
+   "label": {
+    "en": "split sizes/ratios and how they were drawn",
+    "zh": "划分规模/比例与划分方式"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\b(split|partition|training set|validation set|test set|held[- ]out|fold|train/val|train/test)",
+    "zh": "划分|训练集|验证集|测试集|折交叉|留出"
+   },
+   "question": {
+    "en": "Give the train/validation/test sizes (or ratio), whether the split is random/stratified/official, and its seed.",
+    "zh": "请给出训练/验证/测试集规模（或比例）、划分方式（随机/分层/官方）及划分种子。"
+   }
+  },
+  {
+   "id": "E_preproc",
+   "category": "data",
+   "level": "recommended",
+   "profiles": [
+    "ml",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "preprocessing",
+    "max_length",
+    "image_size",
+    "inclusion"
+   ],
+   "label": {
+    "en": "preprocessing / filtering",
+    "zh": "预处理/筛选"
+   },
+   "draft_patterns": {
+    "en": "(?i)preprocess|normali[sz]|tokeni[sz]|filter|augment|resiz|clean|exclud|remov",
+    "zh": "预处理|归一化|分词|过滤|筛选|增强|清洗|剔除|排除"
+   },
+   "question": {
+    "en": "Describe preprocessing and filtering (what was removed and how many items).",
+    "zh": "请说明预处理与筛选（剔除了什么、剔除多少条）。"
+   }
+  },
+  {
+   "id": "E_materials",
+   "category": "data",
+   "level": "required",
+   "profiles": [
+    "wetlab"
+   ],
+   "keys": [
+    "reagent",
+    "lot",
+    "sample_source"
+   ],
+   "label": {
+    "en": "materials/samples with source and lot",
+    "zh": "材料/样本及来源、批号"
+   },
+   "draft_patterns": {
+    "en": "(?i)purchased|obtained from|supplied|reagent|cell line|strain|sample|antibod|\\bkit\\b|lot",
+    "zh": "购自|来源|试剂|细胞系|菌株|样本|抗体|试剂盒|批号"
+   },
+   "question": {
+    "en": "List materials/samples with supplier, catalogue and lot numbers.",
+    "zh": "请列出材料/样本及供应商、货号和批号。"
+   }
+  },
+  {
+   "id": "E_system",
+   "category": "data",
+   "level": "required",
+   "profiles": [
+    "simulation"
+   ],
+   "keys": [
+    "system_size",
+    "force_field",
+    "functional",
+    "basis_set"
+   ],
+   "label": {
+    "en": "simulated system and model (size, force field/functional)",
+    "zh": "模拟体系与模型（规模、力场/泛函）"
+   },
+   "draft_patterns": {
+    "en": "(?i)atoms|molecules|box|system|force field|potential|functional|basis",
+    "zh": "原子|分子|盒子|体系|力场|势函数|泛函|基组"
+   },
+   "question": {
+    "en": "Give system composition/size and the force field or functional with version.",
+    "zh": "请给出体系组成/规模及力场或泛函（含版本）。"
+   }
+  },
+  {
+   "id": "E_model",
+   "category": "control",
+   "level": "recommended",
+   "profiles": [
+    "ml"
+   ],
+   "keys": [
+    "model",
+    "checkpoint"
+   ],
+   "label": {
+    "en": "model / architecture and initialisation",
+    "zh": "模型/结构及初始化"
+   },
+   "draft_patterns": {
+    "en": "(?i)model|architecture|backbone|network|initiali[sz]|pretrained|checkpoint",
+    "zh": "模型|结构|骨干|网络|初始化|预训练|检查点"
+   },
+   "question": {
+    "en": "Which model/architecture and which pretrained checkpoint (name + revision)?",
+    "zh": "使用了哪种模型/结构及哪个预训练检查点（名称+版本）？"
+   }
+  },
+  {
+   "id": "E_hparams",
+   "category": "params",
+   "level": "required",
+   "profiles": [
+    "ml"
+   ],
+   "keys": [
+    "learning_rate",
+    "batch_size",
+    "epochs",
+    "max_steps",
+    "optimizer"
+   ],
+   "label": {
+    "en": "optimiser, learning rate, batch size, training length",
+    "zh": "优化器、学习率、批大小、训练长度"
+   },
+   "draft_patterns": {
+    "en": "(?i)learning rate|batch size|optimi[sz]er|epoch|steps|iterations|adam|sgd",
+    "zh": "学习率|批大小|批量|优化器|轮|步|迭代"
+   },
+   "question": {
+    "en": "Confirm optimiser, learning rate (and schedule), batch size and number of epochs/steps of the reported run.",
+    "zh": "请确认报告结果所用运行的优化器、学习率（及调度）、批大小和训练轮数/步数。"
+   }
+  },
+  {
+   "id": "E_conditions",
+   "category": "params",
+   "level": "required",
+   "profiles": [
+    "wetlab",
+    "simulation"
+   ],
+   "keys": [
+    "temperature",
+    "duration",
+    "concentration",
+    "pressure",
+    "timestep",
+    "nsteps",
+    "speed",
+    "ph"
+   ],
+   "label": {
+    "en": "operating conditions with units",
+    "zh": "操作条件（含单位）"
+   },
+   "draft_patterns": {
+    "en": "(?i)°c|\\bk\\b|kelvin|min\\b|hours?|\\bh\\b|mm\\b|µm|μm|mg|ml|µl|μl|rpm|×\\s*g|\\bfs\\b|\\bps\\b|\\bns\\b|bar|atm",
+    "zh": "℃|°C|分钟|小时|毫|微|转|飞秒|皮秒|纳秒|压强|浓度"
+   },
+   "question": {
+    "en": "Give every operating condition (temperature, time, concentration, pressure, time step) with units.",
+    "zh": "请给出全部操作条件（温度、时间、浓度、压强、步长）及单位。"
+   }
+  },
+  {
+   "id": "E_hardware",
+   "category": "setup",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "simulation"
+   ],
+   "keys": [
+    "hardware",
+    "num_gpus",
+    "num_nodes",
+    "memory"
+   ],
+   "label": {
+    "en": "hardware (device type and count)",
+    "zh": "硬件（设备型号与数量）"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\bgpus?\\b|nvidia|a100|v100|h100|rtx|cpu|node|tpu|cluster|xeon|epyc",
+    "zh": "GPU|显卡|CPU|节点|集群|服务器|处理器"
+   },
+   "question": {
+    "en": "Which hardware (GPU/CPU model and count) produced the reported results?",
+    "zh": "报告结果使用的硬件（GPU/CPU 型号与数量）是什么？"
+   }
+  },
+  {
+   "id": "E_instrument",
+   "category": "setup",
+   "level": "required",
+   "profiles": [
+    "wetlab"
+   ],
+   "keys": [
+    "instrument"
+   ],
+   "label": {
+    "en": "instruments (manufacturer, model)",
+    "zh": "仪器（厂家、型号）"
+   },
+   "draft_patterns": {
+    "en": "(?i)instrument|microscope|spectrometer|analy[sz]er|reader|centrifuge|cycler|\\(.*?(inc|ltd|gmbh|corp)",
+    "zh": "仪器|显微镜|光谱仪|分析仪|酶标仪|离心机|PCR仪|型号"
+   },
+   "question": {
+    "en": "Give manufacturer and model for each instrument and its settings.",
+    "zh": "请给出各仪器的厂家、型号及设置。"
+   }
+  },
+  {
+   "id": "E_software",
+   "category": "setup",
+   "level": "required",
+   "profiles": [
+    "all"
+   ],
+   "keys": [
+    "python",
+    "torch",
+    "cuda",
+    "cudnn",
+    "software",
+    "software_stats"
+   ],
+   "label": {
+    "en": "software and versions",
+    "zh": "软件及版本"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\b(version|software|package|library|pytorch\\-lightning|quantum\\-espresso|opencv\\-python|sentencepiece|scikit\\-learn|transformers|torchvision|statsmodels|torchaudio|accelerate|tensorflow|matplotlib|tokenizers|hydra\\-core|deepspeed|lightning|biopython|omegaconf|datasets|lightgbm|catboost|graphpad|gaussian|samtools|cellpose|pytorch|sklearn|xgboost|seaborn|gromacs|openmpi|python|pandas|pillow|lammps|openmm|deseq2|seurat|scanpy|imagej|matlab|docker|torch|cudnn|numpy|scipy|keras|stata|prism|amber|rdkit|edger|julia|mpich|slurm|conda|wandb|cuda|nccl|peft|flax|timm|lme4|spss|vasp|orca|cp2k|namd|gatk|star|fiji|vllm|jax|bwa|gcc)\\b|\\b(gen5|drc|mice|R\\s+\\d+\\.\\d+|v?\\d+\\.\\d+\\.\\d+)\\b",
+    "zh": "(?i)版本|软件|程序包|\\b(pytorch\\-lightning|quantum\\-espresso|opencv\\-python|sentencepiece|scikit\\-learn|transformers|torchvision|statsmodels|torchaudio|accelerate|tensorflow|matplotlib|tokenizers|hydra\\-core|deepspeed|lightning|biopython|omegaconf|datasets|lightgbm|catboost|graphpad|gaussian|samtools|cellpose|pytorch|sklearn|xgboost|seaborn|gromacs|openmpi|python|pandas|pillow|lammps|openmm|deseq2|seurat|scanpy|imagej|matlab|docker|torch|cudnn|numpy|scipy|keras|stata|prism|amber|rdkit|edger|julia|mpich|slurm|conda|wandb|cuda|nccl|peft|flax|timm|lme4|spss|vasp|orca|cp2k|namd|gatk|star|fiji|vllm|jax|bwa|gcc)\\b|\\b(gen5|drc|mice|R\\s+\\d+\\.\\d+|v?\\d+\\.\\d+\\.\\d+)\\b"
+   },
+   "question": {
+    "en": "List software with exact versions (framework, CUDA, analysis packages).",
+    "zh": "请列出软件及精确版本（框架、CUDA、分析软件包）。"
+   }
+  },
+  {
+   "id": "E_seed",
+   "category": "repro",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "simulation",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "seed"
+   ],
+   "label": {
+    "en": "random seed(s)",
+    "zh": "随机种子"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\bseeds?\\b|random state",
+    "zh": "种子"
+   },
+   "question": {
+    "en": "Which random seed(s) were used for training, data splitting and sampling?",
+    "zh": "训练、数据划分与采样分别使用了哪些随机种子？"
+   }
+  },
+  {
+   "id": "E_repeats",
+   "category": "control",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "wetlab",
+    "simulation",
+    "generic"
+   ],
+   "keys": [
+    "n_runs"
+   ],
+   "label": {
+    "en": "number of repetitions / replicates and how results are aggregated",
+    "zh": "重复次数/平行样数及结果汇总方式"
+   },
+   "draft_patterns": {
+    "en": "(?i)\\b(runs?|repeat|repetition|replicat|independent|trials|seeds|mean\\s*(±|\\+/-|and standard)|averaged over)",
+    "zh": "重复|平行|独立|次运行|均值|平均"
+   },
+   "question": {
+    "en": "How many independent runs/replicates per condition, and is mean ± SD/SE or a single run reported?",
+    "zh": "每个条件独立运行/平行样多少次？报告的是均值±标准差/标准误还是单次结果？"
+   }
+  },
+  {
+   "id": "E_baseline",
+   "category": "control",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "generic"
+   ],
+   "keys": [
+    "baseline"
+   ],
+   "label": {
+    "en": "baselines with versions and same-budget conditions",
+    "zh": "基线（含版本）及同预算对照条件"
+   },
+   "draft_patterns": {
+    "en": "(?i)baseline|compared (with|to|against)|comparison|control",
+    "zh": "基线|对照|比较|对比"
+   },
+   "question": {
+    "en": "Which baselines (implementation + version) were compared, and were they trained/tuned under the same budget and data?",
+    "zh": "对比了哪些基线（实现+版本）？是否在相同数据与预算下训练/调参？"
+   }
+  },
+  {
+   "id": "E_controls",
+   "category": "control",
+   "level": "required",
+   "profiles": [
+    "wetlab",
+    "stats"
+   ],
+   "keys": [
+    "baseline"
+   ],
+   "label": {
+    "en": "control groups (positive/negative/vehicle)",
+    "zh": "对照组（阳性/阴性/溶剂对照）"
+   },
+   "draft_patterns": {
+    "en": "(?i)control|vehicle|sham|placebo|blank|untreated",
+    "zh": "对照|空白|溶剂|安慰剂|假手术|未处理"
+   },
+   "question": {
+    "en": "Which control groups were run alongside each condition?",
+    "zh": "每个条件同时设置了哪些对照组？"
+   }
+  },
+  {
+   "id": "E_metric",
+   "category": "control",
+   "level": "required",
+   "profiles": [
+    "all"
+   ],
+   "keys": [
+    "metric"
+   ],
+   "label": {
+    "en": "evaluation metrics / measured outcomes",
+    "zh": "评价指标/测量结局"
+   },
+   "draft_patterns": {
+    "en": "(?i)metric|accuracy|f1|auc|bleu|rouge|rmse|mae|error|precision|recall|measured|outcome|score|yield|efficiency|absorbance|viability|intensity|density|signal|energy|rdf|msd|diffusion",
+    "zh": "指标|准确率|精度|F1|误差|召回|测量|结局|得分|产率|效率|吸光度|存活率|密度|强度|能量|扩散"
+   },
+   "question": {
+    "en": "Define each metric (and on which split / at which checkpoint it is computed).",
+    "zh": "请定义各评价指标（在哪个数据子集、哪个检查点上计算）。"
+   }
+  },
+  {
+   "id": "E_stats",
+   "category": "control",
+   "level": "recommended",
+   "profiles": [
+    "all"
+   ],
+   "keys": [
+    "statistical_test",
+    "alpha_level"
+   ],
+   "label": {
+    "en": "statistical test / uncertainty estimate",
+    "zh": "统计检验/不确定度估计"
+   },
+   "draft_patterns": {
+    "en": "(?i)t-test|wilcoxon|anova|bootstrap|confidence interval|standard deviation|\\bsd\\b|\\bse\\b|p\\s*[<=]|significan|mann|chi",
+    "zh": "检验|方差分析|置信区间|标准差|标准误|显著"
+   },
+   "question": {
+    "en": "Which statistical test or uncertainty estimate supports comparisons (test, alpha, correction)?",
+    "zh": "比较结论基于何种统计检验或不确定度估计（检验方法、显著性水平、多重校正）？"
+   }
+  },
+  {
+   "id": "E_code",
+   "category": "repro",
+   "level": "required",
+   "profiles": [
+    "ml",
+    "simulation",
+    "generic",
+    "stats"
+   ],
+   "keys": [
+    "code_version",
+    "command",
+    "container"
+   ],
+   "label": {
+    "en": "code version and run commands",
+    "zh": "代码版本与运行命令"
+   },
+   "draft_patterns": {
+    "en": "(?i)commit|git|repository|code (is|will be) available|command|script|`[^`]+`|docker|conda",
+    "zh": "提交|仓库|代码|命令|脚本|镜像|环境"
+   },
+   "question": {
+    "en": "Give the code commit/tag and the exact commands to reproduce the reported numbers.",
+    "zh": "请给出代码提交号/标签及复现报告数值的确切命令。"
+   }
+  },
+  {
+   "id": "E_data_access",
+   "category": "repro",
+   "level": "recommended",
+   "profiles": [
+    "all"
+   ],
+   "keys": [
+    "source_url",
+    "license",
+    "data_path"
+   ],
+   "label": {
+    "en": "data availability / access",
+    "zh": "数据获取方式"
+   },
+   "draft_patterns": {
+    "en": "(?i)available|download|access|url|doi|http|license|upon request",
+    "zh": "获取|下载|公开|链接|DOI|许可|申请"
+   },
+   "question": {
+    "en": "How can readers obtain the data (URL/DOI, license, access restrictions)?",
+    "zh": "读者如何获取数据（URL/DOI、许可、访问限制）？"
+   }
+  },
+  {
+   "id": "E_limits",
+   "category": "repro",
+   "level": "required",
+   "profiles": [
+    "all"
+   ],
+   "keys": [],
+   "label": {
+    "en": "limitations tied to concrete failure scenarios",
+    "zh": "落到具体失效场景的限制条件"
+   },
+   "draft_patterns": {
+    "en": "(?i)limitation|threats? to validity|does not|do not|not (yet )?(tested|evaluated|cover)|only (on|for|with)|restricted to|fails? (when|on|for)|caveat",
+    "zh": "局限|限制|不足|仅在|仅适用|未(在|对|覆盖|测试|评估)|失效|无法"
+   },
+   "question": {
+    "en": "Which conditions were not tested (data, scale, hardware, settings) and where is the method expected to fail?",
+    "zh": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？"
+   }
+  }
+ ],
+ "profiles": {
+  "ml": {
+   "en": "machine learning / computational experiment",
+   "markers": "(?i)\\bepoch|learning[_ ]rate|\\blr\\b|batch[_ ]size|torch|tensorflow|optimizer|checkpoint|\\btrain(ing)?\\b|fine-?tun|transformers|cuda|学习率|训练"
+  },
+  "wetlab": {
+   "en": "wet-lab / instrument experiment",
+   "markers": "(?i)°c|℃|incubat|centrifug|µl|μl|\\bml\\b|buffer|pcr|reagent|cells?\\b|rpm|×\\s*g|western|elisa|孵育|离心|缓冲液|试剂|细胞"
+  },
+  "simulation": {
+   "en": "simulation (MD/DFT/numerical)",
+   "markers": "(?i)timestep|\\bnvt\\b|\\bnpt\\b|lammps|gromacs|vasp|force field|thermostat|k-?points|encut|ensemble|dft|molecular dynamics|分子动力学|第一性原理"
+  },
+  "stats": {
+   "en": "survey / clinical / statistical study",
+   "markers": "(?i)participants|questionnaire|respondents|regression|mixed model|lme4|spss|stata|cohort|patients|受试者|问卷|回归|患者"
+  },
+  "generic": {
+   "en": "generic experiment",
+   "markers": ""
+  }
+ },
+ "boilerplate_limits": {
+  "en": [
+   "may not generali[sz]e",
+   "further (research|work|studies) (is|are) needed",
+   "future work",
+   "has (some|several|certain) limitations",
+   "results may vary",
+   "is limited by",
+   "more data",
+   "larger datasets?",
+   "other domains",
+   "in the future",
+   "is beyond the scope"
+  ],
+  "zh": [
+   "有待进一步(研究|验证|探索)",
+   "存在一定(的)?局限",
+   "未来(工作|研究)",
+   "泛化能力有待",
+   "更多(数据|场景)",
+   "其他领域",
+   "仍需(进一步|深入)"
+  ]
+ },
+ "significance_words": {
+  "en": "(?i)\\bsignificant(ly)?\\b|\\bp\\s*[<=]",
+  "zh": "显著"
+ }
+}

@@ -1,0 +1,114 @@
+{
+ "tag": "dev_v1",
+ "cases": [
+  "dev_ml",
+  "dev_sim",
+  "dev_wetlab"
+ ],
+ "seconds": 34.2,
+ "extraction": {
+  "fact_recall": 0.9,
+  "facts_expected": 80,
+  "facts_found": 72,
+  "conflict_recall": 1.0,
+  "conflicts_expected": 3,
+  "conflicts_found": 3,
+  "conflicts_unexpected": 0,
+  "conflict_precision": 1.0,
+  "gap_recall": 1.0,
+  "gaps_expected": 8,
+  "gaps_found": 8,
+  "profile_correct": 3,
+  "language_correct": 3
+ },
+ "gold_drafts": {
+  "n": 3,
+  "without_fail": 3
+ },
+ "mutations": {
+  "n": 60,
+  "caught_fail": 0.7333,
+  "caught_any": 0.7833,
+  "baseline_grep": 0.5333,
+  "baseline_checklist": 0.2667,
+  "by_type": {
+   "wrong_value": {
+    "n": 17,
+    "caught_fail": 14,
+    "caught_any": 14,
+    "baseline_grep": 11,
+    "baseline_checklist": 0
+   },
+   "invented_number": {
+    "n": 6,
+    "caught_fail": 4,
+    "caught_any": 4,
+    "baseline_grep": 6,
+    "baseline_checklist": 0
+   },
+   "unmarked_conflict": {
+    "n": 3,
+    "caught_fail": 3,
+    "caught_any": 3,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "missing_element": {
+    "n": 19,
+    "caught_fail": 13,
+    "caught_any": 13,
+    "baseline_grep": 8,
+    "baseline_checklist": 13
+   },
+   "boilerplate_limits": {
+    "n": 3,
+    "caught_fail": 3,
+    "caught_any": 3,
+    "baseline_grep": 1,
+    "baseline_checklist": 3
+   },
+   "fabricated_command": {
+    "n": 2,
+    "caught_fail": 2,
+    "caught_any": 2,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_version": {
+    "n": 2,
+    "caught_fail": 2,
+    "caught_any": 2,
+    "baseline_grep": 2,
+    "baseline_checklist": 0
+   },
+   "wrong_name": {
+    "n": 3,
+    "caught_fail": 0,
+    "caught_any": 3,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "placeholder": {
+    "n": 3,
+    "caught_fail": 2,
+    "caught_any": 2,
+    "baseline_grep": 1,
+    "baseline_checklist": 0
+   },
+   "wrong_citation": {
+    "n": 2,
+    "caught_fail": 1,
+    "caught_any": 1,
+    "baseline_grep": 0,
+    "baseline_checklist": 0
+   }
+  }
+ },
+ "robustness": {
+  "n": 13,
+  "passed": 12,
+  "failed": [
+   "json_schema_contract_mapped"
+  ]
+ }
+}

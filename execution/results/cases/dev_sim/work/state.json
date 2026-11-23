@@ -1,0 +1,97 @@
+{
+ "tool": "methods-ledger",
+ "version": "0.1.0",
+ "case_id": "dev_sim_water",
+ "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_sim\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_sim\\input",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\work",
+ "lang": "zh",
+ "profile": "simulation",
+ "profile_scores": {
+  "ml": 0,
+  "wetlab": 0,
+  "simulation": 9,
+  "stats": 0
+ },
+ "contract": [
+  {
+   "name": "section_text",
+   "desc": "章节正文"
+  },
+  {
+   "name": "parameter_table",
+   "desc": "参数表"
+  },
+  {
+   "name": "provenance",
+   "desc": "来源映射"
+  },
+  {
+   "name": "questions",
+   "desc": "待作者确认项"
+  }
+ ],
+ "files": [
+  {
+   "path": "case.json",
+   "bytes": 453,
+   "sha256": "a4e6d0ab7e2ed024096f621606e6622bf28a74a38d7db51e4079c837749095a7",
+   "problems": [],
+   "class": "case",
+   "lines": 4
+  },
+  {
+   "path": "in.npt",
+   "bytes": 432,
+   "sha256": "36e2c321e6c2363156274aa3932a516660be7d071a27f31fcb48431dcfd732f9",
+   "problems": [],
+   "class": "config",
+   "lines": 13,
+   "n_facts": 13
+  },
+  {
+   "path": "job.slurm",
+   "bytes": 191,
+   "sha256": "85287a27fa7aafd4d216fda48c7f240392dc54bde9e33b8ae462eed23451af21",
+   "problems": [],
+   "class": "code",
+   "lines": 9,
+   "n_facts": 9
+  },
+  {
+   "path": "log.lammps",
+   "bytes": 407,
+   "sha256": "278c2b56c17e74e7782a3b492aa4b2f2bf02a83ba0508584819fe1484a37009c",
+   "problems": [],
+   "class": "log",
+   "lines": 12,
+   "n_facts": 14
+  },
+  {
+   "path": "notes_gbk.txt",
+   "bytes": 156,
+   "sha256": "e63ef8e92f2761d89f3a3602939cc542937602e2d21752ce2320aa5ff88e3ba7",
+   "problems": [],
+   "class": "doc",
+   "lines": 6,
+   "n_facts": 8
+  }
+ ],
+ "problems": [],
+ "task_excerpt": "根据模拟输入文件、作业脚本、日志和笔记，撰写论文“2 计算方法”一节（中文）。需写清体系、力场、系综与控温控压、步长与模拟时长、平衡与采样、软硬件、重复与统计、复现方式和局限。",
+ "stages": [
+  {
+   "file": "job.slurm",
+   "line": 8,
+   "command": "lmp -in in.npt -log log.lammps"
+  }
+ ],
+ "series": [],
+ "extract_seconds": 0.01,
+ "case_keys": [
+  "case_id",
+  "output_contract",
+  "task"
+ ]
+}

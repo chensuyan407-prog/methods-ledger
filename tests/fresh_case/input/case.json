@@ -1,0 +1,1 @@
+{"case_id": "fresh_xgb_credit", "task": "Write the Methods section (English) for the credit-default model from the notebook, params file and metrics.", "output_contract": {"methods": "Markdown methods section", "parameters": "parameter table", "sources": "fact map", "open_questions": "for the author"}}

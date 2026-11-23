@@ -1,0 +1,342 @@
+{
+ "arm_version": "1.1",
+ "paper": {
+  "title": "写作09｜方法与实验章节写作 — methods-ledger Skill",
+  "challenge_id": "product-arena-05-64faa4a2"
+ },
+ "entrypoint": "src/reproduce.py",
+ "environment": {
+  "dependencies": "requirements.txt",
+  "python_version": ">=3.8",
+  "gpu_required": false,
+  "extra_packages": [
+   "PyMuPDF>=1.23 (optional: PDF materials, PDF/PNG preview, PDF robustness check)"
+  ]
+ },
+ "execution": {
+  "log_path": "execution/run.log",
+  "exit_code": 0,
+  "ran_at": "2026-11-23T10:20:30.741306Z",
+  "wall_time_s": 31.66,
+  "ran_by": "agent",
+  "artifacts": [
+   {
+    "id": "metrics",
+    "path": "execution/results/metrics.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "3494104d0994bbd38caccc38a2e6fad2969a455a612341f5256317c7919b05dc"
+   },
+   {
+    "id": "metrics_holdout_at_freeze",
+    "path": "execution/results/metrics_holdout_at_freeze.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "8436b657b1a5fbd529a9401d8c08ca9ed7f0973eba240260d6bf59b75c043949"
+   },
+   {
+    "id": "metrics_dev_first_run",
+    "path": "execution/results/metrics_dev_v1.json",
+    "type": "metric",
+    "format": "json",
+    "checksum_sha256": "49cd9a835c8b2a9f40a1b5237f31f72bf815387864de29c013be9b917f58148e"
+   },
+   {
+    "id": "eval_rows",
+    "path": "execution/results/eval_rows.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "75178a091e61cb39a4d0d1b37ed175ebfdd2de56bd73c227d3a6724b43eaf545"
+   },
+   {
+    "id": "eval_rows_holdout_at_freeze",
+    "path": "execution/results/eval_rows_holdout_at_freeze.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "d1e2d59f66e5a9c189027040f5e834feeac7ad2521578011c7b4405ecfd0a07e"
+   },
+   {
+    "id": "freeze_hashes",
+    "path": "tests/FREEZE_v0.1.0.sha256",
+    "type": "log",
+    "format": "text",
+    "checksum_sha256": "25a5507d0a19eeb728b30061b44783ad77a0cab9afedf2959b58c82fca0f742c"
+   },
+   {
+    "id": "fresh_run_log",
+    "path": "execution/results/fresh_run/run.log",
+    "type": "log",
+    "format": "text",
+    "checksum_sha256": "41570eac0a3aaa7009ce5a56caa73f4069bf367e80a69870230e45d7ee45fc56"
+   },
+   {
+    "id": "fresh_run_result",
+    "path": "execution/results/fresh_run/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "783eba09219a318763953170dc5fc11123a08c8519d6227d87663fa80471a911"
+   },
+   {
+    "id": "fresh_run_preview",
+    "path": "execution/results/fresh_run/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "9b8b33295ac4687efe181b92d476773986111b254a4e07641ac4202c60686052"
+   },
+   {
+    "id": "dev_ml_result",
+    "path": "execution/results/cases/dev_ml/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "9826d2823e6855f0d6f8c84f5e9b466121692d8d44e1ed4a88352bb065ee2f51"
+   },
+   {
+    "id": "dev_ml_methods",
+    "path": "execution/results/cases/dev_ml/output/methods.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "929ae24eae22c4c175fada0f94c8b41177043222845cd957c69049f90fda085b"
+   },
+   {
+    "id": "dev_ml_param_table",
+    "path": "execution/results/cases/dev_ml/output/param_table.csv",
+    "type": "data",
+    "format": "csv",
+    "checksum_sha256": "5d23f1d48ff86caf69b9d9e6b43306aac56c73164adec73171928373974e19d3"
+   },
+   {
+    "id": "dev_ml_questions",
+    "path": "execution/results/cases/dev_ml/output/questions.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "8e0c40f058bc32bcae57178adfa2e635cfa197ee49e5a66a6e04c62bb0e60551"
+   },
+   {
+    "id": "dev_ml_preview",
+    "path": "execution/results/cases/dev_ml/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "e7e120aadeda41d1af56da4f1c624e5183cec7565b2c2d865f932354b7b9806f"
+   },
+   {
+    "id": "dev_sim_result",
+    "path": "execution/results/cases/dev_sim/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "b2325bf07030f2da64b6e78f4fa2f0c49d2343858a1deb35c474ff676e3eea1e"
+   },
+   {
+    "id": "dev_sim_methods",
+    "path": "execution/results/cases/dev_sim/output/methods.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "12d1060bd68830fcff75f5b48bb6700789c9eb9aee702d9688d41d35d58cd1cc"
+   },
+   {
+    "id": "dev_sim_param_table",
+    "path": "execution/results/cases/dev_sim/output/param_table.csv",
+    "type": "data",
+    "format": "csv",
+    "checksum_sha256": "aa7c55cbb91121f1413e7d7e71c444af374c21860c1d9b8f6fd5ed4b9c9ad794"
+   },
+   {
+    "id": "dev_sim_questions",
+    "path": "execution/results/cases/dev_sim/output/questions.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "38613a339b82f1c4ecce4b1a35d479f0c05d11bca49f062a8c3bee839f7f94c4"
+   },
+   {
+    "id": "dev_sim_preview",
+    "path": "execution/results/cases/dev_sim/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "fd669579e1212e832c29a5785abdb9e87533aed84e16445a38e989a74e01ea80"
+   },
+   {
+    "id": "dev_wetlab_result",
+    "path": "execution/results/cases/dev_wetlab/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "66b4196585251610c0c8724094af432dc30af478955846320f2fd4ab51645a2d"
+   },
+   {
+    "id": "dev_wetlab_methods",
+    "path": "execution/results/cases/dev_wetlab/output/methods.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "5172edb2a75932f531601473dbc9226e802f523034b7717b434bd081b30e6b0d"
+   },
+   {
+    "id": "dev_wetlab_param_table",
+    "path": "execution/results/cases/dev_wetlab/output/param_table.csv",
+    "type": "data",
+    "format": "csv",
+    "checksum_sha256": "b588317f71e8c6bd2908bcfec980d8019332b3f643d17ce637e1c206d8ea6e10"
+   },
+   {
+    "id": "dev_wetlab_questions",
+    "path": "execution/results/cases/dev_wetlab/output/questions.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "15087e97baa28fcd24eb662c5fec7aee4fc834bfe5b03f2c8e247c02325f2bb6"
+   },
+   {
+    "id": "dev_wetlab_preview",
+    "path": "execution/results/cases/dev_wetlab/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "10c822f7f7cbf5d8ea8c5247b3eff1a8adefe2d329b2ce5a07b0add15ccb49ba"
+   },
+   {
+    "id": "ho_nlp_en_result",
+    "path": "execution/results/cases/ho_nlp_en/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "0ee91280c8388acea90702b56d3ef58e27dc9719094be82fcc00024a7fa9eb87"
+   },
+   {
+    "id": "ho_nlp_en_methods",
+    "path": "execution/results/cases/ho_nlp_en/output/methods.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "9bd80a5f5ce6c59bea4dcf29ff4ae50ddcd92d8fef9d3ba0a99602a7e119c54a"
+   },
+   {
+    "id": "ho_nlp_en_param_table",
+    "path": "execution/results/cases/ho_nlp_en/output/param_table.csv",
+    "type": "data",
+    "format": "csv",
+    "checksum_sha256": "f371ad5049e32282c3aae96e09911058597d736173ef5aeee84ee8b2a2d86d6c"
+   },
+   {
+    "id": "ho_nlp_en_questions",
+    "path": "execution/results/cases/ho_nlp_en/output/questions.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "dee4476c1759fc0bd15bc140a75e4c4ae1274d2bd7907186ccc2cb37ebe36e11"
+   },
+   {
+    "id": "ho_nlp_en_preview",
+    "path": "execution/results/cases/ho_nlp_en/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "f207ec3fe56fc3798067cb1e33169d09692841b62a4e9730f0ce95cd6437a1c9"
+   },
+   {
+    "id": "ho_stats_result",
+    "path": "execution/results/cases/ho_stats/output/result.json",
+    "type": "data",
+    "format": "json",
+    "checksum_sha256": "0ac980c2262f85384e3202ffdfe79b265326791c99d896676ad821596600641b"
+   },
+   {
+    "id": "ho_stats_methods",
+    "path": "execution/results/cases/ho_stats/output/methods.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "38c2adc85ff7369eb26ae3061900b33d86aa3e0d96b8e24b3659ccadfd14a289"
+   },
+   {
+    "id": "ho_stats_param_table",
+    "path": "execution/results/cases/ho_stats/output/param_table.csv",
+    "type": "data",
+    "format": "csv",
+    "checksum_sha256": "dbb5cc5cb89e2c500b59d2d4f935d653ae2dc13c4237cc3a069f487a4a6be8bb"
+   },
+   {
+    "id": "ho_stats_questions",
+    "path": "execution/results/cases/ho_stats/output/questions.md",
+    "type": "data",
+    "format": "md",
+    "checksum_sha256": "245dc1be77d3a3669e73b39d667ea5e1e68b8ae8f221b2705d5c52e9bc838ee4"
+   },
+   {
+    "id": "ho_stats_preview",
+    "path": "execution/results/cases/ho_stats/output/methods_preview.png",
+    "type": "figure",
+    "format": "png",
+    "checksum_sha256": "2f18fed18881add2df8e561a4cdea51aa510e431f0d3d4d6d5687657de2b5566"
+   }
+  ]
+ },
+ "expected_outputs": [
+  {
+   "name": "expected facts extracted (all 5 cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "real conflicts found (all 5 cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "conflict precision (all 5 cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "planted defects caught at fail level (all 5 cases)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "planted defects caught at fail level (held-out, at freeze)",
+   "type": "metric",
+   "produced_by": [
+    "metrics_holdout_at_freeze"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "expected facts extracted (held-out, at freeze)",
+   "type": "metric",
+   "produced_by": [
+    "metrics_holdout_at_freeze"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "gold drafts without FAIL (held-out, at freeze)",
+   "type": "metric",
+   "produced_by": [
+    "metrics_holdout_at_freeze"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "gold drafts without FAIL (all 5, final)",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  },
+  {
+   "name": "robustness checks passed",
+   "type": "metric",
+   "produced_by": [
+    "metrics"
+   ],
+   "comparison_method": "numeric_tolerance"
+  }
+ ],
+ "handoff": {
+  "status": "partial",
+  "next_suggestion": "Run the platform's three fixed cases with the DeepSeek harness (base vs Skill); add prose fact extraction for temperatures/concentrations/volumes, run-aware config grouping without logs, and OCR/XLSX inputs.",
+  "hypothesis": "Separating fact extraction (file:line provenance, conflict and gap detection) from writing, and checking the agent's draft clause by clause against those facts, yields methods chapters whose values, versions and commands are traceable and whose gaps and conflicts are surfaced to the author, catching far more planted errors than grepping numbers or filling a checklist."
+ }
+}

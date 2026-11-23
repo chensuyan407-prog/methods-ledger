@@ -1,0 +1,1113 @@
+{
+ "extraction": [
+  {
+   "case": "ho_nlp_en",
+   "facts_expected": 33,
+   "facts_found": 30,
+   "facts_missed": [
+    "dataset_version=bcdcba79",
+    "n_runs=3",
+    "metric=accuracy"
+   ],
+   "conflicts_expected": [
+    "batch_size",
+    "grad_accum"
+   ],
+   "conflicts_found": [
+    "batch_size",
+    "grad_accum"
+   ],
+   "conflicts_unexpected": [
+    "seed",
+    "learning_rate",
+    "epochs"
+   ],
+   "gaps_expected": [
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_stats",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_baseline",
+    "E_data_access",
+    "E_metric",
+    "E_repeats"
+   ],
+   "profile_expected": "ml",
+   "profile": "ml",
+   "lang_expected": "en",
+   "lang": "en"
+  },
+  {
+   "case": "ho_stats",
+   "facts_expected": 14,
+   "facts_found": 6,
+   "facts_missed": [
+    "n_samples=2846",
+    "n_samples=2638",
+    "n_samples=2500",
+    "alpha_level=0.05",
+    "sample_source=本科",
+    "dataset_version=2023-10-09",
+    "n_imputations=20",
+    "n_imputations=10"
+   ],
+   "conflicts_expected": [
+    "n_imputations"
+   ],
+   "conflicts_found": [],
+   "conflicts_unexpected": [],
+   "gaps_expected": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_found": [
+    "E_data_access",
+    "E_limits"
+   ],
+   "gaps_extra": [
+    "E_code",
+    "E_controls",
+    "E_dataset",
+    "E_dataset_version",
+    "E_metric",
+    "E_repeats",
+    "E_split",
+    "E_steps"
+   ],
+   "profile_expected": "stats",
+   "profile": "stats",
+   "lang_expected": "zh",
+   "lang": "zh"
+  }
+ ],
+ "gold": [
+  {
+   "case": "ho_nlp_en",
+   "status": "partial",
+   "fails": [
+    "C01 l.7: uses a value of conflict C1 (random seed: $SEED vs 1 vs 2) without [[CONFIRM: C1 ...]] or a resolution in agent.json",
+    "T02 l.8: 1 is not the value of the fact(s) tagged on this clause (F45=0.9622, F51=best eval_accuracy=0.9622); it matches F1, F2, F3 (README.md:2) - cite the right fact or mark the conflict",
+    "C01 l.8: uses a value of conflict C1 (random seed: $SEED vs 1 vs 2) without [[CONFIRM: C1 ...]] or a resolution in agent.json",
+    "C01 l.8: uses a value of conflict C3 (gradient accumulation steps: 1 vs 2) without [[CONFIRM: C3 ...]] or a resolution in agent.json",
+    "C01 l.12: uses a value of conflict C4 (learning rate: 4e-4 vs 1.0e-5) without [[CONFIRM: C4 ...]] or a resolution in agent.json",
+    "C01 l.12: uses a value of conflict C5 (epochs: 20 vs 10) without [[CONFIRM: C5 ...]] or a resolution in agent.json",
+    "C01 l.12: uses a value of conflict C4 (learning rate: 4e-4 vs 1.0e-5) without [[CONFIRM: C4 ...]] or a resolution in agent.json",
+    "C01 l.12: uses a value of conflict C5 (epochs: 20 vs 10) without [[CONFIRM: C5 ...]] or a resolution in agent.json",
+    "C01 l.19: uses a value of conflict C1 (random seed: $SEED vs 1 vs 2) without [[CONFIRM: C1 ...]] or a resolution in agent.json",
+    "C01 l.38: uses a value of conflict C1 (random seed: $SEED vs 1 vs 2) without [[CONFIRM: C1 ...]] or a resolution in agent.json",
+    "C01 l.38: uses a value of conflict C5 (epochs: 20 vs 10) without [[CONFIRM: C5 ...]] or a resolution in agent.json",
+    "K01 l.None: element not covered and not marked as a gap: dataset version / release / snapshot date -> write it with sources or add [[GAP: Which dataset version/release (or download date) was used? D...]]"
+   ],
+   "warns": 14,
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "facts_cited": 68,
+   "questions": 18,
+   "coverage": {
+    "E_steps": "covered",
+    "E_dataset": "covered",
+    "E_dataset_version": "missing",
+    "E_split": "covered",
+    "E_preproc": "missing",
+    "E_model": "covered",
+    "E_hparams": "covered",
+    "E_hardware": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_repeats": "covered",
+    "E_baseline": "covered",
+    "E_metric": "covered",
+    "E_stats": "marked_gap",
+    "E_code": "covered",
+    "E_data_access": "missing",
+    "E_limits": "covered"
+   }
+  },
+  {
+   "case": "ho_stats",
+   "status": "partial",
+   "fails": [
+    "K01 l.None: element not covered and not marked as a gap: 数据集名称与来源 -> write it with sources or add [[GAP: 请给出数据集名称及获取来源（URL/DOI/编号）。...]]",
+    "K01 l.None: element not covered and not marked as a gap: 重复次数/平行样数及结果汇总方式 -> write it with sources or add [[GAP: 每个条件独立运行/平行样多少次？报告的是均值±标准差/标准误还是单次结果？...]]"
+   ],
+   "warns": 2,
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "facts_cited": 26,
+   "questions": 17,
+   "coverage": {
+    "E_steps": "covered",
+    "E_dataset": "missing",
+    "E_dataset_version": "covered",
+    "E_split": "marked_gap",
+    "E_preproc": "covered",
+    "E_software": "covered",
+    "E_seed": "covered",
+    "E_repeats": "missing",
+    "E_controls": "marked_gap",
+    "E_metric": "covered",
+    "E_stats": "covered",
+    "E_code": "covered",
+    "E_data_access": "marked_gap",
+    "E_limits": "covered"
+   }
+  }
+ ],
+ "mutations": [
+  {
+   "case": "ho_nlp_en",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "67349->68349",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "357,199,876->357200876",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "16->32",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "0.1->0.2",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "128->256",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "0.1->0.2",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F35",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "L02",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "L01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "8 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "P01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_hparams",
+   "type": "missing_element",
+   "note": "5 sentences on E_hparams removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "N03",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_split",
+   "type": "missing_element",
+   "note": "2 sentences on E_split removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "1 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_baseline",
+   "type": "missing_element",
+   "note": "3 sentences on E_baseline removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_repeats",
+   "type": "missing_element",
+   "note": "13 sentences on E_repeats removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "P01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "drop_E_hardware",
+   "type": "missing_element",
+   "note": "6 sentences on E_hardware removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "K03",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "3.10.13->3.10.16",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "SST-2->SST-5",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "N02",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "32->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "M01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_nlp_en",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@run_glue.py:10]] -> @run_glue.py:6",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "C01",
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "K02",
+    "T05",
+    "X01"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value1",
+   "type": "wrong_value",
+   "note": "2023->3023",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value2",
+   "type": "wrong_value",
+   "note": "2023->3023",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value3",
+   "type": "wrong_value",
+   "note": "120->240",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value4",
+   "type": "wrong_value",
+   "note": "120->240",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value5",
+   "type": "wrong_value",
+   "note": "77->154",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "value6",
+   "type": "wrong_value",
+   "note": "2500->3500",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "invent_untagged",
+   "type": "invented_number",
+   "note": "0.37 label smoothing",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "invent_tagged",
+   "type": "invented_number",
+   "note": "0.37 tagged F8",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_confirm",
+   "type": "unmarked_conflict",
+   "note": "all CONFIRM removed",
+   "expected": [
+    "C01"
+   ],
+   "caught_fail": false,
+   "caught_any": false,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_limits",
+   "type": "missing_element",
+   "note": "limitations section removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "boiler_limits",
+   "type": "boilerplate_limits",
+   "note": "generic limitations",
+   "expected": [
+    "L02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "L02"
+   ],
+   "warn_codes": [
+    "L01",
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_seed",
+   "type": "missing_element",
+   "note": "1 sentences on E_seed removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_split",
+   "type": "missing_element",
+   "note": "1 sentences on E_split removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "drop_E_software",
+   "type": "missing_element",
+   "note": "2 sentences on E_software removed",
+   "expected": [
+    "K01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01"
+   ],
+   "warn_codes": [
+    "K03",
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "version_edit",
+   "type": "wrong_version",
+   "note": "4.3.2->4.3.5",
+   "expected": [
+    "N01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": true,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "name_edit",
+   "type": "wrong_name",
+   "note": "XJ-2023-118->XJ-5023-118",
+   "expected": [
+    "N02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "N02"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "placeholder",
+   "type": "placeholder",
+   "note": "2500->XX",
+   "expected": [
+    "M01"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "M01"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  },
+  {
+   "case": "ho_stats",
+   "id": "wrong_tag",
+   "type": "wrong_citation",
+   "note": "[[@问卷说明.md:2]] -> @问卷说明.md:5",
+   "expected": [
+    "N01",
+    "T02"
+   ],
+   "caught_fail": true,
+   "caught_any": true,
+   "any_new_fail": true,
+   "fail_codes": [
+    "K01",
+    "T02"
+   ],
+   "warn_codes": [
+    "S01",
+    "T05"
+   ],
+   "baseline_grep": false,
+   "baseline_checklist": true
+  }
+ ],
+ "robustness": []
+}

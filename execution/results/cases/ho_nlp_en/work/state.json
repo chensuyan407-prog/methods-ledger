@@ -1,0 +1,153 @@
+{
+ "tool": "methods-ledger",
+ "version": "0.1.0",
+ "case_id": "ho_nlp_sst2",
+ "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\work",
+ "lang": "en",
+ "profile": "ml",
+ "profile_scores": {
+  "ml": 21,
+  "wetlab": 0,
+  "simulation": 0,
+  "stats": 0
+ },
+ "contract": [
+  {
+   "name": "section_md",
+   "desc": "Experimental Setup section in Markdown"
+  },
+  {
+   "name": "hyperparameter_table",
+   "desc": "hyperparameters with sources"
+  },
+  {
+   "name": "provenance",
+   "desc": "where each number comes from"
+  },
+  {
+   "name": "issues_for_authors",
+   "desc": "gaps and conflicts"
+  },
+  {
+   "name": "status",
+   "desc": "{\"name\": \"status\"}"
+  }
+ ],
+ "files": [
+  {
+   "path": "README.md",
+   "bytes": 172,
+   "sha256": "9e059063392a91546ad4f1c5bfa84a4b7f6f74215fe9841c7713d6b6a2c5e346",
+   "problems": [],
+   "class": "doc",
+   "lines": 4,
+   "n_facts": 6
+  },
+  {
+   "path": "case.json",
+   "bytes": 654,
+   "sha256": "8247083cda1680f70e9e0b78cb1c7172860f5e99d7cfb3defa1b98b9c595287c",
+   "problems": [],
+   "class": "case",
+   "lines": 4
+  },
+  {
+   "path": "launch.sh",
+   "bytes": 258,
+   "sha256": "096b001f1edb3469f3220b4c56ae017dee3adb6c595418b778c8410b60149b53",
+   "problems": [],
+   "class": "code",
+   "lines": 6,
+   "n_facts": 11
+  },
+  {
+   "path": "results.csv",
+   "bytes": 119,
+   "sha256": "133cb6b8d4a93e70c0641558d4e8c9781cf11bd15a0c5f47fdb4c41794986613",
+   "problems": [],
+   "class": "table",
+   "lines": 8,
+   "table": {
+    "rows": 6,
+    "columns": [
+     "method",
+     "seed",
+     "eval_accuracy"
+    ]
+   },
+   "n_facts": 13
+  },
+  {
+   "path": "run_glue.py",
+   "bytes": 422,
+   "sha256": "219837ee3f1fe4a41ac88269b6385926abda89119cef9e381eaada4be44b70ee",
+   "problems": [],
+   "class": "code",
+   "lines": 12,
+   "n_facts": 4
+  },
+  {
+   "path": "train_lora_s1.log",
+   "bytes": 544,
+   "sha256": "084531381e327bb036c8ee3d0950f028daf71ff300d933a694216d8e5c0e47a9",
+   "problems": [],
+   "class": "log",
+   "lines": 7,
+   "n_facts": 25
+  },
+  {
+   "path": "conf/full_ft.yaml",
+   "bytes": 205,
+   "sha256": "6de570322a6b3c3f2238c6e861cb46c82086e83a42b09d6b2d82bbd66007a742",
+   "problems": [],
+   "class": "config",
+   "lines": 11,
+   "n_facts": 6
+  },
+  {
+   "path": "conf/lora.yaml",
+   "bytes": 425,
+   "sha256": "460b5c1de0b82437877b2649ea2c411903f23272bb1fdb156d22f94ed9d8d022",
+   "problems": [],
+   "class": "config",
+   "lines": 24,
+   "n_facts": 18
+  }
+ ],
+ "problems": [],
+ "task_excerpt": "Draft Section 4 'Experimental Setup' (English, NeurIPS style) for our LoRA fine-tuning study from the configs, launch script, logs and results. Report datasets and splits, hyperparameters, baselines, compute, seeds/repetitions and reproducibility. Flag anything missing.",
+ "stages": [
+  {
+   "file": "launch.sh",
+   "line": 3,
+   "command": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "file": "launch.sh",
+   "line": 4,
+   "command": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  }
+ ],
+ "series": [
+  {
+   "file": "train_lora_s1.log",
+   "key": "eval_accuracy",
+   "count": 1,
+   "first": "0.9622",
+   "first_line": 6,
+   "last": "0.9622",
+   "last_line": 6,
+   "min": 0.9622,
+   "max": 0.9622
+  }
+ ],
+ "extract_seconds": 0.01,
+ "case_keys": [
+  "case_id",
+  "output_contract",
+  "task"
+ ]
+}

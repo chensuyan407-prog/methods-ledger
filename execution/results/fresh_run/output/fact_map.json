@@ -1,0 +1,525 @@
+[
+ {
+  "unit": "u3",
+  "line": 5,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "1.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u4",
+  "line": 5,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "Data split: the credit table credit_2019.csv was split into training and test sets with test_size = 0.25, stratified by the label , giving 22500 training and 7500 test rows .",
+  "facts": [
+   {
+    "id": "F12",
+    "value": "0.25",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "test_size"
+   },
+   {
+    "id": "F13",
+    "value": "11",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "random_state"
+   },
+   {
+    "id": "F14",
+    "value": "y",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "stratify"
+   },
+   {
+    "id": "F8",
+    "value": "train rows: 22500, test rows: 7500",
+    "source": "model.ipynb:8",
+    "kind": "doc",
+    "key": "output_line"
+   },
+   {
+    "id": "SRC:model.ipynb:4",
+    "value": "df = pd.read_csv('credit_2019.csv')",
+    "source": "model.ipynb:4",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0.25",
+    "value": 0.25,
+    "matched": "F12",
+    "how": "tag"
+   },
+   {
+    "token": "22500",
+    "value": 22500.0,
+    "matched": "F8",
+    "how": "tag"
+   },
+   {
+    "token": "7500",
+    "value": 7500.0,
+    "matched": "F8",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u5",
+  "line": 6,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "2.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u6",
+  "line": 6,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "Model selection: an XGBoost classifier was evaluated by stratified 5-fold cross-validation with shuffling on the training set.",
+  "facts": [
+   {
+    "id": "F15",
+    "value": "5",
+    "source": "model.ipynb:6",
+    "kind": "code",
+    "key": "n_splits"
+   },
+   {
+    "id": "F16",
+    "value": "True",
+    "source": "model.ipynb:6",
+    "kind": "code",
+    "key": "shuffle"
+   },
+   {
+    "id": "F17",
+    "value": "11",
+    "source": "model.ipynb:6",
+    "kind": "code",
+    "key": "random_state"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "5",
+    "value": 5.0,
+    "matched": "F15",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u7",
+  "line": 7,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "3.",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u8",
+  "line": 7,
+  "type": "sentence",
+  "section": "Methods > Procedure",
+  "text": "Final model and test: the classifier was refit with the parameters below and evaluated once on the test set by ROC AUC .",
+  "facts": [
+   {
+    "id": "F18",
+    "value": "roc_auc_score",
+    "source": "model.ipynb:12",
+    "kind": "code",
+    "key": "metric"
+   },
+   {
+    "id": "SRC:model.ipynb:11",
+    "value": "model = xgb.XGBClassifier(**params)",
+    "source": "model.ipynb:11",
+    "kind": "source-line"
+   }
+  ],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u10",
+  "line": 11,
+  "type": "sentence",
+  "section": "Methods > Data",
+  "text": "The dataset name and source of credit_2019.csv are not documented .",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "Name, source/URL and version of the credit default dataset; preprocessing of features"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u12",
+  "line": 15,
+  "type": "sentence",
+  "section": "Methods > Parameters",
+  "text": "The model used 400 trees of maximum depth 5 , a learning rate of 0.05 , row subsampling 0.8 and column subsampling 0.8 per tree .",
+  "facts": [
+   {
+    "id": "F19",
+    "value": "400",
+    "source": "xgb_params.json:2",
+    "kind": "config",
+    "key": "n_estimators"
+   },
+   {
+    "id": "F20",
+    "value": "5",
+    "source": "xgb_params.json:3",
+    "kind": "config",
+    "key": "max_depth"
+   },
+   {
+    "id": "F21",
+    "value": "0.05",
+    "source": "xgb_params.json:4",
+    "kind": "config",
+    "key": "learning_rate"
+   },
+   {
+    "id": "F22",
+    "value": "0.8",
+    "source": "xgb_params.json:5",
+    "kind": "config",
+    "key": "subsample"
+   },
+   {
+    "id": "F23",
+    "value": "0.8",
+    "source": "xgb_params.json:6",
+    "kind": "config",
+    "key": "colsample_bytree"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "400",
+    "value": 400.0,
+    "matched": "F19",
+    "how": "tag"
+   },
+   {
+    "token": "5",
+    "value": 5.0,
+    "matched": "F20",
+    "how": "tag"
+   },
+   {
+    "token": "0.05",
+    "value": 0.05,
+    "matched": "F21",
+    "how": "tag"
+   },
+   {
+    "token": "0.8",
+    "value": 0.8,
+    "matched": "F22",
+    "how": "tag"
+   },
+   {
+    "token": "0.8",
+    "value": 0.8,
+    "matched": "F23",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u13",
+  "line": 17,
+  "type": "sentence",
+  "section": "Methods > Parameters",
+  "text": "",
+  "facts": [],
+  "numbers": [],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u15",
+  "line": 21,
+  "type": "sentence",
+  "section": "Methods > Evaluation and controls",
+  "text": "Cross-validated AUC was 0.776 ± 0.006 (mean ± SD over folds) and test AUC 0.781 .",
+  "facts": [
+   {
+    "id": "F2",
+    "value": "auc_cv_mean",
+    "source": "metrics.csv:2",
+    "kind": "table",
+    "key": "auc_cv_mean.metric"
+   },
+   {
+    "id": "F3",
+    "value": "0.776",
+    "source": "metrics.csv:2",
+    "kind": "table",
+    "key": "auc_cv_mean.value"
+   },
+   {
+    "id": "F4",
+    "value": "auc_cv_sd",
+    "source": "metrics.csv:3",
+    "kind": "table",
+    "key": "auc_cv_sd.metric"
+   },
+   {
+    "id": "F5",
+    "value": "0.006",
+    "source": "metrics.csv:3",
+    "kind": "table",
+    "key": "auc_cv_sd.value"
+   },
+   {
+    "id": "F6",
+    "value": "auc_test",
+    "source": "metrics.csv:4",
+    "kind": "table",
+    "key": "auc_test.metric"
+   },
+   {
+    "id": "F7",
+    "value": "0.781",
+    "source": "metrics.csv:4",
+    "kind": "table",
+    "key": "auc_test.value"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "0.776",
+    "value": 0.776,
+    "matched": "F3",
+    "how": "tag"
+   },
+   {
+    "token": "0.006",
+    "value": 0.006,
+    "matched": "F5",
+    "how": "tag"
+   },
+   {
+    "token": "0.781",
+    "value": 0.781,
+    "matched": "F7",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u16",
+  "line": 21,
+  "type": "sentence",
+  "section": "Methods > Evaluation and controls",
+  "text": "No baseline model was reported .",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "Which baseline (e.g. logistic regression) and under which tuning budget?"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u17",
+  "line": 21,
+  "type": "sentence",
+  "section": "Methods > Evaluation and controls",
+  "text": "A single random seed (11) was used for splitting and the model ; no statistical test was run .",
+  "facts": [
+   {
+    "id": "F12",
+    "value": "0.25",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "test_size"
+   },
+   {
+    "id": "F13",
+    "value": "11",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "random_state"
+   },
+   {
+    "id": "F14",
+    "value": "y",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "stratify"
+   },
+   {
+    "id": "F24",
+    "value": "11",
+    "source": "xgb_params.json:7",
+    "kind": "config",
+    "key": "random_state"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "11",
+    "value": 11.0,
+    "matched": "F13",
+    "how": "tag"
+   }
+  ],
+  "gaps": [
+   "Repeat with several seeds?",
+   "Uncertainty estimate for the test AUC (e.g. bootstrap CI)?"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u19",
+  "line": 25,
+  "type": "sentence",
+  "section": "Methods > Reproducibility",
+  "text": "Software: xgboost 2.0.3 .",
+  "facts": [
+   {
+    "id": "F9",
+    "value": "xgboost 2.0.3",
+    "source": "model.ipynb:14",
+    "kind": "doc",
+    "key": "output_line"
+   },
+   {
+    "id": "F10",
+    "value": "2.0.3",
+    "source": "model.ipynb:14",
+    "kind": "log",
+    "key": "version.xgboost"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "2.0.3",
+    "matched": "F9",
+    "how": "version-tag"
+   }
+  ],
+  "gaps": [
+   "Python, scikit-learn and pandas versions; hardware"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u20",
+  "line": 25,
+  "type": "sentence",
+  "section": "Methods > Reproducibility",
+  "text": "Code version and run command .",
+  "facts": [],
+  "numbers": [],
+  "gaps": [
+   "Commit of the notebook and how it is executed"
+  ],
+  "confirms": [],
+  "status": "ok"
+ },
+ {
+  "unit": "u22",
+  "line": 29,
+  "type": "sentence",
+  "section": "Methods > Limitations",
+  "text": "- Results rest on one split seed (11) and one test set of 7500 rows ; variance across splits is unknown. - Hyperparameters were not reported as tuned; only the fixed values in xgb_params.json were evaluated .",
+  "facts": [
+   {
+    "id": "F12",
+    "value": "0.25",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "test_size"
+   },
+   {
+    "id": "F13",
+    "value": "11",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "random_state"
+   },
+   {
+    "id": "F14",
+    "value": "y",
+    "source": "model.ipynb:5",
+    "kind": "code",
+    "key": "stratify"
+   },
+   {
+    "id": "F8",
+    "value": "train rows: 22500, test rows: 7500",
+    "source": "model.ipynb:8",
+    "kind": "doc",
+    "key": "output_line"
+   },
+   {
+    "id": "F19",
+    "value": "400",
+    "source": "xgb_params.json:2",
+    "kind": "config",
+    "key": "n_estimators"
+   }
+  ],
+  "numbers": [
+   {
+    "token": "11",
+    "value": 11.0,
+    "matched": "F13",
+    "how": "tag"
+   },
+   {
+    "token": "7500",
+    "value": 7500.0,
+    "matched": "F8",
+    "how": "tag"
+   }
+  ],
+  "gaps": [],
+  "confirms": [],
+  "status": "ok"
+ }
+]

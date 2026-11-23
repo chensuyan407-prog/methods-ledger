@@ -1,0 +1,5 @@
+2024-05-06 seeded plates P1-P3, HeLa passage 12 (ATCC CCL-2)
+2024-05-07 treatment K-17 lot KX-0412, dilution series as SOP
+2024-05-09 MTT added; incubation 45 min this time (reader booked) 
+2024-05-09 read on Synergy H1 (BioTek), plates P1-P3 = three independent experiments
+note: well H12 on P2 contaminated, excluded

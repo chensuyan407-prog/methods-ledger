@@ -1,0 +1,670 @@
+{
+ "facts": [
+  {
+   "id": "F1",
+   "file": "analysis.R",
+   "line": 5,
+   "kind": "code",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "2023",
+   "nums": [
+    2023.0
+   ],
+   "scope": "",
+   "context": "imp <- mice(dat, m = 20, seed = 2023)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F2",
+   "file": "analysis.R",
+   "line": 6,
+   "kind": "code",
+   "key": "statistical_test",
+   "path": "statistical_test",
+   "canon": "statistical_test",
+   "category": "control",
+   "value": "glmer",
+   "nums": [],
+   "scope": "",
+   "context": "fit <- with(imp, glmer(poor_sleep ~ gpa_low + grade + sex + (1 | college), family = binomial))"
+  },
+  {
+   "id": "F3",
+   "file": "analysis.R",
+   "line": 8,
+   "kind": "code",
+   "key": "alpha",
+   "path": "alpha",
+   "canon": "alpha_level",
+   "category": "control",
+   "value": "0.05",
+   "nums": [
+    0.05
+   ],
+   "scope": "",
+   "context": "alpha <- 0.05",
+   "code_role": "assignment"
+  },
+  {
+   "id": "F4",
+   "file": "analysis.R",
+   "line": 1,
+   "kind": "code",
+   "key": "r",
+   "path": "version.r",
+   "canon": "software_stats",
+   "category": "setup",
+   "value": "4.3.2",
+   "nums": [],
+   "scope": "",
+   "context": "# R version 4.3.2"
+  },
+  {
+   "id": "F5",
+   "file": "analysis.R",
+   "line": 2,
+   "kind": "code",
+   "key": "mice",
+   "path": "version.mice",
+   "canon": "software_stats",
+   "category": "setup",
+   "value": "3.16.0",
+   "nums": [],
+   "scope": "",
+   "context": "library(mice)    # mice 3.16.0"
+  },
+  {
+   "id": "F6",
+   "file": "analysis.R",
+   "line": 3,
+   "kind": "code",
+   "key": "lme4",
+   "path": "version.lme4",
+   "canon": "software_stats",
+   "category": "setup",
+   "value": "1.1-35",
+   "nums": [
+    1.1,
+    35.0
+   ],
+   "scope": "",
+   "context": "library(lme4)    # lme4 1.1-35"
+  },
+  {
+   "id": "F7",
+   "file": "analysis.R",
+   "line": 4,
+   "kind": "code",
+   "key": "set.seed",
+   "path": "set.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "2023",
+   "nums": [
+    2023.0
+   ],
+   "scope": "",
+   "context": "set.seed(2023)"
+  },
+  {
+   "id": "F8",
+   "file": "analysis.R",
+   "line": 5,
+   "kind": "code",
+   "key": "m",
+   "path": "m",
+   "canon": "n_imputations",
+   "category": "data",
+   "value": "20",
+   "nums": [
+    20.0
+   ],
+   "scope": "",
+   "context": "imp <- mice(dat, m = 20, seed = 2023)"
+  },
+  {
+   "id": "F9",
+   "file": "cleaning_log.txt",
+   "line": 1,
+   "kind": "log",
+   "key": "responses",
+   "path": "responses",
+   "canon": "n_samples",
+   "category": "data",
+   "value": "2846",
+   "nums": [
+    2846.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 raw responses: 2846"
+  },
+  {
+   "id": "F10",
+   "file": "cleaning_log.txt",
+   "line": 4,
+   "kind": "log",
+   "key": "sample",
+   "path": "sample",
+   "canon": "n_samples",
+   "category": "data",
+   "value": "2638",
+   "nums": [
+    2638.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 analytic sample: 2638"
+  },
+  {
+   "id": "F11",
+   "file": "cleaning_log.txt",
+   "line": 1,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "2023-11-02 raw responses: 2846",
+   "nums": [
+    2023.0,
+    11.0,
+    2.0,
+    2846.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 raw responses: 2846",
+   "doc_class": "log"
+  },
+  {
+   "id": "F12",
+   "file": "cleaning_log.txt",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "2023-11-02 excluded completion time < 120 s: 131",
+   "nums": [
+    2023.0,
+    11.0,
+    2.0,
+    120.0,
+    131.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 excluded completion time < 120 s: 131",
+   "doc_class": "log"
+  },
+  {
+   "id": "F13",
+   "file": "cleaning_log.txt",
+   "line": 3,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "2023-11-02 excluded missing > 20%: 77",
+   "nums": [
+    2023.0,
+    11.0,
+    2.0,
+    20.0,
+    77.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 excluded missing > 20%: 77",
+   "doc_class": "log"
+  },
+  {
+   "id": "F14",
+   "file": "cleaning_log.txt",
+   "line": 4,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "2023-11-02 analytic sample: 2638",
+   "nums": [
+    2023.0,
+    11.0,
+    2.0,
+    2638.0
+   ],
+   "scope": "",
+   "context": "2023-11-02 analytic sample: 2638",
+   "doc_class": "log"
+  },
+  {
+   "id": "F15",
+   "file": "cleaning_log.txt",
+   "line": 5,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "2023-11-03 missing covariates imputed with mice (m = 20)",
+   "nums": [
+    2023.0,
+    11.0,
+    3.0,
+    20.0
+   ],
+   "scope": "",
+   "context": "2023-11-03 missing covariates imputed with mice (m = 20)",
+   "doc_class": "log"
+  },
+  {
+   "id": "F16",
+   "file": "cleaning_log.txt",
+   "line": 5,
+   "kind": "log",
+   "key": "m",
+   "path": "m",
+   "canon": "n_imputations",
+   "category": "data",
+   "value": "20",
+   "nums": [
+    20.0
+   ],
+   "scope": "",
+   "context": "2023-11-03 missing covariates imputed with mice (m = 20)"
+  },
+  {
+   "id": "F17",
+   "file": "notes.txt",
+   "line": 1,
+   "kind": "doc_kv",
+   "key": "样本量",
+   "path": "text.样本量",
+   "canon": "n_samples",
+   "category": "data",
+   "value": "2500",
+   "nums": [
+    2500.0
+   ],
+   "scope": "",
+   "context": "样本量按 2500 份有效问卷设计（预期患病率 30%，容许误差 2%）。"
+  },
+  {
+   "id": "F18",
+   "file": "notes.txt",
+   "line": 1,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "样本量按 2500 份有效问卷设计（预期患病率 30%，容许误差 2%）。",
+   "nums": [
+    2500.0,
+    30.0,
+    2.0
+   ],
+   "scope": "",
+   "context": "样本量按 2500 份有效问卷设计（预期患病率 30%，容许误差 2%）。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F19",
+   "file": "notes.txt",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "多重插补 m=10 就够了，脚本里写的是 20。",
+   "nums": [
+    10.0,
+    20.0
+   ],
+   "scope": "",
+   "context": "多重插补 m=10 就够了，脚本里写的是 20。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F20",
+   "file": "notes.txt",
+   "line": 3,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "GPA 后 25% 定义为学业表现差。",
+   "nums": [
+    25.0
+   ],
+   "scope": "",
+   "context": "GPA 后 25% 定义为学业表现差。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F21",
+   "file": "notes.txt",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "m",
+   "path": "m",
+   "canon": "n_imputations",
+   "category": "data",
+   "value": "10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "多重插补 m=10 就够了，脚本里写的是 20。"
+  },
+  {
+   "id": "F22",
+   "file": "问卷说明.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "调查时间",
+   "path": "调查时间",
+   "canon": "dataset_version",
+   "category": "data",
+   "value": "2023-10-09 至 2023-10-27",
+   "nums": [
+    2023.0,
+    10.0,
+    9.0,
+    2023.0,
+    10.0,
+    27.0
+   ],
+   "scope": "",
+   "context": "- 调查时间：2023-10-09 至 2023-10-27"
+  },
+  {
+   "id": "F23",
+   "file": "问卷说明.md",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- 调查时间：2023-10-09 至 2023-10-27",
+   "nums": [
+    2023.0,
+    10.0,
+    9.0,
+    2023.0,
+    10.0,
+    27.0
+   ],
+   "scope": "",
+   "context": "- 调查时间：2023-10-09 至 2023-10-27",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F24",
+   "file": "问卷说明.md",
+   "line": 3,
+   "kind": "doc_kv",
+   "key": "对象",
+   "path": "对象",
+   "canon": "sample_source",
+   "category": "data",
+   "value": "某综合性大学本科一至四年级学生",
+   "nums": [],
+   "scope": "",
+   "context": "- 对象：某综合性大学本科一至四年级学生"
+  },
+  {
+   "id": "F25",
+   "file": "问卷说明.md",
+   "line": 5,
+   "kind": "doc_kv",
+   "key": "量表",
+   "path": "量表",
+   "canon": null,
+   "category": null,
+   "value": "匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差",
+   "nums": [
+    7.0
+   ],
+   "scope": "",
+   "context": "- 量表：匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差"
+  },
+  {
+   "id": "F26",
+   "file": "问卷说明.md",
+   "line": 5,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- 量表：匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差",
+   "nums": [
+    7.0
+   ],
+   "scope": "",
+   "context": "- 量表：匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F27",
+   "file": "问卷说明.md",
+   "line": 6,
+   "kind": "doc_kv",
+   "key": "纳入标准",
+   "path": "纳入标准",
+   "canon": "inclusion",
+   "category": "data",
+   "value": "在校本科生、知情同意",
+   "nums": [],
+   "scope": "",
+   "context": "- 纳入标准：在校本科生、知情同意"
+  },
+  {
+   "id": "F28",
+   "file": "问卷说明.md",
+   "line": 7,
+   "kind": "doc_kv",
+   "key": "排除标准",
+   "path": "排除标准",
+   "canon": "inclusion",
+   "category": "data",
+   "value": "问卷作答时间 < 120 秒或缺失项 > 20%",
+   "nums": [
+    120.0,
+    20.0
+   ],
+   "scope": "",
+   "context": "- 排除标准：问卷作答时间 < 120 秒或缺失项 > 20%"
+  },
+  {
+   "id": "F29",
+   "file": "问卷说明.md",
+   "line": 7,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- 排除标准：问卷作答时间 < 120 秒或缺失项 > 20%",
+   "nums": [
+    120.0,
+    20.0
+   ],
+   "scope": "",
+   "context": "- 排除标准：问卷作答时间 < 120 秒或缺失项 > 20%",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F30",
+   "file": "问卷说明.md",
+   "line": 8,
+   "kind": "doc_kv",
+   "key": "伦理批号",
+   "path": "伦理批号",
+   "canon": null,
+   "category": null,
+   "value": "XJ-2023-118",
+   "nums": [],
+   "scope": "",
+   "context": "- 伦理批号：XJ-2023-118"
+  },
+  {
+   "id": "F31",
+   "file": "问卷说明.md",
+   "line": 8,
+   "kind": "doc_kv",
+   "key": "lot",
+   "path": "lot",
+   "canon": "lot",
+   "category": "data",
+   "value": "XJ-2023-118",
+   "nums": [],
+   "scope": "",
+   "context": "- 伦理批号：XJ-2023-118"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "n_imputations",
+   "label": "插补次数",
+   "scope": "",
+   "values": [
+    {
+     "value": "20",
+     "fact": "F16",
+     "facts": [
+      "F16",
+      "F8"
+     ],
+     "source": "cleaning_log.txt:5",
+     "sources": [
+      "cleaning_log.txt:5",
+      "analysis.R:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "code",
+      "log"
+     ]
+    },
+    {
+     "value": "10",
+     "fact": "F21",
+     "facts": [
+      "F21"
+     ],
+     "source": "notes.txt:2",
+     "sources": [
+      "notes.txt:2"
+     ],
+     "kind": "doc_kv",
+     "kinds": [
+      "doc_kv"
+     ]
+    }
+   ],
+   "facts": [
+    "F16",
+    "F8",
+    "F21"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F16",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "G1",
+   "element": "E_steps",
+   "category": "steps",
+   "level": "required",
+   "label": "有序步骤（每步输入→操作→输出）",
+   "status": "missing",
+   "question": "请确认各处理阶段的先后顺序及每一步的产出。",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G2",
+   "element": "E_split",
+   "category": "data",
+   "level": "required",
+   "label": "划分规模/比例与划分方式",
+   "status": "missing",
+   "question": "请给出训练/验证/测试集规模（或比例）、划分方式（随机/分层/官方）及划分种子。",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G3",
+   "element": "E_controls",
+   "category": "control",
+   "level": "required",
+   "label": "对照组（阳性/阴性/溶剂对照）",
+   "status": "missing",
+   "question": "每个条件同时设置了哪些对照组？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G4",
+   "element": "E_metric",
+   "category": "control",
+   "level": "required",
+   "label": "评价指标/测量结局",
+   "status": "only_mentioned_in_text",
+   "question": "请定义各评价指标（在哪个数据子集、哪个检查点上计算）。",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G5",
+   "element": "E_code",
+   "category": "repro",
+   "level": "required",
+   "label": "代码版本与运行命令",
+   "status": "only_mentioned_in_text",
+   "question": "请给出代码提交号/标签及复现报告数值的确切命令。",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G6",
+   "element": "E_data_access",
+   "category": "repro",
+   "level": "recommended",
+   "label": "数据获取方式",
+   "status": "missing",
+   "question": "读者如何获取数据（URL/DOI、许可、访问限制）？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G7",
+   "element": "E_limits",
+   "category": "repro",
+   "level": "required",
+   "label": "落到具体失效场景的限制条件",
+   "status": "author_input",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "why": "limitations must name concrete untested conditions; materials rarely state them - derive candidates from the facts (single seed, one dataset version, one hardware type) and ask the author"
+  },
+  {
+   "id": "G8",
+   "element": "E_repeats",
+   "category": "control",
+   "level": "required",
+   "label": "是否仅单个种子？",
+   "status": "ambiguous",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "facts": [
+    "F1",
+    "F7"
+   ],
+   "why": "one seed, no repetition count"
+  }
+ ]
+}

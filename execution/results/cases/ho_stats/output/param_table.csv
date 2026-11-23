@@ -1,0 +1,13 @@
+﻿name,canonical,category,value,unit,applies_to,source,fact,source_kind,status
+数据集版本,dataset_version,data,2023-10-09 至 2023-10-27,,-,问卷说明.md:2,F22,doc_kv,正文已引用
+纳入/排除标准,inclusion,data,在校本科生、知情同意,,-,问卷说明.md:6,F27,doc_kv,正文已引用; 其他取值：问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20%
+批号/货号,lot,data,XJ-2023-118,,-,问卷说明.md:8,F31,doc_kv,正文已引用
+插补次数,n_imputations,data,20,,-,cleaning_log.txt:5,F16,log,冲突 C1，待作者确认
+样本数,n_samples,data,2846,,-,cleaning_log.txt:1,F9,log,正文已引用; 其他取值：cleaning_log.txt:4=2638; notes.txt:1=2500
+受试者/样本来源,sample_source,data,某综合性大学本科一至四年级学生,,-,问卷说明.md:3,F24,doc_kv,正文出现（未标注）
+统计软件 (r),software_stats,setup,4.3.2,,-,analysis.R:1,F4,code,正文已引用
+统计软件 (mice),software_stats,setup,3.16.0,,-,analysis.R:2,F5,code,正文已引用
+统计软件 (lme4),software_stats,setup,1.1-35,,-,analysis.R:3,F6,code,正文已引用
+显著性水平,alpha_level,control,0.05,,-,analysis.R:8,F3,code,正文已引用
+统计检验,statistical_test,control,glmer,,-,analysis.R:6,F2,code,正文已引用
+随机种子,seed,repro,2023,,set,analysis.R:4,F7,code,正文已引用

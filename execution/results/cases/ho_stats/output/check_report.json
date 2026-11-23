@@ -1,0 +1,204 @@
+{
+ "status": "success",
+ "reason": "all checks pass; 15 items await author confirmation",
+ "items": [
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F27 (纳入标准 = 在校本科生、知情同意) but its value is not in the sentence",
+   "unit": "u4",
+   "line": 5
+  }
+ ],
+ "coverage": [
+  {
+   "element": "E_steps",
+   "category": "steps",
+   "label": "有序步骤（每步输入→操作→输出）",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  },
+  {
+   "element": "E_dataset",
+   "category": "data",
+   "label": "数据集名称与来源",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u3",
+    "u5",
+    "u9",
+    "u11",
+    "u13",
+    "u18",
+    "u33",
+    "u35",
+    "u36",
+    "u37"
+   ],
+   "facts_cited": [
+    "F9",
+    "F17",
+    "F10"
+   ]
+  },
+  {
+   "element": "E_dataset_version",
+   "category": "data",
+   "label": "数据集版本/发布号/快照日期",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u3",
+    "u32",
+    "u36"
+   ],
+   "facts_cited": [
+    "F22"
+   ]
+  },
+  {
+   "element": "E_split",
+   "category": "data",
+   "label": "划分规模/比例与划分方式",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u19"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_preproc",
+   "category": "data",
+   "label": "预处理/筛选",
+   "level": "recommended",
+   "status": "covered",
+   "units": [
+    "u5",
+    "u11",
+    "u13",
+    "u15",
+    "u37"
+   ],
+   "facts_cited": [
+    "F28",
+    "F27"
+   ]
+  },
+  {
+   "element": "E_software",
+   "category": "setup",
+   "label": "软件及版本",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u31",
+    "u32"
+   ],
+   "facts_cited": [
+    "F6",
+    "F4",
+    "F5"
+   ]
+  },
+  {
+   "element": "E_seed",
+   "category": "repro",
+   "label": "随机种子",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u27"
+   ],
+   "facts_cited": [
+    "F7"
+   ]
+  },
+  {
+   "element": "E_controls",
+   "category": "control",
+   "label": "对照组（阳性/阴性/溶剂对照）",
+   "level": "required",
+   "status": "marked_gap",
+   "units": [
+    "u28"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_metric",
+   "category": "control",
+   "label": "评价指标/测量结局",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u9",
+    "u11",
+    "u13",
+    "u15",
+    "u17",
+    "u18",
+    "u21",
+    "u24",
+    "u37"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_stats",
+   "category": "control",
+   "label": "统计检验/不确定度估计",
+   "level": "recommended",
+   "status": "covered",
+   "units": [
+    "u25",
+    "u29"
+   ],
+   "facts_cited": [
+    "F2",
+    "F3"
+   ]
+  },
+  {
+   "element": "E_code",
+   "category": "repro",
+   "label": "代码版本与运行命令",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u17",
+    "u32"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_data_access",
+   "category": "repro",
+   "label": "数据获取方式",
+   "level": "recommended",
+   "status": "marked_gap",
+   "units": [
+    "u33"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_limits",
+   "category": "repro",
+   "label": "落到具体失效场景的限制条件",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  }
+ ],
+ "limitations": {
+  "sentences": 3,
+  "anchored": 3,
+  "generic": 0
+ },
+ "stages": []
+}

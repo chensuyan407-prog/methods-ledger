@@ -1,0 +1,828 @@
+{
+ "facts": [
+  {
+   "id": "F1",
+   "file": "in.npt",
+   "line": 2,
+   "kind": "config",
+   "key": "units",
+   "path": "units",
+   "canon": null,
+   "category": null,
+   "value": "real",
+   "nums": [],
+   "scope": "",
+   "context": "units           real"
+  },
+  {
+   "id": "F2",
+   "file": "in.npt",
+   "line": 3,
+   "kind": "config",
+   "key": "atom_style",
+   "path": "atom_style",
+   "canon": null,
+   "category": null,
+   "value": "full",
+   "nums": [],
+   "scope": "",
+   "context": "atom_style      full"
+  },
+  {
+   "id": "F3",
+   "file": "in.npt",
+   "line": 4,
+   "kind": "config",
+   "key": "read_data",
+   "path": "read_data",
+   "canon": null,
+   "category": null,
+   "value": "water_4096.data",
+   "nums": [],
+   "scope": "",
+   "context": "read_data       water_4096.data"
+  },
+  {
+   "id": "F4",
+   "file": "in.npt",
+   "line": 5,
+   "kind": "config",
+   "key": "pair_style",
+   "path": "pair_style",
+   "canon": "force_field",
+   "category": "params",
+   "value": "lj/cut/tip4p/long 1 2 1 1 0.1546 12.0",
+   "nums": [
+    1.0,
+    2.0,
+    1.0,
+    1.0,
+    0.1546,
+    12.0
+   ],
+   "scope": "",
+   "context": "pair_style      lj/cut/tip4p/long 1 2 1 1 0.1546 12.0"
+  },
+  {
+   "id": "F5",
+   "file": "in.npt",
+   "line": 6,
+   "kind": "config",
+   "key": "kspace_style",
+   "path": "kspace_style",
+   "canon": null,
+   "category": null,
+   "value": "pppm/tip4p 1.0e-5",
+   "nums": [
+    1e-05
+   ],
+   "scope": "",
+   "context": "kspace_style    pppm/tip4p 1.0e-5"
+  },
+  {
+   "id": "F6",
+   "file": "in.npt",
+   "line": 7,
+   "kind": "config",
+   "key": "velocity.temp",
+   "path": "velocity.initial_temperature",
+   "canon": "temperature",
+   "category": "params",
+   "value": "298.0",
+   "nums": [
+    298.0
+   ],
+   "scope": "",
+   "context": "velocity        all create 298.0 4928459 dist gaussian"
+  },
+  {
+   "id": "F7",
+   "file": "in.npt",
+   "line": 7,
+   "kind": "config",
+   "key": "velocity.seed",
+   "path": "velocity.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "4928459",
+   "nums": [
+    4928459.0
+   ],
+   "scope": "",
+   "context": "velocity        all create 298.0 4928459 dist gaussian"
+  },
+  {
+   "id": "F8",
+   "file": "in.npt",
+   "line": 8,
+   "kind": "config",
+   "key": "timestep",
+   "path": "timestep",
+   "canon": "timestep",
+   "category": "params",
+   "value": "2.0",
+   "nums": [
+    2.0
+   ],
+   "scope": "",
+   "context": "timestep        2.0"
+  },
+  {
+   "id": "F9",
+   "file": "in.npt",
+   "line": 10,
+   "kind": "config",
+   "key": "fix",
+   "path": "fix",
+   "canon": "ensemble",
+   "category": "params",
+   "value": "npt",
+   "nums": [],
+   "scope": "",
+   "context": "fix             2 all npt temp 298.0 298.0 100.0 iso 1.0 1.0 1000.0"
+  },
+  {
+   "id": "F10",
+   "file": "in.npt",
+   "line": 10,
+   "kind": "config",
+   "key": "temp",
+   "path": "temp",
+   "canon": "temperature",
+   "category": "params",
+   "value": "298.0 298.0 100.0",
+   "nums": [
+    298.0,
+    298.0,
+    100.0
+   ],
+   "scope": "",
+   "context": "fix             2 all npt temp 298.0 298.0 100.0 iso 1.0 1.0 1000.0"
+  },
+  {
+   "id": "F11",
+   "file": "in.npt",
+   "line": 10,
+   "kind": "config",
+   "key": "press",
+   "path": "press",
+   "canon": "pressure",
+   "category": "params",
+   "value": "1.0 1.0 1000.0",
+   "nums": [
+    1.0,
+    1.0,
+    1000.0
+   ],
+   "scope": "",
+   "context": "fix             2 all npt temp 298.0 298.0 100.0 iso 1.0 1.0 1000.0"
+  },
+  {
+   "id": "F12",
+   "file": "in.npt",
+   "line": 11,
+   "kind": "config",
+   "key": "thermo",
+   "path": "thermo",
+   "canon": null,
+   "category": null,
+   "value": "1000",
+   "nums": [
+    1000.0
+   ],
+   "scope": "",
+   "context": "thermo          1000"
+  },
+  {
+   "id": "F13",
+   "file": "in.npt",
+   "line": 12,
+   "kind": "config",
+   "key": "run",
+   "path": "run",
+   "canon": "nsteps",
+   "category": "params",
+   "value": "500000",
+   "nums": [
+    500000.0
+   ],
+   "scope": "",
+   "context": "run             500000"
+  },
+  {
+   "id": "F14",
+   "file": "job.slurm",
+   "line": 2,
+   "kind": "cli",
+   "key": "job-name",
+   "path": "job-name",
+   "canon": null,
+   "category": null,
+   "value": "water_npt",
+   "nums": [],
+   "scope": "",
+   "context": "#SBATCH --job-name=water_npt"
+  },
+  {
+   "id": "F15",
+   "file": "job.slurm",
+   "line": 3,
+   "kind": "cli",
+   "key": "nodes",
+   "path": "nodes",
+   "canon": "num_nodes",
+   "category": "setup",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "#SBATCH --nodes=1"
+  },
+  {
+   "id": "F16",
+   "file": "job.slurm",
+   "line": 4,
+   "kind": "cli",
+   "key": "ntasks",
+   "path": "ntasks",
+   "canon": "num_workers",
+   "category": "setup",
+   "value": "32",
+   "nums": [
+    32.0
+   ],
+   "scope": "",
+   "context": "#SBATCH --ntasks=32"
+  },
+  {
+   "id": "F17",
+   "file": "job.slurm",
+   "line": 5,
+   "kind": "cli",
+   "key": "time",
+   "path": "time",
+   "canon": null,
+   "category": null,
+   "value": "24:00:00",
+   "nums": [
+    24.0,
+    0.0,
+    0.0
+   ],
+   "scope": "",
+   "context": "#SBATCH --time=24:00:00"
+  },
+  {
+   "id": "F18",
+   "file": "job.slurm",
+   "line": 6,
+   "kind": "cli",
+   "key": "partition",
+   "path": "partition",
+   "canon": null,
+   "category": null,
+   "value": "cpu",
+   "nums": [],
+   "scope": "",
+   "context": "#SBATCH --partition=cpu"
+  },
+  {
+   "id": "F19",
+   "file": "job.slurm",
+   "line": 7,
+   "kind": "code",
+   "key": "lammps",
+   "path": "version.lammps",
+   "canon": "software",
+   "category": "setup",
+   "value": "2Aug2023",
+   "nums": [
+    2.0
+   ],
+   "scope": "",
+   "context": "module load lammps/2Aug2023"
+  },
+  {
+   "id": "F20",
+   "file": "job.slurm",
+   "line": 8,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "lmp -in in.npt -log log.lammps",
+   "nums": [],
+   "scope": "",
+   "context": "srun lmp -in in.npt -log log.lammps"
+  },
+  {
+   "id": "F21",
+   "file": "job.slurm",
+   "line": 8,
+   "kind": "cli",
+   "key": "in",
+   "path": "in",
+   "canon": null,
+   "category": null,
+   "value": "in.npt",
+   "nums": [],
+   "scope": "",
+   "context": "srun lmp -in in.npt -log log.lammps"
+  },
+  {
+   "id": "F22",
+   "file": "job.slurm",
+   "line": 8,
+   "kind": "cli",
+   "key": "log",
+   "path": "log",
+   "canon": null,
+   "category": null,
+   "value": "log.lammps",
+   "nums": [],
+   "scope": "",
+   "context": "srun lmp -in in.npt -log log.lammps"
+  },
+  {
+   "id": "F23",
+   "file": "log.lammps",
+   "line": 1,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "LAMMPS (2 Aug 2023 - Update 1)",
+   "nums": [
+    2.0,
+    2023.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "LAMMPS (2 Aug 2023 - Update 1)",
+   "doc_class": "log"
+  },
+  {
+   "id": "F24",
+   "file": "log.lammps",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.",
+   "doc_class": "log"
+  },
+  {
+   "id": "F25",
+   "file": "log.lammps",
+   "line": 4,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "12288 atoms",
+   "nums": [
+    12288.0
+   ],
+   "scope": "",
+   "context": "12288 atoms",
+   "doc_class": "log"
+  },
+  {
+   "id": "F26",
+   "file": "log.lammps",
+   "line": 5,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "4096 molecules",
+   "nums": [
+    4096.0
+   ],
+   "scope": "",
+   "context": "4096 molecules",
+   "doc_class": "log"
+  },
+  {
+   "id": "F27",
+   "file": "log.lammps",
+   "line": 6,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Running on 32 MPI tasks, Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+   "nums": [
+    32.0,
+    6248.0,
+    3.0
+   ],
+   "scope": "",
+   "context": "Running on 32 MPI tasks, Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz",
+   "doc_class": "log"
+  },
+  {
+   "id": "F28",
+   "file": "log.lammps",
+   "line": 8,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "0          298   -120.4   0.9921",
+   "nums": [
+    0.0,
+    298.0,
+    -120.4,
+    0.9921
+   ],
+   "scope": "",
+   "context": "0          298   -120.4   0.9921",
+   "doc_class": "log"
+  },
+  {
+   "id": "F29",
+   "file": "log.lammps",
+   "line": 9,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "500000    298.3     2.1   0.9973",
+   "nums": [
+    500000.0,
+    298.3,
+    2.1,
+    0.9973
+   ],
+   "scope": "",
+   "context": "500000    298.3     2.1   0.9973",
+   "doc_class": "log"
+  },
+  {
+   "id": "F30",
+   "file": "log.lammps",
+   "line": 10,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Loop time of 41235.2 on 32 procs for 500000 steps with 12288 atoms",
+   "nums": [
+    41235.2,
+    32.0,
+    500000.0,
+    12288.0
+   ],
+   "scope": "",
+   "context": "Loop time of 41235.2 on 32 procs for 500000 steps with 12288 atoms",
+   "doc_class": "log"
+  },
+  {
+   "id": "F31",
+   "file": "log.lammps",
+   "line": 11,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Total wall time: 11:27:15",
+   "nums": [
+    11.0,
+    27.0,
+    15.0
+   ],
+   "scope": "",
+   "context": "Total wall time: 11:27:15",
+   "doc_class": "log"
+  },
+  {
+   "id": "F32",
+   "file": "log.lammps",
+   "line": 1,
+   "kind": "log",
+   "key": "lammps",
+   "path": "version.lammps",
+   "canon": "software",
+   "category": "setup",
+   "value": "2 Aug 2023 - Update 1",
+   "nums": [
+    2.0,
+    2023.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "LAMMPS (2 Aug 2023 - Update 1)"
+  },
+  {
+   "id": "F33",
+   "file": "log.lammps",
+   "line": 4,
+   "kind": "log",
+   "key": "system_size.atoms",
+   "path": "text.system_size.atoms",
+   "canon": "system_size",
+   "category": "data",
+   "value": "12288 atoms",
+   "nums": [
+    12288.0
+   ],
+   "scope": "",
+   "context": "12288 atoms",
+   "subkey": "atoms"
+  },
+  {
+   "id": "F34",
+   "file": "log.lammps",
+   "line": 5,
+   "kind": "log",
+   "key": "system_size.molecules",
+   "path": "text.system_size.molecules",
+   "canon": "system_size",
+   "category": "data",
+   "value": "4096 molecules",
+   "nums": [
+    4096.0
+   ],
+   "scope": "",
+   "context": "4096 molecules",
+   "subkey": "molecules"
+  },
+  {
+   "id": "F35",
+   "file": "log.lammps",
+   "line": 6,
+   "kind": "log",
+   "key": "cpu",
+   "path": "cpu",
+   "canon": "hardware",
+   "category": "setup",
+   "value": "Intel(R) Xeon(R) Gold 6248R",
+   "nums": [
+    6248.0
+   ],
+   "scope": "",
+   "context": "Running on 32 MPI tasks, Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz"
+  },
+  {
+   "id": "F36",
+   "file": "log.lammps",
+   "line": 11,
+   "kind": "log",
+   "key": "wall_time",
+   "path": "wall_time",
+   "canon": "wall_time",
+   "category": "setup",
+   "value": "11:27:15",
+   "nums": [
+    11.0,
+    27.0,
+    15.0
+   ],
+   "scope": "",
+   "context": "Total wall time: 11:27:15"
+  },
+  {
+   "id": "F37",
+   "file": "notes_gbk.txt",
+   "line": 1,
+   "kind": "doc_kv",
+   "key": "体系",
+   "path": "体系",
+   "canon": null,
+   "category": null,
+   "value": "4096 个 TIP4P/2005 水分子，立方盒子。",
+   "nums": [
+    4096.0
+   ],
+   "scope": "",
+   "context": "体系：4096 个 TIP4P/2005 水分子，立方盒子。"
+  },
+  {
+   "id": "F38",
+   "file": "notes_gbk.txt",
+   "line": 1,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "体系：4096 个 TIP4P/2005 水分子，立方盒子。",
+   "nums": [
+    4096.0
+   ],
+   "scope": "",
+   "context": "体系：4096 个 TIP4P/2005 水分子，立方盒子。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F39",
+   "file": "notes_gbk.txt",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "先 NVT 平衡 100 ps，再 NPT 生产 1 ns。",
+   "nums": [
+    100.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "先 NVT 平衡 100 ps，再 NPT 生产 1 ns。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F40",
+   "file": "notes_gbk.txt",
+   "line": 3,
+   "kind": "doc_kv",
+   "key": "步长",
+   "path": "text.步长",
+   "canon": "timestep",
+   "category": "params",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "步长 1 fs（与 Vega 2005 一致）。"
+  },
+  {
+   "id": "F41",
+   "file": "notes_gbk.txt",
+   "line": 3,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "步长 1 fs（与 Vega 2005 一致）。",
+   "nums": [
+    1.0,
+    2005.0
+   ],
+   "scope": "",
+   "context": "步长 1 fs（与 Vega 2005 一致）。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F42",
+   "file": "notes_gbk.txt",
+   "line": 4,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "密度取后 500 ps 平均。",
+   "nums": [
+    500.0
+   ],
+   "scope": "",
+   "context": "密度取后 500 ps 平均。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F43",
+   "file": "notes_gbk.txt",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "duration.平衡",
+   "path": "text.duration.平衡",
+   "canon": "duration",
+   "category": "params",
+   "value": "100 ps",
+   "nums": [
+    100.0
+   ],
+   "scope": "",
+   "context": "先 NVT 平衡 100 ps，再 NPT 生产 1 ns。",
+   "subkey": "平衡"
+  },
+  {
+   "id": "F44",
+   "file": "notes_gbk.txt",
+   "line": 5,
+   "kind": "doc_kv",
+   "key": "n_runs",
+   "path": "n_runs",
+   "canon": "n_runs",
+   "category": "control",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "只跑了一条轨迹。"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "timestep",
+   "label": "时间步长",
+   "scope": "",
+   "values": [
+    {
+     "value": "2.0",
+     "fact": "F8",
+     "facts": [
+      "F8"
+     ],
+     "source": "in.npt:8",
+     "sources": [
+      "in.npt:8"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    },
+    {
+     "value": "1",
+     "fact": "F40",
+     "facts": [
+      "F40"
+     ],
+     "source": "notes_gbk.txt:3",
+     "sources": [
+      "notes_gbk.txt:3"
+     ],
+     "kind": "doc_kv",
+     "kinds": [
+      "doc_kv"
+     ]
+    }
+   ],
+   "facts": [
+    "F8",
+    "F40"
+   ],
+   "n_files": 2,
+   "precedence_guess": "F8",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "G1",
+   "element": "E_metric",
+   "category": "control",
+   "level": "required",
+   "label": "评价指标/测量结局",
+   "status": "only_mentioned_in_text",
+   "question": "请定义各评价指标（在哪个数据子集、哪个检查点上计算）。",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G2",
+   "element": "E_stats",
+   "category": "control",
+   "level": "recommended",
+   "label": "统计检验/不确定度估计",
+   "status": "missing",
+   "question": "比较结论基于何种统计检验或不确定度估计（检验方法、显著性水平、多重校正）？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G3",
+   "element": "E_data_access",
+   "category": "repro",
+   "level": "recommended",
+   "label": "数据获取方式",
+   "status": "missing",
+   "question": "读者如何获取数据（URL/DOI、许可、访问限制）？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G4",
+   "element": "E_limits",
+   "category": "repro",
+   "level": "required",
+   "label": "落到具体失效场景的限制条件",
+   "status": "author_input",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "why": "limitations must name concrete untested conditions; materials rarely state them - derive candidates from the facts (single seed, one dataset version, one hardware type) and ask the author"
+  }
+ ]
+}

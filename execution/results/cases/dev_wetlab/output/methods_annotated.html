@@ -1,0 +1,38 @@
+<!doctype html><html><head><meta charset='utf-8'><title>dev_wetlab_mtt methods (annotated)</title>
+<style>body{font-family:'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif;max-width:900px;margin:24px auto;line-height:1.6;color:#222}table{border-collapse:collapse;font-size:12px}td,th{border:1px solid #999;padding:3px 6px;vertical-align:top}code,pre{background:#f4f4f4;font-size:12px}pre{padding:8px;white-space:pre-wrap}sup{color:#36c;font-size:10px}.gap{background:#fff3c4}</style></head><body>
+<h1>Materials and Methods</h1>
+<h2>Procedure</h2>
+<p style='margin:2px 0 2px 18px'>1. Cell seeding: HeLa cells (ATCC CCL-2, passage 12) <sup>[F8: notebook_2024-05.txt:1; F13: notebook_2024-05.txt:1]</sup> were seeded at 5,000 cells per well in 96-well plates in 100 µL DMEM with 10% FBS <sup>[F17: protocol.md:3]</sup>; output: plates P1–P3 <sup>[F8: notebook_2024-05.txt:1; F13: notebook_2024-05.txt:1]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>2. Attachment: plates were incubated for 24 h at 37 °C and 5% CO2 <sup>[F18: protocol.md:4; F26: protocol.md:4]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>3. Treatment: cells were treated with compound K-17 (lot KX-0412) <sup>[F9: notebook_2024-05.txt:2; F14: notebook_2024-05.txt:2]</sup> at 0, 1, 5, 10, 50 and 100 µM with a final DMSO concentration of 0.1% <sup>[F19: protocol.md:5]</sup>, then incubated for 48 h <sup>[F20: protocol.md:6; F27: protocol.md:6]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>4. MTT labelling: 10 µL MTT (5 mg/mL) was added per well and incubated at 37 °C <sup>[protocol.md:7]</sup> for 45 min <sup>[F10: notebook_2024-05.txt:3; F15: notebook_2024-05.txt:3]</sup> <span class='gap'>[AUTHOR TO CONFIRM: C1 the SOP specifies 30 min; the notebook records 45 min for this run because the reader was booked. Text uses the notebook value]</span>.</p>
+<p style='margin:2px 0 2px 18px'>5. Solubilisation: the medium was removed, 100 µL DMSO was added and the plates were shaken for 10 min <sup>[F22: protocol.md:8; F29: protocol.md:8]</sup> <span class='gap'>[AUTHOR TO CONFIRM: C2 the reader additionally shakes 5 s before reading (reader_settings.txt:8)]</span>.</p>
+<p style='margin:2px 0 2px 18px'>6. Readout: absorbance was read at 570 nm with a 630 nm reference <sup>[F23: protocol.md:9]</sup> (decision rule for exclusion: wells with visible contamination were excluded; well H12 on plate P2 was excluded <sup>[F12: notebook_2024-05.txt:5]</sup>).</p>
+<h2>Instrument settings</h2>
+<p>Absorbance was measured on a BioTek Synergy H1 <sup>[F30: reader_settings.txt:1]</sup> with Gen5 3.11 <sup>[F31: reader_settings.txt:2; F32: reader_settings.txt:2]</sup> as an endpoint read <sup>[reader_settings.txt:3]</sup> at 570 nm <sup>[F33: reader_settings.txt:4; F34: reader_settings.txt:4; F35: reader_settings.txt:4]</sup> with a 630 nm reference wavelength <sup>[F36: reader_settings.txt:5; F37: reader_settings.txt:5; F38: reader_settings.txt:5]</sup>, a read height of 8.5 mm <sup>[reader_settings.txt:6]</sup> and a chamber temperature of 25 °C <sup>[F41: reader_settings.txt:7; F42: reader_settings.txt:7; F43: reader_settings.txt:7]</sup>.</p>
+<h2>Controls, replicates and statistics</h2>
+<p>Each plate included vehicle wells (0.1% DMSO), blank wells (medium only) and a doxorubicin 1 µM positive control <sup>[protocol.md:11]</sup>. Plates P1–P3 were three independent experiments <sup>[F11: notebook_2024-05.txt:4; F16: notebook_2024-05.txt:4]</sup>; viability is reported as mean ± SD with n = 3 per concentration <sup>[F48: viability_summary.csv:2; F49: viability_summary.csv:2; F50: viability_summary.csv:2]</sup>. Concentration–response curves were fitted with a four-parameter log-logistic model (LL.4) <sup>[analysis.R:5]</sup> to estimate the IC50 with delta-method intervals <sup>[analysis.R:6]</sup>. Treatment groups were compared with the vehicle by one-way ANOVA with Dunnett&#x27;s post hoc test <sup>[F6: analysis.R:7; F7: analysis.R:7]</sup> at alpha = 0.05 <sup>[F2: analysis.R:9]</sup>. Analyses used R 4.3.1 <sup>[F3: analysis.R:1]</sup> and drc 3.0-1 <sup>[F4: analysis.R:2]</sup> with set.seed(7) <sup>[F5: analysis.R:3]</sup>.</p>
+<h2>Data availability and reproducibility</h2>
+<p>The plate-reader export and analysis script are part of the study materials <span class='gap'>[TO CONFIRM: Where will raw absorbance data and analysis.R be deposited (repository/DOI)?]</span>. Background subtraction and normalisation to vehicle <span class='gap'>[TO CONFIRM: How were blank subtraction and normalisation to vehicle computed?]</span>.</p>
+<h2>Limitations</h2>
+<p style='margin:2px 0 2px 18px'>- Only one cell line (HeLa, passage 12) was tested <sup>[F8: notebook_2024-05.txt:1; F13: notebook_2024-05.txt:1]</sup>; responses of other cell types are unknown.</p>
+<p style='margin:2px 0 2px 18px'>- The MTT incubation (45 min) deviated from the SOP (30 min) in all three experiments <sup>[F10: notebook_2024-05.txt:3; F15: notebook_2024-05.txt:3; F21: protocol.md:7; F28: protocol.md:7]</sup> <span class='gap'>[AUTHOR TO CONFIRM: C1 confirm the deviation applied to all plates]</span>, so absolute absorbance values may not be comparable with SOP runs.</p>
+<p style='margin:2px 0 2px 18px'>- Each concentration rests on n = 3 independent experiments <sup>[F48: viability_summary.csv:2; F49: viability_summary.csv:2; F50: viability_summary.csv:2]</sup>; one well was lost to contamination <sup>[F12: notebook_2024-05.txt:5]</sup>.</p>
+<p><b>Table. Parameters and their sources</b></p>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Unit</th><th>Applies to</th><th>Source</th><th>Status</th></tr>
+<tr><td>duration</td><td>45 min</td><td>-</td><td>text/duration</td><td>notebook_2024-05.txt:3 (F15)</td><td>CONFLICT C1 - author to confirm</td></tr>
+<tr><td>temperature</td><td>25 °C</td><td>-</td><td>-</td><td>reader_settings.txt:7 (F41)</td><td>cited in text; other values: reader_settings.txt:7=25</td></tr>
+<tr><td>wavelength</td><td>570 nm</td><td>-</td><td>-</td><td>reader_settings.txt:4 (F33)</td><td>cited in text; other values: reader_settings.txt:4=570; reader_settings.txt:5=630</td></tr>
+<tr><td>lot / catalogue number</td><td>KX-0412</td><td>-</td><td>-</td><td>notebook_2024-05.txt:2 (F14)</td><td>cited in text</td></tr>
+<tr><td>reagent / material</td><td>ATCC CCL-2</td><td>-</td><td>-</td><td>notebook_2024-05.txt:1 (F13)</td><td>cited in text</td></tr>
+<tr><td>instrument</td><td>BioTek Synergy H1</td><td>-</td><td>-</td><td>reader_settings.txt:1 (F30)</td><td>cited in text</td></tr>
+<tr><td>software (Software)</td><td>Gen5 3.11</td><td>-</td><td>-</td><td>reader_settings.txt:2 (F31)</td><td>cited in text</td></tr>
+<tr><td>statistics software (r)</td><td>4.3.1</td><td>-</td><td>-</td><td>analysis.R:1 (F3)</td><td>cited in text</td></tr>
+<tr><td>statistics software (drc)</td><td>3.0-1</td><td>-</td><td>-</td><td>analysis.R:2 (F4)</td><td>cited in text</td></tr>
+<tr><td>significance level</td><td>0.05</td><td>-</td><td>-</td><td>analysis.R:9 (F2)</td><td>cited in text</td></tr>
+<tr><td>repetitions / replicates</td><td>3</td><td>-</td><td>-</td><td>notebook_2024-05.txt:4 (F16)</td><td>cited in text</td></tr>
+<tr><td>statistical test</td><td>one-way ANOVA</td><td>-</td><td>-</td><td>analysis.R:7 (F6)</td><td>cited in text; other values: analysis.R:7=Dunnett; analysis.R:8=aov</td></tr>
+<tr><td>random seed</td><td>7</td><td>-</td><td>set</td><td>analysis.R:3 (F5)</td><td>cited in text</td></tr>
+</table>
+</body></html>

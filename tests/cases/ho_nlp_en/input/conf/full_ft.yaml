@@ -1,0 +1,10 @@
+# full fine-tuning baseline
+model:
+  name_or_path: roberta-large
+optim:
+  learning_rate: 1.0e-5
+  weight_decay: 0.1
+training:
+  per_device_train_batch_size: 16
+  num_train_epochs: 10
+  max_seq_length: 128

@@ -1,0 +1,2052 @@
+{
+ "case_id": "ho_stats_sleep",
+ "methods_text": "# 2 研究方法\n\n## 2.1 研究对象与抽样\n\n调查于 2023-10-09 至 2023-10-27 开展，对象为某综合性大学本科一至四年级学生，按学院分层整群抽样。纳入标准为在校本科生且知情同意；排除作答时间 < 120 秒或缺失项 > 20% 的问卷。研究经伦理审查批准（批号 XJ-2023-118）。\n\n## 2.2 数据清洗步骤\n\n1. 收集原始问卷：共 2846 份。\n2. 剔除作答时间 < 120 秒的问卷 131 份。\n3. 剔除缺失项 > 20% 的问卷 77 份。\n4. 得到分析样本 2638 份，与上述剔除数一致。\n5. 协变量缺失用多重插补处理，插补 20 次 【待作者确认：笔记称 m=10 即可（notes.txt:2），脚本与日志为 20；正文按日志写 20】。\n\n设计样本量为 2500 份有效问卷（预期患病率 30%，容许误差 2%）。本研究无训练/测试划分 【待确认：是否说明为何不需要数据划分（横断面推断研究）】。\n\n## 2.3 变量定义\n\n睡眠质量用匹兹堡睡眠质量指数（PSQI）测量，PSQI > 7 判为睡眠质量差；GPA 处于后 25% 定义为学业表现差。\n\n## 2.4 统计分析\n\n以睡眠质量差为结局，建立含学院随机截距的混合效应 logistic 回归（glmer，固定效应为学业表现差、年级、性别），在多重插补数据上分别拟合后合并结果。显著性水平 α = 0.05。另以完整病例分析作敏感性分析。随机种子为 2023。对照设置 【待确认：是否有对照组或参照类别（如年级参照水平）需要说明？】；每个模型只拟合一次，结果的不确定度由置信区间表示 【待确认：请确认报告 OR 及 95% 置信区间】。\n\n## 2.5 软件与可复现性\n\n分析使用 R 4.3.2 、mice 3.16.0 与 lme4 1.1-35。分析脚本为 analysis.R 【待确认：请提供代码仓库地址与版本号，以及运行命令（如 Rscript analysis.R）】。数据获取方式 【待确认：原始问卷数据是否可公开获取或经申请获取？】。\n\n## 2.6 局限\n\n- 样本仅来自一所综合性大学，结论不能直接外推到其他高校。\n- 横断面调查只在 2023-10-09 至 2023-10-27 开展，不能判断睡眠与学业的时间先后。\n- 作答时间 < 120 秒的 131 份问卷被剔除，若这些学生睡眠质量系统性不同，会造成选择偏倚。\n\n\n**表 参数及来源**\n\n\n\n| 参数 | 取值 | 单位 | 作用对象 | 来源 | 状态 |\n|---|---|---|---|---|---|\n| 数据集版本 | 2023-10-09 至 2023-10-27 | - | - | 问卷说明.md:2 (F22) | 正文已引用 |\n| 纳入/排除标准 | 在校本科生、知情同意 | - | - | 问卷说明.md:6 (F27) | 正文已引用; 其他取值：问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20% |\n| 批号/货号 | XJ-2023-118 | - | - | 问卷说明.md:8 (F31) | 正文已引用 |\n| 插补次数 | 20 | - | - | cleaning_log.txt:5 (F16) | 冲突 C1，待作者确认 |\n| 样本数 | 2846 | - | - | cleaning_log.txt:1 (F9) | 正文已引用; 其他取值：cleaning_log.txt:4=2638; notes.txt:1=2500 |\n| 受试者/样本来源 | 某综合性大学本科一至四年级学生 | - | - | 问卷说明.md:3 (F24) | 正文出现（未标注） |\n| 统计软件 (r) | 4.3.2 | - | - | analysis.R:1 (F4) | 正文已引用 |\n| 统计软件 (mice) | 3.16.0 | - | - | analysis.R:2 (F5) | 正文已引用 |\n| 统计软件 (lme4) | 1.1-35 | - | - | analysis.R:3 (F6) | 正文已引用 |\n| 显著性水平 | 0.05 | - | - | analysis.R:8 (F3) | 正文已引用 |\n| 统计检验 | glmer | - | - | analysis.R:6 (F2) | 正文已引用 |\n| 随机种子 | 2023 | - | set | analysis.R:4 (F7) | 正文已引用 |\n",
+ "params": [
+  {
+   "name": "数据集版本",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "2023-10-09 至 2023-10-27",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:2",
+   "fact": "F22",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:2"
+   ]
+  },
+  {
+   "name": "纳入/排除标准",
+   "canonical": "inclusion",
+   "category": "data",
+   "value": "在校本科生、知情同意",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:6",
+   "fact": "F27",
+   "source_kind": "doc_kv",
+   "status": "正文已引用; 其他取值：问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20%",
+   "other_values": [
+    "问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20%"
+   ],
+   "all_sources": [
+    "问卷说明.md:6",
+    "问卷说明.md:7"
+   ]
+  },
+  {
+   "name": "批号/货号",
+   "canonical": "lot",
+   "category": "data",
+   "value": "XJ-2023-118",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:8",
+   "fact": "F31",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:8"
+   ]
+  },
+  {
+   "name": "插补次数",
+   "canonical": "n_imputations",
+   "category": "data",
+   "value": "20",
+   "unit": "",
+   "applies_to": "-",
+   "source": "cleaning_log.txt:5",
+   "fact": "F16",
+   "source_kind": "log",
+   "status": "冲突 C1，待作者确认",
+   "other_values": [
+    "notes.txt:2=10"
+   ],
+   "all_sources": [
+    "cleaning_log.txt:5",
+    "analysis.R:5",
+    "notes.txt:2"
+   ]
+  },
+  {
+   "name": "样本数",
+   "canonical": "n_samples",
+   "category": "data",
+   "value": "2846",
+   "unit": "",
+   "applies_to": "-",
+   "source": "cleaning_log.txt:1",
+   "fact": "F9",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：cleaning_log.txt:4=2638; notes.txt:1=2500",
+   "other_values": [
+    "cleaning_log.txt:4=2638",
+    "notes.txt:1=2500"
+   ],
+   "all_sources": [
+    "cleaning_log.txt:1",
+    "cleaning_log.txt:4",
+    "notes.txt:1"
+   ]
+  },
+  {
+   "name": "受试者/样本来源",
+   "canonical": "sample_source",
+   "category": "data",
+   "value": "某综合性大学本科一至四年级学生",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:3",
+   "fact": "F24",
+   "source_kind": "doc_kv",
+   "status": "正文出现（未标注）",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:3"
+   ]
+  },
+  {
+   "name": "统计软件 (r)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "4.3.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:1",
+   "fact": "F4",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:1"
+   ]
+  },
+  {
+   "name": "统计软件 (mice)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "3.16.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:2",
+   "fact": "F5",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:2"
+   ]
+  },
+  {
+   "name": "统计软件 (lme4)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "1.1-35",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:3",
+   "fact": "F6",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:3"
+   ]
+  },
+  {
+   "name": "显著性水平",
+   "canonical": "alpha_level",
+   "category": "control",
+   "value": "0.05",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:8",
+   "fact": "F3",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:8"
+   ]
+  },
+  {
+   "name": "统计检验",
+   "canonical": "statistical_test",
+   "category": "control",
+   "value": "glmer",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:6",
+   "fact": "F2",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:6"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "2023",
+   "unit": "",
+   "applies_to": "set",
+   "source": "analysis.R:4",
+   "fact": "F7",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:4",
+    "analysis.R:5"
+   ]
+  }
+ ],
+ "trace": [
+  {
+   "unit": "u3",
+   "line": 5,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.1 研究对象与抽样",
+   "text": "调查于 2023-10-09 至 2023-10-27 开展 ，对象为某综合性大学本科一至四年级学生 ，按学院分层整群抽样 。",
+   "facts": [
+    {
+     "id": "F22",
+     "value": "2023-10-09 至 2023-10-27",
+     "source": "问卷说明.md:2",
+     "kind": "doc_kv",
+     "key": "调查时间"
+    },
+    {
+     "id": "F23",
+     "value": "- 调查时间：2023-10-09 至 2023-10-27",
+     "source": "问卷说明.md:2",
+     "kind": "doc",
+     "key": "sentence"
+    },
+    {
+     "id": "SRC:问卷说明.md:3",
+     "value": "- 对象：某综合性大学本科一至四年级学生",
+     "source": "问卷说明.md:3",
+     "kind": "source-line"
+    },
+    {
+     "id": "SRC:问卷说明.md:4",
+     "value": "- 抽样：按学院分层整群抽样",
+     "source": "问卷说明.md:4",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "09",
+     "value": 9.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "27",
+     "value": 27.0,
+     "matched": "F22",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u4",
+   "line": 5,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.1 研究对象与抽样",
+   "text": "纳入标准为在校本科生且知情同意 ；",
+   "facts": [
+    {
+     "id": "F27",
+     "value": "在校本科生、知情同意",
+     "source": "问卷说明.md:6",
+     "kind": "doc_kv",
+     "key": "纳入标准"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u5",
+   "line": 5,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.1 研究对象与抽样",
+   "text": "排除作答时间 < 120 秒或缺失项 > 20% 的问卷 。",
+   "facts": [
+    {
+     "id": "F28",
+     "value": "问卷作答时间 < 120 秒或缺失项 > 20%",
+     "source": "问卷说明.md:7",
+     "kind": "doc_kv",
+     "key": "排除标准"
+    },
+    {
+     "id": "F29",
+     "value": "- 排除标准：问卷作答时间 < 120 秒或缺失项 > 20%",
+     "source": "问卷说明.md:7",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "120",
+     "value": 120.0,
+     "matched": "F28",
+     "how": "tag"
+    },
+    {
+     "token": "20%",
+     "value": 20.0,
+     "matched": "F28",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u6",
+   "line": 5,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.1 研究对象与抽样",
+   "text": "研究经伦理审查批准（批号 XJ-2023-118） 。",
+   "facts": [
+    {
+     "id": "F30",
+     "value": "XJ-2023-118",
+     "source": "问卷说明.md:8",
+     "kind": "doc_kv",
+     "key": "伦理批号"
+    },
+    {
+     "id": "F31",
+     "value": "XJ-2023-118",
+     "source": "问卷说明.md:8",
+     "kind": "doc_kv",
+     "key": "lot"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u8",
+   "line": 9,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "1.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u9",
+   "line": 9,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "收集原始问卷：共 2846 份 。",
+   "facts": [
+    {
+     "id": "F9",
+     "value": "2846",
+     "source": "cleaning_log.txt:1",
+     "kind": "log",
+     "key": "responses"
+    },
+    {
+     "id": "F11",
+     "value": "2023-11-02 raw responses: 2846",
+     "source": "cleaning_log.txt:1",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2846",
+     "value": 2846.0,
+     "matched": "F9",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u10",
+   "line": 10,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "2.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u11",
+   "line": 10,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "剔除作答时间 < 120 秒的问卷 131 份 。",
+   "facts": [
+    {
+     "id": "F12",
+     "value": "2023-11-02 excluded completion time < 120 s: 131",
+     "source": "cleaning_log.txt:2",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "120",
+     "value": 120.0,
+     "matched": "F12",
+     "how": "tag"
+    },
+    {
+     "token": "131",
+     "value": 131.0,
+     "matched": "F12",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u12",
+   "line": 11,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "3.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u13",
+   "line": 11,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "剔除缺失项 > 20% 的问卷 77 份 。",
+   "facts": [
+    {
+     "id": "F13",
+     "value": "2023-11-02 excluded missing > 20%: 77",
+     "source": "cleaning_log.txt:3",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "20%",
+     "value": 20.0,
+     "matched": "F13",
+     "how": "tag"
+    },
+    {
+     "token": "77",
+     "value": 77.0,
+     "matched": "F13",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u14",
+   "line": 12,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "4.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u15",
+   "line": 12,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "得到分析样本 2638 份 ，与上述剔除数一致 。",
+   "facts": [
+    {
+     "id": "F10",
+     "value": "2638",
+     "source": "cleaning_log.txt:4",
+     "kind": "log",
+     "key": "sample"
+    },
+    {
+     "id": "F14",
+     "value": "2023-11-02 analytic sample: 2638",
+     "source": "cleaning_log.txt:4",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F9",
+     "value": "2846",
+     "source": "cleaning_log.txt:1",
+     "kind": "log",
+     "key": "responses",
+     "via": "calc"
+    },
+    {
+     "id": "F11",
+     "value": "2023-11-02 raw responses: 2846",
+     "source": "cleaning_log.txt:1",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    },
+    {
+     "id": "F12",
+     "value": "2023-11-02 excluded completion time < 120 s: 131",
+     "source": "cleaning_log.txt:2",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    },
+    {
+     "id": "F13",
+     "value": "2023-11-02 excluded missing > 20%: 77",
+     "source": "cleaning_log.txt:3",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2638",
+     "value": 2638.0,
+     "matched": "F10",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u16",
+   "line": 13,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "5.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u17",
+   "line": 13,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "协变量缺失用多重插补处理，插补 20 次 。",
+   "facts": [
+    {
+     "id": "F15",
+     "value": "2023-11-03 missing covariates imputed with mice (m = 20)",
+     "source": "cleaning_log.txt:5",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F16",
+     "value": "20",
+     "source": "cleaning_log.txt:5",
+     "kind": "log",
+     "key": "m"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "20",
+     "value": 20.0,
+     "matched": "F15",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [
+    "笔记称 m=10 即可（notes.txt:2），脚本与日志为 20；正文按日志写 20"
+   ],
+   "status": "ok"
+  },
+  {
+   "unit": "u18",
+   "line": 15,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "设计样本量为 2500 份有效问卷（预期患病率 30%，容许误差 2%） 。",
+   "facts": [
+    {
+     "id": "F17",
+     "value": "2500",
+     "source": "notes.txt:1",
+     "kind": "doc_kv",
+     "key": "text.样本量"
+    },
+    {
+     "id": "F18",
+     "value": "样本量按 2500 份有效问卷设计（预期患病率 30%，容许误差 2%）。",
+     "source": "notes.txt:1",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2500",
+     "value": 2500.0,
+     "matched": "F17",
+     "how": "tag"
+    },
+    {
+     "token": "30%",
+     "value": 30.0,
+     "matched": "F18",
+     "how": "tag"
+    },
+    {
+     "token": "2%",
+     "value": 2.0,
+     "matched": "F18",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u19",
+   "line": 15,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "text": "本研究无训练/测试划分 。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "是否说明为何不需要数据划分（横断面推断研究）"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u21",
+   "line": 19,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.3 变量定义",
+   "text": "睡眠质量用匹兹堡睡眠质量指数（PSQI）测量，PSQI > 7 判为睡眠质量差 ；",
+   "facts": [
+    {
+     "id": "F25",
+     "value": "匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差",
+     "source": "问卷说明.md:5",
+     "kind": "doc_kv",
+     "key": "量表"
+    },
+    {
+     "id": "F26",
+     "value": "- 量表：匹兹堡睡眠质量指数（PSQI），PSQI > 7 判为睡眠质量差",
+     "source": "问卷说明.md:5",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "7",
+     "value": 7.0,
+     "matched": "F25",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u22",
+   "line": 19,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.3 变量定义",
+   "text": "GPA 处于后 25% 定义为学业表现差 。",
+   "facts": [
+    {
+     "id": "F20",
+     "value": "GPA 后 25% 定义为学业表现差。",
+     "source": "notes.txt:3",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "25%",
+     "value": 25.0,
+     "matched": "F20",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u24",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "以睡眠质量差为结局，建立含学院随机截距的混合效应 logistic 回归（glmer，固定效应为学业表现差、年级、性别） ，在多重插补数据上分别拟合后合并结果 。",
+   "facts": [
+    {
+     "id": "F2",
+     "value": "glmer",
+     "source": "analysis.R:6",
+     "kind": "code",
+     "key": "statistical_test"
+    },
+    {
+     "id": "SRC:analysis.R:7",
+     "value": "pool(fit)",
+     "source": "analysis.R:7",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u25",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "显著性水平 α = 0.05 。",
+   "facts": [
+    {
+     "id": "F3",
+     "value": "0.05",
+     "source": "analysis.R:8",
+     "kind": "code",
+     "key": "alpha"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "0.05",
+     "value": 0.05,
+     "matched": "F3",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u26",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "另以完整病例分析作敏感性分析 。",
+   "facts": [
+    {
+     "id": "SRC:analysis.R:9",
+     "value": "# sensitivity: complete-case analysis",
+     "source": "analysis.R:9",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u27",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "随机种子为 2023 。",
+   "facts": [
+    {
+     "id": "F7",
+     "value": "2023",
+     "source": "analysis.R:4",
+     "kind": "code",
+     "key": "set.seed"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F7",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u28",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "对照设置 ；",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "是否有对照组或参照类别（如年级参照水平）需要说明？"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u29",
+   "line": 23,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "text": "每个模型只拟合一次，结果的不确定度由置信区间表示 。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "请确认报告 OR 及 95% 置信区间"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u31",
+   "line": 27,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "text": "分析使用 R 4.3.2 、mice 3.16.0 与 lme4 1.1-35 。",
+   "facts": [
+    {
+     "id": "F4",
+     "value": "4.3.2",
+     "source": "analysis.R:1",
+     "kind": "code",
+     "key": "version.r"
+    },
+    {
+     "id": "F5",
+     "value": "3.16.0",
+     "source": "analysis.R:2",
+     "kind": "code",
+     "key": "version.mice"
+    },
+    {
+     "id": "F6",
+     "value": "1.1-35",
+     "source": "analysis.R:3",
+     "kind": "code",
+     "key": "version.lme4"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1.1",
+     "value": 1.1,
+     "matched": "F6",
+     "how": "tag"
+    },
+    {
+     "token": "35",
+     "value": 35.0,
+     "matched": "F6",
+     "how": "tag"
+    },
+    {
+     "token": "4.3.2",
+     "matched": "F4",
+     "how": "version-tag"
+    },
+    {
+     "token": "3.16.0",
+     "matched": "F5",
+     "how": "version-tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u32",
+   "line": 27,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "text": "分析脚本为 analysis.R 。",
+   "facts": [
+    {
+     "id": "SRC:analysis.R:1",
+     "value": "# R version 4.3.2",
+     "source": "analysis.R:1",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [],
+   "gaps": [
+    "请提供代码仓库地址与版本号，以及运行命令（如 Rscript analysis.R）"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u33",
+   "line": 27,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "text": "数据获取方式 。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "原始问卷数据是否可公开获取或经申请获取？"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u35",
+   "line": 31,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.6 局限",
+   "text": "- 样本仅来自一所综合性大学 ，结论不能直接外推到其他高校。",
+   "facts": [
+    {
+     "id": "SRC:问卷说明.md:3",
+     "value": "- 对象：某综合性大学本科一至四年级学生",
+     "source": "问卷说明.md:3",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u36",
+   "line": 31,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.6 局限",
+   "text": "- 横断面调查只在 2023-10-09 至 2023-10-27 开展 ，不能判断睡眠与学业的时间先后。",
+   "facts": [
+    {
+     "id": "F22",
+     "value": "2023-10-09 至 2023-10-27",
+     "source": "问卷说明.md:2",
+     "kind": "doc_kv",
+     "key": "调查时间"
+    },
+    {
+     "id": "F23",
+     "value": "- 调查时间：2023-10-09 至 2023-10-27",
+     "source": "问卷说明.md:2",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "09",
+     "value": 9.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F22",
+     "how": "tag"
+    },
+    {
+     "token": "27",
+     "value": 27.0,
+     "matched": "F22",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u37",
+   "line": 31,
+   "type": "sentence",
+   "section": "2 研究方法 > 2.6 局限",
+   "text": "- 作答时间 < 120 秒的 131 份问卷被剔除 ，若这些学生睡眠质量系统性不同，会造成选择偏倚。",
+   "facts": [
+    {
+     "id": "F12",
+     "value": "2023-11-02 excluded completion time < 120 s: 131",
+     "source": "cleaning_log.txt:2",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "120",
+     "value": 120.0,
+     "matched": "F12",
+     "how": "tag"
+    },
+    {
+     "token": "131",
+     "value": 131.0,
+     "matched": "F12",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  }
+ ],
+ "confirm_list": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "steps",
+   "level": "required",
+   "question": "请确认各处理阶段的先后顺序及每一步的产出。",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "data",
+   "level": "required",
+   "question": "请给出训练/验证/测试集规模（或比例）、划分方式（随机/分层/官方）及划分种子。",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "每个条件同时设置了哪些对照组？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "请定义各评价指标（在哪个数据子集、哪个检查点上计算）。",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "请给出代码提交号/标签及复现报告数值的确切命令。",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G6",
+   "type": "gap",
+   "category": "repro",
+   "level": "recommended",
+   "question": "读者如何获取数据（URL/DOI、许可、访问限制）？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G7",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "G8",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "status": "ambiguous",
+   "facts": [
+    "F1",
+    "F7"
+   ]
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "data",
+   "question": "插补次数 在材料中取值不一致：20 (cleaning_log.txt:5); 10 (notes.txt:2)。正文采用哪一个？",
+   "facts": [
+    "F16",
+    "F8",
+    "F21"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u17c",
+   "type": "draft_confirm",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "line": 13,
+   "question": "笔记称 m=10 即可（notes.txt:2），脚本与日志为 20；正文按日志写 20",
+   "status": "open"
+  },
+  {
+   "id": "Q-u19",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "line": 15,
+   "question": "是否说明为何不需要数据划分（横断面推断研究）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u28",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "line": 23,
+   "question": "是否有对照组或参照类别（如年级参照水平）需要说明？",
+   "status": "open"
+  },
+  {
+   "id": "Q-u29",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "line": 23,
+   "question": "请确认报告 OR 及 95% 置信区间",
+   "status": "open"
+  },
+  {
+   "id": "Q-u32",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "line": 27,
+   "question": "请提供代码仓库地址与版本号，以及运行命令（如 Rscript analysis.R）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u33",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "line": 27,
+   "question": "原始问卷数据是否可公开获取或经申请获取？",
+   "status": "open"
+  }
+ ],
+ "status": "success",
+ "status_reason": "all checks pass; 15 items await author confirmation",
+ "skill": {
+  "name": "methods-ledger",
+  "version": "0.1.0"
+ },
+ "language": "zh",
+ "profile": "stats",
+ "artifacts": {
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\result.json"
+ },
+ "preview": "pymupdf story, 2 pages",
+ "sources": [
+  {
+   "path": "analysis.R",
+   "class": "code",
+   "sha256": "80cf862bb3fd91aa5e37d9b3b3e248c1a2b85eb7db4841f217070e645f99cb53",
+   "bytes": 290,
+   "facts": 8,
+   "problems": []
+  },
+  {
+   "path": "case.json",
+   "class": "case",
+   "sha256": "333610e33aaa2aa1f564d58dbf84ce515b7eb6d159198b00523a7fda32b44180",
+   "bytes": 469,
+   "facts": 0,
+   "problems": []
+  },
+  {
+   "path": "cleaning_log.txt",
+   "class": "log",
+   "sha256": "65545cb1f531198ad49f54d9a0626edd65f9572593e8e252fccc73342198ad10",
+   "bytes": 208,
+   "facts": 8,
+   "problems": []
+  },
+  {
+   "path": "notes.txt",
+   "class": "doc",
+   "sha256": "8a5717299e172e204047c18ebce8270db502dc3fdd5384fb8728a6f0b624342d",
+   "bytes": 181,
+   "facts": 5,
+   "problems": []
+  },
+  {
+   "path": "问卷说明.md",
+   "class": "doc",
+   "sha256": "5cfec3654b88b3e168c8e1e9fca3293fad3c02973cc333f3f109fd20eb2a1f2c",
+   "bytes": 401,
+   "facts": 10,
+   "problems": []
+  }
+ ],
+ "checks": {
+  "fail": 0,
+  "warn": 1,
+  "accepted": 0,
+  "fail_items": [],
+  "coverage": [
+   {
+    "element": "E_steps",
+    "category": "steps",
+    "label": "有序步骤（每步输入→操作→输出）",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   },
+   {
+    "element": "E_dataset",
+    "category": "data",
+    "label": "数据集名称与来源",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u3",
+     "u5",
+     "u9",
+     "u11",
+     "u13",
+     "u18",
+     "u33",
+     "u35",
+     "u36",
+     "u37"
+    ],
+    "facts_cited": [
+     "F9",
+     "F17",
+     "F10"
+    ]
+   },
+   {
+    "element": "E_dataset_version",
+    "category": "data",
+    "label": "数据集版本/发布号/快照日期",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u3",
+     "u32",
+     "u36"
+    ],
+    "facts_cited": [
+     "F22"
+    ]
+   },
+   {
+    "element": "E_split",
+    "category": "data",
+    "label": "划分规模/比例与划分方式",
+    "level": "required",
+    "status": "marked_gap",
+    "units": [
+     "u19"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_preproc",
+    "category": "data",
+    "label": "预处理/筛选",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u5",
+     "u11",
+     "u13",
+     "u15",
+     "u37"
+    ],
+    "facts_cited": [
+     "F28",
+     "F27"
+    ]
+   },
+   {
+    "element": "E_software",
+    "category": "setup",
+    "label": "软件及版本",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u31",
+     "u32"
+    ],
+    "facts_cited": [
+     "F6",
+     "F4",
+     "F5"
+    ]
+   },
+   {
+    "element": "E_seed",
+    "category": "repro",
+    "label": "随机种子",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u27"
+    ],
+    "facts_cited": [
+     "F7"
+    ]
+   },
+   {
+    "element": "E_controls",
+    "category": "control",
+    "label": "对照组（阳性/阴性/溶剂对照）",
+    "level": "required",
+    "status": "marked_gap",
+    "units": [
+     "u28"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_metric",
+    "category": "control",
+    "label": "评价指标/测量结局",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u9",
+     "u11",
+     "u13",
+     "u15",
+     "u17",
+     "u18",
+     "u21",
+     "u24",
+     "u37"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_stats",
+    "category": "control",
+    "label": "统计检验/不确定度估计",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u25",
+     "u29"
+    ],
+    "facts_cited": [
+     "F2",
+     "F3"
+    ]
+   },
+   {
+    "element": "E_code",
+    "category": "repro",
+    "label": "代码版本与运行命令",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u17",
+     "u32"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_data_access",
+    "category": "repro",
+    "label": "数据获取方式",
+    "level": "recommended",
+    "status": "marked_gap",
+    "units": [
+     "u33"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_limits",
+    "category": "repro",
+    "label": "落到具体失效场景的限制条件",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   }
+  ],
+  "limitations": {
+   "sentences": 3,
+   "anchored": 3,
+   "generic": 0
+  },
+  "stages": []
+ },
+ "needs_confirmation": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "steps",
+   "level": "required",
+   "question": "请确认各处理阶段的先后顺序及每一步的产出。",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "data",
+   "level": "required",
+   "question": "请给出训练/验证/测试集规模（或比例）、划分方式（随机/分层/官方）及划分种子。",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "每个条件同时设置了哪些对照组？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "请定义各评价指标（在哪个数据子集、哪个检查点上计算）。",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "请给出代码提交号/标签及复现报告数值的确切命令。",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G6",
+   "type": "gap",
+   "category": "repro",
+   "level": "recommended",
+   "question": "读者如何获取数据（URL/DOI、许可、访问限制）？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G7",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "G8",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "status": "ambiguous",
+   "facts": [
+    "F1",
+    "F7"
+   ]
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "data",
+   "question": "插补次数 在材料中取值不一致：20 (cleaning_log.txt:5); 10 (notes.txt:2)。正文采用哪一个？",
+   "facts": [
+    "F16",
+    "F8",
+    "F21"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u17c",
+   "type": "draft_confirm",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "line": 13,
+   "question": "笔记称 m=10 即可（notes.txt:2），脚本与日志为 20；正文按日志写 20",
+   "status": "open"
+  },
+  {
+   "id": "Q-u19",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.2 数据清洗步骤",
+   "line": 15,
+   "question": "是否说明为何不需要数据划分（横断面推断研究）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u28",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "line": 23,
+   "question": "是否有对照组或参照类别（如年级参照水平）需要说明？",
+   "status": "open"
+  },
+  {
+   "id": "Q-u29",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.4 统计分析",
+   "line": 23,
+   "question": "请确认报告 OR 及 95% 置信区间",
+   "status": "open"
+  },
+  {
+   "id": "Q-u32",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "line": 27,
+   "question": "请提供代码仓库地址与版本号，以及运行命令（如 Rscript analysis.R）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u33",
+   "type": "draft_gap",
+   "section": "2 研究方法 > 2.5 软件与可复现性",
+   "line": 27,
+   "question": "原始问卷数据是否可公开获取或经申请获取？",
+   "status": "open"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "n_imputations",
+   "label": "插补次数",
+   "scope": "",
+   "values": [
+    {
+     "value": "20",
+     "fact": "F16",
+     "facts": [
+      "F16",
+      "F8"
+     ],
+     "source": "cleaning_log.txt:5",
+     "sources": [
+      "cleaning_log.txt:5",
+      "analysis.R:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "code",
+      "log"
+     ]
+    },
+    {
+     "value": "10",
+     "fact": "F21",
+     "facts": [
+      "F21"
+     ],
+     "source": "notes.txt:2",
+     "sources": [
+      "notes.txt:2"
+     ],
+     "kind": "doc_kv",
+     "kinds": [
+      "doc_kv"
+     ]
+    }
+   ],
+   "facts": [
+    "F16",
+    "F8",
+    "F21"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F16",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "uncertainty": [
+  "G1: 有序步骤（每步输入→操作→输出） - missing",
+  "G2: 划分规模/比例与划分方式 - missing",
+  "G3: 对照组（阳性/阴性/溶剂对照） - missing",
+  "G4: 评价指标/测量结局 - only_mentioned_in_text",
+  "G5: 代码版本与运行命令 - only_mentioned_in_text",
+  "G8: 是否仅单个种子？ - ambiguous",
+  "C1: 插补次数 has 2 different values in the materials",
+  "T05 cited F27 (纳入标准 = 在校本科生、知情同意) but its value is not in the sentence"
+ ],
+ "change_records": {
+  "against_input_draft": [],
+  "build_history": [
+   {
+    "at": "2026-11-23T10:20:33Z",
+    "draft_sha256": "4aa7a4c2d2114e0dab7ff2aecff81cab4f5eec61f98e8b384a979f1cb8120561",
+    "fails": 0,
+    "warns": 1,
+    "changed_sentences": 0,
+    "fail_codes": []
+   }
+  ]
+ },
+ "parameters": [
+  {
+   "name": "数据集版本",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "2023-10-09 至 2023-10-27",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:2",
+   "fact": "F22",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:2"
+   ]
+  },
+  {
+   "name": "纳入/排除标准",
+   "canonical": "inclusion",
+   "category": "data",
+   "value": "在校本科生、知情同意",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:6",
+   "fact": "F27",
+   "source_kind": "doc_kv",
+   "status": "正文已引用; 其他取值：问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20%",
+   "other_values": [
+    "问卷说明.md:7=问卷作答时间 < 120 秒或缺失项 > 20%"
+   ],
+   "all_sources": [
+    "问卷说明.md:6",
+    "问卷说明.md:7"
+   ]
+  },
+  {
+   "name": "批号/货号",
+   "canonical": "lot",
+   "category": "data",
+   "value": "XJ-2023-118",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:8",
+   "fact": "F31",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:8"
+   ]
+  },
+  {
+   "name": "插补次数",
+   "canonical": "n_imputations",
+   "category": "data",
+   "value": "20",
+   "unit": "",
+   "applies_to": "-",
+   "source": "cleaning_log.txt:5",
+   "fact": "F16",
+   "source_kind": "log",
+   "status": "冲突 C1，待作者确认",
+   "other_values": [
+    "notes.txt:2=10"
+   ],
+   "all_sources": [
+    "cleaning_log.txt:5",
+    "analysis.R:5",
+    "notes.txt:2"
+   ]
+  },
+  {
+   "name": "样本数",
+   "canonical": "n_samples",
+   "category": "data",
+   "value": "2846",
+   "unit": "",
+   "applies_to": "-",
+   "source": "cleaning_log.txt:1",
+   "fact": "F9",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：cleaning_log.txt:4=2638; notes.txt:1=2500",
+   "other_values": [
+    "cleaning_log.txt:4=2638",
+    "notes.txt:1=2500"
+   ],
+   "all_sources": [
+    "cleaning_log.txt:1",
+    "cleaning_log.txt:4",
+    "notes.txt:1"
+   ]
+  },
+  {
+   "name": "受试者/样本来源",
+   "canonical": "sample_source",
+   "category": "data",
+   "value": "某综合性大学本科一至四年级学生",
+   "unit": "",
+   "applies_to": "-",
+   "source": "问卷说明.md:3",
+   "fact": "F24",
+   "source_kind": "doc_kv",
+   "status": "正文出现（未标注）",
+   "other_values": [],
+   "all_sources": [
+    "问卷说明.md:3"
+   ]
+  },
+  {
+   "name": "统计软件 (r)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "4.3.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:1",
+   "fact": "F4",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:1"
+   ]
+  },
+  {
+   "name": "统计软件 (mice)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "3.16.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:2",
+   "fact": "F5",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:2"
+   ]
+  },
+  {
+   "name": "统计软件 (lme4)",
+   "canonical": "software_stats",
+   "category": "setup",
+   "value": "1.1-35",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:3",
+   "fact": "F6",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:3"
+   ]
+  },
+  {
+   "name": "显著性水平",
+   "canonical": "alpha_level",
+   "category": "control",
+   "value": "0.05",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:8",
+   "fact": "F3",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:8"
+   ]
+  },
+  {
+   "name": "统计检验",
+   "canonical": "statistical_test",
+   "category": "control",
+   "value": "glmer",
+   "unit": "",
+   "applies_to": "-",
+   "source": "analysis.R:6",
+   "fact": "F2",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:6"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "2023",
+   "unit": "",
+   "applies_to": "set",
+   "source": "analysis.R:4",
+   "fact": "F7",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "analysis.R:4",
+    "analysis.R:5"
+   ]
+  }
+ ],
+ "repro_checklist": [
+  {
+   "item": "code version",
+   "canonical": "code_version",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "commands",
+   "canonical": "command",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "Python",
+   "canonical": "python",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "PyTorch",
+   "canonical": "torch",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "CUDA",
+   "canonical": "cuda",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "other software",
+   "canonical": "software",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "hardware",
+   "canonical": "hardware",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "seeds",
+   "canonical": "seed",
+   "found": true,
+   "values": [
+    "2023"
+   ],
+   "sources": [
+    "analysis.R:5",
+    "analysis.R:4"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "dataset",
+   "canonical": "dataset",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "dataset version",
+   "canonical": "dataset_version",
+   "found": true,
+   "values": [
+    "2023-10-09 至 2023-10-27"
+   ],
+   "sources": [
+    "问卷说明.md:2"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "data access",
+   "canonical": "source_url",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "container/env",
+   "canonical": "container",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  }
+ ],
+ "facts_cited": [
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "F13",
+  "F14",
+  "F15",
+  "F16",
+  "F17",
+  "F18",
+  "F20",
+  "F22",
+  "F23",
+  "F25",
+  "F26",
+  "F27",
+  "F28",
+  "F29",
+  "F30",
+  "F31"
+ ],
+ "n_facts_extracted": 31,
+ "built_at": "2026-11-23T10:20:33Z"
+}

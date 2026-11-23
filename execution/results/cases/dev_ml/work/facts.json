@@ -1,0 +1,2058 @@
+{
+ "facts": [
+  {
+   "id": "F1",
+   "file": "data_card.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "Name",
+   "path": "Name",
+   "canon": null,
+   "category": null,
+   "value": "THUCNews (subset of 10 categories)",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "- Name: THUCNews (subset of 10 categories)"
+  },
+  {
+   "id": "F2",
+   "file": "data_card.md",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- Name: THUCNews (subset of 10 categories)",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "- Name: THUCNews (subset of 10 categories)",
+   "doc_class": "datacard"
+  },
+  {
+   "id": "F3",
+   "file": "data_card.md",
+   "line": 3,
+   "kind": "doc_kv",
+   "key": "Source",
+   "path": "Source",
+   "canon": "source_url",
+   "category": "data",
+   "value": "http://thuctc.thunlp.org/",
+   "nums": [],
+   "scope": "",
+   "context": "- Source: http://thuctc.thunlp.org/"
+  },
+  {
+   "id": "F4",
+   "file": "data_card.md",
+   "line": 4,
+   "kind": "doc_kv",
+   "key": "License",
+   "path": "License",
+   "canon": "license",
+   "category": "data",
+   "value": "research use only",
+   "nums": [],
+   "scope": "",
+   "context": "- License: research use only"
+  },
+  {
+   "id": "F5",
+   "file": "data_card.md",
+   "line": 5,
+   "kind": "doc_kv",
+   "key": "Raw dump",
+   "path": "Raw dump",
+   "canon": null,
+   "category": null,
+   "value": "thucnews_2016.zip (downloaded 2024-02-28)",
+   "nums": [
+    2024.0,
+    2.0,
+    28.0
+   ],
+   "scope": "",
+   "context": "- Raw dump: thucnews_2016.zip (downloaded 2024-02-28)"
+  },
+  {
+   "id": "F6",
+   "file": "data_card.md",
+   "line": 5,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- Raw dump: thucnews_2016.zip (downloaded 2024-02-28)",
+   "nums": [
+    2024.0,
+    2.0,
+    28.0
+   ],
+   "scope": "",
+   "context": "- Raw dump: thucnews_2016.zip (downloaded 2024-02-28)",
+   "doc_class": "datacard"
+  },
+  {
+   "id": "F7",
+   "file": "data_card.md",
+   "line": 6,
+   "kind": "doc_kv",
+   "key": "Categories",
+   "path": "Categories",
+   "canon": null,
+   "category": null,
+   "value": "10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "- Categories: 10"
+  },
+  {
+   "id": "F8",
+   "file": "data_card.md",
+   "line": 6,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- Categories: 10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "- Categories: 10",
+   "doc_class": "datacard"
+  },
+  {
+   "id": "F9",
+   "file": "data_card.md",
+   "line": 7,
+   "kind": "doc_kv",
+   "key": "Split",
+   "path": "Split",
+   "canon": "split_ratio",
+   "category": "data",
+   "value": "8:1:1, stratified by label for the train/rest split",
+   "nums": [
+    8.0,
+    1.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "- Split: 8:1:1, stratified by label for the train/rest split"
+  },
+  {
+   "id": "F10",
+   "file": "data_card.md",
+   "line": 7,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- Split: 8:1:1, stratified by label for the train/rest split",
+   "nums": [
+    8.0,
+    1.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "- Split: 8:1:1, stratified by label for the train/rest split",
+   "doc_class": "datacard"
+  },
+  {
+   "id": "F11",
+   "file": "data_card.md",
+   "line": 5,
+   "kind": "doc_kv",
+   "key": "snapshot",
+   "path": "snapshot",
+   "canon": "dataset_version",
+   "category": "data",
+   "value": "downloaded 2024-02-28",
+   "nums": [
+    2024.0,
+    2.0,
+    28.0
+   ],
+   "scope": "",
+   "context": "- Raw dump: thucnews_2016.zip (downloaded 2024-02-28)"
+  },
+  {
+   "id": "F12",
+   "file": "data_card.md",
+   "line": 7,
+   "kind": "doc_kv",
+   "key": "split_ratio",
+   "path": "split_ratio",
+   "canon": "split_ratio",
+   "category": "data",
+   "value": "8:1:1",
+   "nums": [
+    8.0,
+    1.0,
+    1.0
+   ],
+   "scope": "",
+   "context": "- Split: 8:1:1, stratified by label for the train/rest split"
+  },
+  {
+   "id": "F13",
+   "file": "notes.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "学习率",
+   "path": "text.学习率",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "2e-5",
+   "nums": [
+    2e-05
+   ],
+   "scope": "",
+   "context": "- BERT 微调学习率最终用 2e-5，比配置里的 3e-5 稳定。"
+  },
+  {
+   "id": "F14",
+   "file": "notes.md",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- BERT 微调学习率最终用 2e-5，比配置里的 3e-5 稳定。",
+   "nums": [
+    2e-05,
+    3e-05
+   ],
+   "scope": "",
+   "context": "- BERT 微调学习率最终用 2e-5，比配置里的 3e-5 稳定。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F15",
+   "file": "notes.md",
+   "line": 3,
+   "kind": "doc_kv",
+   "key": "seed",
+   "path": "text.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "- 只跑了 seed 42 一次，时间不够。"
+  },
+  {
+   "id": "F16",
+   "file": "notes.md",
+   "line": 3,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- 只跑了 seed 42 一次，时间不够。",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "- 只跑了 seed 42 一次，时间不够。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F17",
+   "file": "notes.md",
+   "line": 4,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F18",
+   "file": "notes.md",
+   "line": 5,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "- 测试集只评一次，按验证集 macro-F1 选 epoch 4 的检查点。",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "- 测试集只评一次，按验证集 macro-F1 选 epoch 4 的检查点。",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F19",
+   "file": "requirements.txt",
+   "line": 1,
+   "kind": "env",
+   "key": "torch",
+   "path": "version.torch",
+   "canon": "torch",
+   "category": "setup",
+   "value": "2.1.2",
+   "nums": [],
+   "scope": "",
+   "context": "torch==2.1.2",
+   "pinned": true
+  },
+  {
+   "id": "F20",
+   "file": "requirements.txt",
+   "line": 2,
+   "kind": "env",
+   "key": "transformers",
+   "path": "version.transformers",
+   "canon": "software",
+   "category": "setup",
+   "value": "4.36.2",
+   "nums": [],
+   "scope": "",
+   "context": "transformers==4.36.2",
+   "pinned": true
+  },
+  {
+   "id": "F21",
+   "file": "requirements.txt",
+   "line": 3,
+   "kind": "env",
+   "key": "scikit-learn",
+   "path": "version.scikit-learn",
+   "canon": "software",
+   "category": "setup",
+   "value": "1.3.2",
+   "nums": [],
+   "scope": "",
+   "context": "scikit-learn==1.3.2",
+   "pinned": true
+  },
+  {
+   "id": "F22",
+   "file": "requirements.txt",
+   "line": 4,
+   "kind": "env",
+   "key": "numpy",
+   "path": "version.numpy",
+   "canon": "software",
+   "category": "setup",
+   "value": ">=1.24",
+   "nums": [
+    1.24
+   ],
+   "scope": "",
+   "context": "numpy>=1.24",
+   "pinned": false
+  },
+  {
+   "id": "F23",
+   "file": "requirements.txt",
+   "line": 5,
+   "kind": "env",
+   "key": "jieba",
+   "path": "version.jieba",
+   "canon": "software",
+   "category": "setup",
+   "value": "0.42.1",
+   "nums": [],
+   "scope": "",
+   "context": "jieba==0.42.1",
+   "pinned": true
+  },
+  {
+   "id": "F24",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 2,
+   "kind": "config",
+   "key": "name",
+   "path": "baseline.name",
+   "canon": null,
+   "category": null,
+   "value": "tfidf_logreg",
+   "nums": [],
+   "scope": "baseline",
+   "context": "name: tfidf_logreg"
+  },
+  {
+   "id": "F25",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 3,
+   "kind": "config",
+   "key": "ngram_range",
+   "path": "baseline.ngram_range",
+   "canon": null,
+   "category": null,
+   "value": "[1, 2]",
+   "nums": [
+    1.0,
+    2.0
+   ],
+   "scope": "baseline",
+   "context": "ngram_range: [1, 2]"
+  },
+  {
+   "id": "F26",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 4,
+   "kind": "config",
+   "key": "max_features",
+   "path": "baseline.max_features",
+   "canon": null,
+   "category": null,
+   "value": "50000",
+   "nums": [
+    50000.0
+   ],
+   "scope": "baseline",
+   "context": "max_features: 50000"
+  },
+  {
+   "id": "F27",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 5,
+   "kind": "config",
+   "key": "C",
+   "path": "baseline.C",
+   "canon": null,
+   "category": null,
+   "value": "1.0",
+   "nums": [
+    1.0
+   ],
+   "scope": "baseline",
+   "context": "C: 1.0"
+  },
+  {
+   "id": "F28",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 6,
+   "kind": "config",
+   "key": "solver",
+   "path": "baseline.solver",
+   "canon": "optimizer",
+   "category": "params",
+   "value": "liblinear",
+   "nums": [],
+   "scope": "baseline",
+   "context": "solver: liblinear"
+  },
+  {
+   "id": "F29",
+   "file": "configs/baseline_tfidf.yaml",
+   "line": 7,
+   "kind": "config",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "baseline",
+   "context": "seed: 42"
+  },
+  {
+   "id": "F30",
+   "file": "configs/train.yaml",
+   "line": 3,
+   "kind": "config",
+   "key": "name",
+   "path": "model.name",
+   "canon": "model",
+   "category": "control",
+   "value": "bert-base-chinese",
+   "nums": [],
+   "scope": "",
+   "context": "name: bert-base-chinese"
+  },
+  {
+   "id": "F31",
+   "file": "configs/train.yaml",
+   "line": 4,
+   "kind": "config",
+   "key": "max_length",
+   "path": "model.max_length",
+   "canon": "max_length",
+   "category": "params",
+   "value": "256",
+   "nums": [
+    256.0
+   ],
+   "scope": "",
+   "context": "max_length: 256"
+  },
+  {
+   "id": "F32",
+   "file": "configs/train.yaml",
+   "line": 5,
+   "kind": "config",
+   "key": "dropout",
+   "path": "model.dropout",
+   "canon": "dropout",
+   "category": "params",
+   "value": "0.1",
+   "nums": [
+    0.1
+   ],
+   "scope": "",
+   "context": "dropout: 0.1"
+  },
+  {
+   "id": "F33",
+   "file": "configs/train.yaml",
+   "line": 7,
+   "kind": "config",
+   "key": "dataset",
+   "path": "data.dataset",
+   "canon": "dataset",
+   "category": "data",
+   "value": "THUCNews-subset",
+   "nums": [],
+   "scope": "",
+   "context": "dataset: THUCNews-subset"
+  },
+  {
+   "id": "F34",
+   "file": "configs/train.yaml",
+   "line": 8,
+   "kind": "config",
+   "key": "train_file",
+   "path": "data.train_file",
+   "canon": "data_path",
+   "category": "data",
+   "value": "data/train.jsonl",
+   "nums": [],
+   "scope": "",
+   "context": "train_file: data/train.jsonl"
+  },
+  {
+   "id": "F35",
+   "file": "configs/train.yaml",
+   "line": 9,
+   "kind": "config",
+   "key": "val_file",
+   "path": "data.val_file",
+   "canon": "val_file",
+   "category": "data",
+   "value": "data/val.jsonl",
+   "nums": [],
+   "scope": "val",
+   "context": "val_file: data/val.jsonl"
+  },
+  {
+   "id": "F36",
+   "file": "configs/train.yaml",
+   "line": 10,
+   "kind": "config",
+   "key": "test_file",
+   "path": "data.test_file",
+   "canon": "test_file",
+   "category": "data",
+   "value": "data/test.jsonl",
+   "nums": [],
+   "scope": "test",
+   "context": "test_file: data/test.jsonl"
+  },
+  {
+   "id": "F37",
+   "file": "configs/train.yaml",
+   "line": 11,
+   "kind": "config",
+   "key": "num_classes",
+   "path": "data.num_classes",
+   "canon": "num_classes",
+   "category": "data",
+   "value": "10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "num_classes: 10"
+  },
+  {
+   "id": "F38",
+   "file": "configs/train.yaml",
+   "line": 13,
+   "kind": "config",
+   "key": "optimizer",
+   "path": "train.optimizer",
+   "canon": "optimizer",
+   "category": "params",
+   "value": "AdamW",
+   "nums": [],
+   "scope": "",
+   "context": "optimizer: AdamW"
+  },
+  {
+   "id": "F39",
+   "file": "configs/train.yaml",
+   "line": 14,
+   "kind": "config",
+   "key": "lr",
+   "path": "train.lr",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "3.0e-5",
+   "nums": [
+    3e-05
+   ],
+   "scope": "",
+   "context": "lr: 3.0e-5"
+  },
+  {
+   "id": "F40",
+   "file": "configs/train.yaml",
+   "line": 15,
+   "kind": "config",
+   "key": "weight_decay",
+   "path": "train.weight_decay",
+   "canon": "weight_decay",
+   "category": "params",
+   "value": "0.01",
+   "nums": [
+    0.01
+   ],
+   "scope": "",
+   "context": "weight_decay: 0.01"
+  },
+  {
+   "id": "F41",
+   "file": "configs/train.yaml",
+   "line": 16,
+   "kind": "config",
+   "key": "batch_size",
+   "path": "train.batch_size",
+   "canon": "batch_size",
+   "category": "params",
+   "value": "32",
+   "nums": [
+    32.0
+   ],
+   "scope": "",
+   "context": "batch_size: 32"
+  },
+  {
+   "id": "F42",
+   "file": "configs/train.yaml",
+   "line": 17,
+   "kind": "config",
+   "key": "epochs",
+   "path": "train.epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "5",
+   "nums": [
+    5.0
+   ],
+   "scope": "",
+   "context": "epochs: 5"
+  },
+  {
+   "id": "F43",
+   "file": "configs/train.yaml",
+   "line": 18,
+   "kind": "config",
+   "key": "warmup_ratio",
+   "path": "train.warmup_ratio",
+   "canon": "warmup",
+   "category": "params",
+   "value": "0.1",
+   "nums": [
+    0.1
+   ],
+   "scope": "",
+   "context": "warmup_ratio: 0.1"
+  },
+  {
+   "id": "F44",
+   "file": "configs/train.yaml",
+   "line": 19,
+   "kind": "config",
+   "key": "scheduler",
+   "path": "train.scheduler",
+   "canon": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "nums": [],
+   "scope": "",
+   "context": "scheduler: linear"
+  },
+  {
+   "id": "F45",
+   "file": "configs/train.yaml",
+   "line": 20,
+   "kind": "config",
+   "key": "max_grad_norm",
+   "path": "train.max_grad_norm",
+   "canon": "grad_clip",
+   "category": "params",
+   "value": "1.0",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "max_grad_norm: 1.0"
+  },
+  {
+   "id": "F46",
+   "file": "configs/train.yaml",
+   "line": 21,
+   "kind": "config",
+   "key": "fp16",
+   "path": "train.fp16",
+   "canon": "precision",
+   "category": "setup",
+   "value": "true",
+   "nums": [],
+   "scope": "",
+   "context": "fp16: true"
+  },
+  {
+   "id": "F47",
+   "file": "configs/train.yaml",
+   "line": 22,
+   "kind": "config",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "seed: 42"
+  },
+  {
+   "id": "F48",
+   "file": "configs/train.yaml",
+   "line": 24,
+   "kind": "config",
+   "key": "metric",
+   "path": "eval.metric",
+   "canon": "metric",
+   "category": "control",
+   "value": "macro_f1",
+   "nums": [],
+   "scope": "test",
+   "context": "metric: macro_f1"
+  },
+  {
+   "id": "F49",
+   "file": "configs/train.yaml",
+   "line": 25,
+   "kind": "config",
+   "key": "batch_size",
+   "path": "eval.batch_size",
+   "canon": "eval_batch_size",
+   "category": "params",
+   "value": "64",
+   "nums": [
+    64.0
+   ],
+   "scope": "test",
+   "context": "batch_size: 64"
+  },
+  {
+   "id": "F50",
+   "file": "logs/baseline.log",
+   "line": 2,
+   "kind": "log",
+   "key": "macro_f1",
+   "path": "macro_f1",
+   "canon": null,
+   "category": null,
+   "value": "0.874",
+   "nums": [
+    0.874
+   ],
+   "scope": "baseline/test",
+   "context": "2024-03-03 11:03:12 INFO test macro_f1=0.874 accuracy=0.882"
+  },
+  {
+   "id": "F51",
+   "file": "logs/baseline.log",
+   "line": 2,
+   "kind": "log",
+   "key": "accuracy",
+   "path": "accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.882",
+   "nums": [
+    0.882
+   ],
+   "scope": "baseline/test",
+   "context": "2024-03-03 11:03:12 INFO test macro_f1=0.874 accuracy=0.882",
+   "series": "first"
+  },
+  {
+   "id": "F52",
+   "file": "logs/baseline.log",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "test macro_f1=0.874 accuracy=0.882",
+   "nums": [
+    0.874,
+    0.882
+   ],
+   "scope": "baseline/test",
+   "context": "2024-03-03 11:03:12 INFO test macro_f1=0.874 accuracy=0.882",
+   "doc_class": "log"
+  },
+  {
+   "id": "F53",
+   "file": "logs/baseline.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+   "nums": [],
+   "scope": "baseline",
+   "context": "2024-03-03 11:00:00 INFO $ python src/baseline.py --config configs/baseline_tfidf.yaml"
+  },
+  {
+   "id": "F54",
+   "file": "logs/baseline.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "config",
+   "path": "config",
+   "canon": null,
+   "category": null,
+   "value": "configs/baseline_tfidf.yaml",
+   "nums": [],
+   "scope": "baseline",
+   "context": "2024-03-03 11:00:00 INFO $ python src/baseline.py --config configs/baseline_tfidf.yaml"
+  },
+  {
+   "id": "F55",
+   "file": "logs/preprocess.log",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "loaded 74000 raw documents",
+   "nums": [
+    74000.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:40 INFO loaded 74000 raw documents",
+   "doc_class": "log"
+  },
+  {
+   "id": "F56",
+   "file": "logs/preprocess.log",
+   "line": 3,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "removed 1210 documents outside length range [20, 2000]",
+   "nums": [
+    1210.0,
+    20.0,
+    2000.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:41 INFO removed 1210 documents outside length range [20, 2000]",
+   "doc_class": "log"
+  },
+  {
+   "id": "F57",
+   "file": "logs/preprocess.log",
+   "line": 4,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "removed 790 exact duplicates",
+   "nums": [
+    790.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:43 INFO removed 790 exact duplicates",
+   "doc_class": "log"
+  },
+  {
+   "id": "F58",
+   "file": "logs/preprocess.log",
+   "line": 5,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "57600 train samples, 7200 val samples, 7200 test samples",
+   "nums": [
+    57600.0,
+    7200.0,
+    7200.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:44 INFO 57600 train samples, 7200 val samples, 7200 test samples",
+   "doc_class": "log"
+  },
+  {
+   "id": "F59",
+   "file": "logs/preprocess.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-02 10:11:05 INFO $ python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/"
+  },
+  {
+   "id": "F60",
+   "file": "logs/preprocess.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "raw",
+   "path": "raw",
+   "canon": null,
+   "category": null,
+   "value": "data/raw/thucnews_2016.zip",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-02 10:11:05 INFO $ python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/"
+  },
+  {
+   "id": "F61",
+   "file": "logs/preprocess.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "out",
+   "path": "out",
+   "canon": null,
+   "category": null,
+   "value": "data/",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-02 10:11:05 INFO $ python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/"
+  },
+  {
+   "id": "F62",
+   "file": "logs/preprocess.log",
+   "line": 5,
+   "kind": "log",
+   "key": "n_train",
+   "path": "n_train",
+   "canon": "n_train",
+   "category": "data",
+   "value": "57600",
+   "nums": [
+    57600.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:44 INFO 57600 train samples, 7200 val samples, 7200 test samples"
+  },
+  {
+   "id": "F63",
+   "file": "logs/preprocess.log",
+   "line": 5,
+   "kind": "log",
+   "key": "n_val",
+   "path": "n_val",
+   "canon": "n_val",
+   "category": "data",
+   "value": "7200",
+   "nums": [
+    7200.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:44 INFO 57600 train samples, 7200 val samples, 7200 test samples"
+  },
+  {
+   "id": "F64",
+   "file": "logs/preprocess.log",
+   "line": 5,
+   "kind": "log",
+   "key": "n_test",
+   "path": "n_test",
+   "canon": "n_test",
+   "category": "data",
+   "value": "7200",
+   "nums": [
+    7200.0
+   ],
+   "scope": "",
+   "context": "2024-03-02 10:12:44 INFO 57600 train samples, 7200 val samples, 7200 test samples"
+  },
+  {
+   "id": "F65",
+   "file": "logs/train_bert_seed42.log",
+   "line": 4,
+   "kind": "log",
+   "key": "commit",
+   "path": "commit",
+   "canon": "code_version",
+   "category": "repro",
+   "value": "9f3c2ab",
+   "nums": [
+    9.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:04 INFO git commit: 9f3c2ab"
+  },
+  {
+   "id": "F66",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "lr",
+   "path": "lr",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "2e-05",
+   "nums": [
+    2e-05
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F67",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "batch_size",
+   "path": "batch_size",
+   "canon": "batch_size",
+   "category": "params",
+   "value": "32",
+   "nums": [
+    32.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F68",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "epochs",
+   "path": "epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "5",
+   "nums": [
+    5.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F69",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F70",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "max_length",
+   "path": "max_length",
+   "canon": "max_length",
+   "category": "params",
+   "value": "256",
+   "nums": [
+    256.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F71",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "log",
+   "key": "warmup_ratio",
+   "path": "warmup_ratio",
+   "canon": "warmup",
+   "category": "params",
+   "value": "0.1",
+   "nums": [
+    0.1
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)"
+  },
+  {
+   "id": "F72",
+   "file": "logs/train_bert_seed42.log",
+   "line": 6,
+   "kind": "log",
+   "key": "train_loss",
+   "path": "train_loss",
+   "canon": null,
+   "category": null,
+   "value": "0.412",
+   "nums": [
+    0.412
+   ],
+   "scope": "val",
+   "context": "2024-03-03 09:20:11 INFO Epoch 1/5 train_loss=0.412 val_macro_f1=0.912",
+   "series": "first"
+  },
+  {
+   "id": "F73",
+   "file": "logs/train_bert_seed42.log",
+   "line": 10,
+   "kind": "log",
+   "key": "train_loss",
+   "path": "train_loss",
+   "canon": null,
+   "category": null,
+   "value": "0.081",
+   "nums": [
+    0.081
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:40:16 INFO Epoch 5/5 train_loss=0.081 val_macro_f1=0.939",
+   "series": "last"
+  },
+  {
+   "id": "F74",
+   "file": "logs/train_bert_seed42.log",
+   "line": 6,
+   "kind": "log",
+   "key": "val_macro_f1",
+   "path": "val_macro_f1",
+   "canon": null,
+   "category": null,
+   "value": "0.912",
+   "nums": [
+    0.912
+   ],
+   "scope": "val",
+   "context": "2024-03-03 09:20:11 INFO Epoch 1/5 train_loss=0.412 val_macro_f1=0.912",
+   "series": "first"
+  },
+  {
+   "id": "F75",
+   "file": "logs/train_bert_seed42.log",
+   "line": 11,
+   "kind": "log",
+   "key": "val_macro_f1",
+   "path": "val_macro_f1",
+   "canon": null,
+   "category": null,
+   "value": "0.940",
+   "nums": [
+    0.94
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:40:20 INFO best checkpoint: epoch 4 (val_macro_f1=0.940)",
+   "series": "last"
+  },
+  {
+   "id": "F76",
+   "file": "logs/train_bert_seed42.log",
+   "line": 11,
+   "kind": "log",
+   "key": "checkpoint",
+   "path": "checkpoint",
+   "canon": "checkpoint",
+   "category": "repro",
+   "value": "epoch 4",
+   "nums": [
+    4.0
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:40:20 INFO best checkpoint: epoch 4 (val_macro_f1=0.940)"
+  },
+  {
+   "id": "F77",
+   "file": "logs/train_bert_seed42.log",
+   "line": 12,
+   "kind": "log",
+   "key": "macro_f1",
+   "path": "macro_f1",
+   "canon": null,
+   "category": null,
+   "value": "0.936",
+   "nums": [
+    0.936
+   ],
+   "scope": "test",
+   "context": "2024-03-03 10:41:02 INFO test macro_f1=0.936 accuracy=0.941"
+  },
+  {
+   "id": "F78",
+   "file": "logs/train_bert_seed42.log",
+   "line": 12,
+   "kind": "log",
+   "key": "accuracy",
+   "path": "accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.941",
+   "nums": [
+    0.941
+   ],
+   "scope": "test",
+   "context": "2024-03-03 10:41:02 INFO test macro_f1=0.936 accuracy=0.941",
+   "series": "first"
+  },
+  {
+   "id": "F79",
+   "file": "logs/train_bert_seed42.log",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902",
+   "nums": [
+    12.1,
+    8902.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902",
+   "doc_class": "log"
+  },
+  {
+   "id": "F80",
+   "file": "logs/train_bert_seed42.log",
+   "line": 3,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "device: NVIDIA A100-SXM4-80GB x 1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO device: NVIDIA A100-SXM4-80GB x 1",
+   "doc_class": "log"
+  },
+  {
+   "id": "F81",
+   "file": "logs/train_bert_seed42.log",
+   "line": 4,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "git commit: 9f3c2ab",
+   "nums": [
+    9.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:04 INFO git commit: 9f3c2ab",
+   "doc_class": "log"
+  },
+  {
+   "id": "F82",
+   "file": "logs/train_bert_seed42.log",
+   "line": 5,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)",
+   "nums": [
+    2e-05,
+    32.0,
+    5.0,
+    42.0,
+    256.0,
+    0.1
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)",
+   "doc_class": "log"
+  },
+  {
+   "id": "F83",
+   "file": "logs/train_bert_seed42.log",
+   "line": 6,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Epoch 1/5 train_loss=0.412 val_macro_f1=0.912",
+   "nums": [
+    1.0,
+    5.0,
+    0.412,
+    0.912
+   ],
+   "scope": "val",
+   "context": "2024-03-03 09:20:11 INFO Epoch 1/5 train_loss=0.412 val_macro_f1=0.912",
+   "doc_class": "log"
+  },
+  {
+   "id": "F84",
+   "file": "logs/train_bert_seed42.log",
+   "line": 7,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Epoch 2/5 train_loss=0.221 val_macro_f1=0.931",
+   "nums": [
+    2.0,
+    5.0,
+    0.221,
+    0.931
+   ],
+   "scope": "val",
+   "context": "2024-03-03 09:40:12 INFO Epoch 2/5 train_loss=0.221 val_macro_f1=0.931",
+   "doc_class": "log"
+  },
+  {
+   "id": "F85",
+   "file": "logs/train_bert_seed42.log",
+   "line": 8,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Epoch 3/5 train_loss=0.150 val_macro_f1=0.938",
+   "nums": [
+    3.0,
+    5.0,
+    0.15,
+    0.938
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:00:15 INFO Epoch 3/5 train_loss=0.150 val_macro_f1=0.938",
+   "doc_class": "log"
+  },
+  {
+   "id": "F86",
+   "file": "logs/train_bert_seed42.log",
+   "line": 9,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Epoch 4/5 train_loss=0.102 val_macro_f1=0.940",
+   "nums": [
+    4.0,
+    5.0,
+    0.102,
+    0.94
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:20:16 INFO Epoch 4/5 train_loss=0.102 val_macro_f1=0.940",
+   "doc_class": "log"
+  },
+  {
+   "id": "F87",
+   "file": "logs/train_bert_seed42.log",
+   "line": 10,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "Epoch 5/5 train_loss=0.081 val_macro_f1=0.939",
+   "nums": [
+    5.0,
+    5.0,
+    0.081,
+    0.939
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:40:16 INFO Epoch 5/5 train_loss=0.081 val_macro_f1=0.939",
+   "doc_class": "log"
+  },
+  {
+   "id": "F88",
+   "file": "logs/train_bert_seed42.log",
+   "line": 11,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "best checkpoint: epoch 4 (val_macro_f1=0.940)",
+   "nums": [
+    4.0,
+    0.94
+   ],
+   "scope": "val",
+   "context": "2024-03-03 10:40:20 INFO best checkpoint: epoch 4 (val_macro_f1=0.940)",
+   "doc_class": "log"
+  },
+  {
+   "id": "F89",
+   "file": "logs/train_bert_seed42.log",
+   "line": 12,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "test macro_f1=0.936 accuracy=0.941",
+   "nums": [
+    0.936,
+    0.941
+   ],
+   "scope": "test",
+   "context": "2024-03-03 10:41:02 INFO test macro_f1=0.936 accuracy=0.941",
+   "doc_class": "log"
+  },
+  {
+   "id": "F90",
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42",
+   "nums": [
+    2e-05,
+    5.0,
+    42.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  },
+  {
+   "id": "F91",
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "config",
+   "path": "config",
+   "canon": null,
+   "category": null,
+   "value": "configs/train.yaml",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  },
+  {
+   "id": "F92",
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "lr",
+   "path": "lr",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "2e-5",
+   "nums": [
+    2e-05
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  },
+  {
+   "id": "F93",
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "epochs",
+   "path": "epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "5",
+   "nums": [
+    5.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  },
+  {
+   "id": "F94",
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "kind": "cli",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  },
+  {
+   "id": "F95",
+   "file": "logs/train_bert_seed42.log",
+   "line": 2,
+   "kind": "log",
+   "key": "torch",
+   "path": "version.torch",
+   "canon": "torch",
+   "category": "setup",
+   "value": "2.1.2+cu121",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902"
+  },
+  {
+   "id": "F96",
+   "file": "logs/train_bert_seed42.log",
+   "line": 2,
+   "kind": "log",
+   "key": "cuda",
+   "path": "version.cuda",
+   "canon": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "nums": [
+    12.1
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902"
+  },
+  {
+   "id": "F97",
+   "file": "logs/train_bert_seed42.log",
+   "line": 2,
+   "kind": "log",
+   "key": "cudnn",
+   "path": "version.cudnn",
+   "canon": "cudnn",
+   "category": "setup",
+   "value": "8902",
+   "nums": [
+    8902.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902"
+  },
+  {
+   "id": "F98",
+   "file": "logs/train_bert_seed42.log",
+   "line": 3,
+   "kind": "log",
+   "key": "gpu",
+   "path": "gpu",
+   "canon": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-80GB",
+   "nums": [],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO device: NVIDIA A100-SXM4-80GB x 1"
+  },
+  {
+   "id": "F99",
+   "file": "logs/train_bert_seed42.log",
+   "line": 3,
+   "kind": "log",
+   "key": "num_gpus",
+   "path": "num_gpus",
+   "canon": "num_gpus",
+   "category": "setup",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:00:03 INFO device: NVIDIA A100-SXM4-80GB x 1"
+  },
+  {
+   "id": "F100",
+   "file": "logs/train_bert_seed42.log",
+   "line": 6,
+   "kind": "log",
+   "key": "epoch_total",
+   "path": "epoch_total",
+   "canon": "epochs",
+   "category": "params",
+   "value": "5",
+   "nums": [
+    5.0
+   ],
+   "scope": "",
+   "context": "2024-03-03 09:20:11 INFO Epoch 1/5 train_loss=0.412 val_macro_f1=0.912"
+  },
+  {
+   "id": "F101",
+   "file": "src/baseline.py",
+   "line": 3,
+   "kind": "code",
+   "key": "metric",
+   "path": "metric",
+   "canon": "metric",
+   "category": "control",
+   "value": "f1_score",
+   "nums": [],
+   "scope": "baseline",
+   "context": "from sklearn.metrics import f1_score"
+  },
+  {
+   "id": "F102",
+   "file": "src/baseline.py",
+   "line": 6,
+   "kind": "code",
+   "key": "solver",
+   "path": "solver",
+   "canon": "optimizer",
+   "category": "params",
+   "value": "liblinear",
+   "nums": [],
+   "scope": "baseline",
+   "context": "clf = LogisticRegression(C=1.0, solver=\"liblinear\", max_iter=1000)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F103",
+   "file": "src/baseline.py",
+   "line": 6,
+   "kind": "code",
+   "key": "max_iter",
+   "path": "max_iter",
+   "canon": "max_steps",
+   "category": "params",
+   "value": "1000",
+   "nums": [
+    1000.0
+   ],
+   "scope": "baseline",
+   "context": "clf = LogisticRegression(C=1.0, solver=\"liblinear\", max_iter=1000)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F104",
+   "file": "src/preprocess.py",
+   "line": 4,
+   "kind": "code",
+   "key": "MIN_CHARS",
+   "path": "MIN_CHARS",
+   "canon": null,
+   "category": null,
+   "value": "20",
+   "nums": [
+    20.0
+   ],
+   "scope": "",
+   "context": "MIN_CHARS = 20",
+   "code_role": "constant"
+  },
+  {
+   "id": "F105",
+   "file": "src/preprocess.py",
+   "line": 5,
+   "kind": "code",
+   "key": "MAX_CHARS",
+   "path": "MAX_CHARS",
+   "canon": null,
+   "category": null,
+   "value": "2000",
+   "nums": [
+    2000.0
+   ],
+   "scope": "",
+   "context": "MAX_CHARS = 2000",
+   "code_role": "constant"
+  },
+  {
+   "id": "F106",
+   "file": "src/preprocess.py",
+   "line": 10,
+   "kind": "code",
+   "key": "test_size",
+   "path": "test_size",
+   "canon": "test_size",
+   "category": "data",
+   "value": "0.2",
+   "nums": [
+    0.2
+   ],
+   "scope": "test",
+   "context": "train, rest = train_test_split(docs, test_size=0.2, random_state=2023, stratify=[d[\"label\"] for d in docs])",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F107",
+   "file": "src/preprocess.py",
+   "line": 10,
+   "kind": "code",
+   "key": "random_state",
+   "path": "random_state",
+   "canon": "split_seed",
+   "category": "data",
+   "value": "2023",
+   "nums": [
+    2023.0
+   ],
+   "scope": "",
+   "context": "train, rest = train_test_split(docs, test_size=0.2, random_state=2023, stratify=[d[\"label\"] for d in docs])",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F108",
+   "file": "src/preprocess.py",
+   "line": 11,
+   "kind": "code",
+   "key": "test_size",
+   "path": "test_size",
+   "canon": "test_size",
+   "category": "data",
+   "value": "0.5",
+   "nums": [
+    0.5
+   ],
+   "scope": "test",
+   "context": "val, test = train_test_split(rest, test_size=0.5, random_state=2023)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F109",
+   "file": "src/preprocess.py",
+   "line": 11,
+   "kind": "code",
+   "key": "random_state",
+   "path": "random_state",
+   "canon": "split_seed",
+   "category": "data",
+   "value": "2023",
+   "nums": [
+    2023.0
+   ],
+   "scope": "",
+   "context": "val, test = train_test_split(rest, test_size=0.5, random_state=2023)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F110",
+   "file": "src/train.py",
+   "line": 8,
+   "kind": "code",
+   "key": "config",
+   "path": "config",
+   "canon": null,
+   "category": null,
+   "value": "configs/train.yaml",
+   "nums": [],
+   "scope": "",
+   "context": "p.add_argument(\"--config\", default=\"configs/train.yaml\")",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F111",
+   "file": "src/train.py",
+   "line": 9,
+   "kind": "code",
+   "key": "lr",
+   "path": "lr",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "2e-5",
+   "nums": [
+    2e-05
+   ],
+   "scope": "",
+   "context": "p.add_argument(\"--lr\", type=float, default=2e-5)",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F112",
+   "file": "src/train.py",
+   "line": 10,
+   "kind": "code",
+   "key": "epochs",
+   "path": "epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "3",
+   "nums": [
+    3.0
+   ],
+   "scope": "",
+   "context": "p.add_argument(\"--epochs\", type=int, default=3)",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F113",
+   "file": "src/train.py",
+   "line": 11,
+   "kind": "code",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "42",
+   "nums": [
+    42.0
+   ],
+   "scope": "",
+   "context": "p.add_argument(\"--seed\", type=int, default=42)",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F114",
+   "file": "src/train.py",
+   "line": 12,
+   "kind": "code",
+   "key": "output_dir",
+   "path": "output_dir",
+   "canon": "output_dir",
+   "category": "repro",
+   "value": "runs/bert",
+   "nums": [],
+   "scope": "",
+   "context": "p.add_argument(\"--output_dir\", default=\"runs/bert\")",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F115",
+   "file": "src/train.py",
+   "line": 4,
+   "kind": "code",
+   "key": "scheduler",
+   "path": "scheduler",
+   "canon": "scheduler",
+   "category": "params",
+   "value": "get_linear_schedule_with_warmup",
+   "nums": [],
+   "scope": "",
+   "context": "from transformers import AutoTokenizer, AutoModelForSequenceClassification, get_linear_schedule_with_warmup"
+  },
+  {
+   "id": "F116",
+   "file": "src/train.py",
+   "line": 15,
+   "kind": "code",
+   "key": "model",
+   "path": "model",
+   "canon": "model",
+   "category": "control",
+   "value": "bert-base-chinese",
+   "nums": [],
+   "scope": "",
+   "context": "tok = AutoTokenizer.from_pretrained(\"bert-base-chinese\")"
+  },
+  {
+   "id": "F117",
+   "file": "src/train.py",
+   "line": 16,
+   "kind": "code",
+   "key": "num_labels",
+   "path": "num_labels",
+   "canon": "num_classes",
+   "category": "data",
+   "value": "10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "model = AutoModelForSequenceClassification.from_pretrained(\"bert-base-chinese\", num_labels=10)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F118",
+   "file": "src/train.py",
+   "line": 17,
+   "kind": "code",
+   "key": "weight_decay",
+   "path": "weight_decay",
+   "canon": "weight_decay",
+   "category": "params",
+   "value": "0.01",
+   "nums": [
+    0.01
+   ],
+   "scope": "",
+   "context": "opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F119",
+   "file": "src/train.py",
+   "line": 17,
+   "kind": "code",
+   "key": "optimizer",
+   "path": "optimizer",
+   "canon": "optimizer",
+   "category": "params",
+   "value": "AdamW",
+   "nums": [],
+   "scope": "",
+   "context": "opt = torch.optim.AdamW(model.parameters(), lr=args.lr, weight_decay=0.01)"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "learning_rate",
+   "label": "学习率",
+   "scope": "",
+   "values": [
+    {
+     "value": "2e-05",
+     "fact": "F66",
+     "facts": [
+      "F66",
+      "F92",
+      "F13"
+     ],
+     "source": "logs/train_bert_seed42.log:5",
+     "sources": [
+      "logs/train_bert_seed42.log:5",
+      "logs/train_bert_seed42.log:1",
+      "notes.md:2"
+     ],
+     "kind": "log",
+     "kinds": [
+      "cli",
+      "doc_kv",
+      "log"
+     ]
+    },
+    {
+     "value": "3.0e-5",
+     "fact": "F39",
+     "facts": [
+      "F39"
+     ],
+     "source": "configs/train.yaml:14",
+     "sources": [
+      "configs/train.yaml:14"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F66",
+    "F92",
+    "F39",
+    "F13"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F66",
+   "overridden_code_defaults": [
+    "F111=2e-5 (src/train.py:9)"
+   ],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "G1",
+   "element": "E_repeats",
+   "category": "control",
+   "level": "required",
+   "label": "重复次数/平行样数及结果汇总方式",
+   "status": "missing",
+   "question": "每个条件独立运行/平行样多少次？报告的是均值±标准差/标准误还是单次结果？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G2",
+   "element": "E_stats",
+   "category": "control",
+   "level": "recommended",
+   "label": "统计检验/不确定度估计",
+   "status": "missing",
+   "question": "比较结论基于何种统计检验或不确定度估计（检验方法、显著性水平、多重校正）？",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G3",
+   "element": "E_limits",
+   "category": "repro",
+   "level": "required",
+   "label": "落到具体失效场景的限制条件",
+   "status": "author_input",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "why": "limitations must name concrete untested conditions; materials rarely state them - derive candidates from the facts (single seed, one dataset version, one hardware type) and ask the author"
+  },
+  {
+   "id": "G4",
+   "element": "E_repeats",
+   "category": "control",
+   "level": "required",
+   "label": "是否仅单个种子？",
+   "status": "ambiguous",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "facts": [
+    "F15",
+    "F29",
+    "F47",
+    "F69",
+    "F94"
+   ],
+   "why": "one seed, no repetition count"
+  },
+  {
+   "id": "G5",
+   "element": "E_software",
+   "category": "setup",
+   "level": "recommended",
+   "label": "未锁定的版本",
+   "status": "ambiguous",
+   "question": "部分依赖只写了版本范围（>=、~=）：请给出报告运行时实际安装的精确版本（pip freeze）。",
+   "facts": [
+    "F22"
+   ],
+   "why": "version range is not reproducible"
+  }
+ ]
+}

@@ -1,0 +1,382 @@
+{
+ "status": "success",
+ "reason": "all checks pass; 13 items await author confirmation",
+ "items": [
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F71 (lora.target_modules = [query, value]) but its value is not in the sentence",
+   "unit": "u6",
+   "line": 6
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F15 (config = conf/full_ft.yaml) but its value is not in the sentence",
+   "unit": "u8",
+   "line": 7
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F16 (seed = $SEED) but its value is not in the sentence",
+   "unit": "u8",
+   "line": 7
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F17 (output_dir = out/full_s$SEED) but its value is not in the sentence",
+   "unit": "u8",
+   "line": 7
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F10 (config = conf/lora.yaml) but its value is not in the sentence",
+   "unit": "u18",
+   "line": 19
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F11 (seed = $SEED) but its value is not in the sentence",
+   "unit": "u18",
+   "line": 19
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F12 (output_dir = out/lora_s$SEED) but its value is not in the sentence",
+   "unit": "u18",
+   "line": 19
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F32 (revision = bcdcba79d07bc864c1c254ccfcedcc) but its value is not in the sentence",
+   "unit": "u29",
+   "line": 38
+  },
+  {
+   "level": "warn",
+   "code": "T05",
+   "msg": "cited F33 (dataset = glue) but its value is not in the sentence",
+   "unit": "u29",
+   "line": 38
+  },
+  {
+   "level": "warn",
+   "code": "X01",
+   "msg": "F20 comes from the test context (results.csv:2) but the sentence talks about val",
+   "unit": "u29",
+   "line": 38
+  },
+  {
+   "level": "warn",
+   "code": "X01",
+   "msg": "F22 comes from the test context (results.csv:3) but the sentence talks about val",
+   "unit": "u29",
+   "line": 38
+  },
+  {
+   "level": "warn",
+   "code": "X01",
+   "msg": "F24 comes from the test context (results.csv:4) but the sentence talks about val",
+   "unit": "u29",
+   "line": 38
+  },
+  {
+   "level": "warn",
+   "code": "K02",
+   "msg": "element not covered and not marked as a gap: preprocessing / filtering -> write it with sources or add [[GAP: Describe preprocessing and filtering (what was removed and h...]]",
+   "unit": null,
+   "line": null,
+   "element": "E_preproc"
+  },
+  {
+   "level": "warn",
+   "code": "K02",
+   "msg": "element not covered and not marked as a gap: data availability / access -> write it with sources or add [[GAP: How can readers obtain the data (URL/DOI, license, access re...]]",
+   "unit": null,
+   "line": null,
+   "element": "E_data_access"
+  }
+ ],
+ "coverage": [
+  {
+   "element": "E_steps",
+   "category": "steps",
+   "label": "ordered procedure (input -> operation -> output per step)",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  },
+  {
+   "element": "E_dataset",
+   "category": "data",
+   "label": "dataset name and source",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u27"
+   ],
+   "facts_cited": [
+    "F33",
+    "F58"
+   ]
+  },
+  {
+   "element": "E_dataset_version",
+   "category": "data",
+   "label": "dataset version / release / snapshot date",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4"
+   ],
+   "facts_cited": [
+    "F34"
+   ]
+  },
+  {
+   "element": "E_split",
+   "category": "data",
+   "label": "split sizes/ratios and how they were drawn",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u10",
+    "u29"
+   ],
+   "facts_cited": [
+    "F59",
+    "F58"
+   ]
+  },
+  {
+   "element": "E_preproc",
+   "category": "data",
+   "label": "preprocessing / filtering",
+   "level": "recommended",
+   "status": "missing",
+   "units": [],
+   "facts_cited": [
+    "F65",
+    "F80"
+   ]
+  },
+  {
+   "element": "E_model",
+   "category": "control",
+   "label": "model / architecture and initialisation",
+   "level": "recommended",
+   "status": "covered",
+   "units": [
+    "u8",
+    "u29"
+   ],
+   "facts_cited": [
+    "F66",
+    "F60"
+   ]
+  },
+  {
+   "element": "E_hparams",
+   "category": "params",
+   "label": "optimiser, learning rate, batch size, training length",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u10",
+    "u13",
+    "u14",
+    "u15",
+    "u29"
+   ],
+   "facts_cited": [
+    "F41",
+    "F61",
+    "F63",
+    "F44",
+    "F72",
+    "F64",
+    "F79",
+    "F43"
+   ]
+  },
+  {
+   "element": "E_hardware",
+   "category": "setup",
+   "label": "hardware (device type and count)",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u14",
+    "u18",
+    "u19",
+    "u26"
+   ],
+   "facts_cited": [
+    "F9",
+    "F36",
+    "F7",
+    "F57",
+    "F14"
+   ]
+  },
+  {
+   "element": "E_software",
+   "category": "setup",
+   "label": "software and versions",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u18"
+   ],
+   "facts_cited": [
+    "F53",
+    "F52",
+    "F54",
+    "F55"
+   ]
+  },
+  {
+   "element": "E_seed",
+   "category": "repro",
+   "label": "random seed(s)",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u14",
+    "u21",
+    "u22",
+    "u25",
+    "u26",
+    "u29"
+   ],
+   "facts_cited": [
+    "F2",
+    "F11",
+    "F21",
+    "F19",
+    "F23",
+    "F16"
+   ]
+  },
+  {
+   "element": "E_repeats",
+   "category": "control",
+   "label": "number of repetitions / replicates and how results are aggregated",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u10",
+    "u14",
+    "u18",
+    "u21",
+    "u22",
+    "u25",
+    "u26",
+    "u29"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_baseline",
+   "category": "control",
+   "label": "baselines with versions and same-budget conditions",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u8",
+    "u15",
+    "u29"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_metric",
+   "category": "control",
+   "label": "evaluation metrics / measured outcomes",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u8",
+    "u10",
+    "u13",
+    "u18",
+    "u21",
+    "u29"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_stats",
+   "category": "control",
+   "label": "statistical test / uncertainty estimate",
+   "level": "recommended",
+   "status": "marked_gap",
+   "units": [
+    "u22"
+   ],
+   "facts_cited": []
+  },
+  {
+   "element": "E_code",
+   "category": "repro",
+   "label": "code version and run commands",
+   "level": "required",
+   "status": "covered",
+   "units": [
+    "u4",
+    "u24",
+    "u25"
+   ],
+   "facts_cited": [
+    "F13",
+    "F6",
+    "F32",
+    "F8"
+   ]
+  },
+  {
+   "element": "E_data_access",
+   "category": "repro",
+   "label": "data availability / access",
+   "level": "recommended",
+   "status": "missing",
+   "units": [],
+   "facts_cited": []
+  },
+  {
+   "element": "E_limits",
+   "category": "repro",
+   "label": "limitations tied to concrete failure scenarios",
+   "level": "required",
+   "status": "covered",
+   "units": [],
+   "facts_cited": []
+  }
+ ],
+ "limitations": {
+  "sentences": 1,
+  "anchored": 1,
+  "generic": 0
+ },
+ "stages": [
+  {
+   "script": "run_glue.py",
+   "source": "launch.sh:3",
+   "described": true
+  },
+  {
+   "script": "run_glue.py",
+   "source": "launch.sh:4",
+   "described": true
+  }
+ ]
+}

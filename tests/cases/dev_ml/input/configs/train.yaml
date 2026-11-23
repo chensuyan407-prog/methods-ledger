@@ -1,0 +1,25 @@
+# fine-tuning config used for the paper runs
+model:
+  name: bert-base-chinese
+  max_length: 256
+  dropout: 0.1
+data:
+  dataset: THUCNews-subset
+  train_file: data/train.jsonl
+  val_file: data/val.jsonl
+  test_file: data/test.jsonl
+  num_classes: 10
+train:
+  optimizer: AdamW
+  lr: 3.0e-5
+  weight_decay: 0.01
+  batch_size: 32
+  epochs: 5
+  warmup_ratio: 0.1
+  scheduler: linear
+  max_grad_norm: 1.0
+  fp16: true
+seed: 42
+eval:
+  metric: macro_f1
+  batch_size: 64

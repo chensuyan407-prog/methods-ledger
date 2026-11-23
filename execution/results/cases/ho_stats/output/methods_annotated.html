@@ -1,0 +1,39 @@
+<!doctype html><html><head><meta charset='utf-8'><title>ho_stats_sleep methods (annotated)</title>
+<style>body{font-family:'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif;max-width:900px;margin:24px auto;line-height:1.6;color:#222}table{border-collapse:collapse;font-size:12px}td,th{border:1px solid #999;padding:3px 6px;vertical-align:top}code,pre{background:#f4f4f4;font-size:12px}pre{padding:8px;white-space:pre-wrap}sup{color:#36c;font-size:10px}.gap{background:#fff3c4}</style></head><body>
+<h1>2 研究方法</h1>
+<h2>2.1 研究对象与抽样</h2>
+<p>调查于 2023-10-09 至 2023-10-27 开展 <sup>[F22: 问卷说明.md:2; F23: 问卷说明.md:2]</sup>，对象为某综合性大学本科一至四年级学生 <sup>[问卷说明.md:3]</sup>，按学院分层整群抽样 <sup>[问卷说明.md:4]</sup>。纳入标准为在校本科生且知情同意 <sup>[F27: 问卷说明.md:6]</sup>；排除作答时间 &lt; 120 秒或缺失项 &gt; 20% 的问卷 <sup>[F28: 问卷说明.md:7; F29: 问卷说明.md:7]</sup>。研究经伦理审查批准（批号 XJ-2023-118）<sup>[F30: 问卷说明.md:8; F31: 问卷说明.md:8]</sup>。</p>
+<h2>2.2 数据清洗步骤</h2>
+<p style='margin:2px 0 2px 18px'>1. 收集原始问卷：共 2846 份 <sup>[F9: cleaning_log.txt:1; F11: cleaning_log.txt:1]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>2. 剔除作答时间 &lt; 120 秒的问卷 131 份 <sup>[F12: cleaning_log.txt:2]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>3. 剔除缺失项 &gt; 20% 的问卷 77 份 <sup>[F13: cleaning_log.txt:3]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>4. 得到分析样本 2638 份 <sup>[F10: cleaning_log.txt:4; F14: cleaning_log.txt:4]</sup>，与上述剔除数一致 <sup>[calc: 2846-131-77]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>5. 协变量缺失用多重插补处理，插补 20 次 <sup>[F15: cleaning_log.txt:5; F16: cleaning_log.txt:5]</sup> <span class='gap'>【待作者确认：笔记称 m=10 即可（notes.txt:2），脚本与日志为 20；正文按日志写 20】</span>。</p>
+<p>设计样本量为 2500 份有效问卷（预期患病率 30%，容许误差 2%）<sup>[F17: notes.txt:1; F18: notes.txt:1]</sup>。本研究无训练/测试划分 <span class='gap'>【待确认：是否说明为何不需要数据划分（横断面推断研究）】</span>。</p>
+<h2>2.3 变量定义</h2>
+<p>睡眠质量用匹兹堡睡眠质量指数（PSQI）测量，PSQI &gt; 7 判为睡眠质量差 <sup>[F25: 问卷说明.md:5; F26: 问卷说明.md:5]</sup>；GPA 处于后 25% 定义为学业表现差 <sup>[F20: notes.txt:3]</sup>。</p>
+<h2>2.4 统计分析</h2>
+<p>以睡眠质量差为结局，建立含学院随机截距的混合效应 logistic 回归（glmer，固定效应为学业表现差、年级、性别）<sup>[F2: analysis.R:6]</sup>，在多重插补数据上分别拟合后合并结果 <sup>[analysis.R:7]</sup>。显著性水平 α = 0.05 <sup>[F3: analysis.R:8]</sup>。另以完整病例分析作敏感性分析 <sup>[analysis.R:9]</sup>。随机种子为 2023 <sup>[F7: analysis.R:4]</sup>。对照设置 <span class='gap'>【待确认：是否有对照组或参照类别（如年级参照水平）需要说明？】</span>；每个模型只拟合一次，结果的不确定度由置信区间表示 <span class='gap'>【待确认：请确认报告 OR 及 95% 置信区间】</span>。</p>
+<h2>2.5 软件与可复现性</h2>
+<p>分析使用 R 4.3.2 <sup>[F4: analysis.R:1]</sup>、mice 3.16.0 <sup>[F5: analysis.R:2]</sup> 与 lme4 1.1-35 <sup>[F6: analysis.R:3]</sup>。分析脚本为 analysis.R <sup>[analysis.R:1]</sup> <span class='gap'>【待确认：请提供代码仓库地址与版本号，以及运行命令（如 Rscript analysis.R）】</span>。数据获取方式 <span class='gap'>【待确认：原始问卷数据是否可公开获取或经申请获取？】</span>。</p>
+<h2>2.6 局限</h2>
+<p style='margin:2px 0 2px 18px'>- 样本仅来自一所综合性大学 <sup>[问卷说明.md:3]</sup>，结论不能直接外推到其他高校。</p>
+<p style='margin:2px 0 2px 18px'>- 横断面调查只在 2023-10-09 至 2023-10-27 开展 <sup>[F22: 问卷说明.md:2; F23: 问卷说明.md:2]</sup>，不能判断睡眠与学业的时间先后。</p>
+<p style='margin:2px 0 2px 18px'>- 作答时间 &lt; 120 秒的 131 份问卷被剔除 <sup>[F12: cleaning_log.txt:2]</sup>，若这些学生睡眠质量系统性不同，会造成选择偏倚。</p>
+<p><b>表 参数及来源</b></p>
+<table>
+<tr><th>参数</th><th>取值</th><th>单位</th><th>作用对象</th><th>来源</th><th>状态</th></tr>
+<tr><td>数据集版本</td><td>2023-10-09 至 2023-10-27</td><td>-</td><td>-</td><td>问卷说明.md:2 (F22)</td><td>正文已引用</td></tr>
+<tr><td>纳入/排除标准</td><td>在校本科生、知情同意</td><td>-</td><td>-</td><td>问卷说明.md:6 (F27)</td><td>正文已引用; 其他取值：问卷说明.md:7=问卷作答时间 &lt; 120 秒或缺失项 &gt; 20%</td></tr>
+<tr><td>批号/货号</td><td>XJ-2023-118</td><td>-</td><td>-</td><td>问卷说明.md:8 (F31)</td><td>正文已引用</td></tr>
+<tr><td>插补次数</td><td>20</td><td>-</td><td>-</td><td>cleaning_log.txt:5 (F16)</td><td>冲突 C1，待作者确认</td></tr>
+<tr><td>样本数</td><td>2846</td><td>-</td><td>-</td><td>cleaning_log.txt:1 (F9)</td><td>正文已引用; 其他取值：cleaning_log.txt:4=2638; notes.txt:1=2500</td></tr>
+<tr><td>受试者/样本来源</td><td>某综合性大学本科一至四年级学生</td><td>-</td><td>-</td><td>问卷说明.md:3 (F24)</td><td>正文出现（未标注）</td></tr>
+<tr><td>统计软件 (r)</td><td>4.3.2</td><td>-</td><td>-</td><td>analysis.R:1 (F4)</td><td>正文已引用</td></tr>
+<tr><td>统计软件 (mice)</td><td>3.16.0</td><td>-</td><td>-</td><td>analysis.R:2 (F5)</td><td>正文已引用</td></tr>
+<tr><td>统计软件 (lme4)</td><td>1.1-35</td><td>-</td><td>-</td><td>analysis.R:3 (F6)</td><td>正文已引用</td></tr>
+<tr><td>显著性水平</td><td>0.05</td><td>-</td><td>-</td><td>analysis.R:8 (F3)</td><td>正文已引用</td></tr>
+<tr><td>统计检验</td><td>glmer</td><td>-</td><td>-</td><td>analysis.R:6 (F2)</td><td>正文已引用</td></tr>
+<tr><td>随机种子</td><td>2023</td><td>-</td><td>set</td><td>analysis.R:4 (F7)</td><td>正文已引用</td></tr>
+</table>
+</body></html>

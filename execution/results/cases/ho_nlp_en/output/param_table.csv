@@ -1,0 +1,29 @@
+﻿name,canonical,category,value,unit,applies_to,source,fact,source_kind,status
+batch size,batch_size,params,32,,-,train_lora_s1.log:5,F41,log,CONFLICT C1 - author to confirm
+dropout,dropout,params,0.05,,lora,conf/lora.yaml:7,F70,config,cited in text
+epochs,epochs,params,20,,-,train_lora_s1.log:5,F44,log,cited in text; other values: conf/full_ft.yaml:9=10
+gradient accumulation steps,grad_accum,params,1,,-,train_lora_s1.log:5,F42,log,CONFLICT C2 - author to confirm
+learning rate,learning_rate,params,4e-4,,-,train_lora_s1.log:5,F43,log,cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4
+LoRA alpha,lora_alpha,params,16,,lora,conf/lora.yaml:6,F69,config,cited in text
+LoRA rank,lora_r,params,8,,lora,conf/lora.yaml:5,F68,config,cited in text
+maximum sequence length,max_length,params,128,,training,conf/full_ft.yaml:10,F65,config,cited in text
+optimizer,optimizer,params,adamw_torch,,optim,conf/lora.yaml:10,F72,config,cited in text
+learning-rate schedule,scheduler,params,linear,,optim,conf/lora.yaml:13,F75,config,cited in text
+warm-up,warmup,params,0.06,,optim,conf/lora.yaml:14,F76,config,cited in text
+weight decay,weight_decay,params,0.1,,optim,conf/full_ft.yaml:6,F62,config,cited in text
+dataset,dataset,data,glue,,-,run_glue.py:10,F33,code,cited in text
+dataset version,dataset_version,data,sst2,,-,run_glue.py:10,F34,code,cited in text
+training samples,n_train,data,"67349,",,-,train_lora_s1.log:3,F58,log,cited in text
+validation samples,n_val,data,872,,-,train_lora_s1.log:3,F59,log,cited in text
+CUDA version,cuda,setup,12.1,,-,train_lora_s1.log:1,F56,log,in text (untagged)
+hardware,hardware,setup,NVIDIA A100-SXM4-40GB,,-,train_lora_s1.log:2,F57,log,cited in text
+number of GPUs / devices,num_gpus,setup,4,,-,train_lora_s1.log:2,F36,log,cited in text
+numeric precision,precision,setup,true,,training,conf/lora.yaml:20,F81,config,cited in text
+Python version,python,setup,3.10.13,,-,train_lora_s1.log:1,F52,log,cited in text
+software (transformers),software,setup,4.40.0,,-,train_lora_s1.log:1,F54,log,cited in text
+software (peft),software,setup,0.10.0,,-,train_lora_s1.log:1,F55,log,cited in text
+PyTorch version,torch,setup,2.2.1,,-,train_lora_s1.log:1,F53,log,cited in text
+model / architecture,model,control,roberta-large,,model,conf/full_ft.yaml:3,F60,config,cited in text
+code version / commit,code_version,repro,bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c,,-,run_glue.py:10,F32,code,cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main
+random seed,seed,repro,$SEED,,-,launch.sh:3,F11,cli,cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3
+random seed,seed,repro,1,,val,README.md:2,F2,doc_kv,cited in text

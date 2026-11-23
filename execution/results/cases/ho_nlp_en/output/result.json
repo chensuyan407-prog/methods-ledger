@@ -1,0 +1,3122 @@
+{
+ "case_id": "ho_nlp_sst2",
+ "section_md": "# 4 Experimental Setup\n\n## 4.1 Procedure\n\n1. Data loading: GLUE SST-2 was loaded with `load_dataset(\"glue\", \"sst2\")` at dataset revision bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c; output: 67349 training and 872 validation sentences.\n2. LoRA fine-tuning: roberta-large was adapted with LoRA on the query and value projections, training 1,838,082 of 357,199,876 parameters.\n3. Baseline: full fine-tuning of the same roberta-large model with its own configuration.\n4. Evaluation: accuracy on the official SST-2 validation split, because GLUE test labels are hidden; the best epoch was selected on the same split (epoch 14 in the logged LoRA run).\n\n## 4.2 Hyperparameters\n\nLoRA used rank r = 8, alpha = 16 and dropout 0.05. Optimisation used adamw_torch with learning rate 4e-4, weight decay 0.1, a linear schedule with warm-up ratio 0.06, 20 epochs, maximum sequence length 128 and bf16. The logged run used a per-device batch size of 32 without gradient accumulation [AUTHOR TO CONFIRM: conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?].\nThe full fine-tuning baseline used learning rate 1.0e-5, weight decay 0.1, per-device batch size 16 [AUTHOR TO CONFIRM: batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16] for 10 epochs at sequence length 128.\n\n\n\n| Parameter | Value | Unit | Applies to | Source | Status |\n|---|---|---|---|---|---|\n| batch size | 32 | - | - | train_lora_s1.log:5 (F41) | CONFLICT C1 - author to confirm |\n| dropout | 0.05 | - | lora | conf/lora.yaml:7 (F70) | cited in text |\n| epochs | 20 | - | - | train_lora_s1.log:5 (F44) | cited in text; other values: conf/full_ft.yaml:9=10 |\n| gradient accumulation steps | 1 | - | - | train_lora_s1.log:5 (F42) | CONFLICT C2 - author to confirm |\n| learning rate | 4e-4 | - | - | train_lora_s1.log:5 (F43) | cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4 |\n| LoRA alpha | 16 | - | lora | conf/lora.yaml:6 (F69) | cited in text |\n| LoRA rank | 8 | - | lora | conf/lora.yaml:5 (F68) | cited in text |\n| maximum sequence length | 128 | - | training | conf/full_ft.yaml:10 (F65) | cited in text |\n| optimizer | adamw_torch | - | optim | conf/lora.yaml:10 (F72) | cited in text |\n| learning-rate schedule | linear | - | optim | conf/lora.yaml:13 (F75) | cited in text |\n| warm-up | 0.06 | - | optim | conf/lora.yaml:14 (F76) | cited in text |\n| weight decay | 0.1 | - | optim | conf/full_ft.yaml:6 (F62) | cited in text |\n| dataset | glue | - | - | run_glue.py:10 (F33) | cited in text |\n| dataset version | sst2 | - | - | run_glue.py:10 (F34) | cited in text |\n| training samples | 67349, | - | - | train_lora_s1.log:3 (F58) | cited in text |\n| validation samples | 872 | - | - | train_lora_s1.log:3 (F59) | cited in text |\n| CUDA version | 12.1 | - | - | train_lora_s1.log:1 (F56) | in text (untagged) |\n| hardware | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |\n| number of GPUs / devices | 4 | - | - | train_lora_s1.log:2 (F36) | cited in text |\n| numeric precision | true | - | training | conf/lora.yaml:20 (F81) | cited in text |\n| Python version | 3.10.13 | - | - | train_lora_s1.log:1 (F52) | cited in text |\n| software (transformers) | 4.40.0 | - | - | train_lora_s1.log:1 (F54) | cited in text |\n| software (peft) | 0.10.0 | - | - | train_lora_s1.log:1 (F55) | cited in text |\n| PyTorch version | 2.2.1 | - | - | train_lora_s1.log:1 (F53) | cited in text |\n| model / architecture | roberta-large | - | model | conf/full_ft.yaml:3 (F60) | cited in text |\n| code version / commit | bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c | - | - | run_glue.py:10 (F32) | cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main |\n| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3 |\n| random seed | 1 | - | val | README.md:2 (F2) | cited in text |\n\n\n\n## 4.3 Compute and software\n\nEach run used 4 GPUs (torchrun, 4 processes per node) of type NVIDIA A100-SXM4-40GB, with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1. Total compute was about 40 GPU-hours.\n\n## 4.4 Seeds, repetitions and statistics\n\nEvery method was run with seeds 1, 2 and 3 [AUTHOR TO CONFIRM: C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds]; results are the mean over the three seeds. No significance test or confidence interval was computed [TO CONFIRM: Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?].\n\n## 4.5 Reproducibility\n\nCode commit 4be1d0e. Commands, run for SEED in 1 2 3:\n\n```\ntorchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED\ntorchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED\n```\n\nData are public through the GLUE benchmark [TO CONFIRM: cite the GLUE/SST-2 licence and the Hugging Face dataset page].\n\n## 4.6 Limitations\n\n- Model selection and reporting both use the 872-sentence validation split, so the reported accuracy is optimistically biased.\n- Only one model (roberta-large) and one task (SST-2) were tested.\n- Only 3 seeds per method; the baseline used 10 epochs against 20 for LoRA, so the budgets differ.\n",
+ "hyperparameter_table": [
+  {
+   "name": "batch size",
+   "canonical": "batch_size",
+   "category": "params",
+   "value": "32",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F41",
+   "source_kind": "log",
+   "status": "CONFLICT C1 - author to confirm",
+   "other_values": [
+    "conf/full_ft.yaml:8=16"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:8",
+    "conf/lora.yaml:16"
+   ]
+  },
+  {
+   "name": "dropout",
+   "canonical": "dropout",
+   "category": "params",
+   "value": "0.05",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:7",
+   "fact": "F70",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:7"
+   ]
+  },
+  {
+   "name": "epochs",
+   "canonical": "epochs",
+   "category": "params",
+   "value": "20",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F44",
+   "source_kind": "log",
+   "status": "cited in text; other values: conf/full_ft.yaml:9=10",
+   "other_values": [
+    "conf/full_ft.yaml:9=10"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:9",
+    "conf/lora.yaml:18"
+   ]
+  },
+  {
+   "name": "gradient accumulation steps",
+   "canonical": "grad_accum",
+   "category": "params",
+   "value": "1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F42",
+   "source_kind": "log",
+   "status": "CONFLICT C2 - author to confirm",
+   "other_values": [
+    "conf/lora.yaml:17=2"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/lora.yaml:17"
+   ]
+  },
+  {
+   "name": "learning rate",
+   "canonical": "learning_rate",
+   "category": "params",
+   "value": "4e-4",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F43",
+   "source_kind": "log",
+   "status": "cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4",
+   "other_values": [
+    "conf/full_ft.yaml:5=1.0e-5",
+    "conf/lora.yaml:11=4.0e-4"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:5",
+    "conf/lora.yaml:11"
+   ]
+  },
+  {
+   "name": "LoRA alpha",
+   "canonical": "lora_alpha",
+   "category": "params",
+   "value": "16",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:6",
+   "fact": "F69",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:6"
+   ]
+  },
+  {
+   "name": "LoRA rank",
+   "canonical": "lora_r",
+   "category": "params",
+   "value": "8",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:5",
+   "fact": "F68",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:5"
+   ]
+  },
+  {
+   "name": "maximum sequence length",
+   "canonical": "max_length",
+   "category": "params",
+   "value": "128",
+   "unit": "",
+   "applies_to": "training",
+   "source": "conf/full_ft.yaml:10",
+   "fact": "F65",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:10",
+    "conf/lora.yaml:19"
+   ]
+  },
+  {
+   "name": "optimizer",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "adamw_torch",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:10",
+   "fact": "F72",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:10"
+   ]
+  },
+  {
+   "name": "learning-rate schedule",
+   "canonical": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:13",
+   "fact": "F75",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:13"
+   ]
+  },
+  {
+   "name": "warm-up",
+   "canonical": "warmup",
+   "category": "params",
+   "value": "0.06",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:14",
+   "fact": "F76",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:14"
+   ]
+  },
+  {
+   "name": "weight decay",
+   "canonical": "weight_decay",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/full_ft.yaml:6",
+   "fact": "F62",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:6",
+    "conf/lora.yaml:12"
+   ]
+  },
+  {
+   "name": "dataset",
+   "canonical": "dataset",
+   "category": "data",
+   "value": "glue",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F33",
+   "source_kind": "code",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "run_glue.py:10",
+    "conf/lora.yaml:22"
+   ]
+  },
+  {
+   "name": "dataset version",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "sst2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F34",
+   "source_kind": "code",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "run_glue.py:10"
+   ]
+  },
+  {
+   "name": "training samples",
+   "canonical": "n_train",
+   "category": "data",
+   "value": "67349,",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:3",
+   "fact": "F58",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:3"
+   ]
+  },
+  {
+   "name": "validation samples",
+   "canonical": "n_val",
+   "category": "data",
+   "value": "872",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:3",
+   "fact": "F59",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:3"
+   ]
+  },
+  {
+   "name": "CUDA version",
+   "canonical": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F56",
+   "source_kind": "log",
+   "status": "in text (untagged)",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "hardware",
+   "canonical": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-40GB",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:2",
+   "fact": "F57",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:2"
+   ]
+  },
+  {
+   "name": "number of GPUs / devices",
+   "canonical": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:2",
+   "fact": "F36",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:2",
+    "launch.sh:3",
+    "launch.sh:4",
+    "launch.sh:3"
+   ]
+  },
+  {
+   "name": "numeric precision",
+   "canonical": "precision",
+   "category": "setup",
+   "value": "true",
+   "unit": "",
+   "applies_to": "training",
+   "source": "conf/lora.yaml:20",
+   "fact": "F81",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:20"
+   ]
+  },
+  {
+   "name": "Python version",
+   "canonical": "python",
+   "category": "setup",
+   "value": "3.10.13",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F52",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "software (transformers)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "4.40.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F54",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "software (peft)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "0.10.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F55",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "PyTorch version",
+   "canonical": "torch",
+   "category": "setup",
+   "value": "2.2.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F53",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "model / architecture",
+   "canonical": "model",
+   "category": "control",
+   "value": "roberta-large",
+   "unit": "",
+   "applies_to": "model",
+   "source": "conf/full_ft.yaml:3",
+   "fact": "F60",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:3",
+    "conf/lora.yaml:2"
+   ]
+  },
+  {
+   "name": "code version / commit",
+   "canonical": "code_version",
+   "category": "repro",
+   "value": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F32",
+   "source_kind": "code",
+   "status": "cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main",
+   "other_values": [
+    "README.md:2=4be1d0e",
+    "conf/lora.yaml:3=main"
+   ],
+   "all_sources": [
+    "run_glue.py:10",
+    "README.md:2",
+    "conf/lora.yaml:3"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "$SEED",
+   "unit": "",
+   "applies_to": "-",
+   "source": "launch.sh:3",
+   "fact": "F11",
+   "source_kind": "cli",
+   "status": "cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3",
+   "other_values": [
+    "results.csv:2=1",
+    "results.csv:3=2",
+    "results.csv:4=3",
+    "run_glue.py:6=0"
+   ],
+   "all_sources": [
+    "launch.sh:3",
+    "launch.sh:4",
+    "results.csv:2",
+    "results.csv:3",
+    "results.csv:4",
+    "run_glue.py:6",
+    "results.csv:5",
+    "results.csv:6",
+    "results.csv:7"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "val",
+   "source": "README.md:2",
+   "fact": "F2",
+   "source_kind": "doc_kv",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "README.md:2"
+   ]
+  }
+ ],
+ "provenance": [
+  {
+   "unit": "u3",
+   "line": 5,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "1.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u4",
+   "line": 5,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "Data loading: GLUE SST-2 was loaded with `load_dataset(\"glue\", \"sst2\")` at dataset revision bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c ; output: 67349 training and 872 validation sentences .",
+   "facts": [
+    {
+     "id": "F32",
+     "value": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "revision"
+    },
+    {
+     "id": "F33",
+     "value": "glue",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset"
+    },
+    {
+     "id": "F34",
+     "value": "sst2",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset_config"
+    },
+    {
+     "id": "F37",
+     "value": "67349",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "examples"
+    },
+    {
+     "id": "F38",
+     "value": "872",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "examples"
+    },
+    {
+     "id": "F48",
+     "value": "train examples: 67349, validation examples: 872",
+     "source": "train_lora_s1.log:3",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F58",
+     "value": "67349,",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "n_train"
+    },
+    {
+     "id": "F59",
+     "value": "872",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "n_val"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "67349",
+     "value": 67349.0,
+     "matched": "F37",
+     "how": "tag"
+    },
+    {
+     "token": "872",
+     "value": 872.0,
+     "matched": "F38",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u5",
+   "line": 6,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "2.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u6",
+   "line": 6,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "LoRA fine-tuning: roberta-large was adapted with LoRA on the query and value projections , training 1,838,082 of 357,199,876 parameters .",
+   "facts": [
+    {
+     "id": "F66",
+     "value": "roberta-large",
+     "source": "conf/lora.yaml:2",
+     "kind": "config",
+     "key": "model.name_or_path"
+    },
+    {
+     "id": "F71",
+     "value": "[query, value]",
+     "source": "conf/lora.yaml:8",
+     "kind": "config",
+     "key": "lora.target_modules"
+    },
+    {
+     "id": "F39",
+     "value": "1,838,082",
+     "source": "train_lora_s1.log:4",
+     "kind": "log",
+     "key": "params"
+    },
+    {
+     "id": "F40",
+     "value": "357,199,876",
+     "source": "train_lora_s1.log:4",
+     "kind": "log",
+     "key": "params"
+    },
+    {
+     "id": "F49",
+     "value": "trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146",
+     "source": "train_lora_s1.log:4",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1,838,082",
+     "value": 1838082.0,
+     "matched": "F39",
+     "how": "tag"
+    },
+    {
+     "token": "357,199,876",
+     "value": 357199876.0,
+     "matched": "F40",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u7",
+   "line": 7,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "3.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u8",
+   "line": 7,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "Baseline: full fine-tuning of the same roberta-large model with its own configuration .",
+   "facts": [
+    {
+     "id": "F60",
+     "value": "roberta-large",
+     "source": "conf/full_ft.yaml:3",
+     "kind": "config",
+     "key": "model.name_or_path"
+    },
+    {
+     "id": "F13",
+     "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F14",
+     "value": "4",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "nproc_per_node"
+    },
+    {
+     "id": "F15",
+     "value": "conf/full_ft.yaml",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "config"
+    },
+    {
+     "id": "F16",
+     "value": "$SEED",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "seed"
+    },
+    {
+     "id": "F17",
+     "value": "out/full_s$SEED",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "output_dir"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u9",
+   "line": 8,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "4.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u10",
+   "line": 8,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.1 Procedure",
+   "text": "Evaluation: accuracy on the official SST-2 validation split, because GLUE test labels are hidden ; the best epoch was selected on the same split (epoch 14 in the logged LoRA run) .",
+   "facts": [
+    {
+     "id": "F45",
+     "value": "0.9622",
+     "source": "train_lora_s1.log:6",
+     "kind": "log",
+     "key": "eval_accuracy"
+    },
+    {
+     "id": "F51",
+     "value": "best eval_accuracy=0.9622 at epoch 14",
+     "source": "train_lora_s1.log:6",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "SRC:run_glue.py:11",
+     "value": "# GLUE test labels are hidden: we report on the official validation split",
+     "source": "run_glue.py:11",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "14",
+     "value": 14.0,
+     "matched": "F51",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u12",
+   "line": 12,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "text": "LoRA used rank r = 8 , alpha = 16 and dropout 0.05 .",
+   "facts": [
+    {
+     "id": "F68",
+     "value": "8",
+     "source": "conf/lora.yaml:5",
+     "kind": "config",
+     "key": "lora.r"
+    },
+    {
+     "id": "F69",
+     "value": "16",
+     "source": "conf/lora.yaml:6",
+     "kind": "config",
+     "key": "lora.alpha"
+    },
+    {
+     "id": "F70",
+     "value": "0.05",
+     "source": "conf/lora.yaml:7",
+     "kind": "config",
+     "key": "lora.dropout"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "8",
+     "value": 8.0,
+     "matched": "F68",
+     "how": "tag"
+    },
+    {
+     "token": "16",
+     "value": 16.0,
+     "matched": "F69",
+     "how": "tag"
+    },
+    {
+     "token": "0.05",
+     "value": 0.05,
+     "matched": "F70",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u13",
+   "line": 12,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "text": "Optimisation used adamw_torch with learning rate 4e-4 , weight decay 0.1 , a linear schedule with warm-up ratio 0.06 , 20 epochs , maximum sequence length 128 and bf16 .",
+   "facts": [
+    {
+     "id": "F72",
+     "value": "adamw_torch",
+     "source": "conf/lora.yaml:10",
+     "kind": "config",
+     "key": "optim.optimizer"
+    },
+    {
+     "id": "F43",
+     "value": "4e-4",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "learning_rate"
+    },
+    {
+     "id": "F74",
+     "value": "0.1",
+     "source": "conf/lora.yaml:12",
+     "kind": "config",
+     "key": "optim.weight_decay"
+    },
+    {
+     "id": "F75",
+     "value": "linear",
+     "source": "conf/lora.yaml:13",
+     "kind": "config",
+     "key": "optim.lr_scheduler_type"
+    },
+    {
+     "id": "F76",
+     "value": "0.06",
+     "source": "conf/lora.yaml:14",
+     "kind": "config",
+     "key": "optim.warmup_ratio"
+    },
+    {
+     "id": "F44",
+     "value": "20",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "num_train_epochs"
+    },
+    {
+     "id": "F80",
+     "value": "128",
+     "source": "conf/lora.yaml:19",
+     "kind": "config",
+     "key": "training.max_seq_length"
+    },
+    {
+     "id": "F81",
+     "value": "true",
+     "source": "conf/lora.yaml:20",
+     "kind": "config",
+     "key": "training.bf16"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "4e-4",
+     "value": 0.0004,
+     "matched": "F43",
+     "how": "tag"
+    },
+    {
+     "token": "0.1",
+     "value": 0.1,
+     "matched": "F74",
+     "how": "tag"
+    },
+    {
+     "token": "0.06",
+     "value": 0.06,
+     "matched": "F76",
+     "how": "tag"
+    },
+    {
+     "token": "20",
+     "value": 20.0,
+     "matched": "F44",
+     "how": "tag"
+    },
+    {
+     "token": "128",
+     "value": 128.0,
+     "matched": "F80",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u14",
+   "line": 12,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "text": "The logged run used a per-device batch size of 32 without gradient accumulation .",
+   "facts": [
+    {
+     "id": "F41",
+     "value": "32",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "per_device_train_batch_size"
+    },
+    {
+     "id": "F42",
+     "value": "1",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "gradient_accumulation_steps"
+    },
+    {
+     "id": "F43",
+     "value": "4e-4",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "learning_rate"
+    },
+    {
+     "id": "F44",
+     "value": "20",
+     "source": "train_lora_s1.log:5",
+     "kind": "log",
+     "key": "num_train_epochs"
+    },
+    {
+     "id": "F50",
+     "value": "per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20",
+     "source": "train_lora_s1.log:5",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "32",
+     "value": 32.0,
+     "matched": "F41",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [
+    "conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?"
+   ],
+   "status": "ok"
+  },
+  {
+   "unit": "u15",
+   "line": 12,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "text": "The full fine-tuning baseline used learning rate 1.0e-5 , weight decay 0.1 , per-device batch size 16 for 10 epochs at sequence length 128 .",
+   "facts": [
+    {
+     "id": "F61",
+     "value": "1.0e-5",
+     "source": "conf/full_ft.yaml:5",
+     "kind": "config",
+     "key": "optim.learning_rate"
+    },
+    {
+     "id": "F62",
+     "value": "0.1",
+     "source": "conf/full_ft.yaml:6",
+     "kind": "config",
+     "key": "optim.weight_decay"
+    },
+    {
+     "id": "F63",
+     "value": "16",
+     "source": "conf/full_ft.yaml:8",
+     "kind": "config",
+     "key": "training.per_device_train_batch_size"
+    },
+    {
+     "id": "F64",
+     "value": "10",
+     "source": "conf/full_ft.yaml:9",
+     "kind": "config",
+     "key": "training.num_train_epochs"
+    },
+    {
+     "id": "F65",
+     "value": "128",
+     "source": "conf/full_ft.yaml:10",
+     "kind": "config",
+     "key": "training.max_seq_length"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1.0e-5",
+     "value": 1e-05,
+     "matched": "F61",
+     "how": "tag"
+    },
+    {
+     "token": "0.1",
+     "value": 0.1,
+     "matched": "F62",
+     "how": "tag"
+    },
+    {
+     "token": "16",
+     "value": 16.0,
+     "matched": "F63",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F64",
+     "how": "tag"
+    },
+    {
+     "token": "128",
+     "value": 128.0,
+     "matched": "F65",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [
+    "batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16"
+   ],
+   "status": "ok"
+  },
+  {
+   "unit": "u16",
+   "line": 15,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "text": "",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u18",
+   "line": 19,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.3 Compute and software",
+   "text": "Each run used 4 GPUs (torchrun, 4 processes per node) of type NVIDIA A100-SXM4-40GB , with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1 .",
+   "facts": [
+    {
+     "id": "F7",
+     "value": "4",
+     "source": "launch.sh:3",
+     "kind": "code",
+     "key": "num_gpus"
+    },
+    {
+     "id": "F8",
+     "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F9",
+     "value": "4",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "nproc_per_node"
+    },
+    {
+     "id": "F10",
+     "value": "conf/lora.yaml",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "config"
+    },
+    {
+     "id": "F11",
+     "value": "$SEED",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "seed"
+    },
+    {
+     "id": "F12",
+     "value": "out/lora_s$SEED",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "output_dir"
+    },
+    {
+     "id": "F36",
+     "value": "4",
+     "source": "train_lora_s1.log:2",
+     "kind": "log",
+     "key": "world_size"
+    },
+    {
+     "id": "F47",
+     "value": "world_size=4, GPU: NVIDIA A100-SXM4-40GB",
+     "source": "train_lora_s1.log:2",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F57",
+     "value": "NVIDIA A100-SXM4-40GB",
+     "source": "train_lora_s1.log:2",
+     "kind": "log",
+     "key": "gpu"
+    },
+    {
+     "id": "F35",
+     "value": "python 3.10.13",
+     "source": "train_lora_s1.log:1",
+     "kind": "log",
+     "key": "env"
+    },
+    {
+     "id": "F46",
+     "value": "env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1",
+     "source": "train_lora_s1.log:1",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F52",
+     "value": "3.10.13",
+     "source": "train_lora_s1.log:1",
+     "kind": "log",
+     "key": "version.python"
+    },
+    {
+     "id": "F53",
+     "value": "2.2.1",
+     "source": "train_lora_s1.log:1",
+     "kind": "log",
+     "key": "version.torch"
+    },
+    {
+     "id": "F54",
+     "value": "4.40.0",
+     "source": "train_lora_s1.log:1",
+     "kind": "log",
+     "key": "version.transformers"
+    },
+    {
+     "id": "F55",
+     "value": "0.10.0",
+     "source": "train_lora_s1.log:1",
+     "kind": "log",
+     "key": "version.peft"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "4",
+     "value": 4.0,
+     "matched": "F7",
+     "how": "tag"
+    },
+    {
+     "token": "4",
+     "value": 4.0,
+     "matched": "F7",
+     "how": "tag"
+    },
+    {
+     "token": "12.1",
+     "value": 12.1,
+     "matched": "F46",
+     "how": "tag"
+    },
+    {
+     "token": "3.10.13",
+     "matched": "F35",
+     "how": "version-tag"
+    },
+    {
+     "token": "2.2.1",
+     "matched": "F46",
+     "how": "version-tag"
+    },
+    {
+     "token": "4.40.0",
+     "matched": "F46",
+     "how": "version-tag"
+    },
+    {
+     "token": "0.10.0",
+     "matched": "F46",
+     "how": "version-tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u19",
+   "line": 19,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.3 Compute and software",
+   "text": "Total compute was about 40 GPU-hours .",
+   "facts": [
+    {
+     "id": "F4",
+     "value": "about 40 GPU-hours.",
+     "source": "README.md:3",
+     "kind": "doc_kv",
+     "key": "Total compute"
+    },
+    {
+     "id": "F5",
+     "value": "Total compute: about 40 GPU-hours.",
+     "source": "README.md:3",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "40",
+     "value": 40.0,
+     "matched": "F4",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u21",
+   "line": 23,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "text": "Every method was run with seeds 1, 2 and 3 ; results are the mean over the three seeds .",
+   "facts": [
+    {
+     "id": "F19",
+     "value": "1",
+     "source": "results.csv:2",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F20",
+     "value": "0.9622",
+     "source": "results.csv:2",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F21",
+     "value": "2",
+     "source": "results.csv:3",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F22",
+     "value": "0.9576",
+     "source": "results.csv:3",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F23",
+     "value": "3",
+     "source": "results.csv:4",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F24",
+     "value": "0.9599",
+     "source": "results.csv:4",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F1",
+     "value": "4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).",
+     "source": "README.md:2",
+     "kind": "doc_kv",
+     "key": "Code commit"
+    },
+    {
+     "id": "F2",
+     "value": "1",
+     "source": "README.md:2",
+     "kind": "doc_kv",
+     "key": "text.seeds"
+    },
+    {
+     "id": "F3",
+     "value": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).",
+     "source": "README.md:2",
+     "kind": "doc",
+     "key": "sentence"
+    },
+    {
+     "id": "F6",
+     "value": "4be1d0e",
+     "source": "README.md:2",
+     "kind": "doc_kv",
+     "key": "commit"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "F19",
+     "how": "tag"
+    },
+    {
+     "token": "2",
+     "value": 2.0,
+     "matched": "F21",
+     "how": "tag"
+    },
+    {
+     "token": "3",
+     "value": 3.0,
+     "matched": "F23",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [
+    "C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds"
+   ],
+   "status": "ok"
+  },
+  {
+   "unit": "u22",
+   "line": 23,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "text": "No significance test or confidence interval was computed .",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u24",
+   "line": 27,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "text": "Code commit 4be1d0e .",
+   "facts": [
+    {
+     "id": "F6",
+     "value": "4be1d0e",
+     "source": "README.md:2",
+     "kind": "doc_kv",
+     "key": "commit"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "4",
+     "value": 4.0,
+     "matched": "F6",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u25",
+   "line": 27,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "text": "Commands, run for SEED in 1 2 3 :",
+   "facts": [
+    {
+     "id": "SRC:launch.sh:2",
+     "value": "for SEED in 1 2 3; do",
+     "source": "launch.sh:2",
+     "kind": "source-line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "SRC",
+     "how": "source-line"
+    },
+    {
+     "token": "2",
+     "value": 2.0,
+     "matched": "SRC",
+     "how": "source-line"
+    },
+    {
+     "token": "3",
+     "value": 3.0,
+     "matched": "SRC",
+     "how": "source-line"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u26",
+   "line": 29,
+   "type": "code",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "text": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED\ntorchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED",
+   "facts": [
+    {
+     "id": "F8",
+     "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED",
+     "source": "launch.sh:3",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F13",
+     "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED",
+     "source": "launch.sh:4",
+     "kind": "cli",
+     "key": "command"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u27",
+   "line": 34,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "text": "Data are public through the GLUE benchmark .",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "cite the GLUE/SST-2 licence and the Hugging Face dataset page"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u29",
+   "line": 38,
+   "type": "sentence",
+   "section": "4 Experimental Setup > 4.6 Limitations",
+   "text": "- Model selection and reporting both use the 872-sentence validation split , so the reported accuracy is optimistically biased. - Only one model (roberta-large) and one task (SST-2) were tested. - Only 3 seeds per method ; the baseline used 10 epochs against 20 for LoRA , so the budgets differ.",
+   "facts": [
+    {
+     "id": "F37",
+     "value": "67349",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "examples"
+    },
+    {
+     "id": "F38",
+     "value": "872",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "examples"
+    },
+    {
+     "id": "F48",
+     "value": "train examples: 67349, validation examples: 872",
+     "source": "train_lora_s1.log:3",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F58",
+     "value": "67349,",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "n_train"
+    },
+    {
+     "id": "F59",
+     "value": "872",
+     "source": "train_lora_s1.log:3",
+     "kind": "log",
+     "key": "n_val"
+    },
+    {
+     "id": "F66",
+     "value": "roberta-large",
+     "source": "conf/lora.yaml:2",
+     "kind": "config",
+     "key": "model.name_or_path"
+    },
+    {
+     "id": "F32",
+     "value": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "revision"
+    },
+    {
+     "id": "F33",
+     "value": "glue",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset"
+    },
+    {
+     "id": "F34",
+     "value": "sst2",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset_config"
+    },
+    {
+     "id": "F19",
+     "value": "1",
+     "source": "results.csv:2",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F20",
+     "value": "0.9622",
+     "source": "results.csv:2",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F21",
+     "value": "2",
+     "source": "results.csv:3",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F22",
+     "value": "0.9576",
+     "source": "results.csv:3",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F23",
+     "value": "3",
+     "source": "results.csv:4",
+     "kind": "table",
+     "key": "lora.seed"
+    },
+    {
+     "id": "F24",
+     "value": "0.9599",
+     "source": "results.csv:4",
+     "kind": "table",
+     "key": "lora.eval_accuracy"
+    },
+    {
+     "id": "F64",
+     "value": "10",
+     "source": "conf/full_ft.yaml:9",
+     "kind": "config",
+     "key": "training.num_train_epochs"
+    },
+    {
+     "id": "F79",
+     "value": "20",
+     "source": "conf/lora.yaml:18",
+     "kind": "config",
+     "key": "training.num_train_epochs"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "872",
+     "value": 872.0,
+     "matched": "F38",
+     "how": "tag"
+    },
+    {
+     "token": "3",
+     "value": 3.0,
+     "matched": "F23",
+     "how": "tag"
+    },
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F64",
+     "how": "tag"
+    },
+    {
+     "token": "20",
+     "value": 20.0,
+     "matched": "F79",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  }
+ ],
+ "issues_for_authors": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "How many independent runs/replicates per condition, and is mean ± SD/SE or a single run reported?",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "Which baselines (implementation + version) were compared, and were they trained/tuned under the same budget and data?",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "Define each metric (and on which split / at which checkpoint it is computed).",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "recommended",
+   "question": "Which statistical test or uncertainty estimate supports comparisons (test, alpha, correction)?",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "repro",
+   "level": "recommended",
+   "question": "How can readers obtain the data (URL/DOI, license, access restrictions)?",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G6",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "Which conditions were not tested (data, scale, hardware, settings) and where is the method expected to fail?",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "params",
+   "question": "batch size differs between sources: 32 (train_lora_s1.log:5); 16 (conf/full_ft.yaml:8). Which value did the reported run use?",
+   "facts": [
+    "F41",
+    "F63",
+    "F77"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "C2",
+   "type": "conflict",
+   "category": "params",
+   "question": "gradient accumulation steps differs between sources: 1 (train_lora_s1.log:5); 2 (conf/lora.yaml:17). Which value did the reported run use?",
+   "facts": [
+    "F42",
+    "F78"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u14c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "line": 12,
+   "question": "conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?",
+   "status": "open"
+  },
+  {
+   "id": "Q-u15c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "line": 12,
+   "question": "batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16",
+   "status": "open"
+  },
+  {
+   "id": "Q-u21c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "line": 23,
+   "question": "C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds",
+   "status": "open"
+  },
+  {
+   "id": "Q-u22",
+   "type": "draft_gap",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "line": 23,
+   "question": "Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?",
+   "status": "open"
+  },
+  {
+   "id": "Q-u27",
+   "type": "draft_gap",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "line": 34,
+   "question": "cite the GLUE/SST-2 licence and the Hugging Face dataset page",
+   "status": "open"
+  }
+ ],
+ "status": "success",
+ "status_reason": "all checks pass; 13 items await author confirmation",
+ "skill": {
+  "name": "methods-ledger",
+  "version": "0.1.0"
+ },
+ "language": "en",
+ "profile": "ml",
+ "artifacts": {
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\result.json"
+ },
+ "preview": "pymupdf story, 3 pages",
+ "sources": [
+  {
+   "path": "README.md",
+   "class": "doc",
+   "sha256": "9e059063392a91546ad4f1c5bfa84a4b7f6f74215fe9841c7713d6b6a2c5e346",
+   "bytes": 172,
+   "facts": 6,
+   "problems": []
+  },
+  {
+   "path": "case.json",
+   "class": "case",
+   "sha256": "8247083cda1680f70e9e0b78cb1c7172860f5e99d7cfb3defa1b98b9c595287c",
+   "bytes": 654,
+   "facts": 0,
+   "problems": []
+  },
+  {
+   "path": "launch.sh",
+   "class": "code",
+   "sha256": "096b001f1edb3469f3220b4c56ae017dee3adb6c595418b778c8410b60149b53",
+   "bytes": 258,
+   "facts": 11,
+   "problems": []
+  },
+  {
+   "path": "results.csv",
+   "class": "table",
+   "sha256": "133cb6b8d4a93e70c0641558d4e8c9781cf11bd15a0c5f47fdb4c41794986613",
+   "bytes": 119,
+   "facts": 13,
+   "problems": []
+  },
+  {
+   "path": "run_glue.py",
+   "class": "code",
+   "sha256": "219837ee3f1fe4a41ac88269b6385926abda89119cef9e381eaada4be44b70ee",
+   "bytes": 422,
+   "facts": 4,
+   "problems": []
+  },
+  {
+   "path": "train_lora_s1.log",
+   "class": "log",
+   "sha256": "084531381e327bb036c8ee3d0950f028daf71ff300d933a694216d8e5c0e47a9",
+   "bytes": 544,
+   "facts": 25,
+   "problems": []
+  },
+  {
+   "path": "conf/full_ft.yaml",
+   "class": "config",
+   "sha256": "6de570322a6b3c3f2238c6e861cb46c82086e83a42b09d6b2d82bbd66007a742",
+   "bytes": 205,
+   "facts": 6,
+   "problems": []
+  },
+  {
+   "path": "conf/lora.yaml",
+   "class": "config",
+   "sha256": "460b5c1de0b82437877b2649ea2c411903f23272bb1fdb156d22f94ed9d8d022",
+   "bytes": 425,
+   "facts": 18,
+   "problems": []
+  }
+ ],
+ "checks": {
+  "fail": 0,
+  "warn": 14,
+  "accepted": 0,
+  "fail_items": [],
+  "coverage": [
+   {
+    "element": "E_steps",
+    "category": "steps",
+    "label": "ordered procedure (input -> operation -> output per step)",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   },
+   {
+    "element": "E_dataset",
+    "category": "data",
+    "label": "dataset name and source",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u4",
+     "u27"
+    ],
+    "facts_cited": [
+     "F33",
+     "F58"
+    ]
+   },
+   {
+    "element": "E_dataset_version",
+    "category": "data",
+    "label": "dataset version / release / snapshot date",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u4"
+    ],
+    "facts_cited": [
+     "F34"
+    ]
+   },
+   {
+    "element": "E_split",
+    "category": "data",
+    "label": "split sizes/ratios and how they were drawn",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u10",
+     "u29"
+    ],
+    "facts_cited": [
+     "F59",
+     "F58"
+    ]
+   },
+   {
+    "element": "E_preproc",
+    "category": "data",
+    "label": "preprocessing / filtering",
+    "level": "recommended",
+    "status": "missing",
+    "units": [],
+    "facts_cited": [
+     "F65",
+     "F80"
+    ]
+   },
+   {
+    "element": "E_model",
+    "category": "control",
+    "label": "model / architecture and initialisation",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u8",
+     "u29"
+    ],
+    "facts_cited": [
+     "F66",
+     "F60"
+    ]
+   },
+   {
+    "element": "E_hparams",
+    "category": "params",
+    "label": "optimiser, learning rate, batch size, training length",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u10",
+     "u13",
+     "u14",
+     "u15",
+     "u29"
+    ],
+    "facts_cited": [
+     "F41",
+     "F61",
+     "F63",
+     "F44",
+     "F72",
+     "F64",
+     "F79",
+     "F43"
+    ]
+   },
+   {
+    "element": "E_hardware",
+    "category": "setup",
+    "label": "hardware (device type and count)",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u4",
+     "u14",
+     "u18",
+     "u19",
+     "u26"
+    ],
+    "facts_cited": [
+     "F9",
+     "F36",
+     "F7",
+     "F57",
+     "F14"
+    ]
+   },
+   {
+    "element": "E_software",
+    "category": "setup",
+    "label": "software and versions",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u18"
+    ],
+    "facts_cited": [
+     "F53",
+     "F52",
+     "F54",
+     "F55"
+    ]
+   },
+   {
+    "element": "E_seed",
+    "category": "repro",
+    "label": "random seed(s)",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u14",
+     "u21",
+     "u22",
+     "u25",
+     "u26",
+     "u29"
+    ],
+    "facts_cited": [
+     "F2",
+     "F11",
+     "F21",
+     "F19",
+     "F23",
+     "F16"
+    ]
+   },
+   {
+    "element": "E_repeats",
+    "category": "control",
+    "label": "number of repetitions / replicates and how results are aggregated",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u10",
+     "u14",
+     "u18",
+     "u21",
+     "u22",
+     "u25",
+     "u26",
+     "u29"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_baseline",
+    "category": "control",
+    "label": "baselines with versions and same-budget conditions",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u8",
+     "u15",
+     "u29"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_metric",
+    "category": "control",
+    "label": "evaluation metrics / measured outcomes",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u8",
+     "u10",
+     "u13",
+     "u18",
+     "u21",
+     "u29"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_stats",
+    "category": "control",
+    "label": "statistical test / uncertainty estimate",
+    "level": "recommended",
+    "status": "marked_gap",
+    "units": [
+     "u22"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_code",
+    "category": "repro",
+    "label": "code version and run commands",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u4",
+     "u24",
+     "u25"
+    ],
+    "facts_cited": [
+     "F13",
+     "F6",
+     "F32",
+     "F8"
+    ]
+   },
+   {
+    "element": "E_data_access",
+    "category": "repro",
+    "label": "data availability / access",
+    "level": "recommended",
+    "status": "missing",
+    "units": [],
+    "facts_cited": []
+   },
+   {
+    "element": "E_limits",
+    "category": "repro",
+    "label": "limitations tied to concrete failure scenarios",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   }
+  ],
+  "limitations": {
+   "sentences": 1,
+   "anchored": 1,
+   "generic": 0
+  },
+  "stages": [
+   {
+    "script": "run_glue.py",
+    "source": "launch.sh:3",
+    "described": true
+   },
+   {
+    "script": "run_glue.py",
+    "source": "launch.sh:4",
+    "described": true
+   }
+  ]
+ },
+ "needs_confirmation": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "How many independent runs/replicates per condition, and is mean ± SD/SE or a single run reported?",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "Which baselines (implementation + version) were compared, and were they trained/tuned under the same budget and data?",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "Define each metric (and on which split / at which checkpoint it is computed).",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "recommended",
+   "question": "Which statistical test or uncertainty estimate supports comparisons (test, alpha, correction)?",
+   "status": "only_mentioned_in_text",
+   "facts": []
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "repro",
+   "level": "recommended",
+   "question": "How can readers obtain the data (URL/DOI, license, access restrictions)?",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G6",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "Which conditions were not tested (data, scale, hardware, settings) and where is the method expected to fail?",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "params",
+   "question": "batch size differs between sources: 32 (train_lora_s1.log:5); 16 (conf/full_ft.yaml:8). Which value did the reported run use?",
+   "facts": [
+    "F41",
+    "F63",
+    "F77"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "C2",
+   "type": "conflict",
+   "category": "params",
+   "question": "gradient accumulation steps differs between sources: 1 (train_lora_s1.log:5); 2 (conf/lora.yaml:17). Which value did the reported run use?",
+   "facts": [
+    "F42",
+    "F78"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u14c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "line": 12,
+   "question": "conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?",
+   "status": "open"
+  },
+  {
+   "id": "Q-u15c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.2 Hyperparameters",
+   "line": 12,
+   "question": "batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16",
+   "status": "open"
+  },
+  {
+   "id": "Q-u21c",
+   "type": "draft_confirm",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "line": 23,
+   "question": "C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds",
+   "status": "open"
+  },
+  {
+   "id": "Q-u22",
+   "type": "draft_gap",
+   "section": "4 Experimental Setup > 4.4 Seeds, repetitions and statistics",
+   "line": 23,
+   "question": "Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?",
+   "status": "open"
+  },
+  {
+   "id": "Q-u27",
+   "type": "draft_gap",
+   "section": "4 Experimental Setup > 4.5 Reproducibility",
+   "line": 34,
+   "question": "cite the GLUE/SST-2 licence and the Hugging Face dataset page",
+   "status": "open"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "batch_size",
+   "label": "batch size",
+   "scope": "",
+   "values": [
+    {
+     "value": "32",
+     "fact": "F41",
+     "facts": [
+      "F41"
+     ],
+     "source": "train_lora_s1.log:5",
+     "sources": [
+      "train_lora_s1.log:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "log"
+     ]
+    },
+    {
+     "value": "16",
+     "fact": "F63",
+     "facts": [
+      "F63",
+      "F77"
+     ],
+     "source": "conf/full_ft.yaml:8",
+     "sources": [
+      "conf/full_ft.yaml:8",
+      "conf/lora.yaml:16"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F41",
+    "F63",
+    "F77"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F41",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  },
+  {
+   "id": "C2",
+   "canon": "grad_accum",
+   "label": "gradient accumulation steps",
+   "scope": "",
+   "values": [
+    {
+     "value": "1",
+     "fact": "F42",
+     "facts": [
+      "F42"
+     ],
+     "source": "train_lora_s1.log:5",
+     "sources": [
+      "train_lora_s1.log:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "log"
+     ]
+    },
+    {
+     "value": "2",
+     "fact": "F78",
+     "facts": [
+      "F78"
+     ],
+     "source": "conf/lora.yaml:17",
+     "sources": [
+      "conf/lora.yaml:17"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F42",
+    "F78"
+   ],
+   "n_files": 2,
+   "precedence_guess": "F42",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "uncertainty": [
+  "G1: number of repetitions / replicates and how results are aggregated - missing",
+  "G2: baselines with versions and same-budget conditions - only_mentioned_in_text",
+  "G3: evaluation metrics / measured outcomes - only_mentioned_in_text",
+  "C1: batch size has 2 different values in the materials",
+  "C2: gradient accumulation steps has 2 different values in the materials",
+  "T05 cited F71 (lora.target_modules = [query, value]) but its value is not in the sentence",
+  "T05 cited F15 (config = conf/full_ft.yaml) but its value is not in the sentence",
+  "T05 cited F16 (seed = $SEED) but its value is not in the sentence",
+  "T05 cited F17 (output_dir = out/full_s$SEED) but its value is not in the sentence",
+  "T05 cited F10 (config = conf/lora.yaml) but its value is not in the sentence",
+  "T05 cited F11 (seed = $SEED) but its value is not in the sentence",
+  "T05 cited F12 (output_dir = out/lora_s$SEED) but its value is not in the sentence",
+  "T05 cited F32 (revision = bcdcba79d07bc864c1c254ccfcedcc) but its value is not in the sentence",
+  "T05 cited F33 (dataset = glue) but its value is not in the sentence",
+  "X01 F20 comes from the test context (results.csv:2) but the sentence talks about val",
+  "X01 F22 comes from the test context (results.csv:3) but the sentence talks about val",
+  "X01 F24 comes from the test context (results.csv:4) but the sentence talks about val",
+  "K02 element not covered and not marked as a gap: preprocessing / filtering -> write it with sources or add [[GAP: Describe preprocessing and filtering (what was removed and h...]]",
+  "K02 element not covered and not marked as a gap: data availability / access -> write it with sources or add [[GAP: How can readers obtain the data (URL/DOI, license, access re...]]"
+ ],
+ "change_records": {
+  "against_input_draft": [],
+  "build_history": [
+   {
+    "at": "2026-11-23T10:20:32Z",
+    "draft_sha256": "67a5861d9a6ab883e4fc98a6438ea4a5297043504210c86f97bd8ece347e8352",
+    "fails": 0,
+    "warns": 14,
+    "changed_sentences": 0,
+    "fail_codes": []
+   }
+  ]
+ },
+ "parameters": [
+  {
+   "name": "batch size",
+   "canonical": "batch_size",
+   "category": "params",
+   "value": "32",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F41",
+   "source_kind": "log",
+   "status": "CONFLICT C1 - author to confirm",
+   "other_values": [
+    "conf/full_ft.yaml:8=16"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:8",
+    "conf/lora.yaml:16"
+   ]
+  },
+  {
+   "name": "dropout",
+   "canonical": "dropout",
+   "category": "params",
+   "value": "0.05",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:7",
+   "fact": "F70",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:7"
+   ]
+  },
+  {
+   "name": "epochs",
+   "canonical": "epochs",
+   "category": "params",
+   "value": "20",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F44",
+   "source_kind": "log",
+   "status": "cited in text; other values: conf/full_ft.yaml:9=10",
+   "other_values": [
+    "conf/full_ft.yaml:9=10"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:9",
+    "conf/lora.yaml:18"
+   ]
+  },
+  {
+   "name": "gradient accumulation steps",
+   "canonical": "grad_accum",
+   "category": "params",
+   "value": "1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F42",
+   "source_kind": "log",
+   "status": "CONFLICT C2 - author to confirm",
+   "other_values": [
+    "conf/lora.yaml:17=2"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/lora.yaml:17"
+   ]
+  },
+  {
+   "name": "learning rate",
+   "canonical": "learning_rate",
+   "category": "params",
+   "value": "4e-4",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:5",
+   "fact": "F43",
+   "source_kind": "log",
+   "status": "cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4",
+   "other_values": [
+    "conf/full_ft.yaml:5=1.0e-5",
+    "conf/lora.yaml:11=4.0e-4"
+   ],
+   "all_sources": [
+    "train_lora_s1.log:5",
+    "conf/full_ft.yaml:5",
+    "conf/lora.yaml:11"
+   ]
+  },
+  {
+   "name": "LoRA alpha",
+   "canonical": "lora_alpha",
+   "category": "params",
+   "value": "16",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:6",
+   "fact": "F69",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:6"
+   ]
+  },
+  {
+   "name": "LoRA rank",
+   "canonical": "lora_r",
+   "category": "params",
+   "value": "8",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "conf/lora.yaml:5",
+   "fact": "F68",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:5"
+   ]
+  },
+  {
+   "name": "maximum sequence length",
+   "canonical": "max_length",
+   "category": "params",
+   "value": "128",
+   "unit": "",
+   "applies_to": "training",
+   "source": "conf/full_ft.yaml:10",
+   "fact": "F65",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:10",
+    "conf/lora.yaml:19"
+   ]
+  },
+  {
+   "name": "optimizer",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "adamw_torch",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:10",
+   "fact": "F72",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:10"
+   ]
+  },
+  {
+   "name": "learning-rate schedule",
+   "canonical": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:13",
+   "fact": "F75",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:13"
+   ]
+  },
+  {
+   "name": "warm-up",
+   "canonical": "warmup",
+   "category": "params",
+   "value": "0.06",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/lora.yaml:14",
+   "fact": "F76",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:14"
+   ]
+  },
+  {
+   "name": "weight decay",
+   "canonical": "weight_decay",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "optim",
+   "source": "conf/full_ft.yaml:6",
+   "fact": "F62",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:6",
+    "conf/lora.yaml:12"
+   ]
+  },
+  {
+   "name": "dataset",
+   "canonical": "dataset",
+   "category": "data",
+   "value": "glue",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F33",
+   "source_kind": "code",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "run_glue.py:10",
+    "conf/lora.yaml:22"
+   ]
+  },
+  {
+   "name": "dataset version",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "sst2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F34",
+   "source_kind": "code",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "run_glue.py:10"
+   ]
+  },
+  {
+   "name": "training samples",
+   "canonical": "n_train",
+   "category": "data",
+   "value": "67349,",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:3",
+   "fact": "F58",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:3"
+   ]
+  },
+  {
+   "name": "validation samples",
+   "canonical": "n_val",
+   "category": "data",
+   "value": "872",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:3",
+   "fact": "F59",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:3"
+   ]
+  },
+  {
+   "name": "CUDA version",
+   "canonical": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F56",
+   "source_kind": "log",
+   "status": "in text (untagged)",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "hardware",
+   "canonical": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-40GB",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:2",
+   "fact": "F57",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:2"
+   ]
+  },
+  {
+   "name": "number of GPUs / devices",
+   "canonical": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:2",
+   "fact": "F36",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:2",
+    "launch.sh:3",
+    "launch.sh:4",
+    "launch.sh:3"
+   ]
+  },
+  {
+   "name": "numeric precision",
+   "canonical": "precision",
+   "category": "setup",
+   "value": "true",
+   "unit": "",
+   "applies_to": "training",
+   "source": "conf/lora.yaml:20",
+   "fact": "F81",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/lora.yaml:20"
+   ]
+  },
+  {
+   "name": "Python version",
+   "canonical": "python",
+   "category": "setup",
+   "value": "3.10.13",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F52",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "software (transformers)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "4.40.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F54",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "software (peft)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "0.10.0",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F55",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "PyTorch version",
+   "canonical": "torch",
+   "category": "setup",
+   "value": "2.2.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "train_lora_s1.log:1",
+   "fact": "F53",
+   "source_kind": "log",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "train_lora_s1.log:1"
+   ]
+  },
+  {
+   "name": "model / architecture",
+   "canonical": "model",
+   "category": "control",
+   "value": "roberta-large",
+   "unit": "",
+   "applies_to": "model",
+   "source": "conf/full_ft.yaml:3",
+   "fact": "F60",
+   "source_kind": "config",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "conf/full_ft.yaml:3",
+    "conf/lora.yaml:2"
+   ]
+  },
+  {
+   "name": "code version / commit",
+   "canonical": "code_version",
+   "category": "repro",
+   "value": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+   "unit": "",
+   "applies_to": "-",
+   "source": "run_glue.py:10",
+   "fact": "F32",
+   "source_kind": "code",
+   "status": "cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main",
+   "other_values": [
+    "README.md:2=4be1d0e",
+    "conf/lora.yaml:3=main"
+   ],
+   "all_sources": [
+    "run_glue.py:10",
+    "README.md:2",
+    "conf/lora.yaml:3"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "$SEED",
+   "unit": "",
+   "applies_to": "-",
+   "source": "launch.sh:3",
+   "fact": "F11",
+   "source_kind": "cli",
+   "status": "cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3",
+   "other_values": [
+    "results.csv:2=1",
+    "results.csv:3=2",
+    "results.csv:4=3",
+    "run_glue.py:6=0"
+   ],
+   "all_sources": [
+    "launch.sh:3",
+    "launch.sh:4",
+    "results.csv:2",
+    "results.csv:3",
+    "results.csv:4",
+    "run_glue.py:6",
+    "results.csv:5",
+    "results.csv:6",
+    "results.csv:7"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "val",
+   "source": "README.md:2",
+   "fact": "F2",
+   "source_kind": "doc_kv",
+   "status": "cited in text",
+   "other_values": [],
+   "all_sources": [
+    "README.md:2"
+   ]
+  }
+ ],
+ "repro_checklist": [
+  {
+   "item": "code version",
+   "canonical": "code_version",
+   "found": true,
+   "values": [
+    "4be1d0e",
+    "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+    "main"
+   ],
+   "sources": [
+    "README.md:2",
+    "run_glue.py:10",
+    "conf/lora.yaml:3"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "commands",
+   "canonical": "command",
+   "found": true,
+   "values": [
+    "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --o",
+    "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED "
+   ],
+   "sources": [
+    "launch.sh:3",
+    "launch.sh:4"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "Python",
+   "canonical": "python",
+   "found": true,
+   "values": [
+    "3.10.13"
+   ],
+   "sources": [
+    "train_lora_s1.log:1"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "PyTorch",
+   "canonical": "torch",
+   "found": true,
+   "values": [
+    "2.2.1"
+   ],
+   "sources": [
+    "train_lora_s1.log:1"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "CUDA",
+   "canonical": "cuda",
+   "found": true,
+   "values": [
+    "12.1"
+   ],
+   "sources": [
+    "train_lora_s1.log:1"
+   ],
+   "cited_in_text": false
+  },
+  {
+   "item": "other software",
+   "canonical": "software",
+   "found": true,
+   "values": [
+    "4.40.0",
+    "0.10.0"
+   ],
+   "sources": [
+    "train_lora_s1.log:1",
+    "train_lora_s1.log:1"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "hardware",
+   "canonical": "hardware",
+   "found": true,
+   "values": [
+    "NVIDIA A100-SXM4-40GB"
+   ],
+   "sources": [
+    "train_lora_s1.log:2"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "seeds",
+   "canonical": "seed",
+   "found": true,
+   "values": [
+    "1",
+    "$SEED",
+    "2",
+    "3",
+    "0"
+   ],
+   "sources": [
+    "README.md:2",
+    "launch.sh:3",
+    "launch.sh:4",
+    "results.csv:2",
+    "results.csv:3",
+    "results.csv:4"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "dataset",
+   "canonical": "dataset",
+   "found": true,
+   "values": [
+    "glue"
+   ],
+   "sources": [
+    "run_glue.py:10",
+    "conf/lora.yaml:22"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "dataset version",
+   "canonical": "dataset_version",
+   "found": true,
+   "values": [
+    "sst2"
+   ],
+   "sources": [
+    "run_glue.py:10"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "data access",
+   "canonical": "source_url",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "container/env",
+   "canonical": "container",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  }
+ ],
+ "facts_cited": [
+  "F1",
+  "F2",
+  "F3",
+  "F4",
+  "F5",
+  "F6",
+  "F7",
+  "F8",
+  "F9",
+  "F10",
+  "F11",
+  "F12",
+  "F13",
+  "F14",
+  "F15",
+  "F16",
+  "F17",
+  "F19",
+  "F20",
+  "F21",
+  "F22",
+  "F23",
+  "F24",
+  "F32",
+  "F33",
+  "F34",
+  "F35",
+  "F36",
+  "F37",
+  "F38",
+  "F39",
+  "F40",
+  "F41",
+  "F42",
+  "F43",
+  "F44",
+  "F45",
+  "F46",
+  "F47",
+  "F48",
+  "F49",
+  "F50",
+  "F51",
+  "F52",
+  "F53",
+  "F54",
+  "F55",
+  "F57",
+  "F58",
+  "F59",
+  "F60",
+  "F61",
+  "F62",
+  "F63",
+  "F64",
+  "F65",
+  "F66",
+  "F68",
+  "F69",
+  "F70",
+  "F71",
+  "F72",
+  "F74",
+  "F75",
+  "F76",
+  "F79",
+  "F80",
+  "F81"
+ ],
+ "n_facts_extracted": 83,
+ "built_at": "2026-11-23T10:20:32Z"
+}

@@ -1,0 +1,95 @@
+{
+ "deviations_from_paper": [
+  {
+   "target": "expected facts extracted (all 5 cases)",
+   "metric": "absolute_error",
+   "actual_value": 0.9213,
+   "reference_value": 1.0,
+   "score": 0.6065,
+   "explanation": "117/127 canonical key=value pairs listed by the author before/independently of tuning (tests/eval/expect)",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.2
+  },
+  {
+   "target": "real conflicts found (all 5 cases)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "6/6; false conflicts 0",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  },
+  {
+   "target": "conflict precision (all 5 cases)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "share of reported conflicts that are real",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.2
+  },
+  {
+   "target": "planted defects caught at fail level (all 5 cases)",
+   "metric": "absolute_error",
+   "actual_value": 0.97,
+   "reference_value": 1.0,
+   "score": 0.7,
+   "explanation": "100 deterministic mutations of gold drafts; baselines: grep 0.52, checklist only 0.35",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.1
+  },
+  {
+   "target": "planted defects caught at fail level (held-out, at freeze)",
+   "metric": "absolute_error",
+   "actual_value": 0.975,
+   "reference_value": 1.0,
+   "score": 0.75,
+   "explanation": "40 mutations; grep baseline 0.425",
+   "evidence_artifact": "metrics_holdout_at_freeze",
+   "tolerance": 0.1
+  },
+  {
+   "target": "expected facts extracted (held-out, at freeze)",
+   "metric": "absolute_error",
+   "actual_value": 0.766,
+   "reference_value": 1.0,
+   "score": 0.22,
+   "explanation": "36/47; conflicts 2/3 with 3 false",
+   "evidence_artifact": "metrics_holdout_at_freeze",
+   "tolerance": 0.3
+  },
+  {
+   "target": "gold drafts without FAIL (held-out, at freeze)",
+   "metric": "absolute_error",
+   "actual_value": 0.0,
+   "reference_value": 1.0,
+   "score": 0.0,
+   "explanation": "fails were false conflicts plus one real error in the author's gold",
+   "evidence_artifact": "metrics_holdout_at_freeze",
+   "tolerance": 0.5
+  },
+  {
+   "target": "gold drafts without FAIL (all 5, final)",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "author-written drafts made with the Skill workflow",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  },
+  {
+   "target": "robustness checks passed",
+   "metric": "absolute_error",
+   "actual_value": 1.0,
+   "reference_value": 1.0,
+   "score": 1.0,
+   "explanation": "missing_case_json, empty_materials, binary_and_xlsx_skipped, malformed_configs_no_crash, huge_log_200k_lines, no_draft_partial, bad_tags_reported, deterministic_rebuild, json_schema_contract_mapped, invalid_agent_json_ignored, old_draft_diff_recorded, docx_material_read, pdf_material_read",
+   "evidence_artifact": "metrics",
+   "tolerance": 0.0
+  }
+ ],
+ "notes": "Self-evaluation on author-written cases with author gold drafts, expected facts and planted defects; the platform's three fixed cases and any model run (base vs Skill) are not part of it. The held-out set was changed by post-freeze fixes; both numbers are kept. Scores use max(0, 1 - deviation/tolerance) against the ideal value 1.0."
+}

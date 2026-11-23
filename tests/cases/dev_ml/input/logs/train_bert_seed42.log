@@ -1,0 +1,12 @@
+2024-03-03 09:00:01 INFO $ python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42
+2024-03-03 09:00:03 INFO torch 2.1.2+cu121 | CUDA 12.1 | cuDNN 8902
+2024-03-03 09:00:03 INFO device: NVIDIA A100-SXM4-80GB x 1
+2024-03-03 09:00:04 INFO git commit: 9f3c2ab
+2024-03-03 09:00:10 INFO Namespace(lr=2e-05, batch_size=32, epochs=5, seed=42, max_length=256, warmup_ratio=0.1)
+2024-03-03 09:20:11 INFO Epoch 1/5 train_loss=0.412 val_macro_f1=0.912
+2024-03-03 09:40:12 INFO Epoch 2/5 train_loss=0.221 val_macro_f1=0.931
+2024-03-03 10:00:15 INFO Epoch 3/5 train_loss=0.150 val_macro_f1=0.938
+2024-03-03 10:20:16 INFO Epoch 4/5 train_loss=0.102 val_macro_f1=0.940
+2024-03-03 10:40:16 INFO Epoch 5/5 train_loss=0.081 val_macro_f1=0.939
+2024-03-03 10:40:20 INFO best checkpoint: epoch 4 (val_macro_f1=0.940)
+2024-03-03 10:41:02 INFO test macro_f1=0.936 accuracy=0.941

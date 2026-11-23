@@ -1,0 +1,7 @@
+{"lang": "zh", "profile": "simulation",
+ "facts": [["timestep", "2.0"], ["timestep", "1"], ["nsteps", "500000"], ["ensemble", "npt"], ["temperature", "298.0"], ["pressure", "1.0"],
+  ["seed", "4928459"], ["force_field", "tip4p"], ["cutoff", "12.0"], ["system_size", "4096"], ["system_size", "12288"], ["software", "2 Aug 2023"],
+  ["hardware", "6248R"], ["num_nodes", "1"], ["num_workers", "32"], ["wall_time", "11:27:15"], ["n_runs", "1"], ["duration", "100 ps"],
+  ["command", "lmp -in in.npt"]],
+ "conflicts": ["timestep"],
+ "gaps": ["E_stats", "E_data_access", "E_limits"]}

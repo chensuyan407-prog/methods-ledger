@@ -1,0 +1,11 @@
+LAMMPS (2 Aug 2023 - Update 1)
+OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
+Reading data file ...
+  12288 atoms
+  4096 molecules
+Running on 32 MPI tasks, Intel(R) Xeon(R) Gold 6248R CPU @ 3.00GHz
+Step Temp Press Density
+       0          298   -120.4   0.9921
+  500000    298.3     2.1   0.9973
+Loop time of 41235.2 on 32 procs for 500000 steps with 12288 atoms
+Total wall time: 11:27:15

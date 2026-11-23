@@ -1,0 +1,227 @@
+{
+ "tool": "methods-ledger",
+ "version": "0.1.0",
+ "case_id": "dev_ml_textcls",
+ "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input\\case.json",
+ "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\work",
+ "lang": "zh",
+ "profile": "ml",
+ "profile_scores": {
+  "ml": 45,
+  "wetlab": 0,
+  "simulation": 0,
+  "stats": 2
+ },
+ "contract": [
+  {
+   "name": "methods_section",
+   "desc": "可编辑的方法与实验章节正文（Markdown）"
+  },
+  {
+   "name": "parameter_table",
+   "desc": "参数表：名称、取值、单位、作用对象、来源"
+  },
+  {
+   "name": "source_map",
+   "desc": "正文数字与关键论断的来源映射"
+  },
+  {
+   "name": "open_questions",
+   "desc": "材料缺口与需作者确认的问题"
+  },
+  {
+   "name": "status",
+   "desc": "success|partial|failed"
+  }
+ ],
+ "files": [
+  {
+   "path": "case.json",
+   "bytes": 644,
+   "sha256": "8547b5b7032e90044190dc4da8be8a1c437304eabbe6db6d62d70ceb2d828715",
+   "problems": [],
+   "class": "case",
+   "lines": 12
+  },
+  {
+   "path": "data_card.md",
+   "bytes": 256,
+   "sha256": "8c0c2dec6b3b7b4041ebc1efe05acd365fb2409f5a1a0544cf3b5d3c610944cf",
+   "problems": [],
+   "class": "datacard",
+   "lines": 8,
+   "n_facts": 12
+  },
+  {
+   "path": "notes.md",
+   "bytes": 271,
+   "sha256": "5e12c47e4594cda10d4bf38bf317b3473e4331be3dd2f6fd2f50310212a9d1d1",
+   "problems": [],
+   "class": "doc",
+   "lines": 6,
+   "n_facts": 6
+  },
+  {
+   "path": "requirements.txt",
+   "bytes": 80,
+   "sha256": "a0d3f69962070b81a99cb74955ec0c49e502e2d71b0303e655dc052a89431d0e",
+   "problems": [],
+   "class": "env",
+   "lines": 6,
+   "n_facts": 5
+  },
+  {
+   "path": "task.md",
+   "bytes": 402,
+   "sha256": "2b2a9b51a2f0e431bef14cde1b728c388af5a3af69e072e115b2c3f0acf562f5",
+   "problems": [],
+   "class": "task",
+   "lines": 4
+  },
+  {
+   "path": "configs/baseline_tfidf.yaml",
+   "bytes": 113,
+   "sha256": "4ae11985a19e4c33402eba590d70c472f67d7b016191a1133126bdaf3b820c1f",
+   "problems": [],
+   "class": "config",
+   "lines": 8,
+   "n_facts": 6
+  },
+  {
+   "path": "configs/train.yaml",
+   "bytes": 463,
+   "sha256": "0b67f16e4586de17751c7ead39ea367bc3610e717cb546aa06ce436946988ba7",
+   "problems": [],
+   "class": "config",
+   "lines": 26,
+   "n_facts": 20
+  },
+  {
+   "path": "logs/baseline.log",
+   "bytes": 147,
+   "sha256": "4caab3e7075208c649a230034e529d8ae71d1887859ea006435c80fa39a49e5d",
+   "problems": [],
+   "class": "log",
+   "lines": 3,
+   "n_facts": 5
+  },
+  {
+   "path": "logs/preprocess.log",
+   "bytes": 365,
+   "sha256": "5626045a5ac103d4914e4f85dc1493ffe0f6108359e57bae3a2ac54d6b344691",
+   "problems": [],
+   "class": "log",
+   "lines": 6,
+   "n_facts": 10
+  },
+  {
+   "path": "logs/train_bert_seed42.log",
+   "bytes": 877,
+   "sha256": "54fd3ccab215e58712145da36284b4ac114977bcda9dd690dab149be75969b82",
+   "problems": [],
+   "class": "log",
+   "lines": 13,
+   "n_facts": 36
+  },
+  {
+   "path": "src/baseline.py",
+   "bytes": 361,
+   "sha256": "dabfb1b9f29187b8c5a1cc2645eed176e70ac8e9c9a8b6eb33ebbe29d3a606fd",
+   "problems": [],
+   "class": "code",
+   "lines": 8,
+   "n_facts": 3
+  },
+  {
+   "path": "src/preprocess.py",
+   "bytes": 529,
+   "sha256": "d94448dc95b5cd13d944af7ade81c21443c7be01c1f8fdc9218003645b49cdc0",
+   "problems": [],
+   "class": "code",
+   "lines": 13,
+   "n_facts": 6
+  },
+  {
+   "path": "src/train.py",
+   "bytes": 865,
+   "sha256": "f5d4e40ec635db9c5f06ed25ea07e40450a7df405e3682462f47b6d87a61bb51",
+   "problems": [],
+   "class": "code",
+   "lines": 19,
+   "n_facts": 10
+  }
+ ],
+ "problems": [],
+ "task_excerpt": "# 任务\n为一篇中文期刊论文撰写“3 方法与实验”一节。读者为领域审稿人。材料位于本目录：训练配置、代码、训练/评测日志、依赖文件、数据说明和实验笔记。\n要求：参数取值必须与配置/日志一致；数据集版本与划分写清；基线与对照条件写清；给出复现所需命令与环境；材料缺失处标注待确认。\n\n根据实验材料撰写论文第3节“方法与实验”（中文，面向期刊审稿人），需包含方法步骤、实验设置、数据集与划分、参数表、对照实验、可复现性与限制。不得补造材料中没有的数值。",
+ "stages": [
+  {
+   "file": "logs/baseline.log",
+   "line": 1,
+   "command": "python src/baseline.py --config configs/baseline_tfidf.yaml"
+  },
+  {
+   "file": "logs/preprocess.log",
+   "line": 1,
+   "command": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/"
+  },
+  {
+   "file": "logs/train_bert_seed42.log",
+   "line": 1,
+   "command": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+  }
+ ],
+ "series": [
+  {
+   "file": "logs/baseline.log",
+   "key": "accuracy",
+   "count": 1,
+   "first": "0.882",
+   "first_line": 2,
+   "last": "0.882",
+   "last_line": 2,
+   "min": 0.882,
+   "max": 0.882
+  },
+  {
+   "file": "logs/train_bert_seed42.log",
+   "key": "train_loss",
+   "count": 5,
+   "first": "0.412",
+   "first_line": 6,
+   "last": "0.081",
+   "last_line": 10,
+   "min": 0.081,
+   "max": 0.412
+  },
+  {
+   "file": "logs/train_bert_seed42.log",
+   "key": "val_macro_f1",
+   "count": 6,
+   "first": "0.912",
+   "first_line": 6,
+   "last": "0.940",
+   "last_line": 11,
+   "min": 0.912,
+   "max": 0.94
+  },
+  {
+   "file": "logs/train_bert_seed42.log",
+   "key": "accuracy",
+   "count": 1,
+   "first": "0.941",
+   "first_line": 12,
+   "last": "0.941",
+   "last_line": 12,
+   "min": 0.941,
+   "max": 0.941
+  }
+ ],
+ "extract_seconds": 0.03,
+ "case_keys": [
+  "case_id",
+  "output_contract",
+  "task"
+ ]
+}

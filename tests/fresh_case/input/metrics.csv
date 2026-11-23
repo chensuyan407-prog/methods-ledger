@@ -1,0 +1,4 @@
+metric,value
+auc_cv_mean,0.776
+auc_cv_sd,0.006
+auc_test,0.781

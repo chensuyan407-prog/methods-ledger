@@ -1,0 +1,58 @@
+<!doctype html><html><head><meta charset='utf-8'><title>ho_nlp_sst2 methods (annotated)</title>
+<style>body{font-family:'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif;max-width:900px;margin:24px auto;line-height:1.6;color:#222}table{border-collapse:collapse;font-size:12px}td,th{border:1px solid #999;padding:3px 6px;vertical-align:top}code,pre{background:#f4f4f4;font-size:12px}pre{padding:8px;white-space:pre-wrap}sup{color:#36c;font-size:10px}.gap{background:#fff3c4}</style></head><body>
+<h1>4 Experimental Setup</h1>
+<h2>4.1 Procedure</h2>
+<p style='margin:2px 0 2px 18px'>1. Data loading: GLUE SST-2 was loaded with <code>load_dataset(&quot;glue&quot;, &quot;sst2&quot;)</code> at dataset revision bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c <sup>[F32: run_glue.py:10; F33: run_glue.py:10; F34: run_glue.py:10]</sup>; output: 67349 training and 872 validation sentences <sup>[F37: train_lora_s1.log:3; F38: train_lora_s1.log:3; F48: train_lora_s1.log:3; F58: train_lora_s1.log:3; F59: train_lora_s1.log:3]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>2. LoRA fine-tuning: roberta-large <sup>[F66: conf/lora.yaml:2]</sup> was adapted with LoRA on the query and value projections <sup>[F71: conf/lora.yaml:8]</sup>, training 1,838,082 of 357,199,876 parameters <sup>[F39: train_lora_s1.log:4; F40: train_lora_s1.log:4; F49: train_lora_s1.log:4]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>3. Baseline: full fine-tuning of the same roberta-large model <sup>[F60: conf/full_ft.yaml:3]</sup> with its own configuration <sup>[F13: launch.sh:4; F14: launch.sh:4; F15: launch.sh:4; F16: launch.sh:4; F17: launch.sh:4]</sup>.</p>
+<p style='margin:2px 0 2px 18px'>4. Evaluation: accuracy on the official SST-2 validation split, because GLUE test labels are hidden <sup>[run_glue.py:11]</sup>; the best epoch was selected on the same split (epoch 14 in the logged LoRA run) <sup>[F45: train_lora_s1.log:6; F51: train_lora_s1.log:6]</sup>.</p>
+<h2>4.2 Hyperparameters</h2>
+<p>LoRA used rank r = 8 <sup>[F68: conf/lora.yaml:5]</sup>, alpha = 16 <sup>[F69: conf/lora.yaml:6]</sup> and dropout 0.05 <sup>[F70: conf/lora.yaml:7]</sup>. Optimisation used adamw_torch <sup>[F72: conf/lora.yaml:10]</sup> with learning rate 4e-4 <sup>[F43: train_lora_s1.log:5]</sup>, weight decay 0.1 <sup>[F74: conf/lora.yaml:12]</sup>, a linear schedule with warm-up ratio 0.06 <sup>[F75: conf/lora.yaml:13; F76: conf/lora.yaml:14]</sup>, 20 epochs <sup>[F44: train_lora_s1.log:5]</sup>, maximum sequence length 128 <sup>[F80: conf/lora.yaml:19]</sup> and bf16 <sup>[F81: conf/lora.yaml:20]</sup>. The logged run used a per-device batch size of 32 without gradient accumulation <sup>[F41: train_lora_s1.log:5; F42: train_lora_s1.log:5; F43: train_lora_s1.log:5; F44: train_lora_s1.log:5; F50: train_lora_s1.log:5]</sup> <span class='gap'>[AUTHOR TO CONFIRM: conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?]</span>.</p>
+<p>The full fine-tuning baseline used learning rate 1.0e-5 <sup>[F61: conf/full_ft.yaml:5]</sup>, weight decay 0.1 <sup>[F62: conf/full_ft.yaml:6]</sup>, per-device batch size 16 <sup>[F63: conf/full_ft.yaml:8]</sup> <span class='gap'>[AUTHOR TO CONFIRM: batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16]</span> for 10 epochs <sup>[F64: conf/full_ft.yaml:9]</sup> at sequence length 128 <sup>[F65: conf/full_ft.yaml:10]</sup>.</p>
+<table>
+<tr><th>Parameter</th><th>Value</th><th>Unit</th><th>Applies to</th><th>Source</th><th>Status</th></tr>
+<tr><td>batch size</td><td>32</td><td>-</td><td>-</td><td>train_lora_s1.log:5 (F41)</td><td>CONFLICT C1 - author to confirm</td></tr>
+<tr><td>dropout</td><td>0.05</td><td>-</td><td>lora</td><td>conf/lora.yaml:7 (F70)</td><td>cited in text</td></tr>
+<tr><td>epochs</td><td>20</td><td>-</td><td>-</td><td>train_lora_s1.log:5 (F44)</td><td>cited in text; other values: conf/full_ft.yaml:9=10</td></tr>
+<tr><td>gradient accumulation steps</td><td>1</td><td>-</td><td>-</td><td>train_lora_s1.log:5 (F42)</td><td>CONFLICT C2 - author to confirm</td></tr>
+<tr><td>learning rate</td><td>4e-4</td><td>-</td><td>-</td><td>train_lora_s1.log:5 (F43)</td><td>cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4</td></tr>
+<tr><td>LoRA alpha</td><td>16</td><td>-</td><td>lora</td><td>conf/lora.yaml:6 (F69)</td><td>cited in text</td></tr>
+<tr><td>LoRA rank</td><td>8</td><td>-</td><td>lora</td><td>conf/lora.yaml:5 (F68)</td><td>cited in text</td></tr>
+<tr><td>maximum sequence length</td><td>128</td><td>-</td><td>training</td><td>conf/full_ft.yaml:10 (F65)</td><td>cited in text</td></tr>
+<tr><td>optimizer</td><td>adamw_torch</td><td>-</td><td>optim</td><td>conf/lora.yaml:10 (F72)</td><td>cited in text</td></tr>
+<tr><td>learning-rate schedule</td><td>linear</td><td>-</td><td>optim</td><td>conf/lora.yaml:13 (F75)</td><td>cited in text</td></tr>
+<tr><td>warm-up</td><td>0.06</td><td>-</td><td>optim</td><td>conf/lora.yaml:14 (F76)</td><td>cited in text</td></tr>
+<tr><td>weight decay</td><td>0.1</td><td>-</td><td>optim</td><td>conf/full_ft.yaml:6 (F62)</td><td>cited in text</td></tr>
+<tr><td>dataset</td><td>glue</td><td>-</td><td>-</td><td>run_glue.py:10 (F33)</td><td>cited in text</td></tr>
+<tr><td>dataset version</td><td>sst2</td><td>-</td><td>-</td><td>run_glue.py:10 (F34)</td><td>cited in text</td></tr>
+<tr><td>training samples</td><td>67349,</td><td>-</td><td>-</td><td>train_lora_s1.log:3 (F58)</td><td>cited in text</td></tr>
+<tr><td>validation samples</td><td>872</td><td>-</td><td>-</td><td>train_lora_s1.log:3 (F59)</td><td>cited in text</td></tr>
+<tr><td>CUDA version</td><td>12.1</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F56)</td><td>in text (untagged)</td></tr>
+<tr><td>hardware</td><td>NVIDIA A100-SXM4-40GB</td><td>-</td><td>-</td><td>train_lora_s1.log:2 (F57)</td><td>cited in text</td></tr>
+<tr><td>number of GPUs / devices</td><td>4</td><td>-</td><td>-</td><td>train_lora_s1.log:2 (F36)</td><td>cited in text</td></tr>
+<tr><td>numeric precision</td><td>true</td><td>-</td><td>training</td><td>conf/lora.yaml:20 (F81)</td><td>cited in text</td></tr>
+<tr><td>Python version</td><td>3.10.13</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F52)</td><td>cited in text</td></tr>
+<tr><td>software (transformers)</td><td>4.40.0</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F54)</td><td>cited in text</td></tr>
+<tr><td>software (peft)</td><td>0.10.0</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F55)</td><td>cited in text</td></tr>
+<tr><td>PyTorch version</td><td>2.2.1</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F53)</td><td>cited in text</td></tr>
+<tr><td>model / architecture</td><td>roberta-large</td><td>-</td><td>model</td><td>conf/full_ft.yaml:3 (F60)</td><td>cited in text</td></tr>
+<tr><td>code version / commit</td><td>bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c</td><td>-</td><td>-</td><td>run_glue.py:10 (F32)</td><td>cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main</td></tr>
+<tr><td>random seed</td><td>$SEED</td><td>-</td><td>-</td><td>launch.sh:3 (F11)</td><td>cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3</td></tr>
+<tr><td>random seed</td><td>1</td><td>-</td><td>val</td><td>README.md:2 (F2)</td><td>cited in text</td></tr>
+</table>
+<h2>4.3 Compute and software</h2>
+<p>Each run used 4 GPUs (torchrun, 4 processes per node) <sup>[F7: launch.sh:3; F8: launch.sh:3; F9: launch.sh:3; F10: launch.sh:3; F11: launch.sh:3; F12: launch.sh:3]</sup> of type NVIDIA A100-SXM4-40GB <sup>[F36: train_lora_s1.log:2; F47: train_lora_s1.log:2; F57: train_lora_s1.log:2]</sup>, with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1 <sup>[F35: train_lora_s1.log:1; F46: train_lora_s1.log:1; F52: train_lora_s1.log:1; F53: train_lora_s1.log:1; F54: train_lora_s1.log:1; F55: train_lora_s1.log:1]</sup>. Total compute was about 40 GPU-hours <sup>[F4: README.md:3; F5: README.md:3]</sup>.</p>
+<h2>4.4 Seeds, repetitions and statistics</h2>
+<p>Every method was run with seeds 1, 2 and 3 <sup>[F19: results.csv:2; F20: results.csv:2; F21: results.csv:3; F22: results.csv:3; F23: results.csv:4; F24: results.csv:4]</sup> <span class='gap'>[AUTHOR TO CONFIRM: C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds]</span>; results are the mean over the three seeds <sup>[F1: README.md:2; F2: README.md:2; F3: README.md:2; F6: README.md:2]</sup>. No significance test or confidence interval was computed <span class='gap'>[TO CONFIRM: Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?]</span>.</p>
+<h2>4.5 Reproducibility</h2>
+<p>Code commit 4be1d0e <sup>[F6: README.md:2]</sup>. Commands, run for SEED in 1 2 3 <sup>[launch.sh:2]</sup>:</p>
+<pre>
+torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED
+torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED
+</pre>
+<p>Data are public through the GLUE benchmark <span class='gap'>[TO CONFIRM: cite the GLUE/SST-2 licence and the Hugging Face dataset page]</span>.</p>
+<h2>4.6 Limitations</h2>
+<p style='margin:2px 0 2px 18px'>- Model selection and reporting both use the 872-sentence validation split <sup>[F37: train_lora_s1.log:3; F38: train_lora_s1.log:3; F48: train_lora_s1.log:3; F58: train_lora_s1.log:3; F59: train_lora_s1.log:3]</sup>, so the reported accuracy is optimistically biased.</p>
+<p style='margin:2px 0 2px 18px'>- Only one model (roberta-large) <sup>[F66: conf/lora.yaml:2]</sup> and one task (SST-2) <sup>[F32: run_glue.py:10; F33: run_glue.py:10; F34: run_glue.py:10]</sup> were tested.</p>
+<p style='margin:2px 0 2px 18px'>- Only 3 seeds per method <sup>[F19: results.csv:2; F20: results.csv:2; F21: results.csv:3; F22: results.csv:3; F23: results.csv:4; F24: results.csv:4]</sup>; the baseline used 10 epochs against 20 for LoRA <sup>[F64: conf/full_ft.yaml:9; F79: conf/lora.yaml:18]</sup>, so the budgets differ.</p>
+</body></html>

@@ -1,0 +1,6 @@
+[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1
+[2024-06-01 08:00:01] INFO world_size=4, GPU: NVIDIA A100-SXM4-40GB
+[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872
+[2024-06-01 08:00:03] INFO trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146
+[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20
+[2024-06-01 11:42:10] INFO best eval_accuracy=0.9622 at epoch 14

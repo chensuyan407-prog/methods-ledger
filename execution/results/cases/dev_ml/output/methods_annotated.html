@@ -1,0 +1,77 @@
+<!doctype html><html><head><meta charset='utf-8'><title>dev_ml_textcls methods (annotated)</title>
+<style>body{font-family:'Noto Sans CJK SC','Microsoft YaHei','PingFang SC',sans-serif;max-width:900px;margin:24px auto;line-height:1.6;color:#222}table{border-collapse:collapse;font-size:12px}td,th{border:1px solid #999;padding:3px 6px;vertical-align:top}code,pre{background:#f4f4f4;font-size:12px}pre{padding:8px;white-space:pre-wrap}sup{color:#36c;font-size:10px}.gap{background:#fff3c4}</style></head><body>
+<h1>3 方法与实验</h1>
+<h2>3.1 方法步骤</h2>
+<p style='margin:2px 0 2px 18px'>1. 数据清洗：输入为原始数据包 thucnews_2016.zip（共 74000 篇文档）<sup>[F60: logs/preprocess.log:1; F55: logs/preprocess.log:2]</sup>；运行 <code>src/preprocess.py</code>，剔除长度不在 [20, 2000] 字符范围内的文档 1210 篇 <sup>[F104: src/preprocess.py:4; F105: src/preprocess.py:5; F56: logs/preprocess.log:3]</sup>，再按全文精确去重剔除 790 篇 <sup>[F57: logs/preprocess.log:4]</sup>；输出为保留的 72000 篇文档 <sup>[calc: 74000-1210-790]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>2. 数据划分：先以 test_size=0.2 分层抽取 <sup>[F106: src/preprocess.py:10]</sup>，再将剩余部分按 test_size=0.5 等分为验证集与测试集 <sup>[F108: src/preprocess.py:11]</sup>，两次划分的随机种子均为 2023 <sup>[F107: src/preprocess.py:10; F109: src/preprocess.py:11]</sup>；输出训练集 57600 条、验证集 7200 条、测试集 7200 条 <sup>[F62: logs/preprocess.log:5; F63: logs/preprocess.log:5; F64: logs/preprocess.log:5]</sup>，与数据说明中的 8:1:1 划分一致 <sup>[F9: data_card.md:7; F12: data_card.md:7]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>3. 模型微调：以 <code>src/train.py</code> 加载预训练模型 bert-base-chinese <sup>[F30: configs/train.yaml:3]</sup>，在训练集上微调 5 个 epoch <sup>[F68: logs/train_bert_seed42.log:5]</sup>，每个 epoch 结束后在验证集上计算 macro-F1 <sup>[F48: configs/train.yaml:24]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>4. 检查点选择与测试：按验证集 macro-F1 选择第 4 个 epoch 的检查点 <sup>[F76: logs/train_bert_seed42.log:11]</sup>，测试集只评测一次 <sup>[F18: notes.md:5]</sup>。</p>
+<p style='margin:2px 0 2px 18px'>5. 基线：以 <code>src/baseline.py</code> 训练 TF-IDF + 逻辑回归基线 <sup>[F24: configs/baseline_tfidf.yaml:2]</sup>，在同一测试集上评测 <sup>[F53: logs/baseline.log:1]</sup>。</p>
+<h2>3.2 实验设置</h2>
+<p>微调在 1 块 NVIDIA A100-SXM4-80GB 上完成 <sup>[F98: logs/train_bert_seed42.log:3; F99: logs/train_bert_seed42.log:3]</sup>，软件环境为 PyTorch 2.1.2+cu121、CUDA 12.1 <sup>[F95: logs/train_bert_seed42.log:2; F96: logs/train_bert_seed42.log:2]</sup>、transformers 4.36.2 与 scikit-learn 1.3.2 <sup>[F20: requirements.txt:2; F21: requirements.txt:3]</sup>，训练启用 fp16 混合精度 <sup>[F46: configs/train.yaml:21]</sup>。numpy 仅给出版本下限 &gt;=1.24 <sup>[F22: requirements.txt:4]</sup> <span class='gap'>【待确认：请提供实际安装的 numpy 版本（pip freeze）】</span>。</p>
+<h2>3.3 数据集与划分</h2>
+<p>实验使用 THUCNews 的 10 类子集 <sup>[F1: data_card.md:2; F37: configs/train.yaml:11]</sup>，数据来源为 http://thuctc.thunlp.org/ <sup>[F3: data_card.md:3]</sup>，许可为仅限研究使用 <sup>[F4: data_card.md:4]</sup>。原始数据包下载于 2024-02-28 <sup>[F11: data_card.md:5]</sup>；THUCNews 本身未给出版本号 <span class='gap'>【待确认：请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识】</span>。划分方式见 3.1 第 2 步。</p>
+<h2>3.4 参数设置</h2>
+<p>BERT 微调使用 AdamW 优化器 <sup>[F38: configs/train.yaml:13]</sup>，学习率 2e-5 <sup>[F66: logs/train_bert_seed42.log:5; F92: logs/train_bert_seed42.log:1]</sup> <span class='gap'>【待作者确认：C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5】</span>，权重衰减 0.01 <sup>[F40: configs/train.yaml:15]</sup>，批大小 32 <sup>[F67: logs/train_bert_seed42.log:5]</sup>，最大序列长度 256 <sup>[F70: logs/train_bert_seed42.log:5]</sup>，dropout 0.1 <sup>[F32: configs/train.yaml:5]</sup>，线性学习率调度并以 0.1 的比例预热 <sup>[F44: configs/train.yaml:19; F71: logs/train_bert_seed42.log:5]</sup>，梯度裁剪阈值 1.0 <sup>[F45: configs/train.yaml:20]</sup>。基线的 TF-IDF 取 1–2 元语法 <sup>[F25: configs/baseline_tfidf.yaml:3]</sup>、最多 50000 个特征 <sup>[F26: configs/baseline_tfidf.yaml:4]</sup>，逻辑回归 C=1.0、求解器 liblinear <sup>[F27: configs/baseline_tfidf.yaml:5; F28: configs/baseline_tfidf.yaml:6]</sup>，未调参 <sup>[F17: notes.md:4]</sup>。</p>
+<table>
+<tr><th>参数</th><th>取值</th><th>单位</th><th>作用对象</th><th>来源</th><th>状态</th></tr>
+<tr><td>批大小</td><td>32</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F67)</td><td>正文已引用</td></tr>
+<tr><td>dropout</td><td>0.1</td><td>-</td><td>model</td><td>configs/train.yaml:5 (F32)</td><td>正文已引用</td></tr>
+<tr><td>训练轮数</td><td>5</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F68)</td><td>正文已引用; 其他取值：src/train.py:10=3</td></tr>
+<tr><td>评测批大小</td><td>64</td><td>-</td><td>test/eval</td><td>configs/train.yaml:25 (F49)</td><td>正文未使用</td></tr>
+<tr><td>梯度裁剪阈值</td><td>1.0</td><td>-</td><td>train</td><td>configs/train.yaml:20 (F45)</td><td>正文已引用</td></tr>
+<tr><td>学习率</td><td>2e-05</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F66)</td><td>冲突 C1，待作者确认</td></tr>
+<tr><td>最大序列长度</td><td>256</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F70)</td><td>正文已引用</td></tr>
+<tr><td>训练步数/迭代次数</td><td>1000</td><td>-</td><td>baseline</td><td>src/baseline.py:6 (F103)</td><td>正文未使用</td></tr>
+<tr><td>优化器</td><td>liblinear</td><td>-</td><td>baseline</td><td>configs/baseline_tfidf.yaml:6 (F28)</td><td>正文已引用</td></tr>
+<tr><td>优化器</td><td>AdamW</td><td>-</td><td>train</td><td>configs/train.yaml:13 (F38)</td><td>正文已引用</td></tr>
+<tr><td>学习率调度</td><td>linear</td><td>-</td><td>train</td><td>configs/train.yaml:19 (F44)</td><td>正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu</td></tr>
+<tr><td>预热</td><td>0.1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F71)</td><td>正文已引用</td></tr>
+<tr><td>权重衰减</td><td>0.01</td><td>-</td><td>train</td><td>configs/train.yaml:15 (F40)</td><td>正文已引用</td></tr>
+<tr><td>数据集</td><td>THUCNews-subset</td><td>-</td><td>data</td><td>configs/train.yaml:7 (F33)</td><td>正文未使用</td></tr>
+<tr><td>数据集版本</td><td>downloaded 2024-02-28</td><td>-</td><td>-</td><td>data_card.md:5 (F11)</td><td>正文已引用</td></tr>
+<tr><td>许可</td><td>research use only</td><td>-</td><td>-</td><td>data_card.md:4 (F4)</td><td>正文已引用</td></tr>
+<tr><td>测试集样本数</td><td>7200</td><td>-</td><td>-</td><td>logs/preprocess.log:5 (F64)</td><td>正文已引用</td></tr>
+<tr><td>训练集样本数</td><td>57600</td><td>-</td><td>-</td><td>logs/preprocess.log:5 (F62)</td><td>正文已引用</td></tr>
+<tr><td>验证集样本数</td><td>7200</td><td>-</td><td>-</td><td>logs/preprocess.log:5 (F63)</td><td>正文已引用</td></tr>
+<tr><td>类别数</td><td>10</td><td>-</td><td>data</td><td>configs/train.yaml:11 (F37)</td><td>正文已引用</td></tr>
+<tr><td>数据来源</td><td>http://thuctc.thunlp.org/</td><td>-</td><td>-</td><td>data_card.md:3 (F3)</td><td>正文已引用</td></tr>
+<tr><td>划分比例</td><td>8:1:1, stratified by label for the train/rest split</td><td>-</td><td>-</td><td>data_card.md:7 (F9)</td><td>正文已引用; 其他取值：data_card.md:7=8:1:1</td></tr>
+<tr><td>数据划分种子</td><td>2023</td><td>-</td><td>-</td><td>src/preprocess.py:10 (F107)</td><td>正文已引用</td></tr>
+<tr><td>测试集文件</td><td>data/test.jsonl</td><td>-</td><td>test/data</td><td>configs/train.yaml:10 (F36)</td><td>正文未使用</td></tr>
+<tr><td>测试集比例</td><td>0.2</td><td>-</td><td>test</td><td>src/preprocess.py:10 (F106)</td><td>正文已引用; 其他取值：src/preprocess.py:11=0.5</td></tr>
+<tr><td>验证集文件</td><td>data/val.jsonl</td><td>-</td><td>val/data</td><td>configs/train.yaml:9 (F35)</td><td>正文未使用</td></tr>
+<tr><td>CUDA 版本</td><td>12.1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:2 (F96)</td><td>正文已引用</td></tr>
+<tr><td>cuDNN 版本</td><td>8902</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:2 (F97)</td><td>正文未使用</td></tr>
+<tr><td>硬件</td><td>NVIDIA A100-SXM4-80GB</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:3 (F98)</td><td>正文已引用</td></tr>
+<tr><td>GPU/设备数</td><td>1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:3 (F99)</td><td>正文已引用</td></tr>
+<tr><td>数值精度</td><td>true</td><td>-</td><td>train</td><td>configs/train.yaml:21 (F46)</td><td>正文已引用</td></tr>
+<tr><td>软件 (transformers)</td><td>4.36.2</td><td>-</td><td>-</td><td>requirements.txt:2 (F20)</td><td>正文已引用</td></tr>
+<tr><td>软件 (scikit-learn)</td><td>1.3.2</td><td>-</td><td>-</td><td>requirements.txt:3 (F21)</td><td>正文已引用</td></tr>
+<tr><td>软件 (numpy)</td><td>&gt;=1.24</td><td>-</td><td>-</td><td>requirements.txt:4 (F22)</td><td>正文已引用</td></tr>
+<tr><td>软件 (jieba)</td><td>0.42.1</td><td>-</td><td>-</td><td>requirements.txt:5 (F23)</td><td>正文未使用</td></tr>
+<tr><td>PyTorch 版本</td><td>2.1.2+cu121</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:2 (F95)</td><td>正文已引用; 其他取值：requirements.txt:1=2.1.2</td></tr>
+<tr><td>评价指标</td><td>macro_f1</td><td>-</td><td>test/eval</td><td>configs/train.yaml:24 (F48)</td><td>正文已引用</td></tr>
+<tr><td>评价指标</td><td>f1_score</td><td>-</td><td>baseline</td><td>src/baseline.py:3 (F101)</td><td>正文未使用</td></tr>
+<tr><td>模型/结构</td><td>bert-base-chinese</td><td>-</td><td>model</td><td>configs/train.yaml:3 (F30)</td><td>正文已引用</td></tr>
+<tr><td>检查点/权重</td><td>epoch 4</td><td>-</td><td>val</td><td>logs/train_bert_seed42.log:11 (F76)</td><td>正文已引用</td></tr>
+<tr><td>代码版本</td><td>9f3c2ab</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:4 (F65)</td><td>正文已引用</td></tr>
+<tr><td>随机种子</td><td>42</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F69)</td><td>正文已引用</td></tr>
+<tr><td>随机种子</td><td>42</td><td>-</td><td>baseline</td><td>configs/baseline_tfidf.yaml:7 (F29)</td><td>正文未使用</td></tr>
+</table>
+<h2>3.5 对照实验与评价</h2>
+<p>主要评价指标为测试集 macro-F1，同时报告准确率 <sup>[F48: configs/train.yaml:24; F78: logs/train_bert_seed42.log:12]</sup>。BERT 与 TF-IDF 基线使用同一划分的训练集与测试集 <sup>[F53: logs/baseline.log:1; F90: logs/train_bert_seed42.log:1]</sup>；基线未做超参数搜索 <sup>[F17: notes.md:4]</sup>，因此两者的调参预算不同。每个模型只运行了一次（BERT 种子 42）<sup>[F16: notes.md:3; F69: logs/train_bert_seed42.log:5]</sup> <span class='gap'>【待确认：是否补充多种子重复实验并报告均值±标准差？】</span>；未进行统计检验 <span class='gap'>【待确认：是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？】</span>。</p>
+<h2>3.6 可复现性</h2>
+<p>代码版本为提交 9f3c2ab <sup>[F65: logs/train_bert_seed42.log:4]</sup>。依次运行以下命令可复现数据划分、BERT 微调和基线：</p>
+<pre>
+python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/
+python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42
+python src/baseline.py --config configs/baseline_tfidf.yaml
+</pre>
+<p>训练随机种子为 42 <sup>[F69: logs/train_bert_seed42.log:5]</sup>，数据划分种子为 2023 <sup>[F107: src/preprocess.py:10]</sup>。</p>
+<h2>3.7 限制条件</h2>
+<p style='margin:2px 0 2px 18px'>- 所有结果来自单一种子（42）的单次运行 <sup>[F16: notes.md:3]</sup>，未估计随机初始化带来的方差。</p>
+<p style='margin:2px 0 2px 18px'>- 基线未调参而 BERT 使用了经调整的学习率 <sup>[F14: notes.md:2; F17: notes.md:4]</sup>，比较不在相同调参预算下进行。</p>
+<p style='margin:2px 0 2px 18px'>- 仅在 THUCNews 10 类子集、长度 20–2000 字符的文档上评测 <sup>[F37: configs/train.yaml:11; F104: src/preprocess.py:4; F105: src/preprocess.py:5]</sup>，更长文档会被 256 的最大序列长度截断 <sup>[F70: logs/train_bert_seed42.log:5]</sup>，其效果未测试。</p>
+<p style='margin:2px 0 2px 18px'>- 仅在单块 A100 上训练 <sup>[F98: logs/train_bert_seed42.log:3]</sup>，未验证其他硬件与 fp16 关闭时的结果。</p>
+</body></html>

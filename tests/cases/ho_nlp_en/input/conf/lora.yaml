@@ -1,0 +1,23 @@
+model:
+  name_or_path: roberta-large
+  revision: main
+lora:
+  r: 8
+  alpha: 16
+  dropout: 0.05
+  target_modules: [query, value]
+optim:
+  optimizer: adamw_torch
+  learning_rate: 4.0e-4
+  weight_decay: 0.1
+  lr_scheduler_type: linear
+  warmup_ratio: 0.06
+training:
+  per_device_train_batch_size: 16
+  gradient_accumulation_steps: 2
+  num_train_epochs: 20
+  max_seq_length: 128
+  bf16: true
+data:
+  dataset: glue
+  subset: sst2

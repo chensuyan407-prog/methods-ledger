@@ -1,0 +1,1479 @@
+{
+ "facts": [
+  {
+   "id": "F1",
+   "file": "README.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "Code commit",
+   "path": "Code commit",
+   "canon": null,
+   "category": null,
+   "value": "4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).",
+   "nums": [
+    4.0,
+    1.0,
+    3.0,
+    872.0
+   ],
+   "scope": "val",
+   "context": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences)."
+  },
+  {
+   "id": "F2",
+   "file": "README.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "seeds",
+   "path": "text.seeds",
+   "canon": "seed",
+   "category": "repro",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "val",
+   "context": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences)."
+  },
+  {
+   "id": "F3",
+   "file": "README.md",
+   "line": 2,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).",
+   "nums": [
+    4.0,
+    1.0,
+    3.0,
+    872.0
+   ],
+   "scope": "val",
+   "context": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F4",
+   "file": "README.md",
+   "line": 3,
+   "kind": "doc_kv",
+   "key": "Total compute",
+   "path": "Total compute",
+   "canon": null,
+   "category": null,
+   "value": "about 40 GPU-hours.",
+   "nums": [
+    40.0
+   ],
+   "scope": "",
+   "context": "Total compute: about 40 GPU-hours."
+  },
+  {
+   "id": "F5",
+   "file": "README.md",
+   "line": 3,
+   "kind": "doc",
+   "key": "sentence",
+   "path": "sentence",
+   "canon": null,
+   "category": null,
+   "value": "Total compute: about 40 GPU-hours.",
+   "nums": [
+    40.0
+   ],
+   "scope": "",
+   "context": "Total compute: about 40 GPU-hours.",
+   "doc_class": "doc"
+  },
+  {
+   "id": "F6",
+   "file": "README.md",
+   "line": 2,
+   "kind": "doc_kv",
+   "key": "commit",
+   "path": "commit",
+   "canon": "code_version",
+   "category": "repro",
+   "value": "4be1d0e",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences)."
+  },
+  {
+   "id": "F7",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "code",
+   "key": "num_gpus",
+   "path": "num_gpus",
+   "canon": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F8",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F9",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "cli",
+   "key": "nproc_per_node",
+   "path": "nproc_per_node",
+   "canon": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F10",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "cli",
+   "key": "config",
+   "path": "config",
+   "canon": null,
+   "category": null,
+   "value": "conf/lora.yaml",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F11",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "cli",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "$SEED",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F12",
+   "file": "launch.sh",
+   "line": 3,
+   "kind": "cli",
+   "key": "output_dir",
+   "path": "output_dir",
+   "canon": "output_dir",
+   "category": "repro",
+   "value": "out/lora_s$SEED",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED"
+  },
+  {
+   "id": "F13",
+   "file": "launch.sh",
+   "line": 4,
+   "kind": "cli",
+   "key": "command",
+   "path": "command",
+   "canon": "command",
+   "category": "repro",
+   "value": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  },
+  {
+   "id": "F14",
+   "file": "launch.sh",
+   "line": 4,
+   "kind": "cli",
+   "key": "nproc_per_node",
+   "path": "nproc_per_node",
+   "canon": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  },
+  {
+   "id": "F15",
+   "file": "launch.sh",
+   "line": 4,
+   "kind": "cli",
+   "key": "config",
+   "path": "config",
+   "canon": null,
+   "category": null,
+   "value": "conf/full_ft.yaml",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  },
+  {
+   "id": "F16",
+   "file": "launch.sh",
+   "line": 4,
+   "kind": "cli",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "$SEED",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  },
+  {
+   "id": "F17",
+   "file": "launch.sh",
+   "line": 4,
+   "kind": "cli",
+   "key": "output_dir",
+   "path": "output_dir",
+   "canon": "output_dir",
+   "category": "repro",
+   "value": "out/full_s$SEED",
+   "nums": [],
+   "scope": "",
+   "context": "torchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED"
+  },
+  {
+   "id": "F18",
+   "file": "results.csv",
+   "line": 1,
+   "kind": "table",
+   "key": "n_rows",
+   "path": "n_rows",
+   "canon": null,
+   "category": null,
+   "value": "6",
+   "nums": [
+    6.0
+   ],
+   "scope": "test",
+   "context": "header: method, seed, eval_accuracy"
+  },
+  {
+   "id": "F19",
+   "file": "results.csv",
+   "line": 2,
+   "kind": "table",
+   "key": "seed",
+   "path": "lora.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "lora | seed = 1",
+   "row_label": "lora"
+  },
+  {
+   "id": "F20",
+   "file": "results.csv",
+   "line": 2,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "lora.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9622",
+   "nums": [
+    0.9622
+   ],
+   "scope": "test",
+   "context": "lora | eval_accuracy = 0.9622",
+   "row_label": "lora"
+  },
+  {
+   "id": "F21",
+   "file": "results.csv",
+   "line": 3,
+   "kind": "table",
+   "key": "seed",
+   "path": "lora.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "2",
+   "nums": [
+    2.0
+   ],
+   "scope": "",
+   "context": "lora | seed = 2",
+   "row_label": "lora"
+  },
+  {
+   "id": "F22",
+   "file": "results.csv",
+   "line": 3,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "lora.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9576",
+   "nums": [
+    0.9576
+   ],
+   "scope": "test",
+   "context": "lora | eval_accuracy = 0.9576",
+   "row_label": "lora"
+  },
+  {
+   "id": "F23",
+   "file": "results.csv",
+   "line": 4,
+   "kind": "table",
+   "key": "seed",
+   "path": "lora.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "3",
+   "nums": [
+    3.0
+   ],
+   "scope": "",
+   "context": "lora | seed = 3",
+   "row_label": "lora"
+  },
+  {
+   "id": "F24",
+   "file": "results.csv",
+   "line": 4,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "lora.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9599",
+   "nums": [
+    0.9599
+   ],
+   "scope": "test",
+   "context": "lora | eval_accuracy = 0.9599",
+   "row_label": "lora"
+  },
+  {
+   "id": "F25",
+   "file": "results.csv",
+   "line": 5,
+   "kind": "table",
+   "key": "seed",
+   "path": "full_ft.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "full_ft | seed = 1",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F26",
+   "file": "results.csv",
+   "line": 5,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "full_ft.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9633",
+   "nums": [
+    0.9633
+   ],
+   "scope": "test",
+   "context": "full_ft | eval_accuracy = 0.9633",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F27",
+   "file": "results.csv",
+   "line": 6,
+   "kind": "table",
+   "key": "seed",
+   "path": "full_ft.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "2",
+   "nums": [
+    2.0
+   ],
+   "scope": "",
+   "context": "full_ft | seed = 2",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F28",
+   "file": "results.csv",
+   "line": 6,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "full_ft.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9587",
+   "nums": [
+    0.9587
+   ],
+   "scope": "test",
+   "context": "full_ft | eval_accuracy = 0.9587",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F29",
+   "file": "results.csv",
+   "line": 7,
+   "kind": "table",
+   "key": "seed",
+   "path": "full_ft.seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "3",
+   "nums": [
+    3.0
+   ],
+   "scope": "",
+   "context": "full_ft | seed = 3",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F30",
+   "file": "results.csv",
+   "line": 7,
+   "kind": "table",
+   "key": "eval_accuracy",
+   "path": "full_ft.eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9610",
+   "nums": [
+    0.961
+   ],
+   "scope": "test",
+   "context": "full_ft | eval_accuracy = 0.9610",
+   "row_label": "full_ft"
+  },
+  {
+   "id": "F31",
+   "file": "run_glue.py",
+   "line": 6,
+   "kind": "code",
+   "key": "seed",
+   "path": "seed",
+   "canon": "seed",
+   "category": "repro",
+   "value": "0",
+   "nums": [
+    0.0
+   ],
+   "scope": "",
+   "context": "p.add_argument(\"--seed\", type=int, default=0)",
+   "code_role": "argparse default"
+  },
+  {
+   "id": "F32",
+   "file": "run_glue.py",
+   "line": 10,
+   "kind": "code",
+   "key": "revision",
+   "path": "revision",
+   "canon": "code_version",
+   "category": "repro",
+   "value": "bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c",
+   "nums": [],
+   "scope": "",
+   "context": "raw = load_dataset(\"glue\", \"sst2\", revision=\"bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c\")",
+   "code_role": "keyword argument"
+  },
+  {
+   "id": "F33",
+   "file": "run_glue.py",
+   "line": 10,
+   "kind": "code",
+   "key": "dataset",
+   "path": "dataset",
+   "canon": "dataset",
+   "category": "data",
+   "value": "glue",
+   "nums": [],
+   "scope": "",
+   "context": "raw = load_dataset(\"glue\", \"sst2\", revision=\"bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c\")"
+  },
+  {
+   "id": "F34",
+   "file": "run_glue.py",
+   "line": 10,
+   "kind": "code",
+   "key": "dataset_config",
+   "path": "dataset_config",
+   "canon": "dataset_version",
+   "category": "data",
+   "value": "sst2",
+   "nums": [],
+   "scope": "",
+   "context": "raw = load_dataset(\"glue\", \"sst2\", revision=\"bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c\")"
+  },
+  {
+   "id": "F35",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "env",
+   "path": "env",
+   "canon": null,
+   "category": null,
+   "value": "python 3.10.13",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F36",
+   "file": "train_lora_s1.log",
+   "line": 2,
+   "kind": "log",
+   "key": "world_size",
+   "path": "world_size",
+   "canon": "num_gpus",
+   "category": "setup",
+   "value": "4",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:01] INFO world_size=4, GPU: NVIDIA A100-SXM4-40GB"
+  },
+  {
+   "id": "F37",
+   "file": "train_lora_s1.log",
+   "line": 3,
+   "kind": "log",
+   "key": "examples",
+   "path": "examples",
+   "canon": null,
+   "category": null,
+   "value": "67349",
+   "nums": [
+    67349.0
+   ],
+   "scope": "val",
+   "context": "[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872"
+  },
+  {
+   "id": "F38",
+   "file": "train_lora_s1.log",
+   "line": 3,
+   "kind": "log",
+   "key": "examples",
+   "path": "examples",
+   "canon": null,
+   "category": null,
+   "value": "872",
+   "nums": [
+    872.0
+   ],
+   "scope": "val",
+   "context": "[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872"
+  },
+  {
+   "id": "F39",
+   "file": "train_lora_s1.log",
+   "line": 4,
+   "kind": "log",
+   "key": "params",
+   "path": "params",
+   "canon": null,
+   "category": null,
+   "value": "1,838,082",
+   "nums": [
+    1838082.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146"
+  },
+  {
+   "id": "F40",
+   "file": "train_lora_s1.log",
+   "line": 4,
+   "kind": "log",
+   "key": "params",
+   "path": "params",
+   "canon": null,
+   "category": null,
+   "value": "357,199,876",
+   "nums": [
+    357199876.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146"
+  },
+  {
+   "id": "F41",
+   "file": "train_lora_s1.log",
+   "line": 5,
+   "kind": "log",
+   "key": "per_device_train_batch_size",
+   "path": "per_device_train_batch_size",
+   "canon": "batch_size",
+   "category": "params",
+   "value": "32",
+   "nums": [
+    32.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20"
+  },
+  {
+   "id": "F42",
+   "file": "train_lora_s1.log",
+   "line": 5,
+   "kind": "log",
+   "key": "gradient_accumulation_steps",
+   "path": "gradient_accumulation_steps",
+   "canon": "grad_accum",
+   "category": "params",
+   "value": "1",
+   "nums": [
+    1.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20"
+  },
+  {
+   "id": "F43",
+   "file": "train_lora_s1.log",
+   "line": 5,
+   "kind": "log",
+   "key": "learning_rate",
+   "path": "learning_rate",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "4e-4",
+   "nums": [
+    0.0004
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20"
+  },
+  {
+   "id": "F44",
+   "file": "train_lora_s1.log",
+   "line": 5,
+   "kind": "log",
+   "key": "num_train_epochs",
+   "path": "num_train_epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "20",
+   "nums": [
+    20.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20"
+  },
+  {
+   "id": "F45",
+   "file": "train_lora_s1.log",
+   "line": 6,
+   "kind": "log",
+   "key": "eval_accuracy",
+   "path": "eval_accuracy",
+   "canon": null,
+   "category": null,
+   "value": "0.9622",
+   "nums": [
+    0.9622
+   ],
+   "scope": "test",
+   "context": "[2024-06-01 11:42:10] INFO best eval_accuracy=0.9622 at epoch 14",
+   "series": "first"
+  },
+  {
+   "id": "F46",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1",
+   "nums": [
+    12.1
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1",
+   "doc_class": "log"
+  },
+  {
+   "id": "F47",
+   "file": "train_lora_s1.log",
+   "line": 2,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "world_size=4, GPU: NVIDIA A100-SXM4-40GB",
+   "nums": [
+    4.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:01] INFO world_size=4, GPU: NVIDIA A100-SXM4-40GB",
+   "doc_class": "log"
+  },
+  {
+   "id": "F48",
+   "file": "train_lora_s1.log",
+   "line": 3,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "train examples: 67349, validation examples: 872",
+   "nums": [
+    67349.0,
+    872.0
+   ],
+   "scope": "val",
+   "context": "[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872",
+   "doc_class": "log"
+  },
+  {
+   "id": "F49",
+   "file": "train_lora_s1.log",
+   "line": 4,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146",
+   "nums": [
+    1838082.0,
+    357199876.0,
+    0.5146
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO trainable params: 1,838,082 || all params: 357,199,876 || trainable%: 0.5146",
+   "doc_class": "log"
+  },
+  {
+   "id": "F50",
+   "file": "train_lora_s1.log",
+   "line": 5,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20",
+   "nums": [
+    32.0,
+    1.0,
+    0.0004,
+    20.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:03] INFO per_device_train_batch_size=32 gradient_accumulation_steps=1 learning_rate=4e-4 num_train_epochs=20",
+   "doc_class": "log"
+  },
+  {
+   "id": "F51",
+   "file": "train_lora_s1.log",
+   "line": 6,
+   "kind": "doc",
+   "key": "log_line",
+   "path": "log_line",
+   "canon": null,
+   "category": null,
+   "value": "best eval_accuracy=0.9622 at epoch 14",
+   "nums": [
+    0.9622,
+    14.0
+   ],
+   "scope": "test",
+   "context": "[2024-06-01 11:42:10] INFO best eval_accuracy=0.9622 at epoch 14",
+   "doc_class": "log"
+  },
+  {
+   "id": "F52",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "python",
+   "path": "version.python",
+   "canon": "python",
+   "category": "setup",
+   "value": "3.10.13",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F53",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "torch",
+   "path": "version.torch",
+   "canon": "torch",
+   "category": "setup",
+   "value": "2.2.1",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F54",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "transformers",
+   "path": "version.transformers",
+   "canon": "software",
+   "category": "setup",
+   "value": "4.40.0",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F55",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "peft",
+   "path": "version.peft",
+   "canon": "software",
+   "category": "setup",
+   "value": "0.10.0",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F56",
+   "file": "train_lora_s1.log",
+   "line": 1,
+   "kind": "log",
+   "key": "cuda",
+   "path": "version.cuda",
+   "canon": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "nums": [
+    12.1
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:00] INFO env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1"
+  },
+  {
+   "id": "F57",
+   "file": "train_lora_s1.log",
+   "line": 2,
+   "kind": "log",
+   "key": "gpu",
+   "path": "gpu",
+   "canon": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-40GB",
+   "nums": [],
+   "scope": "",
+   "context": "[2024-06-01 08:00:01] INFO world_size=4, GPU: NVIDIA A100-SXM4-40GB"
+  },
+  {
+   "id": "F58",
+   "file": "train_lora_s1.log",
+   "line": 3,
+   "kind": "log",
+   "key": "n_train",
+   "path": "n_train",
+   "canon": "n_train",
+   "category": "data",
+   "value": "67349,",
+   "nums": [
+    67349.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872"
+  },
+  {
+   "id": "F59",
+   "file": "train_lora_s1.log",
+   "line": 3,
+   "kind": "log",
+   "key": "n_val",
+   "path": "n_val",
+   "canon": "n_val",
+   "category": "data",
+   "value": "872",
+   "nums": [
+    872.0
+   ],
+   "scope": "",
+   "context": "[2024-06-01 08:00:02] INFO train examples: 67349, validation examples: 872"
+  },
+  {
+   "id": "F60",
+   "file": "conf/full_ft.yaml",
+   "line": 3,
+   "kind": "config",
+   "key": "name_or_path",
+   "path": "model.name_or_path",
+   "canon": "model",
+   "category": "control",
+   "value": "roberta-large",
+   "nums": [],
+   "scope": "",
+   "context": "name_or_path: roberta-large"
+  },
+  {
+   "id": "F61",
+   "file": "conf/full_ft.yaml",
+   "line": 5,
+   "kind": "config",
+   "key": "learning_rate",
+   "path": "optim.learning_rate",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "1.0e-5",
+   "nums": [
+    1e-05
+   ],
+   "scope": "",
+   "context": "learning_rate: 1.0e-5"
+  },
+  {
+   "id": "F62",
+   "file": "conf/full_ft.yaml",
+   "line": 6,
+   "kind": "config",
+   "key": "weight_decay",
+   "path": "optim.weight_decay",
+   "canon": "weight_decay",
+   "category": "params",
+   "value": "0.1",
+   "nums": [
+    0.1
+   ],
+   "scope": "",
+   "context": "weight_decay: 0.1"
+  },
+  {
+   "id": "F63",
+   "file": "conf/full_ft.yaml",
+   "line": 8,
+   "kind": "config",
+   "key": "per_device_train_batch_size",
+   "path": "training.per_device_train_batch_size",
+   "canon": "batch_size",
+   "category": "params",
+   "value": "16",
+   "nums": [
+    16.0
+   ],
+   "scope": "",
+   "context": "per_device_train_batch_size: 16"
+  },
+  {
+   "id": "F64",
+   "file": "conf/full_ft.yaml",
+   "line": 9,
+   "kind": "config",
+   "key": "num_train_epochs",
+   "path": "training.num_train_epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "10",
+   "nums": [
+    10.0
+   ],
+   "scope": "",
+   "context": "num_train_epochs: 10"
+  },
+  {
+   "id": "F65",
+   "file": "conf/full_ft.yaml",
+   "line": 10,
+   "kind": "config",
+   "key": "max_seq_length",
+   "path": "training.max_seq_length",
+   "canon": "max_length",
+   "category": "params",
+   "value": "128",
+   "nums": [
+    128.0
+   ],
+   "scope": "",
+   "context": "max_seq_length: 128"
+  },
+  {
+   "id": "F66",
+   "file": "conf/lora.yaml",
+   "line": 2,
+   "kind": "config",
+   "key": "name_or_path",
+   "path": "model.name_or_path",
+   "canon": "model",
+   "category": "control",
+   "value": "roberta-large",
+   "nums": [],
+   "scope": "",
+   "context": "name_or_path: roberta-large"
+  },
+  {
+   "id": "F67",
+   "file": "conf/lora.yaml",
+   "line": 3,
+   "kind": "config",
+   "key": "revision",
+   "path": "model.revision",
+   "canon": "code_version",
+   "category": "repro",
+   "value": "main",
+   "nums": [],
+   "scope": "",
+   "context": "revision: main"
+  },
+  {
+   "id": "F68",
+   "file": "conf/lora.yaml",
+   "line": 5,
+   "kind": "config",
+   "key": "r",
+   "path": "lora.r",
+   "canon": "lora_r",
+   "category": "params",
+   "value": "8",
+   "nums": [
+    8.0
+   ],
+   "scope": "",
+   "context": "r: 8"
+  },
+  {
+   "id": "F69",
+   "file": "conf/lora.yaml",
+   "line": 6,
+   "kind": "config",
+   "key": "alpha",
+   "path": "lora.alpha",
+   "canon": "lora_alpha",
+   "category": "params",
+   "value": "16",
+   "nums": [
+    16.0
+   ],
+   "scope": "",
+   "context": "alpha: 16"
+  },
+  {
+   "id": "F70",
+   "file": "conf/lora.yaml",
+   "line": 7,
+   "kind": "config",
+   "key": "dropout",
+   "path": "lora.dropout",
+   "canon": "dropout",
+   "category": "params",
+   "value": "0.05",
+   "nums": [
+    0.05
+   ],
+   "scope": "",
+   "context": "dropout: 0.05"
+  },
+  {
+   "id": "F71",
+   "file": "conf/lora.yaml",
+   "line": 8,
+   "kind": "config",
+   "key": "target_modules",
+   "path": "lora.target_modules",
+   "canon": null,
+   "category": null,
+   "value": "[query, value]",
+   "nums": [],
+   "scope": "",
+   "context": "target_modules: [query, value]"
+  },
+  {
+   "id": "F72",
+   "file": "conf/lora.yaml",
+   "line": 10,
+   "kind": "config",
+   "key": "optimizer",
+   "path": "optim.optimizer",
+   "canon": "optimizer",
+   "category": "params",
+   "value": "adamw_torch",
+   "nums": [],
+   "scope": "",
+   "context": "optimizer: adamw_torch"
+  },
+  {
+   "id": "F73",
+   "file": "conf/lora.yaml",
+   "line": 11,
+   "kind": "config",
+   "key": "learning_rate",
+   "path": "optim.learning_rate",
+   "canon": "learning_rate",
+   "category": "params",
+   "value": "4.0e-4",
+   "nums": [
+    0.0004
+   ],
+   "scope": "",
+   "context": "learning_rate: 4.0e-4"
+  },
+  {
+   "id": "F74",
+   "file": "conf/lora.yaml",
+   "line": 12,
+   "kind": "config",
+   "key": "weight_decay",
+   "path": "optim.weight_decay",
+   "canon": "weight_decay",
+   "category": "params",
+   "value": "0.1",
+   "nums": [
+    0.1
+   ],
+   "scope": "",
+   "context": "weight_decay: 0.1"
+  },
+  {
+   "id": "F75",
+   "file": "conf/lora.yaml",
+   "line": 13,
+   "kind": "config",
+   "key": "lr_scheduler_type",
+   "path": "optim.lr_scheduler_type",
+   "canon": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "nums": [],
+   "scope": "",
+   "context": "lr_scheduler_type: linear"
+  },
+  {
+   "id": "F76",
+   "file": "conf/lora.yaml",
+   "line": 14,
+   "kind": "config",
+   "key": "warmup_ratio",
+   "path": "optim.warmup_ratio",
+   "canon": "warmup",
+   "category": "params",
+   "value": "0.06",
+   "nums": [
+    0.06
+   ],
+   "scope": "",
+   "context": "warmup_ratio: 0.06"
+  },
+  {
+   "id": "F77",
+   "file": "conf/lora.yaml",
+   "line": 16,
+   "kind": "config",
+   "key": "per_device_train_batch_size",
+   "path": "training.per_device_train_batch_size",
+   "canon": "batch_size",
+   "category": "params",
+   "value": "16",
+   "nums": [
+    16.0
+   ],
+   "scope": "",
+   "context": "per_device_train_batch_size: 16"
+  },
+  {
+   "id": "F78",
+   "file": "conf/lora.yaml",
+   "line": 17,
+   "kind": "config",
+   "key": "gradient_accumulation_steps",
+   "path": "training.gradient_accumulation_steps",
+   "canon": "grad_accum",
+   "category": "params",
+   "value": "2",
+   "nums": [
+    2.0
+   ],
+   "scope": "",
+   "context": "gradient_accumulation_steps: 2"
+  },
+  {
+   "id": "F79",
+   "file": "conf/lora.yaml",
+   "line": 18,
+   "kind": "config",
+   "key": "num_train_epochs",
+   "path": "training.num_train_epochs",
+   "canon": "epochs",
+   "category": "params",
+   "value": "20",
+   "nums": [
+    20.0
+   ],
+   "scope": "",
+   "context": "num_train_epochs: 20"
+  },
+  {
+   "id": "F80",
+   "file": "conf/lora.yaml",
+   "line": 19,
+   "kind": "config",
+   "key": "max_seq_length",
+   "path": "training.max_seq_length",
+   "canon": "max_length",
+   "category": "params",
+   "value": "128",
+   "nums": [
+    128.0
+   ],
+   "scope": "",
+   "context": "max_seq_length: 128"
+  },
+  {
+   "id": "F81",
+   "file": "conf/lora.yaml",
+   "line": 20,
+   "kind": "config",
+   "key": "bf16",
+   "path": "training.bf16",
+   "canon": "precision",
+   "category": "setup",
+   "value": "true",
+   "nums": [],
+   "scope": "",
+   "context": "bf16: true"
+  },
+  {
+   "id": "F82",
+   "file": "conf/lora.yaml",
+   "line": 22,
+   "kind": "config",
+   "key": "dataset",
+   "path": "data.dataset",
+   "canon": "dataset",
+   "category": "data",
+   "value": "glue",
+   "nums": [],
+   "scope": "",
+   "context": "dataset: glue"
+  },
+  {
+   "id": "F83",
+   "file": "conf/lora.yaml",
+   "line": 23,
+   "kind": "config",
+   "key": "subset",
+   "path": "data.subset",
+   "canon": null,
+   "category": null,
+   "value": "sst2",
+   "nums": [],
+   "scope": "",
+   "context": "subset: sst2"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "batch_size",
+   "label": "batch size",
+   "scope": "",
+   "values": [
+    {
+     "value": "32",
+     "fact": "F41",
+     "facts": [
+      "F41"
+     ],
+     "source": "train_lora_s1.log:5",
+     "sources": [
+      "train_lora_s1.log:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "log"
+     ]
+    },
+    {
+     "value": "16",
+     "fact": "F63",
+     "facts": [
+      "F63",
+      "F77"
+     ],
+     "source": "conf/full_ft.yaml:8",
+     "sources": [
+      "conf/full_ft.yaml:8",
+      "conf/lora.yaml:16"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F41",
+    "F63",
+    "F77"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F41",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  },
+  {
+   "id": "C2",
+   "canon": "grad_accum",
+   "label": "gradient accumulation steps",
+   "scope": "",
+   "values": [
+    {
+     "value": "1",
+     "fact": "F42",
+     "facts": [
+      "F42"
+     ],
+     "source": "train_lora_s1.log:5",
+     "sources": [
+      "train_lora_s1.log:5"
+     ],
+     "kind": "log",
+     "kinds": [
+      "log"
+     ]
+    },
+    {
+     "value": "2",
+     "fact": "F78",
+     "facts": [
+      "F78"
+     ],
+     "source": "conf/lora.yaml:17",
+     "sources": [
+      "conf/lora.yaml:17"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F42",
+    "F78"
+   ],
+   "n_files": 2,
+   "precedence_guess": "F42",
+   "overridden_code_defaults": [],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "gaps": [
+  {
+   "id": "G1",
+   "element": "E_repeats",
+   "category": "control",
+   "level": "required",
+   "label": "number of repetitions / replicates and how results are aggregated",
+   "status": "missing",
+   "question": "How many independent runs/replicates per condition, and is mean ± SD/SE or a single run reported?",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G2",
+   "element": "E_baseline",
+   "category": "control",
+   "level": "required",
+   "label": "baselines with versions and same-budget conditions",
+   "status": "only_mentioned_in_text",
+   "question": "Which baselines (implementation + version) were compared, and were they trained/tuned under the same budget and data?",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G3",
+   "element": "E_metric",
+   "category": "control",
+   "level": "required",
+   "label": "evaluation metrics / measured outcomes",
+   "status": "only_mentioned_in_text",
+   "question": "Define each metric (and on which split / at which checkpoint it is computed).",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G4",
+   "element": "E_stats",
+   "category": "control",
+   "level": "recommended",
+   "label": "statistical test / uncertainty estimate",
+   "status": "only_mentioned_in_text",
+   "question": "Which statistical test or uncertainty estimate supports comparisons (test, alpha, correction)?",
+   "why": "no structured fact found; the topic appears in some material text - read the doc sentences"
+  },
+  {
+   "id": "G5",
+   "element": "E_data_access",
+   "category": "repro",
+   "level": "recommended",
+   "label": "data availability / access",
+   "status": "missing",
+   "question": "How can readers obtain the data (URL/DOI, license, access restrictions)?",
+   "why": "no structured fact found in any material"
+  },
+  {
+   "id": "G6",
+   "element": "E_limits",
+   "category": "repro",
+   "level": "required",
+   "label": "limitations tied to concrete failure scenarios",
+   "status": "author_input",
+   "question": "Which conditions were not tested (data, scale, hardware, settings) and where is the method expected to fail?",
+   "why": "limitations must name concrete untested conditions; materials rarely state them - derive candidates from the facts (single seed, one dataset version, one hardware type) and ask the author"
+  }
+ ]
+}

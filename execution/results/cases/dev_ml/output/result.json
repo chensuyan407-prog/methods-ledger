@@ -1,0 +1,3676 @@
+{
+ "case_id": "dev_ml_textcls",
+ "methods_section": "# 3 方法与实验\n\n## 3.1 方法步骤\n\n1. 数据清洗：输入为原始数据包 thucnews_2016.zip（共 74000 篇文档）；运行 `src/preprocess.py`，剔除长度不在 [20, 2000] 字符范围内的文档 1210 篇，再按全文精确去重剔除 790 篇；输出为保留的 72000 篇文档。\n2. 数据划分：先以 test_size=0.2 分层抽取，再将剩余部分按 test_size=0.5 等分为验证集与测试集，两次划分的随机种子均为 2023；输出训练集 57600 条、验证集 7200 条、测试集 7200 条，与数据说明中的 8:1:1 划分一致。\n3. 模型微调：以 `src/train.py` 加载预训练模型 bert-base-chinese，在训练集上微调 5 个 epoch，每个 epoch 结束后在验证集上计算 macro-F1。\n4. 检查点选择与测试：按验证集 macro-F1 选择第 4 个 epoch 的检查点，测试集只评测一次。\n5. 基线：以 `src/baseline.py` 训练 TF-IDF + 逻辑回归基线，在同一测试集上评测。\n\n## 3.2 实验设置\n\n微调在 1 块 NVIDIA A100-SXM4-80GB 上完成，软件环境为 PyTorch 2.1.2+cu121、CUDA 12.1 、transformers 4.36.2 与 scikit-learn 1.3.2，训练启用 fp16 混合精度。numpy 仅给出版本下限 >=1.24 【待确认：请提供实际安装的 numpy 版本（pip freeze）】。\n\n## 3.3 数据集与划分\n\n实验使用 THUCNews 的 10 类子集，数据来源为 http://thuctc.thunlp.org/，许可为仅限研究使用。原始数据包下载于 2024-02-28；THUCNews 本身未给出版本号 【待确认：请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识】。划分方式见 3.1 第 2 步。\n\n## 3.4 参数设置\n\nBERT 微调使用 AdamW 优化器，学习率 2e-5 【待作者确认：C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5】，权重衰减 0.01，批大小 32，最大序列长度 256，dropout 0.1，线性学习率调度并以 0.1 的比例预热，梯度裁剪阈值 1.0。基线的 TF-IDF 取 1–2 元语法 、最多 50000 个特征，逻辑回归 C=1.0、求解器 liblinear，未调参。\n\n\n\n| 参数 | 取值 | 单位 | 作用对象 | 来源 | 状态 |\n|---|---|---|---|---|---|\n| 批大小 | 32 | - | - | logs/train_bert_seed42.log:5 (F67) | 正文已引用 |\n| dropout | 0.1 | - | model | configs/train.yaml:5 (F32) | 正文已引用 |\n| 训练轮数 | 5 | - | - | logs/train_bert_seed42.log:5 (F68) | 正文已引用; 其他取值：src/train.py:10=3 |\n| 评测批大小 | 64 | - | test/eval | configs/train.yaml:25 (F49) | 正文未使用 |\n| 梯度裁剪阈值 | 1.0 | - | train | configs/train.yaml:20 (F45) | 正文已引用 |\n| 学习率 | 2e-05 | - | - | logs/train_bert_seed42.log:5 (F66) | 冲突 C1，待作者确认 |\n| 最大序列长度 | 256 | - | - | logs/train_bert_seed42.log:5 (F70) | 正文已引用 |\n| 训练步数/迭代次数 | 1000 | - | baseline | src/baseline.py:6 (F103) | 正文未使用 |\n| 优化器 | liblinear | - | baseline | configs/baseline_tfidf.yaml:6 (F28) | 正文已引用 |\n| 优化器 | AdamW | - | train | configs/train.yaml:13 (F38) | 正文已引用 |\n| 学习率调度 | linear | - | train | configs/train.yaml:19 (F44) | 正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu |\n| 预热 | 0.1 | - | - | logs/train_bert_seed42.log:5 (F71) | 正文已引用 |\n| 权重衰减 | 0.01 | - | train | configs/train.yaml:15 (F40) | 正文已引用 |\n| 数据集 | THUCNews-subset | - | data | configs/train.yaml:7 (F33) | 正文未使用 |\n| 数据集版本 | downloaded 2024-02-28 | - | - | data_card.md:5 (F11) | 正文已引用 |\n| 许可 | research use only | - | - | data_card.md:4 (F4) | 正文已引用 |\n| 测试集样本数 | 7200 | - | - | logs/preprocess.log:5 (F64) | 正文已引用 |\n| 训练集样本数 | 57600 | - | - | logs/preprocess.log:5 (F62) | 正文已引用 |\n| 验证集样本数 | 7200 | - | - | logs/preprocess.log:5 (F63) | 正文已引用 |\n| 类别数 | 10 | - | data | configs/train.yaml:11 (F37) | 正文已引用 |\n| 数据来源 | http://thuctc.thunlp.org/ | - | - | data_card.md:3 (F3) | 正文已引用 |\n| 划分比例 | 8:1:1, stratified by label for the train/rest split | - | - | data_card.md:7 (F9) | 正文已引用; 其他取值：data_card.md:7=8:1:1 |\n| 数据划分种子 | 2023 | - | - | src/preprocess.py:10 (F107) | 正文已引用 |\n| 测试集文件 | data/test.jsonl | - | test/data | configs/train.yaml:10 (F36) | 正文未使用 |\n| 测试集比例 | 0.2 | - | test | src/preprocess.py:10 (F106) | 正文已引用; 其他取值：src/preprocess.py:11=0.5 |\n| 验证集文件 | data/val.jsonl | - | val/data | configs/train.yaml:9 (F35) | 正文未使用 |\n| CUDA 版本 | 12.1 | - | - | logs/train_bert_seed42.log:2 (F96) | 正文已引用 |\n| cuDNN 版本 | 8902 | - | - | logs/train_bert_seed42.log:2 (F97) | 正文未使用 |\n| 硬件 | NVIDIA A100-SXM4-80GB | - | - | logs/train_bert_seed42.log:3 (F98) | 正文已引用 |\n| GPU/设备数 | 1 | - | - | logs/train_bert_seed42.log:3 (F99) | 正文已引用 |\n| 数值精度 | true | - | train | configs/train.yaml:21 (F46) | 正文已引用 |\n| 软件 (transformers) | 4.36.2 | - | - | requirements.txt:2 (F20) | 正文已引用 |\n| 软件 (scikit-learn) | 1.3.2 | - | - | requirements.txt:3 (F21) | 正文已引用 |\n| 软件 (numpy) | >=1.24 | - | - | requirements.txt:4 (F22) | 正文已引用 |\n| 软件 (jieba) | 0.42.1 | - | - | requirements.txt:5 (F23) | 正文未使用 |\n| PyTorch 版本 | 2.1.2+cu121 | - | - | logs/train_bert_seed42.log:2 (F95) | 正文已引用; 其他取值：requirements.txt:1=2.1.2 |\n| 评价指标 | macro_f1 | - | test/eval | configs/train.yaml:24 (F48) | 正文已引用 |\n| 评价指标 | f1_score | - | baseline | src/baseline.py:3 (F101) | 正文未使用 |\n| 模型/结构 | bert-base-chinese | - | model | configs/train.yaml:3 (F30) | 正文已引用 |\n| 检查点/权重 | epoch 4 | - | val | logs/train_bert_seed42.log:11 (F76) | 正文已引用 |\n| 代码版本 | 9f3c2ab | - | - | logs/train_bert_seed42.log:4 (F65) | 正文已引用 |\n| 随机种子 | 42 | - | - | logs/train_bert_seed42.log:5 (F69) | 正文已引用 |\n| 随机种子 | 42 | - | baseline | configs/baseline_tfidf.yaml:7 (F29) | 正文未使用 |\n\n\n\n## 3.5 对照实验与评价\n\n主要评价指标为测试集 macro-F1，同时报告准确率。BERT 与 TF-IDF 基线使用同一划分的训练集与测试集；基线未做超参数搜索，因此两者的调参预算不同。每个模型只运行了一次（BERT 种子 42） 【待确认：是否补充多种子重复实验并报告均值±标准差？】；未进行统计检验 【待确认：是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？】。\n\n## 3.6 可复现性\n\n代码版本为提交 9f3c2ab。依次运行以下命令可复现数据划分、BERT 微调和基线：\n\n```\npython src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/\npython src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42\npython src/baseline.py --config configs/baseline_tfidf.yaml\n```\n\n训练随机种子为 42，数据划分种子为 2023。\n\n## 3.7 限制条件\n\n- 所有结果来自单一种子（42）的单次运行，未估计随机初始化带来的方差。\n- 基线未调参而 BERT 使用了经调整的学习率，比较不在相同调参预算下进行。\n- 仅在 THUCNews 10 类子集、长度 20–2000 字符的文档上评测，更长文档会被 256 的最大序列长度截断，其效果未测试。\n- 仅在单块 A100 上训练，未验证其他硬件与 fp16 关闭时的结果。\n",
+ "parameter_table": [
+  {
+   "name": "批大小",
+   "canonical": "batch_size",
+   "category": "params",
+   "value": "32",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F67",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:16"
+   ]
+  },
+  {
+   "name": "dropout",
+   "canonical": "dropout",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "model",
+   "source": "configs/train.yaml:5",
+   "fact": "F32",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:5"
+   ]
+  },
+  {
+   "name": "训练轮数",
+   "canonical": "epochs",
+   "category": "params",
+   "value": "5",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F68",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：src/train.py:10=3",
+   "other_values": [
+    "src/train.py:10=3"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:6",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:17",
+    "src/train.py:10"
+   ]
+  },
+  {
+   "name": "评测批大小",
+   "canonical": "eval_batch_size",
+   "category": "params",
+   "value": "64",
+   "unit": "",
+   "applies_to": "test/eval",
+   "source": "configs/train.yaml:25",
+   "fact": "F49",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:25"
+   ]
+  },
+  {
+   "name": "梯度裁剪阈值",
+   "canonical": "grad_clip",
+   "category": "params",
+   "value": "1.0",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:20",
+   "fact": "F45",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:20"
+   ]
+  },
+  {
+   "name": "学习率",
+   "canonical": "learning_rate",
+   "category": "params",
+   "value": "2e-05",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F66",
+   "source_kind": "log",
+   "status": "冲突 C1，待作者确认",
+   "other_values": [
+    "logs/train_bert_seed42.log:1=2e-5",
+    "configs/train.yaml:14=3.0e-5"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:14",
+    "src/train.py:9",
+    "notes.md:2"
+   ]
+  },
+  {
+   "name": "最大序列长度",
+   "canonical": "max_length",
+   "category": "params",
+   "value": "256",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F70",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:4"
+   ]
+  },
+  {
+   "name": "训练步数/迭代次数",
+   "canonical": "max_steps",
+   "category": "params",
+   "value": "1000",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "src/baseline.py:6",
+   "fact": "F103",
+   "source_kind": "code",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "src/baseline.py:6"
+   ]
+  },
+  {
+   "name": "优化器",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "liblinear",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "configs/baseline_tfidf.yaml:6",
+   "fact": "F28",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/baseline_tfidf.yaml:6",
+    "src/baseline.py:6"
+   ]
+  },
+  {
+   "name": "优化器",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "AdamW",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:13",
+   "fact": "F38",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:13",
+    "src/train.py:17"
+   ]
+  },
+  {
+   "name": "学习率调度",
+   "canonical": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:19",
+   "fact": "F44",
+   "source_kind": "config",
+   "status": "正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu",
+   "other_values": [
+    "src/train.py:4=get_linear_schedule_with_warmu"
+   ],
+   "all_sources": [
+    "configs/train.yaml:19",
+    "src/train.py:4"
+   ]
+  },
+  {
+   "name": "预热",
+   "canonical": "warmup",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F71",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:18"
+   ]
+  },
+  {
+   "name": "权重衰减",
+   "canonical": "weight_decay",
+   "category": "params",
+   "value": "0.01",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:15",
+   "fact": "F40",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:15",
+    "src/train.py:17"
+   ]
+  },
+  {
+   "name": "数据集",
+   "canonical": "dataset",
+   "category": "data",
+   "value": "THUCNews-subset",
+   "unit": "",
+   "applies_to": "data",
+   "source": "configs/train.yaml:7",
+   "fact": "F33",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:7"
+   ]
+  },
+  {
+   "name": "数据集版本",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "downloaded 2024-02-28",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:5",
+   "fact": "F11",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:5"
+   ]
+  },
+  {
+   "name": "许可",
+   "canonical": "license",
+   "category": "data",
+   "value": "research use only",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:4",
+   "fact": "F4",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:4"
+   ]
+  },
+  {
+   "name": "测试集样本数",
+   "canonical": "n_test",
+   "category": "data",
+   "value": "7200",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F64",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "训练集样本数",
+   "canonical": "n_train",
+   "category": "data",
+   "value": "57600",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F62",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "验证集样本数",
+   "canonical": "n_val",
+   "category": "data",
+   "value": "7200",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F63",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "类别数",
+   "canonical": "num_classes",
+   "category": "data",
+   "value": "10",
+   "unit": "",
+   "applies_to": "data",
+   "source": "configs/train.yaml:11",
+   "fact": "F37",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:11",
+    "src/train.py:16"
+   ]
+  },
+  {
+   "name": "数据来源",
+   "canonical": "source_url",
+   "category": "data",
+   "value": "http://thuctc.thunlp.org/",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:3",
+   "fact": "F3",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:3"
+   ]
+  },
+  {
+   "name": "划分比例",
+   "canonical": "split_ratio",
+   "category": "data",
+   "value": "8:1:1, stratified by label for the train/rest split",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:7",
+   "fact": "F9",
+   "source_kind": "doc_kv",
+   "status": "正文已引用; 其他取值：data_card.md:7=8:1:1",
+   "other_values": [
+    "data_card.md:7=8:1:1"
+   ],
+   "all_sources": [
+    "data_card.md:7",
+    "data_card.md:7"
+   ]
+  },
+  {
+   "name": "数据划分种子",
+   "canonical": "split_seed",
+   "category": "data",
+   "value": "2023",
+   "unit": "",
+   "applies_to": "-",
+   "source": "src/preprocess.py:10",
+   "fact": "F107",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "src/preprocess.py:10",
+    "src/preprocess.py:11"
+   ]
+  },
+  {
+   "name": "测试集文件",
+   "canonical": "test_file",
+   "category": "data",
+   "value": "data/test.jsonl",
+   "unit": "",
+   "applies_to": "test/data",
+   "source": "configs/train.yaml:10",
+   "fact": "F36",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:10"
+   ]
+  },
+  {
+   "name": "测试集比例",
+   "canonical": "test_size",
+   "category": "data",
+   "value": "0.2",
+   "unit": "",
+   "applies_to": "test",
+   "source": "src/preprocess.py:10",
+   "fact": "F106",
+   "source_kind": "code",
+   "status": "正文已引用; 其他取值：src/preprocess.py:11=0.5",
+   "other_values": [
+    "src/preprocess.py:11=0.5"
+   ],
+   "all_sources": [
+    "src/preprocess.py:10",
+    "src/preprocess.py:11"
+   ]
+  },
+  {
+   "name": "验证集文件",
+   "canonical": "val_file",
+   "category": "data",
+   "value": "data/val.jsonl",
+   "unit": "",
+   "applies_to": "val/data",
+   "source": "configs/train.yaml:9",
+   "fact": "F35",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:9"
+   ]
+  },
+  {
+   "name": "CUDA 版本",
+   "canonical": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F96",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2"
+   ]
+  },
+  {
+   "name": "cuDNN 版本",
+   "canonical": "cudnn",
+   "category": "setup",
+   "value": "8902",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F97",
+   "source_kind": "log",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2"
+   ]
+  },
+  {
+   "name": "硬件",
+   "canonical": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-80GB",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:3",
+   "fact": "F98",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:3"
+   ]
+  },
+  {
+   "name": "GPU/设备数",
+   "canonical": "num_gpus",
+   "category": "setup",
+   "value": "1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:3",
+   "fact": "F99",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:3"
+   ]
+  },
+  {
+   "name": "数值精度",
+   "canonical": "precision",
+   "category": "setup",
+   "value": "true",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:21",
+   "fact": "F46",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:21"
+   ]
+  },
+  {
+   "name": "软件 (transformers)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "4.36.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:2",
+   "fact": "F20",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:2"
+   ]
+  },
+  {
+   "name": "软件 (scikit-learn)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "1.3.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:3",
+   "fact": "F21",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:3"
+   ]
+  },
+  {
+   "name": "软件 (numpy)",
+   "canonical": "software",
+   "category": "setup",
+   "value": ">=1.24",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:4",
+   "fact": "F22",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:4"
+   ]
+  },
+  {
+   "name": "软件 (jieba)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "0.42.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:5",
+   "fact": "F23",
+   "source_kind": "env",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:5"
+   ]
+  },
+  {
+   "name": "PyTorch 版本",
+   "canonical": "torch",
+   "category": "setup",
+   "value": "2.1.2+cu121",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F95",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：requirements.txt:1=2.1.2",
+   "other_values": [
+    "requirements.txt:1=2.1.2"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2",
+    "requirements.txt:1"
+   ]
+  },
+  {
+   "name": "评价指标",
+   "canonical": "metric",
+   "category": "control",
+   "value": "macro_f1",
+   "unit": "",
+   "applies_to": "test/eval",
+   "source": "configs/train.yaml:24",
+   "fact": "F48",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:24"
+   ]
+  },
+  {
+   "name": "评价指标",
+   "canonical": "metric",
+   "category": "control",
+   "value": "f1_score",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "src/baseline.py:3",
+   "fact": "F101",
+   "source_kind": "code",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "src/baseline.py:3"
+   ]
+  },
+  {
+   "name": "模型/结构",
+   "canonical": "model",
+   "category": "control",
+   "value": "bert-base-chinese",
+   "unit": "",
+   "applies_to": "model",
+   "source": "configs/train.yaml:3",
+   "fact": "F30",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:3",
+    "src/train.py:15"
+   ]
+  },
+  {
+   "name": "检查点/权重",
+   "canonical": "checkpoint",
+   "category": "repro",
+   "value": "epoch 4",
+   "unit": "",
+   "applies_to": "val",
+   "source": "logs/train_bert_seed42.log:11",
+   "fact": "F76",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:11"
+   ]
+  },
+  {
+   "name": "代码版本",
+   "canonical": "code_version",
+   "category": "repro",
+   "value": "9f3c2ab",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:4",
+   "fact": "F65",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:4"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "42",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F69",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:22",
+    "src/train.py:11",
+    "notes.md:3"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "42",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "configs/baseline_tfidf.yaml:7",
+   "fact": "F29",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/baseline_tfidf.yaml:7"
+   ]
+  }
+ ],
+ "source_map": [
+  {
+   "unit": "u3",
+   "line": 5,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "1.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u4",
+   "line": 5,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "数据清洗：输入为原始数据包 thucnews_2016.zip（共 74000 篇文档） ；",
+   "facts": [
+    {
+     "id": "F60",
+     "value": "data/raw/thucnews_2016.zip",
+     "source": "logs/preprocess.log:1",
+     "kind": "cli",
+     "key": "raw"
+    },
+    {
+     "id": "F55",
+     "value": "loaded 74000 raw documents",
+     "source": "logs/preprocess.log:2",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "74000",
+     "value": 74000.0,
+     "matched": "F55",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u5",
+   "line": 5,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "运行 `src/preprocess.py`，剔除长度不在 [20, 2000] 字符范围内的文档 1210 篇 ，再按全文精确去重剔除 790 篇 ；",
+   "facts": [
+    {
+     "id": "F104",
+     "value": "20",
+     "source": "src/preprocess.py:4",
+     "kind": "code",
+     "key": "MIN_CHARS"
+    },
+    {
+     "id": "F105",
+     "value": "2000",
+     "source": "src/preprocess.py:5",
+     "kind": "code",
+     "key": "MAX_CHARS"
+    },
+    {
+     "id": "F56",
+     "value": "removed 1210 documents outside length range [20, 2000]",
+     "source": "logs/preprocess.log:3",
+     "kind": "doc",
+     "key": "log_line"
+    },
+    {
+     "id": "F57",
+     "value": "removed 790 exact duplicates",
+     "source": "logs/preprocess.log:4",
+     "kind": "doc",
+     "key": "log_line"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1210",
+     "value": 1210.0,
+     "matched": "F56",
+     "how": "tag"
+    },
+    {
+     "token": "790",
+     "value": 790.0,
+     "matched": "F57",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u6",
+   "line": 5,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "输出为保留的 72000 篇文档 。",
+   "facts": [
+    {
+     "id": "F55",
+     "value": "loaded 74000 raw documents",
+     "source": "logs/preprocess.log:2",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    },
+    {
+     "id": "F56",
+     "value": "removed 1210 documents outside length range [20, 2000]",
+     "source": "logs/preprocess.log:3",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    },
+    {
+     "id": "F57",
+     "value": "removed 790 exact duplicates",
+     "source": "logs/preprocess.log:4",
+     "kind": "doc",
+     "key": "log_line",
+     "via": "calc"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "72000",
+     "value": 72000.0,
+     "matched": "CALC",
+     "how": "calc"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u7",
+   "line": 6,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "2.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u8",
+   "line": 6,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "数据划分：先以 test_size=0.2 分层抽取 ，再将剩余部分按 test_size=0.5 等分为验证集与测试集 ，两次划分的随机种子均为 2023 ；",
+   "facts": [
+    {
+     "id": "F106",
+     "value": "0.2",
+     "source": "src/preprocess.py:10",
+     "kind": "code",
+     "key": "test_size"
+    },
+    {
+     "id": "F108",
+     "value": "0.5",
+     "source": "src/preprocess.py:11",
+     "kind": "code",
+     "key": "test_size"
+    },
+    {
+     "id": "F107",
+     "value": "2023",
+     "source": "src/preprocess.py:10",
+     "kind": "code",
+     "key": "random_state"
+    },
+    {
+     "id": "F109",
+     "value": "2023",
+     "source": "src/preprocess.py:11",
+     "kind": "code",
+     "key": "random_state"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "0.2",
+     "value": 0.2,
+     "matched": "F106",
+     "how": "tag"
+    },
+    {
+     "token": "0.5",
+     "value": 0.5,
+     "matched": "F108",
+     "how": "tag"
+    },
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F107",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u9",
+   "line": 6,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "输出训练集 57600 条、验证集 7200 条、测试集 7200 条 ，与数据说明中的 8:1:1 划分一致 。",
+   "facts": [
+    {
+     "id": "F62",
+     "value": "57600",
+     "source": "logs/preprocess.log:5",
+     "kind": "log",
+     "key": "n_train"
+    },
+    {
+     "id": "F63",
+     "value": "7200",
+     "source": "logs/preprocess.log:5",
+     "kind": "log",
+     "key": "n_val"
+    },
+    {
+     "id": "F64",
+     "value": "7200",
+     "source": "logs/preprocess.log:5",
+     "kind": "log",
+     "key": "n_test"
+    },
+    {
+     "id": "F9",
+     "value": "8:1:1, stratified by label for the train/rest split",
+     "source": "data_card.md:7",
+     "kind": "doc_kv",
+     "key": "Split"
+    },
+    {
+     "id": "F12",
+     "value": "8:1:1",
+     "source": "data_card.md:7",
+     "kind": "doc_kv",
+     "key": "split_ratio"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "57600",
+     "value": 57600.0,
+     "matched": "F62",
+     "how": "tag"
+    },
+    {
+     "token": "7200",
+     "value": 7200.0,
+     "matched": "F63",
+     "how": "tag"
+    },
+    {
+     "token": "7200",
+     "value": 7200.0,
+     "matched": "F63",
+     "how": "tag"
+    },
+    {
+     "token": "8",
+     "value": 8.0,
+     "matched": "F9",
+     "how": "tag"
+    },
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "F9",
+     "how": "tag"
+    },
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "F9",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u10",
+   "line": 7,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "3.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u11",
+   "line": 7,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "模型微调：以 `src/train.py` 加载预训练模型 bert-base-chinese ，在训练集上微调 5 个 epoch ，每个 epoch 结束后在验证集上计算 macro-F1 。",
+   "facts": [
+    {
+     "id": "F30",
+     "value": "bert-base-chinese",
+     "source": "configs/train.yaml:3",
+     "kind": "config",
+     "key": "model.name"
+    },
+    {
+     "id": "F68",
+     "value": "5",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "epochs"
+    },
+    {
+     "id": "F48",
+     "value": "macro_f1",
+     "source": "configs/train.yaml:24",
+     "kind": "config",
+     "key": "eval.metric"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "5",
+     "value": 5.0,
+     "matched": "F68",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u12",
+   "line": 8,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "4.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u13",
+   "line": 8,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "检查点选择与测试：按验证集 macro-F1 选择第 4 个 epoch 的检查点 ，测试集只评测一次 。",
+   "facts": [
+    {
+     "id": "F76",
+     "value": "epoch 4",
+     "source": "logs/train_bert_seed42.log:11",
+     "kind": "log",
+     "key": "checkpoint"
+    },
+    {
+     "id": "F18",
+     "value": "- 测试集只评一次，按验证集 macro-F1 选 epoch 4 的检查点。",
+     "source": "notes.md:5",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u14",
+   "line": 9,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "5.",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u15",
+   "line": 9,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.1 方法步骤",
+   "text": "基线：以 `src/baseline.py` 训练 TF-IDF + 逻辑回归基线 ，在同一测试集上评测 。",
+   "facts": [
+    {
+     "id": "F24",
+     "value": "tfidf_logreg",
+     "source": "configs/baseline_tfidf.yaml:2",
+     "kind": "config",
+     "key": "baseline.name"
+    },
+    {
+     "id": "F53",
+     "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+     "source": "logs/baseline.log:1",
+     "kind": "cli",
+     "key": "command"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u17",
+   "line": 13,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.2 实验设置",
+   "text": "微调在 1 块 NVIDIA A100-SXM4-80GB 上完成 ，软件环境为 PyTorch 2.1.2+cu121、CUDA 12.1 、transformers 4.36.2 与 scikit-learn 1.3.2 ，训练启用 fp16 混合精度 。",
+   "facts": [
+    {
+     "id": "F98",
+     "value": "NVIDIA A100-SXM4-80GB",
+     "source": "logs/train_bert_seed42.log:3",
+     "kind": "log",
+     "key": "gpu"
+    },
+    {
+     "id": "F99",
+     "value": "1",
+     "source": "logs/train_bert_seed42.log:3",
+     "kind": "log",
+     "key": "num_gpus"
+    },
+    {
+     "id": "F95",
+     "value": "2.1.2+cu121",
+     "source": "logs/train_bert_seed42.log:2",
+     "kind": "log",
+     "key": "version.torch"
+    },
+    {
+     "id": "F96",
+     "value": "12.1",
+     "source": "logs/train_bert_seed42.log:2",
+     "kind": "log",
+     "key": "version.cuda"
+    },
+    {
+     "id": "F20",
+     "value": "4.36.2",
+     "source": "requirements.txt:2",
+     "kind": "env",
+     "key": "version.transformers"
+    },
+    {
+     "id": "F21",
+     "value": "1.3.2",
+     "source": "requirements.txt:3",
+     "kind": "env",
+     "key": "version.scikit-learn"
+    },
+    {
+     "id": "F46",
+     "value": "true",
+     "source": "configs/train.yaml:21",
+     "kind": "config",
+     "key": "train.fp16"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "F99",
+     "how": "tag"
+    },
+    {
+     "token": "12.1",
+     "value": 12.1,
+     "matched": "F96",
+     "how": "tag"
+    },
+    {
+     "token": "2.1.2+cu121",
+     "matched": "F95",
+     "how": "version-tag"
+    },
+    {
+     "token": "4.36.2",
+     "matched": "F20",
+     "how": "version-tag"
+    },
+    {
+     "token": "1.3.2",
+     "matched": "F21",
+     "how": "version-tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u18",
+   "line": 13,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.2 实验设置",
+   "text": "numpy 仅给出版本下限 >=1.24 。",
+   "facts": [
+    {
+     "id": "F22",
+     "value": ">=1.24",
+     "source": "requirements.txt:4",
+     "kind": "env",
+     "key": "version.numpy"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1.24",
+     "value": 1.24,
+     "matched": "F22",
+     "how": "tag"
+    }
+   ],
+   "gaps": [
+    "请提供实际安装的 numpy 版本（pip freeze）"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u20",
+   "line": 17,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "text": "实验使用 THUCNews 的 10 类子集 ，数据来源为 http://thuctc.thunlp.org/ ，许可为仅限研究使用 。",
+   "facts": [
+    {
+     "id": "F1",
+     "value": "THUCNews (subset of 10 categories)",
+     "source": "data_card.md:2",
+     "kind": "doc_kv",
+     "key": "Name"
+    },
+    {
+     "id": "F37",
+     "value": "10",
+     "source": "configs/train.yaml:11",
+     "kind": "config",
+     "key": "data.num_classes"
+    },
+    {
+     "id": "F3",
+     "value": "http://thuctc.thunlp.org/",
+     "source": "data_card.md:3",
+     "kind": "doc_kv",
+     "key": "Source"
+    },
+    {
+     "id": "F4",
+     "value": "research use only",
+     "source": "data_card.md:4",
+     "kind": "doc_kv",
+     "key": "License"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F1",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u21",
+   "line": 17,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "text": "原始数据包下载于 2024-02-28 ；",
+   "facts": [
+    {
+     "id": "F11",
+     "value": "downloaded 2024-02-28",
+     "source": "data_card.md:5",
+     "kind": "doc_kv",
+     "key": "snapshot"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2024",
+     "value": 2024.0,
+     "matched": "F11",
+     "how": "tag"
+    },
+    {
+     "token": "02",
+     "value": 2.0,
+     "matched": "F11",
+     "how": "tag"
+    },
+    {
+     "token": "28",
+     "value": 28.0,
+     "matched": "F11",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u22",
+   "line": 17,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "text": "THUCNews 本身未给出版本号 。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u23",
+   "line": 17,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "text": "划分方式见 3.1 第 2 步。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u25",
+   "line": 21,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.4 参数设置",
+   "text": "BERT 微调使用 AdamW 优化器 ，学习率 2e-5 ，权重衰减 0.01 ，批大小 32 ，最大序列长度 256 ，dropout 0.1 ，线性学习率调度并以 0.1 的比例预热 ，梯度裁剪阈值 1.0 。",
+   "facts": [
+    {
+     "id": "F38",
+     "value": "AdamW",
+     "source": "configs/train.yaml:13",
+     "kind": "config",
+     "key": "train.optimizer"
+    },
+    {
+     "id": "F66",
+     "value": "2e-05",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "lr"
+    },
+    {
+     "id": "F92",
+     "value": "2e-5",
+     "source": "logs/train_bert_seed42.log:1",
+     "kind": "cli",
+     "key": "lr"
+    },
+    {
+     "id": "F40",
+     "value": "0.01",
+     "source": "configs/train.yaml:15",
+     "kind": "config",
+     "key": "train.weight_decay"
+    },
+    {
+     "id": "F67",
+     "value": "32",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "batch_size"
+    },
+    {
+     "id": "F70",
+     "value": "256",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "max_length"
+    },
+    {
+     "id": "F32",
+     "value": "0.1",
+     "source": "configs/train.yaml:5",
+     "kind": "config",
+     "key": "model.dropout"
+    },
+    {
+     "id": "F44",
+     "value": "linear",
+     "source": "configs/train.yaml:19",
+     "kind": "config",
+     "key": "train.scheduler"
+    },
+    {
+     "id": "F71",
+     "value": "0.1",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "warmup_ratio"
+    },
+    {
+     "id": "F45",
+     "value": "1.0",
+     "source": "configs/train.yaml:20",
+     "kind": "config",
+     "key": "train.max_grad_norm"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "2e-5",
+     "value": 2e-05,
+     "matched": "F66",
+     "how": "tag"
+    },
+    {
+     "token": "0.01",
+     "value": 0.01,
+     "matched": "F40",
+     "how": "tag"
+    },
+    {
+     "token": "32",
+     "value": 32.0,
+     "matched": "F67",
+     "how": "tag"
+    },
+    {
+     "token": "256",
+     "value": 256.0,
+     "matched": "F70",
+     "how": "tag"
+    },
+    {
+     "token": "0.1",
+     "value": 0.1,
+     "matched": "F32",
+     "how": "tag"
+    },
+    {
+     "token": "0.1",
+     "value": 0.1,
+     "matched": "F71",
+     "how": "tag"
+    },
+    {
+     "token": "1.0",
+     "value": 1.0,
+     "matched": "F45",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [
+    "C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5"
+   ],
+   "status": "ok"
+  },
+  {
+   "unit": "u26",
+   "line": 21,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.4 参数设置",
+   "text": "基线的 TF-IDF 取 1–2 元语法 、最多 50000 个特征 ，逻辑回归 C=1.0、求解器 liblinear ，未调参 。",
+   "facts": [
+    {
+     "id": "F25",
+     "value": "[1, 2]",
+     "source": "configs/baseline_tfidf.yaml:3",
+     "kind": "config",
+     "key": "baseline.ngram_range"
+    },
+    {
+     "id": "F26",
+     "value": "50000",
+     "source": "configs/baseline_tfidf.yaml:4",
+     "kind": "config",
+     "key": "baseline.max_features"
+    },
+    {
+     "id": "F27",
+     "value": "1.0",
+     "source": "configs/baseline_tfidf.yaml:5",
+     "kind": "config",
+     "key": "baseline.C"
+    },
+    {
+     "id": "F28",
+     "value": "liblinear",
+     "source": "configs/baseline_tfidf.yaml:6",
+     "kind": "config",
+     "key": "baseline.solver"
+    },
+    {
+     "id": "F17",
+     "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+     "source": "notes.md:4",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "1",
+     "value": 1.0,
+     "matched": "F25",
+     "how": "tag"
+    },
+    {
+     "token": "2",
+     "value": 2.0,
+     "matched": "F25",
+     "how": "tag"
+    },
+    {
+     "token": "50000",
+     "value": 50000.0,
+     "matched": "F26",
+     "how": "tag"
+    },
+    {
+     "token": "1.0",
+     "value": 1.0,
+     "matched": "F27",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u27",
+   "line": 23,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.4 参数设置",
+   "text": "",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u29",
+   "line": 27,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "text": "主要评价指标为测试集 macro-F1，同时报告准确率 。",
+   "facts": [
+    {
+     "id": "F48",
+     "value": "macro_f1",
+     "source": "configs/train.yaml:24",
+     "kind": "config",
+     "key": "eval.metric"
+    },
+    {
+     "id": "F78",
+     "value": "0.941",
+     "source": "logs/train_bert_seed42.log:12",
+     "kind": "log",
+     "key": "accuracy"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u30",
+   "line": 27,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "text": "BERT 与 TF-IDF 基线使用同一划分的训练集与测试集 ；",
+   "facts": [
+    {
+     "id": "F53",
+     "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+     "source": "logs/baseline.log:1",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F90",
+     "value": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42",
+     "source": "logs/train_bert_seed42.log:1",
+     "kind": "cli",
+     "key": "command"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u31",
+   "line": 27,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "text": "基线未做超参数搜索 ，因此两者的调参预算不同。",
+   "facts": [
+    {
+     "id": "F17",
+     "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+     "source": "notes.md:4",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u32",
+   "line": 27,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "text": "每个模型只运行了一次（BERT 种子 42） ；",
+   "facts": [
+    {
+     "id": "F16",
+     "value": "- 只跑了 seed 42 一次，时间不够。",
+     "source": "notes.md:3",
+     "kind": "doc",
+     "key": "sentence"
+    },
+    {
+     "id": "F69",
+     "value": "42",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "seed"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "42",
+     "value": 42.0,
+     "matched": "F16",
+     "how": "tag"
+    }
+   ],
+   "gaps": [
+    "是否补充多种子重复实验并报告均值±标准差？"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u33",
+   "line": 27,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "text": "未进行统计检验 。",
+   "facts": [],
+   "numbers": [],
+   "gaps": [
+    "是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？"
+   ],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u35",
+   "line": 31,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.6 可复现性",
+   "text": "代码版本为提交 9f3c2ab 。",
+   "facts": [
+    {
+     "id": "F65",
+     "value": "9f3c2ab",
+     "source": "logs/train_bert_seed42.log:4",
+     "kind": "log",
+     "key": "commit"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "9",
+     "value": 9.0,
+     "matched": "F65",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u36",
+   "line": 31,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.6 可复现性",
+   "text": "依次运行以下命令可复现数据划分、BERT 微调和基线：",
+   "facts": [],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u37",
+   "line": 33,
+   "type": "code",
+   "section": "3 方法与实验 > 3.6 可复现性",
+   "text": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/\npython src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42\npython src/baseline.py --config configs/baseline_tfidf.yaml",
+   "facts": [
+    {
+     "id": "F59",
+     "value": "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/",
+     "source": "logs/preprocess.log:1",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F90",
+     "value": "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42",
+     "source": "logs/train_bert_seed42.log:1",
+     "kind": "cli",
+     "key": "command"
+    },
+    {
+     "id": "F53",
+     "value": "python src/baseline.py --config configs/baseline_tfidf.yaml",
+     "source": "logs/baseline.log:1",
+     "kind": "cli",
+     "key": "command"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u38",
+   "line": 39,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.6 可复现性",
+   "text": "训练随机种子为 42 ，数据划分种子为 2023 。",
+   "facts": [
+    {
+     "id": "F69",
+     "value": "42",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "seed"
+    },
+    {
+     "id": "F107",
+     "value": "2023",
+     "source": "src/preprocess.py:10",
+     "kind": "code",
+     "key": "random_state"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "42",
+     "value": 42.0,
+     "matched": "F69",
+     "how": "tag"
+    },
+    {
+     "token": "2023",
+     "value": 2023.0,
+     "matched": "F107",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u40",
+   "line": 43,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.7 限制条件",
+   "text": "- 所有结果来自单一种子（42）的单次运行 ，未估计随机初始化带来的方差。",
+   "facts": [
+    {
+     "id": "F16",
+     "value": "- 只跑了 seed 42 一次，时间不够。",
+     "source": "notes.md:3",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "42",
+     "value": 42.0,
+     "matched": "F16",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u41",
+   "line": 43,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.7 限制条件",
+   "text": "- 基线未调参而 BERT 使用了经调整的学习率 ，比较不在相同调参预算下进行。",
+   "facts": [
+    {
+     "id": "F14",
+     "value": "- BERT 微调学习率最终用 2e-5，比配置里的 3e-5 稳定。",
+     "source": "notes.md:2",
+     "kind": "doc",
+     "key": "sentence"
+    },
+    {
+     "id": "F17",
+     "value": "- TF-IDF 基线没有调参，直接用默认 C=1.0。",
+     "source": "notes.md:4",
+     "kind": "doc",
+     "key": "sentence"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u42",
+   "line": 43,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.7 限制条件",
+   "text": "- 仅在 THUCNews 10 类子集、长度 20–2000 字符的文档上评测 ，更长文档会被 256 的最大序列长度截断 ，其效果未测试。",
+   "facts": [
+    {
+     "id": "F37",
+     "value": "10",
+     "source": "configs/train.yaml:11",
+     "kind": "config",
+     "key": "data.num_classes"
+    },
+    {
+     "id": "F104",
+     "value": "20",
+     "source": "src/preprocess.py:4",
+     "kind": "code",
+     "key": "MIN_CHARS"
+    },
+    {
+     "id": "F105",
+     "value": "2000",
+     "source": "src/preprocess.py:5",
+     "kind": "code",
+     "key": "MAX_CHARS"
+    },
+    {
+     "id": "F70",
+     "value": "256",
+     "source": "logs/train_bert_seed42.log:5",
+     "kind": "log",
+     "key": "max_length"
+    }
+   ],
+   "numbers": [
+    {
+     "token": "10",
+     "value": 10.0,
+     "matched": "F37",
+     "how": "tag"
+    },
+    {
+     "token": "20",
+     "value": 20.0,
+     "matched": "F104",
+     "how": "tag"
+    },
+    {
+     "token": "2000",
+     "value": 2000.0,
+     "matched": "F105",
+     "how": "tag"
+    },
+    {
+     "token": "256",
+     "value": 256.0,
+     "matched": "F70",
+     "how": "tag"
+    }
+   ],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  },
+  {
+   "unit": "u43",
+   "line": 43,
+   "type": "sentence",
+   "section": "3 方法与实验 > 3.7 限制条件",
+   "text": "- 仅在单块 A100 上训练 ，未验证其他硬件与 fp16 关闭时的结果。",
+   "facts": [
+    {
+     "id": "F98",
+     "value": "NVIDIA A100-SXM4-80GB",
+     "source": "logs/train_bert_seed42.log:3",
+     "kind": "log",
+     "key": "gpu"
+    }
+   ],
+   "numbers": [],
+   "gaps": [],
+   "confirms": [],
+   "status": "ok"
+  }
+ ],
+ "open_questions": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "每个条件独立运行/平行样多少次？报告的是均值±标准差/标准误还是单次结果？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "control",
+   "level": "recommended",
+   "question": "比较结论基于何种统计检验或不确定度估计（检验方法、显著性水平、多重校正）？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "status": "ambiguous",
+   "facts": [
+    "F15",
+    "F29",
+    "F47",
+    "F69",
+    "F94"
+   ]
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "setup",
+   "level": "recommended",
+   "question": "部分依赖只写了版本范围（>=、~=）：请给出报告运行时实际安装的精确版本（pip freeze）。",
+   "status": "ambiguous",
+   "facts": [
+    "F22"
+   ]
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "params",
+   "question": "学习率 在材料中取值不一致：2e-05 (logs/train_bert_seed42.log:5); 3.0e-5 (configs/train.yaml:14)。正文采用哪一个？",
+   "facts": [
+    "F66",
+    "F92",
+    "F39",
+    "F13"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u18",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.2 实验设置",
+   "line": 13,
+   "question": "请提供实际安装的 numpy 版本（pip freeze）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u22",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "line": 17,
+   "question": "请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识",
+   "status": "open"
+  },
+  {
+   "id": "Q-u25c",
+   "type": "draft_confirm",
+   "section": "3 方法与实验 > 3.4 参数设置",
+   "line": 21,
+   "question": "C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5",
+   "status": "open"
+  },
+  {
+   "id": "Q-u32",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "line": 27,
+   "question": "是否补充多种子重复实验并报告均值±标准差？",
+   "status": "open"
+  },
+  {
+   "id": "Q-u33",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "line": 27,
+   "question": "是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？",
+   "status": "open"
+  }
+ ],
+ "status": "success",
+ "status_reason": "all checks pass; 11 items await author confirmation",
+ "skill": {
+  "name": "methods-ledger",
+  "version": "0.1.0"
+ },
+ "language": "zh",
+ "profile": "ml",
+ "artifacts": {
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out\\result.json"
+ },
+ "preview": "pymupdf story, 4 pages",
+ "sources": [
+  {
+   "path": "case.json",
+   "class": "case",
+   "sha256": "8547b5b7032e90044190dc4da8be8a1c437304eabbe6db6d62d70ceb2d828715",
+   "bytes": 644,
+   "facts": 0,
+   "problems": []
+  },
+  {
+   "path": "data_card.md",
+   "class": "datacard",
+   "sha256": "8c0c2dec6b3b7b4041ebc1efe05acd365fb2409f5a1a0544cf3b5d3c610944cf",
+   "bytes": 256,
+   "facts": 12,
+   "problems": []
+  },
+  {
+   "path": "notes.md",
+   "class": "doc",
+   "sha256": "5e12c47e4594cda10d4bf38bf317b3473e4331be3dd2f6fd2f50310212a9d1d1",
+   "bytes": 271,
+   "facts": 6,
+   "problems": []
+  },
+  {
+   "path": "requirements.txt",
+   "class": "env",
+   "sha256": "a0d3f69962070b81a99cb74955ec0c49e502e2d71b0303e655dc052a89431d0e",
+   "bytes": 80,
+   "facts": 5,
+   "problems": []
+  },
+  {
+   "path": "task.md",
+   "class": "task",
+   "sha256": "2b2a9b51a2f0e431bef14cde1b728c388af5a3af69e072e115b2c3f0acf562f5",
+   "bytes": 402,
+   "facts": 0,
+   "problems": []
+  },
+  {
+   "path": "configs/baseline_tfidf.yaml",
+   "class": "config",
+   "sha256": "4ae11985a19e4c33402eba590d70c472f67d7b016191a1133126bdaf3b820c1f",
+   "bytes": 113,
+   "facts": 6,
+   "problems": []
+  },
+  {
+   "path": "configs/train.yaml",
+   "class": "config",
+   "sha256": "0b67f16e4586de17751c7ead39ea367bc3610e717cb546aa06ce436946988ba7",
+   "bytes": 463,
+   "facts": 20,
+   "problems": []
+  },
+  {
+   "path": "logs/baseline.log",
+   "class": "log",
+   "sha256": "4caab3e7075208c649a230034e529d8ae71d1887859ea006435c80fa39a49e5d",
+   "bytes": 147,
+   "facts": 5,
+   "problems": []
+  },
+  {
+   "path": "logs/preprocess.log",
+   "class": "log",
+   "sha256": "5626045a5ac103d4914e4f85dc1493ffe0f6108359e57bae3a2ac54d6b344691",
+   "bytes": 365,
+   "facts": 10,
+   "problems": []
+  },
+  {
+   "path": "logs/train_bert_seed42.log",
+   "class": "log",
+   "sha256": "54fd3ccab215e58712145da36284b4ac114977bcda9dd690dab149be75969b82",
+   "bytes": 877,
+   "facts": 36,
+   "problems": []
+  },
+  {
+   "path": "src/baseline.py",
+   "class": "code",
+   "sha256": "dabfb1b9f29187b8c5a1cc2645eed176e70ac8e9c9a8b6eb33ebbe29d3a606fd",
+   "bytes": 361,
+   "facts": 3,
+   "problems": []
+  },
+  {
+   "path": "src/preprocess.py",
+   "class": "code",
+   "sha256": "d94448dc95b5cd13d944af7ade81c21443c7be01c1f8fdc9218003645b49cdc0",
+   "bytes": 529,
+   "facts": 6,
+   "problems": []
+  },
+  {
+   "path": "src/train.py",
+   "class": "code",
+   "sha256": "f5d4e40ec635db9c5f06ed25ea07e40450a7df405e3682462f47b6d87a61bb51",
+   "bytes": 865,
+   "facts": 10,
+   "problems": []
+  }
+ ],
+ "checks": {
+  "fail": 0,
+  "warn": 4,
+  "accepted": 0,
+  "fail_items": [],
+  "coverage": [
+   {
+    "element": "E_steps",
+    "category": "steps",
+    "label": "有序步骤（每步输入→操作→输出）",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   },
+   {
+    "element": "E_dataset",
+    "category": "data",
+    "label": "数据集名称与来源",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u20"
+    ],
+    "facts_cited": [
+     "F3",
+     "F62"
+    ]
+   },
+   {
+    "element": "E_dataset_version",
+    "category": "data",
+    "label": "数据集版本/发布号/快照日期",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u18",
+     "u21",
+     "u22",
+     "u35"
+    ],
+    "facts_cited": [
+     "F11"
+    ]
+   },
+   {
+    "element": "E_split",
+    "category": "data",
+    "label": "划分规模/比例与划分方式",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u8",
+     "u9",
+     "u11",
+     "u13",
+     "u15",
+     "u23",
+     "u29",
+     "u30",
+     "u36",
+     "u38"
+    ],
+    "facts_cited": [
+     "F108",
+     "F9",
+     "F62",
+     "F63",
+     "F12",
+     "F106",
+     "F64"
+    ]
+   },
+   {
+    "element": "E_preproc",
+    "category": "data",
+    "label": "预处理/筛选",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u4",
+     "u5",
+     "u37"
+    ],
+    "facts_cited": [
+     "F70"
+    ]
+   },
+   {
+    "element": "E_model",
+    "category": "control",
+    "label": "模型/结构及初始化",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u11",
+     "u13",
+     "u32",
+     "u40"
+    ],
+    "facts_cited": [
+     "F76",
+     "F30"
+    ]
+   },
+   {
+    "element": "E_hparams",
+    "category": "params",
+    "label": "优化器、学习率、批大小、训练长度",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u11",
+     "u13",
+     "u23",
+     "u25",
+     "u37",
+     "u41"
+    ],
+    "facts_cited": [
+     "F92",
+     "F28",
+     "F66",
+     "F67",
+     "F38",
+     "F68"
+    ]
+   },
+   {
+    "element": "E_hardware",
+    "category": "setup",
+    "label": "硬件（设备型号与数量）",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u17",
+     "u43"
+    ],
+    "facts_cited": [
+     "F98",
+     "F99"
+    ]
+   },
+   {
+    "element": "E_software",
+    "category": "setup",
+    "label": "软件及版本",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u17",
+     "u18",
+     "u22",
+     "u35",
+     "u37"
+    ],
+    "facts_cited": [
+     "F96",
+     "F20",
+     "F21",
+     "F95",
+     "F22"
+    ]
+   },
+   {
+    "element": "E_seed",
+    "category": "repro",
+    "label": "随机种子",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u8",
+     "u32",
+     "u37",
+     "u38",
+     "u40"
+    ],
+    "facts_cited": [
+     "F69"
+    ]
+   },
+   {
+    "element": "E_repeats",
+    "category": "control",
+    "label": "重复次数/平行样数及结果汇总方式",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u32",
+     "u36",
+     "u40"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_baseline",
+    "category": "control",
+    "label": "基线（含版本）及同预算对照条件",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u15",
+     "u26",
+     "u30",
+     "u31",
+     "u33",
+     "u36",
+     "u37",
+     "u41"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_metric",
+    "category": "control",
+    "label": "评价指标/测量结局",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u5",
+     "u8",
+     "u9",
+     "u11",
+     "u13",
+     "u17",
+     "u20",
+     "u21",
+     "u26",
+     "u29"
+    ],
+    "facts_cited": [
+     "F48"
+    ]
+   },
+   {
+    "element": "E_stats",
+    "category": "control",
+    "label": "统计检验/不确定度估计",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u11",
+     "u32",
+     "u33"
+    ],
+    "facts_cited": []
+   },
+   {
+    "element": "E_code",
+    "category": "repro",
+    "label": "代码版本与运行命令",
+    "level": "required",
+    "status": "covered",
+    "units": [
+     "u5",
+     "u11",
+     "u15",
+     "u17",
+     "u25",
+     "u35",
+     "u36"
+    ],
+    "facts_cited": [
+     "F65",
+     "F53",
+     "F90"
+    ]
+   },
+   {
+    "element": "E_data_access",
+    "category": "repro",
+    "label": "数据获取方式",
+    "level": "recommended",
+    "status": "covered",
+    "units": [
+     "u20",
+     "u21",
+     "u22"
+    ],
+    "facts_cited": [
+     "F3",
+     "F4"
+    ]
+   },
+   {
+    "element": "E_limits",
+    "category": "repro",
+    "label": "落到具体失效场景的限制条件",
+    "level": "required",
+    "status": "covered",
+    "units": [],
+    "facts_cited": []
+   }
+  ],
+  "limitations": {
+   "sentences": 4,
+   "anchored": 4,
+   "generic": 0
+  },
+  "stages": [
+   {
+    "script": "baseline.py",
+    "source": "logs/baseline.log:1",
+    "described": true
+   },
+   {
+    "script": "preprocess.py",
+    "source": "logs/preprocess.log:1",
+    "described": true
+   },
+   {
+    "script": "train.py",
+    "source": "logs/train_bert_seed42.log:1",
+    "described": true
+   }
+  ]
+ },
+ "needs_confirmation": [
+  {
+   "id": "G1",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "每个条件独立运行/平行样多少次？报告的是均值±标准差/标准误还是单次结果？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G2",
+   "type": "gap",
+   "category": "control",
+   "level": "recommended",
+   "question": "比较结论基于何种统计检验或不确定度估计（检验方法、显著性水平、多重校正）？",
+   "status": "missing",
+   "facts": []
+  },
+  {
+   "id": "G3",
+   "type": "gap",
+   "category": "repro",
+   "level": "required",
+   "question": "哪些条件未测试（数据、规模、硬件、设置）？方法在哪些具体场景下可能失效？",
+   "status": "author_input",
+   "facts": []
+  },
+  {
+   "id": "G4",
+   "type": "gap",
+   "category": "control",
+   "level": "required",
+   "question": "材料中只出现一个随机种子取值：报告结果是否来自单次运行？若有多次运行，请列出各次种子。",
+   "status": "ambiguous",
+   "facts": [
+    "F15",
+    "F29",
+    "F47",
+    "F69",
+    "F94"
+   ]
+  },
+  {
+   "id": "G5",
+   "type": "gap",
+   "category": "setup",
+   "level": "recommended",
+   "question": "部分依赖只写了版本范围（>=、~=）：请给出报告运行时实际安装的精确版本（pip freeze）。",
+   "status": "ambiguous",
+   "facts": [
+    "F22"
+   ]
+  },
+  {
+   "id": "C1",
+   "type": "conflict",
+   "category": "params",
+   "question": "学习率 在材料中取值不一致：2e-05 (logs/train_bert_seed42.log:5); 3.0e-5 (configs/train.yaml:14)。正文采用哪一个？",
+   "facts": [
+    "F66",
+    "F92",
+    "F39",
+    "F13"
+   ],
+   "draft_choice": null,
+   "status": "open"
+  },
+  {
+   "id": "Q-u18",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.2 实验设置",
+   "line": 13,
+   "question": "请提供实际安装的 numpy 版本（pip freeze）",
+   "status": "open"
+  },
+  {
+   "id": "Q-u22",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.3 数据集与划分",
+   "line": 17,
+   "question": "请确认所用 THUCNews 发布版本或在论文中以下载日期作为版本标识",
+   "status": "open"
+  },
+  {
+   "id": "Q-u25c",
+   "type": "draft_confirm",
+   "section": "3 方法与实验 > 3.4 参数设置",
+   "line": 21,
+   "question": "C1 配置文件 train.yaml 中为 3.0e-5，训练命令与日志为 2e-5，作者笔记称最终采用 2e-5；正文按日志写 2e-5",
+   "status": "open"
+  },
+  {
+   "id": "Q-u32",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "line": 27,
+   "question": "是否补充多种子重复实验并报告均值±标准差？",
+   "status": "open"
+  },
+  {
+   "id": "Q-u33",
+   "type": "draft_gap",
+   "section": "3 方法与实验 > 3.5 对照实验与评价",
+   "line": 27,
+   "question": "是否需要对 BERT 与基线的差异做显著性检验（如配对 bootstrap）？",
+   "status": "open"
+  }
+ ],
+ "conflicts": [
+  {
+   "id": "C1",
+   "canon": "learning_rate",
+   "label": "学习率",
+   "scope": "",
+   "values": [
+    {
+     "value": "2e-05",
+     "fact": "F66",
+     "facts": [
+      "F66",
+      "F92",
+      "F13"
+     ],
+     "source": "logs/train_bert_seed42.log:5",
+     "sources": [
+      "logs/train_bert_seed42.log:5",
+      "logs/train_bert_seed42.log:1",
+      "notes.md:2"
+     ],
+     "kind": "log",
+     "kinds": [
+      "cli",
+      "doc_kv",
+      "log"
+     ]
+    },
+    {
+     "value": "3.0e-5",
+     "fact": "F39",
+     "facts": [
+      "F39"
+     ],
+     "source": "configs/train.yaml:14",
+     "sources": [
+      "configs/train.yaml:14"
+     ],
+     "kind": "config",
+     "kinds": [
+      "config"
+     ]
+    }
+   ],
+   "facts": [
+    "F66",
+    "F92",
+    "F39",
+    "F13"
+   ],
+   "n_files": 3,
+   "precedence_guess": "F66",
+   "overridden_code_defaults": [
+    "F111=2e-5 (src/train.py:9)"
+   ],
+   "note": "precedence run log > command line > environment > config > code default > notes is a guess, not a resolution - ask the author"
+  }
+ ],
+ "uncertainty": [
+  "G1: 重复次数/平行样数及结果汇总方式 - missing",
+  "G4: 是否仅单个种子？ - ambiguous",
+  "C1: 学习率 has 2 different values in the materials",
+  "T05 cited F24 (baseline.name = tfidf_logreg) but its value is not in the sentence",
+  "T05 cited F44 (train.scheduler = linear) but its value is not in the sentence",
+  "T05 cited F98 (gpu = NVIDIA A100-SXM4-80GB) but its value is not in the sentence",
+  "K03 facts in the materials never used in the chapter: dataset (F33); validation file (F35); test file (F36); cuDNN version (F97); training steps / iterations (F103)"
+ ],
+ "change_records": {
+  "against_input_draft": [],
+  "build_history": [
+   {
+    "at": "2026-11-23T10:20:31Z",
+    "draft_sha256": "01ef2a1279c8968b677cbfb52fdc575d297506add766652bafc79e3fd8eda4e6",
+    "fails": 0,
+    "warns": 4,
+    "changed_sentences": 0,
+    "fail_codes": []
+   }
+  ]
+ },
+ "parameters": [
+  {
+   "name": "批大小",
+   "canonical": "batch_size",
+   "category": "params",
+   "value": "32",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F67",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:16"
+   ]
+  },
+  {
+   "name": "dropout",
+   "canonical": "dropout",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "model",
+   "source": "configs/train.yaml:5",
+   "fact": "F32",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:5"
+   ]
+  },
+  {
+   "name": "训练轮数",
+   "canonical": "epochs",
+   "category": "params",
+   "value": "5",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F68",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：src/train.py:10=3",
+   "other_values": [
+    "src/train.py:10=3"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:6",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:17",
+    "src/train.py:10"
+   ]
+  },
+  {
+   "name": "评测批大小",
+   "canonical": "eval_batch_size",
+   "category": "params",
+   "value": "64",
+   "unit": "",
+   "applies_to": "test/eval",
+   "source": "configs/train.yaml:25",
+   "fact": "F49",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:25"
+   ]
+  },
+  {
+   "name": "梯度裁剪阈值",
+   "canonical": "grad_clip",
+   "category": "params",
+   "value": "1.0",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:20",
+   "fact": "F45",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:20"
+   ]
+  },
+  {
+   "name": "学习率",
+   "canonical": "learning_rate",
+   "category": "params",
+   "value": "2e-05",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F66",
+   "source_kind": "log",
+   "status": "冲突 C1，待作者确认",
+   "other_values": [
+    "logs/train_bert_seed42.log:1=2e-5",
+    "configs/train.yaml:14=3.0e-5"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:14",
+    "src/train.py:9",
+    "notes.md:2"
+   ]
+  },
+  {
+   "name": "最大序列长度",
+   "canonical": "max_length",
+   "category": "params",
+   "value": "256",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F70",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:4"
+   ]
+  },
+  {
+   "name": "训练步数/迭代次数",
+   "canonical": "max_steps",
+   "category": "params",
+   "value": "1000",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "src/baseline.py:6",
+   "fact": "F103",
+   "source_kind": "code",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "src/baseline.py:6"
+   ]
+  },
+  {
+   "name": "优化器",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "liblinear",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "configs/baseline_tfidf.yaml:6",
+   "fact": "F28",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/baseline_tfidf.yaml:6",
+    "src/baseline.py:6"
+   ]
+  },
+  {
+   "name": "优化器",
+   "canonical": "optimizer",
+   "category": "params",
+   "value": "AdamW",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:13",
+   "fact": "F38",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:13",
+    "src/train.py:17"
+   ]
+  },
+  {
+   "name": "学习率调度",
+   "canonical": "scheduler",
+   "category": "params",
+   "value": "linear",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:19",
+   "fact": "F44",
+   "source_kind": "config",
+   "status": "正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu",
+   "other_values": [
+    "src/train.py:4=get_linear_schedule_with_warmu"
+   ],
+   "all_sources": [
+    "configs/train.yaml:19",
+    "src/train.py:4"
+   ]
+  },
+  {
+   "name": "预热",
+   "canonical": "warmup",
+   "category": "params",
+   "value": "0.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F71",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "configs/train.yaml:18"
+   ]
+  },
+  {
+   "name": "权重衰减",
+   "canonical": "weight_decay",
+   "category": "params",
+   "value": "0.01",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:15",
+   "fact": "F40",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:15",
+    "src/train.py:17"
+   ]
+  },
+  {
+   "name": "数据集",
+   "canonical": "dataset",
+   "category": "data",
+   "value": "THUCNews-subset",
+   "unit": "",
+   "applies_to": "data",
+   "source": "configs/train.yaml:7",
+   "fact": "F33",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:7"
+   ]
+  },
+  {
+   "name": "数据集版本",
+   "canonical": "dataset_version",
+   "category": "data",
+   "value": "downloaded 2024-02-28",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:5",
+   "fact": "F11",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:5"
+   ]
+  },
+  {
+   "name": "许可",
+   "canonical": "license",
+   "category": "data",
+   "value": "research use only",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:4",
+   "fact": "F4",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:4"
+   ]
+  },
+  {
+   "name": "测试集样本数",
+   "canonical": "n_test",
+   "category": "data",
+   "value": "7200",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F64",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "训练集样本数",
+   "canonical": "n_train",
+   "category": "data",
+   "value": "57600",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F62",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "验证集样本数",
+   "canonical": "n_val",
+   "category": "data",
+   "value": "7200",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/preprocess.log:5",
+   "fact": "F63",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/preprocess.log:5"
+   ]
+  },
+  {
+   "name": "类别数",
+   "canonical": "num_classes",
+   "category": "data",
+   "value": "10",
+   "unit": "",
+   "applies_to": "data",
+   "source": "configs/train.yaml:11",
+   "fact": "F37",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:11",
+    "src/train.py:16"
+   ]
+  },
+  {
+   "name": "数据来源",
+   "canonical": "source_url",
+   "category": "data",
+   "value": "http://thuctc.thunlp.org/",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:3",
+   "fact": "F3",
+   "source_kind": "doc_kv",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "data_card.md:3"
+   ]
+  },
+  {
+   "name": "划分比例",
+   "canonical": "split_ratio",
+   "category": "data",
+   "value": "8:1:1, stratified by label for the train/rest split",
+   "unit": "",
+   "applies_to": "-",
+   "source": "data_card.md:7",
+   "fact": "F9",
+   "source_kind": "doc_kv",
+   "status": "正文已引用; 其他取值：data_card.md:7=8:1:1",
+   "other_values": [
+    "data_card.md:7=8:1:1"
+   ],
+   "all_sources": [
+    "data_card.md:7",
+    "data_card.md:7"
+   ]
+  },
+  {
+   "name": "数据划分种子",
+   "canonical": "split_seed",
+   "category": "data",
+   "value": "2023",
+   "unit": "",
+   "applies_to": "-",
+   "source": "src/preprocess.py:10",
+   "fact": "F107",
+   "source_kind": "code",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "src/preprocess.py:10",
+    "src/preprocess.py:11"
+   ]
+  },
+  {
+   "name": "测试集文件",
+   "canonical": "test_file",
+   "category": "data",
+   "value": "data/test.jsonl",
+   "unit": "",
+   "applies_to": "test/data",
+   "source": "configs/train.yaml:10",
+   "fact": "F36",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:10"
+   ]
+  },
+  {
+   "name": "测试集比例",
+   "canonical": "test_size",
+   "category": "data",
+   "value": "0.2",
+   "unit": "",
+   "applies_to": "test",
+   "source": "src/preprocess.py:10",
+   "fact": "F106",
+   "source_kind": "code",
+   "status": "正文已引用; 其他取值：src/preprocess.py:11=0.5",
+   "other_values": [
+    "src/preprocess.py:11=0.5"
+   ],
+   "all_sources": [
+    "src/preprocess.py:10",
+    "src/preprocess.py:11"
+   ]
+  },
+  {
+   "name": "验证集文件",
+   "canonical": "val_file",
+   "category": "data",
+   "value": "data/val.jsonl",
+   "unit": "",
+   "applies_to": "val/data",
+   "source": "configs/train.yaml:9",
+   "fact": "F35",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:9"
+   ]
+  },
+  {
+   "name": "CUDA 版本",
+   "canonical": "cuda",
+   "category": "setup",
+   "value": "12.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F96",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2"
+   ]
+  },
+  {
+   "name": "cuDNN 版本",
+   "canonical": "cudnn",
+   "category": "setup",
+   "value": "8902",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F97",
+   "source_kind": "log",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2"
+   ]
+  },
+  {
+   "name": "硬件",
+   "canonical": "hardware",
+   "category": "setup",
+   "value": "NVIDIA A100-SXM4-80GB",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:3",
+   "fact": "F98",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:3"
+   ]
+  },
+  {
+   "name": "GPU/设备数",
+   "canonical": "num_gpus",
+   "category": "setup",
+   "value": "1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:3",
+   "fact": "F99",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:3"
+   ]
+  },
+  {
+   "name": "数值精度",
+   "canonical": "precision",
+   "category": "setup",
+   "value": "true",
+   "unit": "",
+   "applies_to": "train",
+   "source": "configs/train.yaml:21",
+   "fact": "F46",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:21"
+   ]
+  },
+  {
+   "name": "软件 (transformers)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "4.36.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:2",
+   "fact": "F20",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:2"
+   ]
+  },
+  {
+   "name": "软件 (scikit-learn)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "1.3.2",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:3",
+   "fact": "F21",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:3"
+   ]
+  },
+  {
+   "name": "软件 (numpy)",
+   "canonical": "software",
+   "category": "setup",
+   "value": ">=1.24",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:4",
+   "fact": "F22",
+   "source_kind": "env",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:4"
+   ]
+  },
+  {
+   "name": "软件 (jieba)",
+   "canonical": "software",
+   "category": "setup",
+   "value": "0.42.1",
+   "unit": "",
+   "applies_to": "-",
+   "source": "requirements.txt:5",
+   "fact": "F23",
+   "source_kind": "env",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "requirements.txt:5"
+   ]
+  },
+  {
+   "name": "PyTorch 版本",
+   "canonical": "torch",
+   "category": "setup",
+   "value": "2.1.2+cu121",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:2",
+   "fact": "F95",
+   "source_kind": "log",
+   "status": "正文已引用; 其他取值：requirements.txt:1=2.1.2",
+   "other_values": [
+    "requirements.txt:1=2.1.2"
+   ],
+   "all_sources": [
+    "logs/train_bert_seed42.log:2",
+    "requirements.txt:1"
+   ]
+  },
+  {
+   "name": "评价指标",
+   "canonical": "metric",
+   "category": "control",
+   "value": "macro_f1",
+   "unit": "",
+   "applies_to": "test/eval",
+   "source": "configs/train.yaml:24",
+   "fact": "F48",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:24"
+   ]
+  },
+  {
+   "name": "评价指标",
+   "canonical": "metric",
+   "category": "control",
+   "value": "f1_score",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "src/baseline.py:3",
+   "fact": "F101",
+   "source_kind": "code",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "src/baseline.py:3"
+   ]
+  },
+  {
+   "name": "模型/结构",
+   "canonical": "model",
+   "category": "control",
+   "value": "bert-base-chinese",
+   "unit": "",
+   "applies_to": "model",
+   "source": "configs/train.yaml:3",
+   "fact": "F30",
+   "source_kind": "config",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "configs/train.yaml:3",
+    "src/train.py:15"
+   ]
+  },
+  {
+   "name": "检查点/权重",
+   "canonical": "checkpoint",
+   "category": "repro",
+   "value": "epoch 4",
+   "unit": "",
+   "applies_to": "val",
+   "source": "logs/train_bert_seed42.log:11",
+   "fact": "F76",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:11"
+   ]
+  },
+  {
+   "name": "代码版本",
+   "canonical": "code_version",
+   "category": "repro",
+   "value": "9f3c2ab",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:4",
+   "fact": "F65",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:4"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "42",
+   "unit": "",
+   "applies_to": "-",
+   "source": "logs/train_bert_seed42.log:5",
+   "fact": "F69",
+   "source_kind": "log",
+   "status": "正文已引用",
+   "other_values": [],
+   "all_sources": [
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:1",
+    "configs/train.yaml:22",
+    "src/train.py:11",
+    "notes.md:3"
+   ]
+  },
+  {
+   "name": "随机种子",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "42",
+   "unit": "",
+   "applies_to": "baseline",
+   "source": "configs/baseline_tfidf.yaml:7",
+   "fact": "F29",
+   "source_kind": "config",
+   "status": "正文未使用",
+   "other_values": [],
+   "all_sources": [
+    "configs/baseline_tfidf.yaml:7"
+   ]
+  }
+ ],
+ "repro_checklist": [
+  {
+   "item": "code version",
+   "canonical": "code_version",
+   "found": true,
+   "values": [
+    "9f3c2ab"
+   ],
+   "sources": [
+    "logs/train_bert_seed42.log:4"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "commands",
+   "canonical": "command",
+   "found": true,
+   "values": [
+    "python src/baseline.py --config configs/baseline_tfidf.yaml",
+    "python src/preprocess.py --raw data/raw/thucnews_2016.zip --out data/",
+    "python src/train.py --config configs/train.yaml --lr 2e-5 --epochs 5 --seed 42"
+   ],
+   "sources": [
+    "logs/baseline.log:1",
+    "logs/preprocess.log:1",
+    "logs/train_bert_seed42.log:1"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "Python",
+   "canonical": "python",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  },
+  {
+   "item": "PyTorch",
+   "canonical": "torch",
+   "found": true,
+   "values": [
+    "2.1.2",
+    "2.1.2+cu121"
+   ],
+   "sources": [
+    "requirements.txt:1",
+    "logs/train_bert_seed42.log:2"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "CUDA",
+   "canonical": "cuda",
+   "found": true,
+   "values": [
+    "12.1"
+   ],
+   "sources": [
+    "logs/train_bert_seed42.log:2"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "other software",
+   "canonical": "software",
+   "found": true,
+   "values": [
+    "4.36.2",
+    "1.3.2",
+    ">=1.24",
+    "0.42.1"
+   ],
+   "sources": [
+    "requirements.txt:2",
+    "requirements.txt:3",
+    "requirements.txt:4",
+    "requirements.txt:5"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "hardware",
+   "canonical": "hardware",
+   "found": true,
+   "values": [
+    "NVIDIA A100-SXM4-80GB"
+   ],
+   "sources": [
+    "logs/train_bert_seed42.log:3"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "seeds",
+   "canonical": "seed",
+   "found": true,
+   "values": [
+    "42"
+   ],
+   "sources": [
+    "notes.md:3",
+    "configs/baseline_tfidf.yaml:7",
+    "configs/train.yaml:22",
+    "logs/train_bert_seed42.log:5",
+    "logs/train_bert_seed42.log:1",
+    "src/train.py:11"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "dataset",
+   "canonical": "dataset",
+   "found": true,
+   "values": [
+    "THUCNews-subset"
+   ],
+   "sources": [
+    "configs/train.yaml:7"
+   ],
+   "cited_in_text": false
+  },
+  {
+   "item": "dataset version",
+   "canonical": "dataset_version",
+   "found": true,
+   "values": [
+    "downloaded 2024-02-28"
+   ],
+   "sources": [
+    "data_card.md:5"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "data access",
+   "canonical": "source_url",
+   "found": true,
+   "values": [
+    "http://thuctc.thunlp.org/"
+   ],
+   "sources": [
+    "data_card.md:3"
+   ],
+   "cited_in_text": true
+  },
+  {
+   "item": "container/env",
+   "canonical": "container",
+   "found": false,
+   "values": [],
+   "sources": [],
+   "cited_in_text": false
+  }
+ ],
+ "facts_cited": [
+  "F1",
+  "F3",
+  "F4",
+  "F9",
+  "F11",
+  "F12",
+  "F14",
+  "F16",
+  "F17",
+  "F18",
+  "F20",
+  "F21",
+  "F22",
+  "F24",
+  "F25",
+  "F26",
+  "F27",
+  "F28",
+  "F30",
+  "F32",
+  "F37",
+  "F38",
+  "F40",
+  "F44",
+  "F45",
+  "F46",
+  "F48",
+  "F53",
+  "F55",
+  "F56",
+  "F57",
+  "F60",
+  "F62",
+  "F63",
+  "F64",
+  "F65",
+  "F66",
+  "F67",
+  "F68",
+  "F69",
+  "F70",
+  "F71",
+  "F76",
+  "F78",
+  "F90",
+  "F92",
+  "F95",
+  "F96",
+  "F98",
+  "F99",
+  "F104",
+  "F105",
+  "F106",
+  "F107",
+  "F108",
+  "F109"
+ ],
+ "n_facts_extracted": 119,
+ "built_at": "2026-11-23T10:20:31Z"
+}

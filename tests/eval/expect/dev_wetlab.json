@@ -1,0 +1,7 @@
+{"lang": "en", "profile": "wetlab",
+ "facts": [["duration", "24 h"], ["duration", "48 h"], ["duration", "30 min"], ["duration", "45 min"], ["duration", "10 min"], ["temperature", "37"],
+  ["concentration", "5 mg/mL"], ["volume", "100"], ["wavelength", "570"], ["wavelength", "630"], ["instrument", "Synergy H1"], ["software", "Gen5 3.11"],
+  ["software_stats", "4.3.1"], ["software_stats", "3.0-1"], ["seed", "7"], ["statistical_test", "ANOVA"], ["statistical_test", "Dunnett"],
+  ["alpha_level", "0.05"], ["n_runs", "3"], ["lot", "KX-0412"], ["reagent", "ATCC CCL-2"], ["n_samples", "5,000"], ["temperature", "25"]],
+ "conflicts": ["duration"],
+ "gaps": ["E_data_access", "E_limits"]}

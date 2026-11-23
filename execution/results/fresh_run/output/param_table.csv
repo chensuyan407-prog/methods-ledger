@@ -1,0 +1,12 @@
+﻿name,canonical,category,value,unit,applies_to,source,fact,source_kind,status
+learning rate,learning_rate,params,0.05,,-,xgb_params.json:4,F21,config,cited in text
+maximum depth,max_depth,params,5,,-,xgb_params.json:3,F20,config,cited in text
+number of estimators,n_estimators,params,400,,-,xgb_params.json:2,F19,config,cited in text
+cross-validation folds,k_folds,data,5,,-,model.ipynb:6,F15,code,cited in text
+shuffling,shuffle,data,True,,-,model.ipynb:6,F16,code,cited in text
+data-split seed,split_seed,data,11,,-,model.ipynb:5,F13,code,cited in text
+stratification,stratify,data,y,,-,model.ipynb:5,F14,code,cited in text
+test fraction,test_size,data,0.25,,test,model.ipynb:5,F12,code,cited in text
+software (xgboost),software,setup,2.0.3,,-,model.ipynb:14,F10,log,cited in text
+evaluation metric,metric,control,roc_auc_score,,-,model.ipynb:12,F18,code,cited in text; other values: metrics.csv:2=auc_cv_mean; metrics.csv:3=auc_cv_sd; metrics.csv:4=auc_test
+random seed,seed,repro,11,,-,xgb_params.json:7,F24,config,cited in text

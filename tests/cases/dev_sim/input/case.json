@@ -1,0 +1,3 @@
+{"case_id": "dev_sim_water",
+ "task": "根据模拟输入文件、作业脚本、日志和笔记，撰写论文“2 计算方法”一节（中文）。需写清体系、力场、系综与控温控压、步长与模拟时长、平衡与采样、软硬件、重复与统计、复现方式和局限。",
+ "output_contract": {"section_text": "章节正文", "parameter_table": "参数表", "provenance": "来源映射", "questions": "待作者确认项"}}

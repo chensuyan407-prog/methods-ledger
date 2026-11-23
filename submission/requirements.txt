@@ -1,0 +1,2 @@
+# standard library only (Python >= 3.8)
+# optional: PyMuPDF>=1.23  (PDF materials, PDF/PNG preview)
