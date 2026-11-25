@@ -1,4 +1,4 @@
-# Facts for case `ho_nlp_sst2` (methods-ledger 0.1.0)
+# Facts for case `ho_nlp_sst2` (methods-ledger 0.2.0)
 profile: **ml** · target language: **en** · 83 facts from 8 files · 2 conflicts · 6 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

@@ -526,26 +526,31 @@ def extract_code(rel, text, F):
         ch = re.search(r"choices\s*=\s*(\[[^\]]*\])", body)
         if ch:
             F.add(rel, ln, "code", key + ".choices", ch.group(1), context=lines[ln - 1], path=key + ".choices", canon=None, how="choices")
+    recent_call = ""
     for ln, line in enumerate(lines, 1):
         s = line.strip()
         if s.startswith(("#", "//")) and not s.startswith("#SBATCH"):
             continue
+        if "(" in s and not s.startswith(("def ", "class ")):
+            recent_call = (recent_call + " " + s)[-300:]
         m = re.match(r"^([A-Z][A-Z0-9_]{1,40})\s*(?::\s*\w+\s*)?=\s*([-+]?[\d.][\w.eE+\-]*|True|False|'[^']*'|\"[^\"]*\"|\[[^\]]*\])\s*(?:#.*)?$", s)
         if m:
             F.add(rel, ln, "code", m.group(1), _scalar(m.group(2)), context=line, extra={"code_role": "constant"})
             continue
-        m = re.match(r"^([a-z_][\w.]*)\s*(?:<-|=)\s*([-+]?\d[\w.eE+\-]*|'[^']*'|\"[^\"]*\")\s*(?:#.*)?$", s)
+        m = None if recent_call else re.match(r"^([a-z_][\w.]*)\s*(?:<-|=)\s*([-+]?\d[\w.eE+\-]*|'[^']*'|\"[^\"]*\")\s*(?:#.*)?$", s)
         if m:
             canon, how = C.canon_key(m.group(1), rel)
             if canon:
                 F.add(rel, ln, "code", m.group(1), _scalar(m.group(2)), context=line, canon=canon, how=how, extra={"code_role": "assignment"})
-        for m in re.finditer(r"[(,]\s*([a-z_]\w*)\s*=\s*([-+]?\d[\w.eE+\-]*|True|False|'[^']*'|\"[^\"]*\"|[a-z_]\w*)(?=\s*[,)])", line):
+        for m in re.finditer(r"(?:^|[(,])\s*([a-z_]\w*)\s*=\s*([-+]?\d[\w.eE+\-]*|True|False|'[^']*'|\"[^\"]*\"|[a-z_]\w*)(?=\s*(?:[,)\n#]|$))", line):
             k, v = m.group(1), _scalar(m.group(2))
             canon, how = C.canon_key(k, rel)
-            if canon == "seed" and re.search(r"(?i)split|fold|shuffle|sample\(", line):
+            if canon == "seed" and (re.search(r"(?i)split|fold|shuffle|sample\(", line) or re.search(r"(?i)(?:train_test_split|kfold|stratifiedkfold|shuffle_split)\s*\(", recent_call)):
                 canon, how = "split_seed", "split-call"
             if canon and (re.match(r"^[-+]?\d|True|False|['\"]", m.group(2)) or k in ("stratify", "shuffle")):
                 F.add(rel, ln, "code", k, v, context=line, canon=canon, how=how, extra={"code_role": "keyword argument"})
+        if ")" in s:
+            recent_call = ""
         for m in OPT_RE.finditer(line):
             F.add(rel, ln, "code", "optimizer", m.group(1) or m.group(2), context=line, canon="optimizer", how="pattern")
         for m in SCHED_RE.finditer(line):
@@ -882,9 +887,11 @@ def load_case(case_path):
 
 
 def contract_fields(case):
-    oc = case.get("output_contract") or case.get("outputs") or case.get("output_fields") or case.get("expected_output") or {}
+    oc = case.get("output_contract") or case.get("outputs") or case.get("output_fields") or case.get("expected_output") or case.get("deliverables") or {}
     fields = []
     if isinstance(oc, dict):
+        if "schema" in oc and isinstance(oc["schema"], dict):
+            return contract_fields({"output_contract": oc["schema"]})
         if "fields" in oc and isinstance(oc["fields"], (list, dict)):
             return contract_fields({"output_contract": oc["fields"]})
         if "required" in oc and isinstance(oc["required"], list) and "properties" in oc:
@@ -1088,7 +1095,7 @@ def main(argv=None):
         rel = os.path.relpath(p, in_dir).replace(os.sep, "/") if os.path.abspath(p).startswith(os.path.abspath(in_dir)) else p
         ext = os.path.splitext(p)[1].lower()
         fi = {"path": rel, "bytes": os.path.getsize(p), "sha256": C.sha256_file(p), "problems": []}
-        if ext in SKIP_EXT:
+        if ext in SKIP_EXT and not (ext == ".xlsx" and C.has_xlsx_sheets(p)):
             fi["class"] = "binary-skipped"
             fi["problems"].append("binary/unsupported format, not read" + (" (export spreadsheets to CSV)" if ext in (".xlsx", ".xls") else ""))
             state_files.append(fi)
@@ -1137,9 +1144,17 @@ def main(argv=None):
                 series[(rel, k)] = v
         elif cls == "code":
             text = extract_code(rel, text, F) or text
-        elif cls == "table":
-            fi["table"] = extract_table(rel, text, F)
+        elif cls == "table" or ext == ".xlsx":
+            if ext == ".xlsx":
+                # Parse each worksheet block cleanly via extract_table
+                for block in re.split(r"(?m)^\[sheet: [^\]]+\]\n", text):
+                    if block.strip():
+                        fi["table"] = extract_table(rel, block, F)
+            else:
+                fi["table"] = extract_table(rel, text, F)
         elif cls in ("doc", "datacard", "draft", "data", "other"):
+            if ext == ".tex":
+                text = "\n".join(re.sub(r"(?<!\\)%.*$", "", l) for l in text.split("\n"))
             extract_doc(rel, text, F, cls)
         stages += extract_common_patterns(rel, text, F, {"doc": "doc_kv", "datacard": "doc_kv", "draft": "doc_kv", "other": "doc_kv"}.get(cls, cls if cls in ("log", "code", "config", "env", "table") else "doc_kv"))
         fi["n_facts"] = len(F.items) - n0

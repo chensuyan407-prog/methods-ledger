@@ -1,4 +1,4 @@
-# Facts for case `ho_stats_sleep` (methods-ledger 0.1.0)
+# Facts for case `ho_stats_sleep` (methods-ledger 0.2.0)
 profile: **stats** · target language: **zh** · 31 facts from 5 files · 1 conflicts · 8 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

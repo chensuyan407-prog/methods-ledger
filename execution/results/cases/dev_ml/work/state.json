@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.2.0",
  "case_id": "dev_ml_textcls",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpfxhsp29t\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpfxhsp29t\\work",
  "lang": "zh",
  "profile": "ml",
  "profile_scores": {

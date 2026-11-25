@@ -27,8 +27,10 @@ CITE_RE = re.compile(r"\[\d+(?:\s*[,–\-]\s*\d+)*\]|et al\.?,?\s*\(?\d{4}[a-z]?
 LIST_MARK_RE = re.compile(r"^\s*(?:[-*+]\s+)?(?:\(?\d+[.)、）]|（\d+）|\d+\.\d+(?:\.\d+)*\s|step\s*\d+\s*[:：.]?|步骤\s*\d+\s*[:：.]?|第[一二三四五六七八九十\d]+步)", re.I)
 PLACEHOLDER_RE = re.compile(r"(?<![A-Za-z])(?:XX+|xx+|TBD|TODO|\?\?+|N/A|待补充|待定|若干|某某)(?![A-Za-z])|＿{2,}|_{3,}")
 UNIT_CONSTANTS = {10.0 ** k for k in range(-12, 13)} | {60.0, 24.0, 3600.0, 1024.0, 86400.0, 2.0, 0.5}
-LIMIT_HEAD_RE = re.compile(r"(?i)limitation|threats? to validity|caveat|局限|限制|不足")
+LIMIT_HEAD_RE = re.compile(r"(?i)limitation|threats? to validity|caveat|scope|failure|局限|限制|不足|失效|适用范围|边界")
 PARAM_HEAD_RE = re.compile(r"(?i)param|hyper|参数")
+STRUCT_NAME_SKEL = re.compile(r"^(?:stage|step|phase|fold|epoch|run|seed|layer|block|top|fig|tab|eq|sec|part|group|batch|trial|iter|round|v)-?#+$|^#d$|^l#$")
+PROSE_STEP_RE = re.compile(r"(?i)\b(?:first(?:ly)?|second(?:ly)?|third(?:ly)?|next|then|subsequently|finally|step\s*\d+)\b|首先|其次|随后|接着|然后|最后|第[一二三四五六七八九十\d]+步")
 
 
 def now():
@@ -341,6 +343,14 @@ def exempt_number(text, start, end, tok):
     return False
 
 
+def only_gap_sent(raw):
+    tags = [t.strip() for t in TAG_RE.findall(raw)]
+    if not tags:
+        return False
+    tg = parse_tags(tags)
+    return bool((tg["gaps"] or tg["confirms"]) and not (tg["facts"] or tg["calcs"] or tg["srcs"]))
+
+
 def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
     byid = {f["id"]: f for f in facts}
     idx = build_index(facts)
@@ -407,13 +417,13 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
             fact_map.append(entry)
             continue
         if u["type"] == "code":
-            check_code(u, facts, corpus, corpus_low, rep, entry)
+            check_code(u, facts, corpus, corpus_low, rep, entry, state=state)
             fact_map.append(entry)
             continue
         text = u["text"]
         for m in re.finditer(r"`([^`]{6,})`", text):
             if re.match(r"^\$?\s*(python3?|torchrun|accelerate|deepspeed|bash|sh|Rscript|julia|gmx|lmp|mpirun|srun|sbatch|make)\b", m.group(1)):
-                check_code({"text": m.group(1), "uid": u["uid"], "line": u["line"] - 1}, facts, corpus, corpus_low, rep, entry)
+                check_code({"text": m.group(1), "uid": u["uid"], "line": u["line"] - 1}, facts, corpus, corpus_low, rep, entry, state=state)
         if PLACEHOLDER_RE.search(text):
             rep.add("fail", "M01", f"placeholder '{PLACEHOLDER_RE.search(text).group(0)}' in text: write [[GAP: ...]] instead", u["uid"], u["line"])
         unit_vals = set()
@@ -522,18 +532,20 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                             u["uid"], u["line"], token=tok)
                     entry["status"] = "unsourced"
                 entry["numbers"].append(rec)
-        # versions and names with digits
-        for m in C.VERSION_RE.finditer(text):
-            tok = m.group(0).lstrip("v")
-            if any(tok in f["value"] for f in tagged):
-                entry["numbers"].append({"token": m.group(0), "matched": next(f["id"] for f in tagged if tok in f["value"]), "how": "version-tag"})
-            elif tok.lower() in corpus_low:
-                cands = [f["id"] for f in facts if tok in f["value"]][:4]
-                entry["numbers"].append({"token": m.group(0), "matched": None, "candidates": cands, "how": "version-untagged"})
-                rep.add("warn", "N03", f"version {m.group(0)} is in the materials ({', '.join(cands) or 'text'}) but not tagged", u["uid"], u["line"])
-            else:
-                rep.add("fail", "N01", f"version {m.group(0)} has no source in the materials", u["uid"], u["line"], token=m.group(0))
-                entry["status"] = "unsourced"
+        # versions and names with digits (strip section numbers like 2.1.1 / Section 3.1.2 first)
+        ver_text = re.sub(r"(?i)(?:^|\b(?:section|sec\.?|chapter|ch\.?|§)\s*|第\s*)\d+(?:\.\d+)+", " ", text)
+        if not only_gap_sent(u["raw"]):
+            for m in C.VERSION_RE.finditer(ver_text):
+                tok = m.group(0).lstrip("v")
+                if any(tok in f["value"] for f in tagged):
+                    entry["numbers"].append({"token": m.group(0), "matched": next(f["id"] for f in tagged if tok in f["value"]), "how": "version-tag"})
+                elif tok.lower() in corpus_low:
+                    cands = [f["id"] for f in facts if tok in f["value"]][:4]
+                    entry["numbers"].append({"token": m.group(0), "matched": None, "candidates": cands, "how": "version-untagged"})
+                    rep.add("warn", "N03", f"version {m.group(0)} is in the materials ({', '.join(cands) or 'text'}) but not tagged", u["uid"], u["line"])
+                else:
+                    rep.add("fail", "N01", f"version {m.group(0)} has no source in the materials", u["uid"], u["line"], token=m.group(0))
+                    entry["status"] = "unsourced"
         for m in C.NAME_NUM_RE.finditer(text):
             tok = m.group(0)
             if C.VERSION_RE.fullmatch(tok) or re.match(r"^(F|C|G)\d+$", tok):
@@ -544,8 +556,10 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
             level = "fail" if GPU_RE.search(tok) else "warn"
             skel = re.sub(r"\d+", "#", tok.lower())
             near = sorted({w for w in re.findall(r"[a-z0-9][\w\-]*\d[\w\-]*(?:/\d+)?", corpus_low) if re.sub(r"\d+", "#", w) == skel})[:3]
-            if near:
+            if near and not STRUCT_NAME_SKEL.match(skel):
                 level = "fail"
+            if only_gap_sent(u["raw"]) and level == "fail":
+                level = "warn"
             rep.add(level, "N02", f"name '{tok}' does not occur in any material file" + (f" (materials have {', '.join(near)})" if near else ""), u["uid"], u["line"])
         # tagged string facts should appear in the sentence
         squash = lambda x: re.sub(r"[\s_\-./]+", "", x.lower())  # noqa: E731
@@ -591,7 +605,30 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
     return cited, fact_map
 
 
-def check_code(u, facts, corpus, corpus_low, rep, entry):
+def _cmd_matches_known(s2, known, corpus_norm, state):
+    if s2 in known or s2 in corpus_norm:
+        return True, None
+    # python <-> python3 equivalence
+    alt = re.sub(r"^python3?\b", "python" if s2.startswith("python3") else "python3", s2)
+    if alt != s2 and (alt in known or alt in corpus_norm):
+        return True, None
+    # pip install -r <file> or conda env create -f <file> when that file exists in materials
+    mat_files = {f["path"].lower() for f in state.get("files", [])}
+    m_req = re.match(r"^(?:pip3?\s+install\s+-r|conda\s+env\s+create\s+-f)\s+(\S+)$", s2)
+    if m_req and any(mf.endswith(m_req.group(1).lower()) for mf in mat_files):
+        return True, None
+    # Shell variable expansion ($SEED / ${SEED}) against a known command pattern
+    for kcmd, f in known.items():
+        k_alt = re.sub(r"^python3?\b", s2.split()[0] if s2.startswith(("python", "python3")) else "python", kcmd)
+        if "$" in k_alt:
+            parts = re.split(r"\$\{?\w+\}?", k_alt)
+            pat = "^" + r"\S+".join(re.escape(p) for p in parts) + "$"
+            if re.match(pat, s2):
+                return True, f
+    return False, None
+
+
+def check_code(u, facts, corpus, corpus_low, rep, entry, state=None):
     cmds = [f for f in facts if f["canon"] == "command"]
     norm = lambda s: re.sub(r"\s+", " ", s.strip().rstrip("\\").strip())  # noqa: E731
     known = {norm(f["value"]): f for f in cmds}
@@ -608,7 +645,13 @@ def check_code(u, facts, corpus, corpus_low, rep, entry):
         if s2 in corpus_norm:
             entry["facts"].append({"id": "literal", "value": s2[:160], "source": "materials (literal)", "kind": "text"})
             continue
+        ok, mf = _cmd_matches_known(s2, known, corpus_norm, state or {})
+        if ok:
+            entry["facts"].append({"id": mf["id"] if mf else "literal", "value": s2[:160], "source": f"{mf['file']}:{mf['line']}" if mf else "materials (equiv)", "kind": "command"})
+            continue
         script = re.search(r"([\w./-]+\.(?:py|sh|R|r|jl|m|yaml|yml|json))", s2)
+        if re.match(r"^(cd|export|mkdir|source|conda\s+activate)\b", s2) and not script:
+            continue
         if re.match(r"^(python3?|torchrun|accelerate|deepspeed|bash|sh|Rscript|julia|gmx|lmp|mpirun|srun|sbatch|make|pip|conda|git|docker|cd|export)\b", s2):
             hint = f"; script {script.group(1)} exists in the materials" if script and script.group(1).lower() in corpus_low else ""
             rep.add("fail", "P02", f"command not found in the materials: `{s2[:100]}`{hint} - copy it from a log/script or mark [[GAP: exact command]]", u["uid"], u["line"] + i + 1)
@@ -628,14 +671,18 @@ def coverage(units, facts, gaps, state, rep, cited):
         key_cited = [fid for fid in cited for f in [next((x for x in facts if x["id"] == fid), None)] if f and f["canon"] in e["keys"]]
         status = "missing"
         if e["id"] == "E_steps":
-            items = [u for u in content if u["list_item"] or re.search(pat, u["raw"])]
-            status = "covered" if len(items) >= 2 else "missing"
+            items = [u for u in content if u["list_item"] or re.search(pat, u["raw"]) or PROSE_STEP_RE.search(u["text"])]
+            has_gap = any(u["parsed"]["gaps"] for u in content if re.search(r"(?i)step|order|stage|procedure|步骤|顺序|流程", " ".join(u["parsed"]["gaps"])))
+            status = "covered" if len(items) >= 2 else ("marked_gap" if has_gap else "missing")
         elif e["id"] == "E_limits":
             lim = [u for u in content if LIMIT_HEAD_RE.search(u["section"]) or re.search(pat, u["raw"])]
             status = "covered" if lim else "missing"
         elif anchored:
             status = "covered" if any(u["parsed"]["facts"] or u["parsed"]["srcs"] or u["parsed"]["calcs"] for u in anchored) else "marked_gap"
         elif any(re.search(pat, g) or re.search(pat_en, g) for u in content for g in u["parsed"]["gaps"] + u["parsed"]["confirms"]):
+            status = "marked_gap"
+        elif hits and any(idx_u + 1 < len(content) and content[idx_u + 1]["section"] == content[idx_u]["section"] and (content[idx_u + 1]["parsed"]["gaps"] or content[idx_u + 1]["parsed"]["confirms"])
+                          for idx_u, u in enumerate(content) if u in hits):
             status = "marked_gap"
         if status == "missing":
             lvl = "fail" if e["level"] == "required" else "warn"
@@ -912,8 +959,8 @@ def write_docx(md, path):
         z.writestr("word/_rels/document.xml.rels", drels)
 
 
-def render_pdf(html_text, pdf_path, png_path):
-    """PDF + PNG preview via PyMuPDF Story; falls back to LibreOffice for the DOCX. Returns a note."""
+def render_pdf(html_text, pdf_path, png_path, docx_path=None):
+    """PDF + PNG preview via PyMuPDF Story; falls back to LibreOffice + pdftoppm for the DOCX. Returns a note."""
     try:
         try:
             import pymupdf as fitz  # noqa
@@ -935,9 +982,25 @@ def render_pdf(html_text, pdf_path, png_path):
             n += 1
         writer.close()
         doc = fitz.open(pdf_path)
-        doc[0].get_pixmap(dpi=80).save(png_path)
+        doc[0].get_pixmap(dpi=100).save(png_path)
         return f"pymupdf story, {doc.page_count} pages"
     except Exception as e:  # noqa
+        import shutil, subprocess
+        soffice = shutil.which("soffice") or shutil.which("libreoffice")
+        if soffice and docx_path and os.path.exists(docx_path):
+            try:
+                outdir = os.path.dirname(pdf_path)
+                subprocess.run([soffice, "--headless", "--convert-to", "pdf", "--outdir", outdir, docx_path], capture_output=True, timeout=60)
+                gen = os.path.join(outdir, os.path.splitext(os.path.basename(docx_path))[0] + ".pdf")
+                if os.path.exists(gen) and os.path.abspath(gen) != os.path.abspath(pdf_path):
+                    shutil.move(gen, pdf_path)
+                if os.path.exists(pdf_path) and shutil.which("pdftoppm"):
+                    stem = os.path.splitext(png_path)[0]
+                    subprocess.run(["pdftoppm", "-png", "-r", "100", "-f", "1", "-l", "1", "-singlefile", pdf_path, stem], capture_output=True, timeout=60)
+                if os.path.exists(pdf_path):
+                    return "libreoffice + pdftoppm fallback"
+            except Exception:
+                pass
         return f"no PDF preview ({e})"
 
 
@@ -958,6 +1021,11 @@ def map_contract(state, outputs, agent):
         ("controls", r"baseline|control|对照|基线|comparison"),
         ("setup", r"setup|environment|hardware|software|环境|设置|硬件"),
         ("steps", r"step|procedure|protocol|pipeline|流程|步骤"),
+        ("docx_path", r"\bdocx\b|word"),
+        ("pdf_path", r"\bpdf\b|preview"),
+        ("param_table_md", r"param_table|table|参数表"),
+        ("review_text", r"\breview\b|\breport\b|核查报告"),
+        ("notes_list", r"^notes?$"),
         ("methods_text", r"method|section|chapter|draft|text|manuscript|正文|章节|草稿|content|markdown|artifact|产物|稿|deliverable|output|result|writing|写作"),
         ("summary", r"summary|摘要|概述|overview"),
         ("files", r"files|outputs|artifacts|paths|文件"),
@@ -1064,7 +1132,7 @@ def build(work, out, provisional=False):
             write_docx(clean, os.path.join(out, "methods.docx"))
         except Exception as e:  # noqa
             problems.append(f"DOCX not written: {e}")
-        preview_note = render_pdf(md_to_html(clean, state["case_id"]), os.path.join(out, "methods_preview.pdf"), os.path.join(out, "methods_preview.png"))
+        preview_note = render_pdf(md_to_html(clean, state["case_id"]), os.path.join(out, "methods_preview.pdf"), os.path.join(out, "methods_preview.png"), docx_path=os.path.join(out, "methods.docx"))
     # parameter table files
     import csv
     with open(os.path.join(out, "param_table.csv"), "w", encoding="utf-8-sig", newline="") as fh:
@@ -1160,6 +1228,11 @@ def build(work, out, provisional=False):
         "controls": [r for r in rows if r["category"] == "control"], "setup": [r for r in rows if r["category"] == "setup"],
         "steps": sec(r"step|procedure|pipeline|流程|步骤|方法") or [u["text"] for u in units if u.get("list_item")],
         "summary": f"{len(content_units)} text units, {len(cited)} facts cited, {len(rows)} parameters, {len(open_q)} questions, status {status}",
+        "docx_path": os.path.join(out, "methods.docx") if os.path.exists(os.path.join(out, "methods.docx")) else None,
+        "pdf_path": os.path.join(out, "methods_preview.pdf") if os.path.exists(os.path.join(out, "methods_preview.pdf")) else None,
+        "param_table_md": table_md,
+        "review_text": "\n".join([f"# Review — {state['case_id']}", f"status: {status} — {reason}", f"facts cited: {len(cited)}, questions: {len(qs)}"]),
+        "notes_list": agent.get("notes") or [],
         "files": ["methods.md", "methods_annotated.md", "methods_annotated.html", "methods.docx", "methods_preview.pdf", "methods_preview.png", "param_table.csv", "param_table.md",
                   "fact_map.json", "questions.md", "check_report.json", "review.md", "result.json"],
     }
@@ -1196,7 +1269,8 @@ def build(work, out, provisional=False):
     for x in rep.items:
         if x["level"] != "info":
             R.append(f"- {x['level'].upper()} {x['code']} l.{x.get('line')}: {x['msg']}" + (f" (accepted: {x['accepted']})" if x.get("accepted") else ""))
-    C.write_text(os.path.join(out, "review.md"), "\n".join(R) + "\n")
+    review_md = "\n".join(R) + "\n"
+    C.write_text(os.path.join(out, "review.md"), review_md)
     return status, rep, result
 
 

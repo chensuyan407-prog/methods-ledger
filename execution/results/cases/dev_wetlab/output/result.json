@@ -1268,24 +1268,24 @@
  "status_reason": "all checks pass; 11 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.1.0"
+  "version": "0.2.0"
  },
  "language": "en",
  "profile": "wetlab",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out\\result.json"
  },
  "preview": "pymupdf story, 2 pages",
  "sources": [
@@ -1364,8 +1364,8 @@
      "u27"
     ],
     "facts_cited": [
-     "F13",
-     "F14"
+     "F14",
+     "F13"
     ]
    },
    {
@@ -1386,13 +1386,13 @@
      "u27"
     ],
     "facts_cited": [
+     "F28",
+     "F42",
      "F26",
      "F41",
-     "F28",
-     "F15",
-     "F42",
      "F27",
-     "F29"
+     "F29",
+     "F15"
     ]
    },
    {
@@ -1424,9 +1424,9 @@
      "u22"
     ],
     "facts_cited": [
-     "F31",
+     "F4",
      "F3",
-     "F4"
+     "F31"
     ]
    },
    {
@@ -1487,9 +1487,9 @@
      "u21"
     ],
     "facts_cited": [
-     "F2",
      "F6",
-     "F7"
+     "F7",
+     "F2"
     ]
    },
    {
@@ -1728,7 +1728,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-23T10:20:32Z",
+    "at": "2026-11-25T06:12:30Z",
     "draft_sha256": "df97673ed8c5bbac37123638708db19284a83738ccc878e30eab188068ad1f29",
     "fails": 0,
     "warns": 2,
@@ -1887,5 +1887,5 @@
   "F50"
  ],
  "n_facts_extracted": 65,
- "built_at": "2026-11-23T10:20:32Z"
+ "built_at": "2026-11-25T06:12:30Z"
 }

@@ -1233,24 +1233,24 @@
  "status_reason": "all checks pass; 15 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.1.0"
+  "version": "0.2.0"
  },
  "language": "zh",
  "profile": "stats",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out\\result.json"
  },
  "preview": "pymupdf story, 2 pages",
  "sources": [
@@ -1329,8 +1329,8 @@
      "u37"
     ],
     "facts_cited": [
-     "F9",
      "F17",
+     "F9",
      "F10"
     ]
    },
@@ -1389,9 +1389,9 @@
      "u32"
     ],
     "facts_cited": [
+     "F5",
      "F6",
-     "F4",
-     "F5"
+     "F4"
     ]
    },
    {
@@ -1448,8 +1448,8 @@
      "u29"
     ],
     "facts_cited": [
-     "F2",
-     "F3"
+     "F3",
+     "F2"
     ]
    },
    {
@@ -1696,7 +1696,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-23T10:20:33Z",
+    "at": "2026-11-25T06:12:31Z",
     "draft_sha256": "4aa7a4c2d2114e0dab7ff2aecff81cab4f5eec61f98e8b384a979f1cb8120561",
     "fails": 0,
     "warns": 1,
@@ -2048,5 +2048,5 @@
   "F31"
  ],
  "n_facts_extracted": 31,
- "built_at": "2026-11-23T10:20:33Z"
+ "built_at": "2026-11-25T06:12:31Z"
 }

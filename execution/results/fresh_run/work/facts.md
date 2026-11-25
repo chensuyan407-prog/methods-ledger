@@ -1,4 +1,4 @@
-# Facts for case `fresh_xgb_credit` (methods-ledger 0.1.0)
+# Facts for case `fresh_xgb_credit` (methods-ledger 0.2.0)
 profile: **generic** · target language: **en** · 24 facts from 4 files · 0 conflicts · 11 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

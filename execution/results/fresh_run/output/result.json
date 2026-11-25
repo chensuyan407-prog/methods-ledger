@@ -867,24 +867,24 @@
  "status_reason": "all checks pass; 17 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.1.0"
+  "version": "0.2.0"
  },
  "language": "en",
  "profile": "generic",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_0uvtj6u0\\output\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\result.json"
  },
  "preview": "pymupdf story, 2 pages",
  "checks": {
@@ -1026,10 +1026,10 @@
      "u22"
     ],
     "facts_cited": [
-     "F18",
-     "F4",
      "F2",
-     "F6"
+     "F18",
+     "F6",
+     "F4"
     ]
    },
    {
@@ -1253,7 +1253,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-23T10:21:02Z",
+    "at": "2026-11-25T06:13:00Z",
     "draft_sha256": "e406b2df407c75f8873b65a448b25d2133e682f21ab51f86cc26dac36b4aa792",
     "fails": 0,
     "warns": 5,
@@ -1393,5 +1393,5 @@
   "F24"
  ],
  "n_facts_extracted": 24,
- "built_at": "2026-11-23T10:21:02Z"
+ "built_at": "2026-11-25T06:13:00Z"
 }

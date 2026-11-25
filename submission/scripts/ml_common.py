@@ -9,7 +9,7 @@ import zipfile
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULES_DIR = os.path.join(SKILL_DIR, "rules")
 CJK = "㐀-䶿一-鿿豈-﫿"
-VERSION = "0.1.0"
+VERSION = "0.2.0"
 
 
 def load_json(path, default=None):
@@ -132,11 +132,60 @@ def read_pdf(path):
     return r.stdout.decode("utf-8", errors="replace"), {"extractor": "pdftotext"}
 
 
+def has_xlsx_sheets(path):
+    try:
+        with zipfile.ZipFile(path) as z:
+            return any(re.match(r"xl/worksheets/sheet\d+\.xml$", n) for n in z.namelist())
+    except Exception:
+        return False
+
+
+def read_xlsx(path):
+    """Extract worksheet rows from .xlsx via stdlib zipfile + ElementTree (tab-separated per sheet)."""
+    import xml.etree.ElementTree as ET
+    with zipfile.ZipFile(path) as z:
+        sheets = sorted(n for n in z.namelist() if re.match(r"xl/worksheets/sheet\d+\.xml$", n))
+        if not sheets:
+            raise ValueError("xlsx without worksheets")
+        shared = []
+        if "xl/sharedStrings.xml" in z.namelist():
+            root = ET.fromstring(z.read("xl/sharedStrings.xml"))
+            for si in root.iter():
+                if si.tag.endswith("}si") or si.tag == "si":
+                    shared.append("".join(t.text or "" for t in si.iter() if (t.tag.endswith("}t") or t.tag == "t")))
+        out = []
+        for sp in sheets:
+            out.append(f"[sheet: {os.path.basename(sp)}]")
+            root = ET.fromstring(z.read(sp))
+            for row in root.iter():
+                if not (row.tag.endswith("}row") or row.tag == "row"):
+                    continue
+                vals = []
+                for c in row:
+                    t = c.attrib.get("t", "")
+                    val = ""
+                    for ch in c:
+                        if ch.tag.endswith("}v") or ch.tag == "v":
+                            raw = ch.text or ""
+                            if t == "s" and raw.isdigit() and int(raw) < len(shared):
+                                val = shared[int(raw)]
+                            else:
+                                val = raw
+                        elif (ch.tag.endswith("}is") or ch.tag == "is") and t == "inlineStr":
+                            val = "".join(x.text or "" for x in ch.iter() if (x.tag.endswith("}t") or x.tag == "t"))
+                    vals.append(val.strip())
+                if any(vals):
+                    out.append("\t".join(vals))
+        return "\n".join(out)
+
+
 def read_any(path):
-    """(text, info). Never raises for text files; PDF/DOCX failures are raised as ValueError."""
+    """(text, info). Never raises for text files; PDF/DOCX/XLSX failures are raised as ValueError."""
     ext = os.path.splitext(path)[1].lower()
     if ext == ".docx":
         return read_docx(path), {"encoding": "docx-xml", "repairs": ["DOCX formatting not kept; one line per paragraph"]}
+    if ext == ".xlsx":
+        return read_xlsx(path), {"encoding": "xlsx-xml", "repairs": ["XLSX extracted as tab-separated sheet rows"]}
     if ext == ".pdf":
         text, info = read_pdf(path)
         info["repairs"] = ["text extracted from PDF; line numbers refer to the extracted text ([page N] markers)"]

@@ -1,4 +1,4 @@
-# methods-ledger 0.1.0 — submission bundle for 写作09｜方法与实验章节写作
+# methods-ledger 0.2.0 — submission bundle for 写作09｜方法与实验章节写作
 
 Agent Skill that writes or completes the **Methods / Experiments section** (方法与实验章节) from scattered materials —
 configs, code, run logs, environment files, data cards, notebooks, CSV tables, lab notes, old drafts — so that every number,

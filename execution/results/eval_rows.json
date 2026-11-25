@@ -2441,7 +2441,7 @@
   {
    "check": "huge_log_200k_lines",
    "pass": true,
-   "detail": "27.4 s, 527 facts"
+   "detail": "26.5 s, 527 facts"
   },
   {
    "check": "no_draft_partial",
@@ -2482,6 +2482,11 @@
    "check": "pdf_material_read",
    "pass": true,
    "detail": "learning rate 0.004 from PDF"
+  },
+  {
+   "check": "v02_xlsx_multiline_secnum_cmds",
+   "pass": true,
+   "detail": "xlsx=True ml_kw=True status=success fails=[]"
   }
  ]
 }

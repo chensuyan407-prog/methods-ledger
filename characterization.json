@@ -86,7 +86,7 @@
    "actual_value": 1.0,
    "reference_value": 1.0,
    "score": 1.0,
-   "explanation": "missing_case_json, empty_materials, binary_and_xlsx_skipped, malformed_configs_no_crash, huge_log_200k_lines, no_draft_partial, bad_tags_reported, deterministic_rebuild, json_schema_contract_mapped, invalid_agent_json_ignored, old_draft_diff_recorded, docx_material_read, pdf_material_read",
+   "explanation": "missing_case_json, empty_materials, binary_and_xlsx_skipped, malformed_configs_no_crash, huge_log_200k_lines, no_draft_partial, bad_tags_reported, deterministic_rebuild, json_schema_contract_mapped, invalid_agent_json_ignored, old_draft_diff_recorded, docx_material_read, pdf_material_read, v02_xlsx_multiline_secnum_cmds",
    "evidence_artifact": "metrics",
    "tolerance": 0.0
   }

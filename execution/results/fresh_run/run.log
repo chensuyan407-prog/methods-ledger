@@ -1,6 +1,6 @@
 $ python.exe ml_extract.py --case case.json --out output --work work
 case_id: fresh_xgb_credit
-language: en   profile: generic   files: 4   facts: 24   conflicts: 0   gaps: 11   (0.01 s)
+language: en   profile: generic   files: 4   facts: 24   conflicts: 0   gaps: 11   (0.03 s)
 contract fields: methods, parameters, sources, open_questions
   case           case.json  facts=0
   table          metrics.csv  facts=7

@@ -364,6 +364,48 @@ def robustness(tmp_root):
     got_pdf = any(f["canon"] == "learning_rate" and "0.004" in f["value"] for f in fx)
     rec("docx_material_read", got_docx, "seed 11 + incubation 30 min from DOCX")
     rec("pdf_material_read", got_pdf or not pdf_ok, "learning rate 0.004 from PDF" if pdf_ok else "PyMuPDF missing, skipped")
+    # R10 v0.2: real xlsx material + multiline kwargs + section numbering 2.1.1 + python3/pip equiv + prose steps + new contract fields
+    d = tempfile.mkdtemp(dir=tmp_root)
+    inp = os.path.join(d, "in")
+    os.makedirs(inp)
+    C.dump_json({
+        "case_id": "v02_features",
+        "task": "Write the Methods section in English.",
+        "output_contract": {"methods": "", "docx": "", "pdf": "", "param_table": "", "review": ""}
+    }, os.path.join(inp, "case.json"))
+    with open(os.path.join(inp, "requirements.txt"), "w", encoding="utf-8") as fh:
+        fh.write("torch==2.2.1\n")
+    with open(os.path.join(inp, "train.py"), "w", encoding="utf-8") as fh:
+        fh.write("def run():\n    train_test_split(\n        data,\n        test_size=0.2,\n        random_state=42\n    )\n")
+    with open(os.path.join(inp, "run.sh"), "w", encoding="utf-8") as fh:
+        fh.write("python train.py --seed $SEED\n")
+    with zipfile.ZipFile(os.path.join(inp, "metrics.xlsx"), "w") as z:
+        z.writestr("xl/sharedStrings.xml", '<sst xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><si><t>metric</t></si><si><t>value</t></si><si><t>accuracy</t></si></sst>')
+        z.writestr("xl/worksheets/sheet1.xml", '<worksheet xmlns="http://schemas.openxmlformats.org/spreadsheetml/2006/main"><sheetData><row r="1"><c t="s"><v>0</v></c><c t="s"><v>1</v></c></row><row r="2"><c t="s"><v>2</v></c><c><v>0.915</v></c></row></sheetData></worksheet>')
+    quiet(ml_extract.main, ["--case", os.path.join(inp, "case.json"), "--out", os.path.join(d, "out"), "--work", os.path.join(d, "work")])
+    fx = C.load_json(os.path.join(d, "work", "facts.json"))["facts"]
+    has_xlsx = any("0.915" in f["value"] for f in fx)
+    has_ml_kw = any(f["canon"] == "split_seed" and "42" in f["value"] for f in fx)
+    sseed = next(f["id"] for f in fx if f["canon"] == "split_seed")
+    storch = next(f["id"] for f in fx if f["canon"] == "torch")
+    sacc = next(f["id"] for f in fx if "0.915" in f["value"])
+    draft_v02 = (
+        "# 2 Methods\n\n"
+        "## 2.1.1 Procedure\n\n"
+        "First, data were split with seed 42 [[" + sseed + "]] (test fraction [[GAP: confirm test size 0.2]]). "
+        "Next, the model was evaluated using PyTorch 2.2.1 [[" + storch + "]] reaching accuracy 0.915 [[" + sacc + "]]. "
+        "Dataset details [[GAP: dataset name and version]], hardware [[GAP: GPU/CPU hardware]], "
+        "hyperparameters [[GAP: optimizer, learning rate, batch size, epochs]], code version [[GAP: git commit]], and baseline [[GAP: baseline and repeats]].\n\n"
+        "```bash\npip install -r requirements.txt\npython3 train.py --seed 42\n```\n\n"
+        "## 2.1.2 Limitations\n\n"
+        "- Only one seed 42 [[" + sseed + "]] was run; stage-2 was not tested.\n"
+    )
+    st, rep, r = build_with(os.path.join(d, "work"), os.path.join(d, "out"), draft_v02)
+    ok_v02 = (
+        has_xlsx and has_ml_kw and st == "success"
+        and isinstance(r.get("methods"), str) and bool(r.get("docx")) and bool(r.get("param_table")) and bool(r.get("review"))
+    )
+    rec("v02_xlsx_multiline_secnum_cmds", ok_v02, f"xlsx={has_xlsx} ml_kw={has_ml_kw} status={st} fails={[x['code'] for x in rep.fails()]}")
     return res
 
 

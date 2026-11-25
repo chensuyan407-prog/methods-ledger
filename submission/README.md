@@ -1,4 +1,4 @@
-# methods-ledger 0.1.0 — Methods / Experiments section writer with source checking
+# methods-ledger 0.2.0 — Methods / Experiments section writer with source checking
 
 Skill for 写作09｜方法与实验章节写作. It turns scattered research materials (configs, code, run logs, environment
 files, data cards, notebooks, tables, lab notes, old drafts) into an editable Methods/Experiments chapter in which

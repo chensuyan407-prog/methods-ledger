@@ -3,34 +3,33 @@ name: methods-ledger
 description: Writes or completes the Methods / Experiments section (方法与实验章节) of a paper, thesis or report from scattered research materials - configs (YAML/JSON/TOML/INI/mdp/INCAR/LAMMPS), code (argparse defaults, seeds, splits, optimizers), run logs, requirements/conda files, data cards, CSV tables, lab notes, old drafts (md/txt/docx/pdf). Scripts extract every parameter, setting, dataset/split, baseline and reproducibility item with file:line provenance, flag conflicting values across sources and missing elements, then check the agent's draft sentence by sentence - every number, version, model/GPU name and command must trace to a material line, cited values must match, conflicts must be marked for the author, six element groups (steps, setup, parameters, data/splits, controls/evaluation, reproducibility/limitations) must be covered or marked as gaps, and limitations must name concrete failure conditions. Outputs an editable chapter (Markdown + DOCX + PDF/PNG preview), a sourced parameter table, a fact map, an author question list and result.json. Use for 写方法章节, 实验设置, 参数表, 复现说明, methods section, experimental setup, reproducibility checklist. Do not use for literature reviews, results/discussion interpretation or language-only polishing.
 ---
 
-# methods-ledger (v0.1.0)
+# methods-ledger (v0.2.0)
 
 You write the chapter; the scripts find the facts and check that the chapter says only what the materials say.
-Python 3.8+ standard library (PyMuPDF optional: PDF materials and the PDF/PNG preview). `SKILL_DIR` = directory of this
-file (`/skills/weekly-skill`). Paths below use the evaluator layout (`/input`, `/app/work`, `/app/output`).
+Python 3.8+ standard library (PyMuPDF optional; LibreOffice+pdftoppm fallback for PDF/PNG preview; `.xlsx`/`.docx` read natively).
+Set `SKILL_DIR` to the directory containing this `SKILL.md` (in Harbor typically `/skills/weekly-skill`, or discover with `SKILL_DIR=$(dirname "$(ls /skills/*/SKILL.md 2>/dev/null | head -1)")`). Paths below use `/input`, `/app/work`, `/app/output`.
 
 ## Workflow (6-12 model requests; a valid result.json exists after step 1)
 
 1. **Extract** (seconds):
    ```bash
-   python $SKILL_DIR/scripts/ml_extract.py --case /input/case.json --out /app/output --work /app/work
+   python3 "$SKILL_DIR/scripts/ml_extract.py" --case /input/case.json --out /app/output --work /app/work
    ```
    Prints case_id, contract fields, target language (zh/en, from task; override `--lang`), domain profile
    (ml | wetlab | simulation | stats | generic; override `--profile`), each file's class and fact count, conflicts.
    Writes `work/facts.md` (read this), `work/facts.json`, `work/draft.md` (heading skeleton), `work/agent.json`, and a
    provisional `output/result.json` (status partial).
-2. **Read** `task.md`/case requirements (audience, language, section numbering, what to include) and `work/facts.md`:
+2. **Read** `task.md`/case requirements (audience, language, section numbering, `output_contract`, what to include) and `work/facts.md`:
    facts by category with ids, logged series, numeric lines of notes/logs, pipeline commands, **conflicts (C#)**, **gaps (G#)**.
    Open a material file only when facts.md is not enough (e.g. to understand the order of stages).
-3. **Write `work/draft.md`** in the target language (rules below). Tag right after the clause a fact supports.
+3. **Write `work/draft.md`** in the target language (rules below). Put `[[F12]]`, `[[GAP: ...]]`, or `[[CONFIRM: ...]]` **inside the sentence before its closing period** so clause attribution and gap coverage match cleanly.
 4. **Build + check**:
    ```bash
-   python $SKILL_DIR/scripts/ml_build.py --work /app/work --out /app/output
+   python3 "$SKILL_DIR/scripts/ml_build.py" --work /app/work --out /app/output
    ```
    Exit 1 = FAILs remain (outputs are written anyway, status partial). Every FAIL names the line, the token and the
    candidate facts.
-5. **Fix every FAIL** and rebuild (idempotent). Read warnings; fix the ones that are real. Stop after 3 rounds or when
-   the budget is short - the last build is always a usable, honestly labelled result.
+5. **Fix every FAIL & verify outputs**: rebuild until exit `0` (or budget is short — the last build is always valid). Before finishing, inspect `/app/output/result.json` to confirm all `output_contract` fields from `case.json` are populated (set custom overrides in `work/agent.json -> fields` if needed) and inspect `methods_preview.png` if available.
 
 ## Tags in draft.md
 
