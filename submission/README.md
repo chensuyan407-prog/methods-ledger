@@ -1,4 +1,4 @@
-# methods-ledger 0.2.0 — Methods / Experiments section writer with source checking
+# methods-ledger 0.3.0 — Methods / Experiments section writer with source checking
 
 Skill for 写作09｜方法与实验章节写作. It turns scattered research materials (configs, code, run logs, environment
 files, data cards, notebooks, tables, lab notes, old drafts) into an editable Methods/Experiments chapter in which
@@ -35,7 +35,7 @@ Input: `case.json` (any of `case_id`, `task`/`instruction`, `output_contract` as
 ```bash
 python scripts/ml_extract.py --case /input/case.json --out /app/output --work /app/work [--lang zh|en] [--profile ml|wetlab|simulation|stats|generic]
 # agent reads work/facts.md, writes work/draft.md (+ optional work/agent.json)
-python scripts/ml_build.py --work /app/work --out /app/output     # exit 1 while FAILs remain
+python scripts/ml_build.py --work /app/work --out /app/output     # exit 0 once draft.md has text; FLAGs are marked, not blocking
 ```
 
 ### What extraction recognises
@@ -60,16 +60,21 @@ default > notes) is shown but never applied silently.
 
 `[[F12]]`, `[[@file:line]]`, `[[@file:line#key]]`, `[[SRC: file:line]]`, `[[CALC: expr = value | F…]]`, `[[CONFIRM: …]]`,
 `[[GAP: …]]`, `[[PARAM_TABLE]]`. A tag covers the clause since the previous tag; numbers in that clause must be values of
-the tagged facts (T02 otherwise), numbers in untagged text must still trace somewhere (N01 fail / N03 warn).
+the tagged facts (T02 otherwise), numbers in untagged text must still trace somewhere (N01 flag / N03 warn).
+Since 0.3.0 tag slips never block: `[F12]`, `【F12】`, `(F12)`, `[[f12; F13]]` are normalised; unknown ids (T01), malformed
+tags (T03) and untagged numbers are warnings and the number is auto-aligned to the matching fact; a valid tag that points
+at a different value stays a T02 flag. Flag-level findings (N01, N02, C01, M01, P02, K01, L02, T02, K10/K11) no longer make
+the run `partial` or exit 1: unsourced numbers/names get an inline 【待核实】/[UNVERIFIED] marker, unmarked conflicts a
+【待作者确认】 marker, the rest an appended "open items for the author" list, and all of them go to `questions.md`.
 
 ### Outputs and result.json fields
 
 | field / file | content |
 |---|---|
-| `case_id`, `status`, `status_reason` | `success` = draft present, no FAIL (open author questions listed); `partial` = FAILs left / no draft / provisional; `failed` = nothing readable |
+| `case_id`, `status`, `status_reason` | `success` = chapter built (flags marked in the text, open author questions listed); `partial` = no draft text / provisional; `failed` = nothing readable |
 | contract fields | filled by name: chapter text, parameter rows, fact map, questions, conflicts, uncertainty, change records, repro checklist, limitations, datasets, controls, setup, steps, summary, files; anything else via `agent.json` `fields` (unmapped fields are `null` and listed in `uncertainty`) |
 | `sources` | every material file: class, SHA-256, bytes, number of facts, reading problems |
-| `checks` | fail/warn counts, fail items, coverage per element (`covered` / `marked_gap` / `missing`), limitation stats, pipeline stages described |
+| `checks` | flag (`fail`)/warn counts, flag items, `flagged_in_text`, `blocking`, coverage per element (`covered` / `marked_gap` / `missing`), limitation stats, pipeline stages described |
 | `needs_confirmation` | gaps (G#), conflicts (C#, with the agent's choice if any), every GAP/CONFIRM written in the draft |
 | `parameters` | name (en/zh), canonical key, value, unit, applies to, source file:line, fact id, source kind, status (cited / conflict / not used; other values) |
 | `change_records` | sentence diff against an old draft found among the materials; build history (fails/warns per build) |
@@ -147,12 +152,13 @@ Fresh-directory run (`execution/results/fresh_run`): only `submission/` copied t
   sentence is complete; one "instrument removed" mutation still matched a GAP sentence mentioning the reader.
 - **Not handled**: XLSX (ask for CSV), scanned PDFs (no OCR), images, LaTeX table parsing, checking that prose *describes*
   a step correctly (only that its numbers and names are sourced). Profiles: ml, wetlab, simulation, stats, generic.
-- **Status semantics**: `success` means no check failed, not that the science is complete; open author questions are listed.
+- **Status semantics**: `success` means a chapter was built and every flagged item is marked in it, not that the science is
+  complete or that no check fired; read `checks.fail_items` and `questions.md`.
 
 ## Self-check
 
 `python ../tests/run_eval.py` (from the bundle) reruns extraction scoring, gold builds, 100 mutations, baselines and 13
-robustness checks in ~30 s. `python scripts/ml_build.py` on the agent's draft is the per-case self-check; `review.md` lists
+robustness checks in ~20 s. `python scripts/ml_build.py` on the agent's draft is the per-case self-check; `review.md` lists
 every finding.
 
-Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.1.0 (2026-11-23).
+Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.3.0 (2026-11-27; 0.1.0 frozen 2026-11-23).

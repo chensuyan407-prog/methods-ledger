@@ -25,10 +25,11 @@ python $SKILL_DIR/scripts/ml_build.py --work /app/work --out /app/output
 ```
 
 If the draft had said "a learning rate of 0.8 [[@xgb_params.json:4]]", the build prints
-`FAIL T02 l.15: 0.8 is not the value of the fact(s) tagged on this clause (F21=0.05); it is the value of F22 (subsample), tagged on another clause - move the tag or correct the value`;
+`FLAG T02 l.15: 0.8 is not the value of the fact(s) tagged on this clause (F21=0.05); it is the value of F22 (subsample), tagged on another clause - move the tag or correct the value`;
 an added sentence "Early stopping after 50 rounds was used." prints
-`FAIL N01 l.23: number 50 has no source in the materials - remove it, replace it with the sourced value, or write [[GAP: ...]]`
-(both verified on this case).
+`FLAG N01 l.23: number 50 has no source in the materials - remove it, replace it with the sourced value, or write [[GAP: ...]]`
+(both verified on this case; since 0.3.0 neither blocks: the build exits 0, lists the T02 item for the author and marks 50 as
+【待核实】/[UNVERIFIED] in methods.md).
 
 ## Output excerpt (`/app/output/methods.md`)
 

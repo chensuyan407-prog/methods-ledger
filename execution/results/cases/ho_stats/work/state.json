@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.2.0",
+ "version": "0.3.0",
  "case_id": "ho_stats_sleep",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_stats\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_stats\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp09yry9ma\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpoep0jth_\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpoep0jth_\\work",
  "lang": "zh",
  "profile": "stats",
  "profile_scores": {
@@ -86,7 +86,7 @@
  "task_excerpt": "撰写“2 研究方法”一节（中文，面向公共卫生期刊），基于问卷说明、数据清洗日志和 R 分析脚本。需写清研究对象与纳排标准、样本量、变量、统计方法、软件版本与复现，以及局限。",
  "stages": [],
  "series": [],
- "extract_seconds": 0.01,
+ "extract_seconds": 0.03,
  "case_keys": [
   "case_id",
   "output_contract",

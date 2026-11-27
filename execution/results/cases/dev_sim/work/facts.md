@@ -1,4 +1,4 @@
-# Facts for case `dev_sim_water` (methods-ledger 0.2.0)
+# Facts for case `dev_sim_water` (methods-ledger 0.3.0)
 profile: **simulation** · target language: **zh** · 44 facts from 5 files · 1 conflicts · 4 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

@@ -1,10 +1,10 @@
-# Facts for case `fresh_xgb_credit` (methods-ledger 0.2.0)
-profile: **generic** · target language: **en** · 24 facts from 4 files · 0 conflicts · 11 gaps/questions
+# Facts for case `fresh_xgb_credit` (methods-ledger 0.3.0)
+profile: **generic** · target language: **en** · 21 facts from 4 files · 0 conflicts · 11 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 
 ## Files
 - `case.json` — case, 2 lines, 0 facts
-- `metrics.csv` — table, 5 lines, 7 facts
+- `metrics.csv` — table, 5 lines, 4 facts
 - `model.ipynb` — code, 40 lines, 11 facts
 - `xgb_params.json` — config, 8 lines, 6 facts
 
@@ -14,52 +14,49 @@ Write the Methods section (English) for the credit-default model from the notebo
 ## Experimental setup / 实验设置
 | id | key (canonical) | value | source | kind | flags |
 |---|---|---|---|---|---|
-| F10 | version.xgboost (software) | `2.0.3` | model.ipynb:14 | log |  |
+| F7 | version.xgboost (software) | `2.0.3` | model.ipynb:14 | log |  |
 
 ## Parameters / 参数
 | id | key (canonical) | value | source | kind | flags |
 |---|---|---|---|---|---|
-| F21 | learning_rate (learning_rate) | `0.05` | xgb_params.json:4 | config |  |
-| F20 | max_depth (max_depth) | `5` | xgb_params.json:3 | config |  |
-| F19 | n_estimators (n_estimators) | `400` | xgb_params.json:2 | config |  |
+| F18 | learning_rate (learning_rate) | `0.05` | xgb_params.json:4 | config |  |
+| F17 | max_depth (max_depth) | `5` | xgb_params.json:3 | config |  |
+| F16 | n_estimators (n_estimators) | `400` | xgb_params.json:2 | config |  |
 
 ## Datasets and splits / 数据集与划分
 | id | key (canonical) | value | source | kind | flags |
 |---|---|---|---|---|---|
-| F15 | n_splits (k_folds) | `5` | model.ipynb:6 | code | keyword argument |
-| F16 | shuffle (shuffle) | `True` | model.ipynb:6 | code | keyword argument |
-| F13 | random_state (split_seed) | `11` | model.ipynb:5 | code | keyword argument |
-| F17 | random_state (split_seed) | `11` | model.ipynb:6 | code | keyword argument |
-| F14 | stratify (stratify) | `y` | model.ipynb:5 | code | keyword argument |
-| F12 | test_size (test_size) | `0.25` | model.ipynb:5 | code | scope test; keyword argument |
+| F12 | n_splits (k_folds) | `5` | model.ipynb:6 | code | keyword argument |
+| F13 | shuffle (shuffle) | `True` | model.ipynb:6 | code | keyword argument |
+| F10 | random_state (split_seed) | `11` | model.ipynb:5 | code | keyword argument |
+| F14 | random_state (split_seed) | `11` | model.ipynb:6 | code | keyword argument |
+| F11 | stratify (stratify) | `y` | model.ipynb:5 | code | keyword argument |
+| F9 | test_size (test_size) | `0.25` | model.ipynb:5 | code | scope test; keyword argument |
 
 ## Baselines / controls and evaluation / 对照与评价
 | id | key (canonical) | value | source | kind | flags |
 |---|---|---|---|---|---|
-| F18 | metric (metric) | `roc_auc_score` | model.ipynb:12 | code |  |
-| F2 | auc_cv_mean.metric (metric) | `auc_cv_mean` | metrics.csv:2 | table |  |
-| F4 | auc_cv_sd.metric (metric) | `auc_cv_sd` | metrics.csv:3 | table |  |
-| F6 | auc_test.metric (metric) | `auc_test` | metrics.csv:4 | table |  |
+| F15 | metric (metric) | `roc_auc_score` | model.ipynb:12 | code |  |
 
 ## Reproducibility and limitations / 可复现性与限制
 | id | key (canonical) | value | source | kind | flags |
 |---|---|---|---|---|---|
-| F24 | random_state (seed) | `11` | xgb_params.json:7 | config |  |
+| F21 | random_state (seed) | `11` | xgb_params.json:7 | config |  |
 
 ## Other structured values (not mapped to a known key)
 | id | key | value | source | kind |
 |---|---|---|---|---|
 | F1 | n_rows | `3` | metrics.csv:1 | table |
-| F3 | auc_cv_mean.value | `0.776` | metrics.csv:2 | table |
-| F5 | auc_cv_sd.value | `0.006` | metrics.csv:3 | table |
-| F7 | auc_test.value | `0.781` | metrics.csv:4 | table |
-| F22 | subsample | `0.8` | xgb_params.json:5 | config |
-| F23 | colsample_bytree | `0.8` | xgb_params.json:6 | config |
+| F2 | auc_cv_mean | `0.776` | metrics.csv:2 | table |
+| F3 | auc_cv_sd | `0.006` | metrics.csv:3 | table |
+| F4 | auc_test | `0.781` | metrics.csv:4 | table |
+| F19 | subsample | `0.8` | xgb_params.json:5 | config |
+| F20 | colsample_bytree | `0.8` | xgb_params.json:6 | config |
 
 ## Lines with numbers in notes / data cards / drafts (cite them like any fact)
-- F8 `model.ipynb:8` train rows: 22500, test rows: 7500
-- F9 `model.ipynb:14` xgboost 2.0.3
-- F11 `model.ipynb:15` test AUC 0.781
+- F5 `model.ipynb:8` train rows: 22500, test rows: 7500
+- F6 `model.ipynb:14` xgboost 2.0.3
+- F8 `model.ipynb:15` test AUC 0.781
 
 ## Conflicts (must be marked [[CONFIRM: ...]] or resolved in agent.json)
 none found

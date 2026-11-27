@@ -10,7 +10,7 @@
 - [ ] **G8** (gap, repro) Give the code commit/tag and the exact commands to reproduce the reported numbers.
 - [ ] **G9** (gap, repro) How can readers obtain the data (URL/DOI, license, access restrictions)?
 - [ ] **G10** (gap, repro) Which conditions were not tested (data, scale, hardware, settings) and where is the method expected to fail?
-- [ ] **G11** (gap, control) Only one seed value appears in the materials: were results from a single run? If several runs, list their seeds. — facts F24
+- [ ] **G11** (gap, control) Only one seed value appears in the materials: were results from a single run? If several runs, list their seeds. — facts F21
 - [ ] **Q-u10** (draft_gap) Name, source/URL and version of the credit default dataset; preprocessing of features
 - [ ] **Q-u16** (draft_gap) Which baseline (e.g. logistic regression) and under which tuning budget?
 - [ ] **Q-u17** (draft_gap) Repeat with several seeds?

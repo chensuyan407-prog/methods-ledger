@@ -338,9 +338,16 @@ def extract_common_patterns(rel, text, F, kind):
     """Hardware, versions, seeds, commits, commands, split counts, epoch totals - any file type."""
     stages = []
     lines = text.split("\n")
+    big, shapes = len(lines) > 20000, set()
     for ln, line in enumerate(lines, 1):
         if len(line) > 2000:
             line = line[:2000]
+        if big:
+            # very large files (step logs): scan each line shape once; repeated step lines are series, read by extract_log
+            shape = re.sub(r"\d+", "0", line)
+            if shape in shapes:
+                continue
+            shapes.add(shape)
         for m in GPU_RE.finditer(line):
             F.add(rel, ln, kind, "gpu", m.group(0).strip(), context=line, canon="hardware", how="pattern")
         for m in CPU_RE.finditer(line):
@@ -587,6 +594,17 @@ def extract_env(rel, text, F):
 
 
 def extract_table(rel, text, F):
+    if "[sheet:" in text:
+        blocks = re.split(r"(?m)^\[sheet:\s*([^\]]+)\]\s*$", text)
+        if len(blocks) >= 3:
+            info = {"rows": 0, "sheets": []}
+            for k in range(1, len(blocks), 2):
+                sname, body_txt = blocks[k].strip(), blocks[k + 1].strip()
+                if body_txt:
+                    sub = extract_table(f"{rel}#{sname}", body_txt, F)
+                    info["rows"] += sub.get("rows", 0)
+                    info["sheets"].append(sname)
+            return info
     delim = "\t" if rel.lower().endswith(".tsv") or text.count("\t") > text.count(",") else ","
     rows = list(csv.reader(io.StringIO(text), delimiter=delim))
     rows = [r for r in rows if any(c.strip() for c in r)]
@@ -596,6 +614,21 @@ def extract_table(rel, text, F):
     body = rows[1:]
     info = {"rows": len(body), "columns": header}
     F.add(rel, 1, "table", "n_rows", str(len(body)), context="header: " + ", ".join(header)[:200], canon=None, how="table-size")
+    is_kv = (len(header) >= 2 and re.search(r"(?i)^(param|parameter|name|key|setting|metric|item|参数|名称)", header[0])
+             and re.search(r"(?i)^(val|value|值)", header[1]))
+    unit_col = next((idx for idx, h in enumerate(header[2:], 2) if re.search(r"(?i)^unit|单位", h)), None)
+    if is_kv and len(body) <= 80:
+        for i, r in enumerate(body, 2):
+            kname = r[0].strip() if r else ""
+            val = r[1].strip() if len(r) > 1 else ""
+            unit = r[unit_col].strip() if unit_col is not None and len(r) > unit_col else ""
+            if not kname or not val:
+                continue
+            full_val = f"{val} {unit}".strip() if unit and unit not in val else val
+            canon, how = C.canon_key(kname, rel)
+            F.add(rel, i, "table", kname, full_val, context=f"{kname} = {full_val}", path=kname,
+                  canon=canon, how=how or "table-kv", extra={"row_label": kname, "unit": unit})
+        return info
     if len(body) <= 80:
         for i, r in enumerate(body, 2):
             label = r[0].strip() if r else ""
@@ -886,6 +919,43 @@ def load_case(case_path):
     return case, info
 
 
+MATERIAL_KEYS = ("materials", "material", "files", "inputs", "attachments", "sources", "documents", "artifacts", "data")
+
+
+def inline_materials(case):
+    """(safe file name, text) for material contents embedded in case.json under material-like keys."""
+    out, seen = [], set()
+
+    def name_ok(n, i):
+        n = re.sub(r"[^\w.\-]+", "_", os.path.basename(str(n or "")))[:80].strip("._")
+        n = n or f"material_{i}.txt"
+        if "." not in n:
+            n += ".txt"
+        while n in seen:
+            n = "_" + n
+        seen.add(n)
+        return n
+
+    def walk(v, i=0, name=None):
+        if isinstance(v, dict):
+            body = next((v[k] for k in ("content", "text", "body", "source", "raw") if isinstance(v.get(k), str)), None)
+            if body is not None and body.strip():
+                out.append((name_ok(v.get("name") or v.get("filename") or v.get("path") or v.get("title") or name, len(out)), body))
+                return
+            for k, x in v.items():
+                walk(x, i, k)
+        elif isinstance(v, list):
+            for j, x in enumerate(v):
+                walk(x, j, name)
+        elif isinstance(v, str) and name and ("\n" in v and len(v) > 40) and not os.path.exists(v):
+            out.append((name_ok(name, len(out)), v))
+    if isinstance(case, dict):
+        for k in MATERIAL_KEYS:
+            if k in case:
+                walk(case[k], 0, None if isinstance(case[k], (list, dict)) else k)
+    return out
+
+
 def contract_fields(case):
     oc = case.get("output_contract") or case.get("outputs") or case.get("output_fields") or case.get("expected_output") or case.get("deliverables") or {}
     fields = []
@@ -1062,13 +1132,18 @@ def main(argv=None):
     ap.add_argument("--max-file-mb", type=float, default=20.0)
     a = ap.parse_args(argv)
     t0 = time.time()
+    if a.case and not os.path.exists(a.case) and not a.input_dir:
+        alt = next((p for p in ("/input/case.json", os.path.join("input", "case.json"), "case.json") if os.path.exists(p)), None)
+        if alt:
+            print(f"case.json not at {a.case}; using {alt}")
+            a.case = alt
     case, cinfo = load_case(a.case)
     in_dir = a.input_dir or (os.path.dirname(os.path.abspath(a.case)) if a.case else ".")
     case_id = str(case.get("case_id") or case.get("id") or os.path.basename(os.path.normpath(in_dir)) or "case")
     files, problems = [], list(cinfo["problems"])
     task_text = ""
     for cand in ("task.md", "TASK.md", "task.txt"):
-        for d in (in_dir, os.path.dirname(in_dir)):
+        for d in (in_dir, os.path.dirname(in_dir), "/app", "/input"):
             p = os.path.join(d, cand)
             if os.path.exists(p) and not task_text:
                 task_text = C.read_any(p)[0]
@@ -1079,14 +1154,39 @@ def main(argv=None):
         elif isinstance(v, (list, dict)):
             task_text += "\n" + json.dumps(v, ensure_ascii=False)
     paths = []
-    for r, ds, fs in os.walk(in_dir):
-        ds[:] = sorted(d for d in ds if not d.startswith(".") and d not in ("__pycache__", "node_modules"))
-        for fn in sorted(fs):
-            paths.append(os.path.join(r, fn))
+    explicit_paths = []
+    if isinstance(case, dict):
+        for mk in MATERIAL_KEYS:
+            if mk in case:
+                for v in json.dumps(case[mk], ensure_ascii=False).split('"'):
+                    cand = v if os.path.isabs(v) else os.path.join(in_dir, v)
+                    if v and len(v) < 300 and os.path.isfile(cand) and os.path.abspath(cand) not in {os.path.abspath(p) for p in explicit_paths}:
+                        explicit_paths.append(cand)
+    if explicit_paths:
+        paths = explicit_paths
+    else:
+        for r, ds, fs in os.walk(in_dir):
+            ds[:] = sorted(d for d in ds if not d.startswith(".") and d not in ("__pycache__", "node_modules"))
+            for fn in sorted(fs):
+                paths.append(os.path.join(r, fn))
     # files referenced in case.json outside in_dir
     for v in json.dumps(case, ensure_ascii=False).split('"'):
         if "/" in v and len(v) < 300 and os.path.isfile(v) and os.path.abspath(v) not in {os.path.abspath(p) for p in paths}:
             paths.append(v)
+        elif "/" in v and len(v) < 300 and os.path.isdir(v) and os.path.abspath(v) != os.path.abspath(in_dir):
+            for r, ds, fs in os.walk(v):
+                ds[:] = sorted(d for d in ds if not d.startswith(".") and d != "__pycache__")
+                paths += [os.path.join(r, fn) for fn in sorted(fs) if os.path.abspath(os.path.join(r, fn)) not in {os.path.abspath(p) for p in paths}]
+    # material text embedded in case.json (e.g. {"materials": [{"name": "train.yaml", "content": "..."}]})
+    inline = inline_materials(case)
+    if inline:
+        idir = os.path.join(a.work, "case_inline")
+        os.makedirs(idir, exist_ok=True)
+        for name, body in inline:
+            p = os.path.join(idir, name)
+            C.write_text(p, body)
+            paths.append(p)
+        problems.append(f"{len(inline)} material(s) embedded in case.json written to {idir}")
     F = Facts()
     stages, series, texts = [], {}, []
     state_files = []
@@ -1179,7 +1279,7 @@ def main(argv=None):
     state = {"tool": "methods-ledger", "version": C.VERSION, "case_id": case_id, "case_path": os.path.abspath(a.case) if a.case else None,
              "input_dir": os.path.abspath(in_dir), "out": os.path.abspath(a.out), "work": os.path.abspath(a.work), "lang": lang,
              "profile": profile, "profile_scores": pscores, "contract": contract, "files": state_files, "problems": problems,
-             "task_excerpt": task_text.strip()[:1500], "stages": stages, "series": [{"file": k[0], "key": k[1], **v} for k, v in series.items()],
+             "task_excerpt": task_text.strip(), "stages": stages, "series": [{"file": k[0], "key": k[1], **v} for k, v in series.items()],
              "extract_seconds": round(time.time() - t0, 2), "case_keys": sorted(case.keys()) if isinstance(case, dict) else []}
     os.makedirs(a.work, exist_ok=True)
     C.dump_json({"facts": facts, "conflicts": conflicts, "gaps": gaps}, os.path.join(a.work, "facts.json"))
@@ -1193,8 +1293,17 @@ def main(argv=None):
         C.dump_json({"resolutions": [], "accept": {}, "fields": {}, "notes": [], "status_note": ""}, agentp)
     # provisional result so that a valid file exists even if the run is cut off
     import ml_build  # noqa
+    prev = None
     try:
-        ml_build.build(a.work, a.out, provisional=True)
+        prev = C.load_json(os.path.join(a.out, "result.json"))
+    except Exception:  # noqa
+        pass
+    try:
+        bad_case = any("case.json is not valid JSON" in p for p in cinfo.get("problems", []))
+        if prev and prev.get("status") == "success" and (prev.get("case_id") == case_id or bad_case):
+            print("kept existing result.json (status success); rerun ml_build.py to refresh it")
+        else:
+            ml_build.build(a.work, a.out, provisional=True)
     except Exception as e:  # noqa
         C.dump_json({"case_id": case_id, "status": "partial", "status_reason": f"provisional result; build failed: {e}",
                      **{f["name"]: None for f in contract}}, os.path.join(a.out, "result.json"))

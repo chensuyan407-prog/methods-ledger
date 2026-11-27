@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.2.0",
+ "version": "0.3.0",
  "case_id": "dev_wetlab_mtt",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmp92tw56yp\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpxe5n3l4a\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpxe5n3l4a\\work",
  "lang": "en",
  "profile": "wetlab",
  "profile_scores": {
@@ -104,7 +104,7 @@
  "task_excerpt": "Write the Materials and Methods section (English, for a cell-biology journal) for the cytotoxicity experiment, from the protocol, notebook, plate-reader export and analysis script. Include materials, procedure, instrument settings, controls, replicates, statistics, and reproducibility notes. Do not invent values.",
  "stages": [],
  "series": [],
- "extract_seconds": 0.01,
+ "extract_seconds": 0.02,
  "case_keys": [
   "case_id",
   "output_contract",

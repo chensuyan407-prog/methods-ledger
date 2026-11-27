@@ -1,4 +1,4 @@
-# Facts for case `dev_wetlab_mtt` (methods-ledger 0.2.0)
+# Facts for case `dev_wetlab_mtt` (methods-ledger 0.3.0)
 profile: **wetlab** · target language: **en** · 65 facts from 6 files · 2 conflicts · 4 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

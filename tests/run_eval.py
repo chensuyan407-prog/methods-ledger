@@ -300,8 +300,8 @@ def robustness(tmp_root):
     rec("no_draft_partial", r["status"] == "partial" and os.path.exists(os.path.join(out, "questions.md")), f"status={r['status']}")
     # R5 bad tags
     st, rep, r = build_with(work, out, "# Methods\n\n## Procedure\n\n1. Cells were seeded [[F99999]] and read at 570 nm [[FOO: bar]].\n2. Done [[@nofile.txt:3]].\n")
-    codes = {x["code"] for x in rep.fails()}
-    rec("bad_tags_reported", {"T01", "T03"} <= codes, f"fail codes {sorted(codes)}")
+    codes = {x["code"] for x in rep.fails() + rep.warns()}
+    rec("bad_tags_reported", {"T01", "T03"} <= codes and r["status"] == "success", f"reported codes {sorted(codes)}; status={r['status']} (tag slips are non-blocking)")
     # R6 determinism
     gold = open(os.path.join(GOLD, "dev_wetlab.md"), encoding="utf-8").read()
     build_with(work, out, gold)

@@ -5,35 +5,14 @@
   {
    "level": "warn",
    "code": "T05",
-   "msg": "cited F18 (metric = roc_auc_score) but its value is not in the sentence",
+   "msg": "cited F15 (metric = roc_auc_score) but its value is not in the sentence",
    "unit": "u8",
    "line": 7
   },
   {
    "level": "warn",
    "code": "T05",
-   "msg": "cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence",
-   "unit": "u15",
-   "line": 21
-  },
-  {
-   "level": "warn",
-   "code": "T05",
-   "msg": "cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence",
-   "unit": "u15",
-   "line": 21
-  },
-  {
-   "level": "warn",
-   "code": "T05",
-   "msg": "cited F6 (auc_test.metric = auc_test) but its value is not in the sentence",
-   "unit": "u15",
-   "line": 21
-  },
-  {
-   "level": "warn",
-   "code": "T05",
-   "msg": "cited F14 (stratify = y) but its value is not in the sentence",
+   "msg": "cited F11 (stratify = y) but its value is not in the sentence",
    "unit": "u17",
    "line": 21
   }
@@ -87,7 +66,7 @@
    ],
    "facts_cited": [
     "F12",
-    "F15"
+    "F9"
    ]
   },
   {
@@ -114,7 +93,7 @@
     "u20"
    ],
    "facts_cited": [
-    "F10"
+    "F7"
    ]
   },
   {
@@ -128,7 +107,7 @@
     "u22"
    ],
    "facts_cited": [
-    "F24"
+    "F21"
    ]
   },
   {
@@ -168,14 +147,10 @@
     "u12",
     "u15",
     "u17",
-    "u19",
     "u22"
    ],
    "facts_cited": [
-    "F2",
-    "F18",
-    "F6",
-    "F4"
+    "F15"
    ]
   },
   {

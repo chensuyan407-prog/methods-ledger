@@ -7,7 +7,7 @@
   "ho_nlp_en",
   "ho_stats"
  ],
- "seconds": 30.9,
+ "seconds": 22.7,
  "extraction": {
   "fact_recall": 0.9213,
   "facts_expected": 127,

@@ -1780,24 +1780,24 @@
  "status_reason": "all checks pass; 13 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.2.0"
+  "version": "0.3.0"
  },
  "language": "en",
  "profile": "ml",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out\\result.json"
  },
  "preview": "pymupdf story, 3 pages",
  "sources": [
@@ -1868,6 +1868,8 @@
  ],
  "checks": {
   "fail": 0,
+  "flagged_in_text": [],
+  "blocking": 0,
   "warn": 14,
   "accepted": 0,
   "fail_items": [],
@@ -1932,8 +1934,8 @@
     "status": "missing",
     "units": [],
     "facts_cited": [
-     "F80",
-     "F65"
+     "F65",
+     "F80"
     ]
    },
    {
@@ -1965,14 +1967,14 @@
      "u29"
     ],
     "facts_cited": [
-     "F72",
-     "F41",
+     "F63",
      "F64",
+     "F44",
      "F61",
      "F79",
-     "F44",
-     "F63",
-     "F43"
+     "F43",
+     "F72",
+     "F41"
     ]
    },
    {
@@ -1989,11 +1991,11 @@
      "u26"
     ],
     "facts_cited": [
+     "F36",
+     "F57",
      "F14",
      "F9",
-     "F36",
-     "F7",
-     "F57"
+     "F7"
     ]
    },
    {
@@ -2006,10 +2008,10 @@
      "u18"
     ],
     "facts_cited": [
+     "F52",
      "F54",
-     "F53",
      "F55",
-     "F52"
+     "F53"
     ]
    },
    {
@@ -2027,11 +2029,11 @@
      "u29"
     ],
     "facts_cited": [
+     "F2",
+     "F11",
      "F21",
      "F23",
-     "F11",
      "F19",
-     "F2",
      "F16"
     ]
    },
@@ -2106,8 +2108,8 @@
     ],
     "facts_cited": [
      "F6",
-     "F8",
      "F32",
+     "F8",
      "F13"
     ]
    },
@@ -2391,7 +2393,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-25T06:12:31Z",
+    "at": "2026-11-27T03:14:17Z",
     "draft_sha256": "67a5861d9a6ab883e4fc98a6438ea4a5297043504210c86f97bd8ece347e8352",
     "fails": 0,
     "warns": 14,
@@ -3118,5 +3120,5 @@
   "F81"
  ],
  "n_facts_extracted": 83,
- "built_at": "2026-11-25T06:12:31Z"
+ "built_at": "2026-11-27T03:14:17Z"
 }

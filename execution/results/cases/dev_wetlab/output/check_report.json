@@ -7,7 +7,8 @@
    "code": "N02",
    "msg": "name 'IC50' does not occur in any material file",
    "unit": "u20",
-   "line": 18
+   "line": 18,
+   "token": "IC50"
   },
   {
    "level": "warn",
@@ -60,13 +61,13 @@
     "u27"
    ],
    "facts_cited": [
-    "F28",
-    "F42",
     "F26",
-    "F41",
-    "F27",
+    "F15",
     "F29",
-    "F15"
+    "F42",
+    "F28",
+    "F27",
+    "F41"
    ]
   },
   {
@@ -161,9 +162,9 @@
     "u21"
    ],
    "facts_cited": [
+    "F2",
     "F6",
-    "F7",
-    "F2"
+    "F7"
    ]
   },
   {

@@ -2,7 +2,7 @@
 
 status: **success** — all checks pass; 17 items await author confirmation
 
-facts extracted 24, cited 22; conflicts 0; questions 17; preview: pymupdf story, 2 pages
+facts extracted 21, cited 19; conflicts 0; questions 17; preview: pymupdf story, 2 pages
 
 ## Coverage
 - E_steps (steps, required): **covered** — ordered procedure (input -> operation -> output per step)
@@ -21,8 +21,5 @@ facts extracted 24, cited 22; conflicts 0; questions 17; preview: pymupdf story,
 - E_limits (repro, required): **covered** — limitations tied to concrete failure scenarios
 
 ## Check items
-- WARN T05 l.7: cited F18 (metric = roc_auc_score) but its value is not in the sentence
-- WARN T05 l.21: cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence
-- WARN T05 l.21: cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence
-- WARN T05 l.21: cited F6 (auc_test.metric = auc_test) but its value is not in the sentence
-- WARN T05 l.21: cited F14 (stratify = y) but its value is not in the sentence
+- WARN T05 l.7: cited F15 (metric = roc_auc_score) but its value is not in the sentence
+- WARN T05 l.21: cited F11 (stratify = y) but its value is not in the sentence

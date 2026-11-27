@@ -19,28 +19,28 @@
   "text": "Data split: the credit table credit_2019.csv was split into training and test sets with test_size = 0.25, stratified by the label , giving 22500 training and 7500 test rows .",
   "facts": [
    {
-    "id": "F12",
+    "id": "F9",
     "value": "0.25",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "test_size"
    },
    {
-    "id": "F13",
+    "id": "F10",
     "value": "11",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "random_state"
    },
    {
-    "id": "F14",
+    "id": "F11",
     "value": "y",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "stratify"
    },
    {
-    "id": "F8",
+    "id": "F5",
     "value": "train rows: 22500, test rows: 7500",
     "source": "model.ipynb:8",
     "kind": "doc",
@@ -57,19 +57,19 @@
    {
     "token": "0.25",
     "value": 0.25,
-    "matched": "F12",
+    "matched": "F9",
     "how": "tag"
    },
    {
     "token": "22500",
     "value": 22500.0,
-    "matched": "F8",
+    "matched": "F5",
     "how": "tag"
    },
    {
     "token": "7500",
     "value": 7500.0,
-    "matched": "F8",
+    "matched": "F5",
     "how": "tag"
    }
   ],
@@ -97,21 +97,21 @@
   "text": "Model selection: an XGBoost classifier was evaluated by stratified 5-fold cross-validation with shuffling on the training set.",
   "facts": [
    {
-    "id": "F15",
+    "id": "F12",
     "value": "5",
     "source": "model.ipynb:6",
     "kind": "code",
     "key": "n_splits"
    },
    {
-    "id": "F16",
+    "id": "F13",
     "value": "True",
     "source": "model.ipynb:6",
     "kind": "code",
     "key": "shuffle"
    },
    {
-    "id": "F17",
+    "id": "F14",
     "value": "11",
     "source": "model.ipynb:6",
     "kind": "code",
@@ -122,7 +122,7 @@
    {
     "token": "5",
     "value": 5.0,
-    "matched": "F15",
+    "matched": "F12",
     "how": "tag"
    }
   ],
@@ -150,7 +150,7 @@
   "text": "Final model and test: the classifier was refit with the parameters below and evaluated once on the test set by ROC AUC .",
   "facts": [
    {
-    "id": "F18",
+    "id": "F15",
     "value": "roc_auc_score",
     "source": "model.ipynb:12",
     "kind": "code",
@@ -190,35 +190,35 @@
   "text": "The model used 400 trees of maximum depth 5 , a learning rate of 0.05 , row subsampling 0.8 and column subsampling 0.8 per tree .",
   "facts": [
    {
-    "id": "F19",
+    "id": "F16",
     "value": "400",
     "source": "xgb_params.json:2",
     "kind": "config",
     "key": "n_estimators"
    },
    {
-    "id": "F20",
+    "id": "F17",
     "value": "5",
     "source": "xgb_params.json:3",
     "kind": "config",
     "key": "max_depth"
    },
    {
-    "id": "F21",
+    "id": "F18",
     "value": "0.05",
     "source": "xgb_params.json:4",
     "kind": "config",
     "key": "learning_rate"
    },
    {
-    "id": "F22",
+    "id": "F19",
     "value": "0.8",
     "source": "xgb_params.json:5",
     "kind": "config",
     "key": "subsample"
    },
    {
-    "id": "F23",
+    "id": "F20",
     "value": "0.8",
     "source": "xgb_params.json:6",
     "kind": "config",
@@ -229,31 +229,31 @@
    {
     "token": "400",
     "value": 400.0,
-    "matched": "F19",
+    "matched": "F16",
     "how": "tag"
    },
    {
     "token": "5",
     "value": 5.0,
-    "matched": "F20",
+    "matched": "F17",
     "how": "tag"
    },
    {
     "token": "0.05",
     "value": 0.05,
-    "matched": "F21",
+    "matched": "F18",
     "how": "tag"
    },
    {
     "token": "0.8",
     "value": 0.8,
-    "matched": "F22",
+    "matched": "F19",
     "how": "tag"
    },
    {
     "token": "0.8",
     "value": 0.8,
-    "matched": "F23",
+    "matched": "F20",
     "how": "tag"
    }
   ],
@@ -282,64 +282,43 @@
   "facts": [
    {
     "id": "F2",
-    "value": "auc_cv_mean",
-    "source": "metrics.csv:2",
-    "kind": "table",
-    "key": "auc_cv_mean.metric"
-   },
-   {
-    "id": "F3",
     "value": "0.776",
     "source": "metrics.csv:2",
     "kind": "table",
-    "key": "auc_cv_mean.value"
+    "key": "auc_cv_mean"
    },
    {
-    "id": "F4",
-    "value": "auc_cv_sd",
-    "source": "metrics.csv:3",
-    "kind": "table",
-    "key": "auc_cv_sd.metric"
-   },
-   {
-    "id": "F5",
+    "id": "F3",
     "value": "0.006",
     "source": "metrics.csv:3",
     "kind": "table",
-    "key": "auc_cv_sd.value"
+    "key": "auc_cv_sd"
    },
    {
-    "id": "F6",
-    "value": "auc_test",
-    "source": "metrics.csv:4",
-    "kind": "table",
-    "key": "auc_test.metric"
-   },
-   {
-    "id": "F7",
+    "id": "F4",
     "value": "0.781",
     "source": "metrics.csv:4",
     "kind": "table",
-    "key": "auc_test.value"
+    "key": "auc_test"
    }
   ],
   "numbers": [
    {
     "token": "0.776",
     "value": 0.776,
-    "matched": "F3",
+    "matched": "F2",
     "how": "tag"
    },
    {
     "token": "0.006",
     "value": 0.006,
-    "matched": "F5",
+    "matched": "F3",
     "how": "tag"
    },
    {
     "token": "0.781",
     "value": 0.781,
-    "matched": "F7",
+    "matched": "F4",
     "how": "tag"
    }
   ],
@@ -369,28 +348,28 @@
   "text": "A single random seed (11) was used for splitting and the model ; no statistical test was run .",
   "facts": [
    {
-    "id": "F12",
+    "id": "F9",
     "value": "0.25",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "test_size"
    },
    {
-    "id": "F13",
+    "id": "F10",
     "value": "11",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "random_state"
    },
    {
-    "id": "F14",
+    "id": "F11",
     "value": "y",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "stratify"
    },
    {
-    "id": "F24",
+    "id": "F21",
     "value": "11",
     "source": "xgb_params.json:7",
     "kind": "config",
@@ -401,7 +380,7 @@
    {
     "token": "11",
     "value": 11.0,
-    "matched": "F13",
+    "matched": "F10",
     "how": "tag"
    }
   ],
@@ -420,14 +399,14 @@
   "text": "Software: xgboost 2.0.3 .",
   "facts": [
    {
-    "id": "F9",
+    "id": "F6",
     "value": "xgboost 2.0.3",
     "source": "model.ipynb:14",
     "kind": "doc",
     "key": "output_line"
    },
    {
-    "id": "F10",
+    "id": "F7",
     "value": "2.0.3",
     "source": "model.ipynb:14",
     "kind": "log",
@@ -437,7 +416,7 @@
   "numbers": [
    {
     "token": "2.0.3",
-    "matched": "F9",
+    "matched": "F6",
     "how": "version-tag"
    }
   ],
@@ -469,35 +448,35 @@
   "text": "- Results rest on one split seed (11) and one test set of 7500 rows ; variance across splits is unknown. - Hyperparameters were not reported as tuned; only the fixed values in xgb_params.json were evaluated .",
   "facts": [
    {
-    "id": "F12",
+    "id": "F9",
     "value": "0.25",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "test_size"
    },
    {
-    "id": "F13",
+    "id": "F10",
     "value": "11",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "random_state"
    },
    {
-    "id": "F14",
+    "id": "F11",
     "value": "y",
     "source": "model.ipynb:5",
     "kind": "code",
     "key": "stratify"
    },
    {
-    "id": "F8",
+    "id": "F5",
     "value": "train rows: 22500, test rows: 7500",
     "source": "model.ipynb:8",
     "kind": "doc",
     "key": "output_line"
    },
    {
-    "id": "F19",
+    "id": "F16",
     "value": "400",
     "source": "xgb_params.json:2",
     "kind": "config",
@@ -508,13 +487,13 @@
    {
     "token": "11",
     "value": 11.0,
-    "matched": "F13",
+    "matched": "F10",
     "how": "tag"
    },
    {
     "token": "7500",
     "value": 7500.0,
-    "matched": "F8",
+    "matched": "F5",
     "how": "tag"
    }
   ],

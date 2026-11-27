@@ -2441,7 +2441,7 @@
   {
    "check": "huge_log_200k_lines",
    "pass": true,
-   "detail": "26.5 s, 527 facts"
+   "detail": "12.7 s, 527 facts"
   },
   {
    "check": "no_draft_partial",
@@ -2451,7 +2451,7 @@
   {
    "check": "bad_tags_reported",
    "pass": true,
-   "detail": "fail codes ['K01', 'T01', 'T03', 'T06']"
+   "detail": "reported codes ['K01', 'K02', 'K03', 'N03', 'T01', 'T03', 'T06']; status=success (tag slips are non-blocking)"
   },
   {
    "check": "deterministic_rebuild",

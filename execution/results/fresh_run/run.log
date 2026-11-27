@@ -1,9 +1,9 @@
 $ python.exe ml_extract.py --case case.json --out output --work work
 case_id: fresh_xgb_credit
-language: en   profile: generic   files: 4   facts: 24   conflicts: 0   gaps: 11   (0.03 s)
+language: en   profile: generic   files: 4   facts: 21   conflicts: 0   gaps: 11   (0.05 s)
 contract fields: methods, parameters, sources, open_questions
   case           case.json  facts=0
-  table          metrics.csv  facts=7
+  table          metrics.csv  facts=4
   code           model.ipynb  facts=11
   config         xgb_params.json  facts=6
 next: read <tmp>\work\facts.md, write <tmp>\work\draft.md
@@ -12,13 +12,10 @@ next: read <tmp>\work\facts.md, write <tmp>\work\draft.md
 $ cp tests/fresh_case/draft.md work/draft.md   (draft written by the agent after reading work/facts.md)
 $ python.exe ml_build.py --work work --out output
 status: success - all checks pass; 17 items await author confirmation
-fails 0  warns 5  facts cited 22  questions 17  preview: pymupdf story, 2 pages
-warn T05 l.7: cited F18 (metric = roc_auc_score) but its value is not in the sentence
-warn T05 l.21: cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence
-warn T05 l.21: cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence
-warn T05 l.21: cited F6 (auc_test.metric = auc_test) but its value is not in the sentence
-warn T05 l.21: cited F14 (stratify = y) but its value is not in the sentence
+flags 0 (auto-marked in methods.md, non-blocking)  warns 2  facts cited 19  questions 17  preview: pymupdf story, 2 pages
+warn T05 l.7: cited F15 (metric = roc_auc_score) but its value is not in the sentence
+warn T05 l.21: cited F11 (stratify = y) but its value is not in the sentence
 outputs in <tmp>\output
 
 [exit 0]
-total 0.5 s
+total 0.8 s

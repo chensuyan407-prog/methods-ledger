@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.2.0",
+ "version": "0.3.0",
  "case_id": "ho_nlp_sst2",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpym2r8q98\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmpuzgyg_o2\\work",
  "lang": "en",
  "profile": "ml",
  "profile_scores": {
@@ -144,7 +144,7 @@
    "max": 0.9622
   }
  ],
- "extract_seconds": 0.01,
+ "extract_seconds": 0.05,
  "case_keys": [
   "case_id",
   "output_contract",

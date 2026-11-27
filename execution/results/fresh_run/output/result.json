@@ -1,6 +1,6 @@
 {
  "case_id": "fresh_xgb_credit",
- "methods": "# Methods\n\n## Procedure\n\n1. Data split: the credit table credit_2019.csv was split into training and test sets with test_size = 0.25, stratified by the label, giving 22500 training and 7500 test rows.\n2. Model selection: an XGBoost classifier was evaluated by stratified 5-fold cross-validation with shuffling on the training set.\n3. Final model and test: the classifier was refit with the parameters below and evaluated once on the test set by ROC AUC.\n\n## Data\n\nThe dataset name and source of credit_2019.csv are not documented [TO CONFIRM: Name, source/URL and version of the credit default dataset; preprocessing of features].\n\n## Parameters\n\nThe model used 400 trees of maximum depth 5, a learning rate of 0.05, row subsampling 0.8 and column subsampling 0.8 per tree.\n\n\n\n| Parameter | Value | Unit | Applies to | Source | Status |\n|---|---|---|---|---|---|\n| learning rate | 0.05 | - | - | xgb_params.json:4 (F21) | cited in text |\n| maximum depth | 5 | - | - | xgb_params.json:3 (F20) | cited in text |\n| number of estimators | 400 | - | - | xgb_params.json:2 (F19) | cited in text |\n| cross-validation folds | 5 | - | - | model.ipynb:6 (F15) | cited in text |\n| shuffling | True | - | - | model.ipynb:6 (F16) | cited in text |\n| data-split seed | 11 | - | - | model.ipynb:5 (F13) | cited in text |\n| stratification | y | - | - | model.ipynb:5 (F14) | cited in text |\n| test fraction | 0.25 | - | test | model.ipynb:5 (F12) | cited in text |\n| software (xgboost) | 2.0.3 | - | - | model.ipynb:14 (F10) | cited in text |\n| evaluation metric | roc_auc_score | - | - | model.ipynb:12 (F18) | cited in text; other values: metrics.csv:2=auc_cv_mean; metrics.csv:3=auc_cv_sd; metrics.csv:4=auc_test |\n| random seed | 11 | - | - | xgb_params.json:7 (F24) | cited in text |\n\n\n\n## Evaluation and controls\n\nCross-validated AUC was 0.776 ± 0.006 (mean ± SD over folds) and test AUC 0.781. No baseline model was reported [TO CONFIRM: Which baseline (e.g. logistic regression) and under which tuning budget?]. A single random seed (11) was used for splitting and the model [TO CONFIRM: Repeat with several seeds?]; no statistical test was run [TO CONFIRM: Uncertainty estimate for the test AUC (e.g. bootstrap CI)?].\n\n## Reproducibility\n\nSoftware: xgboost 2.0.3 [TO CONFIRM: Python, scikit-learn and pandas versions; hardware]. Code version and run command [TO CONFIRM: Commit of the notebook and how it is executed].\n\n## Limitations\n\n- Results rest on one split seed (11) and one test set of 7500 rows; variance across splits is unknown.\n- Hyperparameters were not reported as tuned; only the fixed values in xgb_params.json were evaluated.\n",
+ "methods": "# Methods\n\n## Procedure\n\n1. Data split: the credit table credit_2019.csv was split into training and test sets with test_size = 0.25, stratified by the label, giving 22500 training and 7500 test rows.\n2. Model selection: an XGBoost classifier was evaluated by stratified 5-fold cross-validation with shuffling on the training set.\n3. Final model and test: the classifier was refit with the parameters below and evaluated once on the test set by ROC AUC.\n\n## Data\n\nThe dataset name and source of credit_2019.csv are not documented [TO CONFIRM: Name, source/URL and version of the credit default dataset; preprocessing of features].\n\n## Parameters\n\nThe model used 400 trees of maximum depth 5, a learning rate of 0.05, row subsampling 0.8 and column subsampling 0.8 per tree.\n\n\n\n| Parameter | Value | Unit | Applies to | Source | Status |\n|---|---|---|---|---|---|\n| learning rate | 0.05 | - | - | xgb_params.json:4 (F18) | cited in text |\n| maximum depth | 5 | - | - | xgb_params.json:3 (F17) | cited in text |\n| number of estimators | 400 | - | - | xgb_params.json:2 (F16) | cited in text |\n| cross-validation folds | 5 | - | - | model.ipynb:6 (F12) | cited in text |\n| shuffling | True | - | - | model.ipynb:6 (F13) | cited in text |\n| data-split seed | 11 | - | - | model.ipynb:5 (F10) | cited in text |\n| stratification | y | - | - | model.ipynb:5 (F11) | cited in text |\n| test fraction | 0.25 | - | test | model.ipynb:5 (F9) | cited in text |\n| software (xgboost) | 2.0.3 | - | - | model.ipynb:14 (F7) | cited in text |\n| evaluation metric | roc_auc_score | - | - | model.ipynb:12 (F15) | cited in text |\n| random seed | 11 | - | - | xgb_params.json:7 (F21) | cited in text |\n\n\n\n## Evaluation and controls\n\nCross-validated AUC was 0.776 ± 0.006 (mean ± SD over folds) and test AUC 0.781. No baseline model was reported [TO CONFIRM: Which baseline (e.g. logistic regression) and under which tuning budget?]. A single random seed (11) was used for splitting and the model [TO CONFIRM: Repeat with several seeds?]; no statistical test was run [TO CONFIRM: Uncertainty estimate for the test AUC (e.g. bootstrap CI)?].\n\n## Reproducibility\n\nSoftware: xgboost 2.0.3 [TO CONFIRM: Python, scikit-learn and pandas versions; hardware]. Code version and run command [TO CONFIRM: Commit of the notebook and how it is executed].\n\n## Limitations\n\n- Results rest on one split seed (11) and one test set of 7500 rows; variance across splits is unknown.\n- Hyperparameters were not reported as tuned; only the fixed values in xgb_params.json were evaluated.\n",
  "parameters": [
   {
    "name": "learning rate",
@@ -10,7 +10,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "xgb_params.json:4",
-   "fact": "F21",
+   "fact": "F18",
    "source_kind": "config",
    "status": "cited in text",
    "other_values": [],
@@ -26,7 +26,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "xgb_params.json:3",
-   "fact": "F20",
+   "fact": "F17",
    "source_kind": "config",
    "status": "cited in text",
    "other_values": [],
@@ -42,7 +42,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "xgb_params.json:2",
-   "fact": "F19",
+   "fact": "F16",
    "source_kind": "config",
    "status": "cited in text",
    "other_values": [],
@@ -58,7 +58,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:6",
-   "fact": "F15",
+   "fact": "F12",
    "source_kind": "code",
    "status": "cited in text",
    "other_values": [],
@@ -74,7 +74,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:6",
-   "fact": "F16",
+   "fact": "F13",
    "source_kind": "code",
    "status": "cited in text",
    "other_values": [],
@@ -90,7 +90,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:5",
-   "fact": "F13",
+   "fact": "F10",
    "source_kind": "code",
    "status": "cited in text",
    "other_values": [],
@@ -107,7 +107,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:5",
-   "fact": "F14",
+   "fact": "F11",
    "source_kind": "code",
    "status": "cited in text",
    "other_values": [],
@@ -123,7 +123,7 @@
    "unit": "",
    "applies_to": "test",
    "source": "model.ipynb:5",
-   "fact": "F12",
+   "fact": "F9",
    "source_kind": "code",
    "status": "cited in text",
    "other_values": [],
@@ -139,7 +139,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:14",
-   "fact": "F10",
+   "fact": "F7",
    "source_kind": "log",
    "status": "cited in text",
    "other_values": [],
@@ -155,19 +155,12 @@
    "unit": "",
    "applies_to": "-",
    "source": "model.ipynb:12",
-   "fact": "F18",
+   "fact": "F15",
    "source_kind": "code",
-   "status": "cited in text; other values: metrics.csv:2=auc_cv_mean; metrics.csv:3=auc_cv_sd; metrics.csv:4=auc_test",
-   "other_values": [
-    "metrics.csv:2=auc_cv_mean",
-    "metrics.csv:3=auc_cv_sd",
-    "metrics.csv:4=auc_test"
-   ],
+   "status": "cited in text",
+   "other_values": [],
    "all_sources": [
-    "model.ipynb:12",
-    "metrics.csv:2",
-    "metrics.csv:3",
-    "metrics.csv:4"
+    "model.ipynb:12"
    ]
   },
   {
@@ -178,7 +171,7 @@
    "unit": "",
    "applies_to": "-",
    "source": "xgb_params.json:7",
-   "fact": "F24",
+   "fact": "F21",
    "source_kind": "config",
    "status": "cited in text",
    "other_values": [],
@@ -208,28 +201,28 @@
    "text": "Data split: the credit table credit_2019.csv was split into training and test sets with test_size = 0.25, stratified by the label , giving 22500 training and 7500 test rows .",
    "facts": [
     {
-     "id": "F12",
+     "id": "F9",
      "value": "0.25",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "test_size"
     },
     {
-     "id": "F13",
+     "id": "F10",
      "value": "11",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "random_state"
     },
     {
-     "id": "F14",
+     "id": "F11",
      "value": "y",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "stratify"
     },
     {
-     "id": "F8",
+     "id": "F5",
      "value": "train rows: 22500, test rows: 7500",
      "source": "model.ipynb:8",
      "kind": "doc",
@@ -246,19 +239,19 @@
     {
      "token": "0.25",
      "value": 0.25,
-     "matched": "F12",
+     "matched": "F9",
      "how": "tag"
     },
     {
      "token": "22500",
      "value": 22500.0,
-     "matched": "F8",
+     "matched": "F5",
      "how": "tag"
     },
     {
      "token": "7500",
      "value": 7500.0,
-     "matched": "F8",
+     "matched": "F5",
      "how": "tag"
     }
    ],
@@ -286,21 +279,21 @@
    "text": "Model selection: an XGBoost classifier was evaluated by stratified 5-fold cross-validation with shuffling on the training set.",
    "facts": [
     {
-     "id": "F15",
+     "id": "F12",
      "value": "5",
      "source": "model.ipynb:6",
      "kind": "code",
      "key": "n_splits"
     },
     {
-     "id": "F16",
+     "id": "F13",
      "value": "True",
      "source": "model.ipynb:6",
      "kind": "code",
      "key": "shuffle"
     },
     {
-     "id": "F17",
+     "id": "F14",
      "value": "11",
      "source": "model.ipynb:6",
      "kind": "code",
@@ -311,7 +304,7 @@
     {
      "token": "5",
      "value": 5.0,
-     "matched": "F15",
+     "matched": "F12",
      "how": "tag"
     }
    ],
@@ -339,7 +332,7 @@
    "text": "Final model and test: the classifier was refit with the parameters below and evaluated once on the test set by ROC AUC .",
    "facts": [
     {
-     "id": "F18",
+     "id": "F15",
      "value": "roc_auc_score",
      "source": "model.ipynb:12",
      "kind": "code",
@@ -379,35 +372,35 @@
    "text": "The model used 400 trees of maximum depth 5 , a learning rate of 0.05 , row subsampling 0.8 and column subsampling 0.8 per tree .",
    "facts": [
     {
-     "id": "F19",
+     "id": "F16",
      "value": "400",
      "source": "xgb_params.json:2",
      "kind": "config",
      "key": "n_estimators"
     },
     {
-     "id": "F20",
+     "id": "F17",
      "value": "5",
      "source": "xgb_params.json:3",
      "kind": "config",
      "key": "max_depth"
     },
     {
-     "id": "F21",
+     "id": "F18",
      "value": "0.05",
      "source": "xgb_params.json:4",
      "kind": "config",
      "key": "learning_rate"
     },
     {
-     "id": "F22",
+     "id": "F19",
      "value": "0.8",
      "source": "xgb_params.json:5",
      "kind": "config",
      "key": "subsample"
     },
     {
-     "id": "F23",
+     "id": "F20",
      "value": "0.8",
      "source": "xgb_params.json:6",
      "kind": "config",
@@ -418,31 +411,31 @@
     {
      "token": "400",
      "value": 400.0,
-     "matched": "F19",
+     "matched": "F16",
      "how": "tag"
     },
     {
      "token": "5",
      "value": 5.0,
-     "matched": "F20",
+     "matched": "F17",
      "how": "tag"
     },
     {
      "token": "0.05",
      "value": 0.05,
-     "matched": "F21",
+     "matched": "F18",
      "how": "tag"
     },
     {
      "token": "0.8",
      "value": 0.8,
-     "matched": "F22",
+     "matched": "F19",
      "how": "tag"
     },
     {
      "token": "0.8",
      "value": 0.8,
-     "matched": "F23",
+     "matched": "F20",
      "how": "tag"
     }
    ],
@@ -471,64 +464,43 @@
    "facts": [
     {
      "id": "F2",
-     "value": "auc_cv_mean",
-     "source": "metrics.csv:2",
-     "kind": "table",
-     "key": "auc_cv_mean.metric"
-    },
-    {
-     "id": "F3",
      "value": "0.776",
      "source": "metrics.csv:2",
      "kind": "table",
-     "key": "auc_cv_mean.value"
+     "key": "auc_cv_mean"
     },
     {
-     "id": "F4",
-     "value": "auc_cv_sd",
-     "source": "metrics.csv:3",
-     "kind": "table",
-     "key": "auc_cv_sd.metric"
-    },
-    {
-     "id": "F5",
+     "id": "F3",
      "value": "0.006",
      "source": "metrics.csv:3",
      "kind": "table",
-     "key": "auc_cv_sd.value"
+     "key": "auc_cv_sd"
     },
     {
-     "id": "F6",
-     "value": "auc_test",
-     "source": "metrics.csv:4",
-     "kind": "table",
-     "key": "auc_test.metric"
-    },
-    {
-     "id": "F7",
+     "id": "F4",
      "value": "0.781",
      "source": "metrics.csv:4",
      "kind": "table",
-     "key": "auc_test.value"
+     "key": "auc_test"
     }
    ],
    "numbers": [
     {
      "token": "0.776",
      "value": 0.776,
-     "matched": "F3",
+     "matched": "F2",
      "how": "tag"
     },
     {
      "token": "0.006",
      "value": 0.006,
-     "matched": "F5",
+     "matched": "F3",
      "how": "tag"
     },
     {
      "token": "0.781",
      "value": 0.781,
-     "matched": "F7",
+     "matched": "F4",
      "how": "tag"
     }
    ],
@@ -558,28 +530,28 @@
    "text": "A single random seed (11) was used for splitting and the model ; no statistical test was run .",
    "facts": [
     {
-     "id": "F12",
+     "id": "F9",
      "value": "0.25",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "test_size"
     },
     {
-     "id": "F13",
+     "id": "F10",
      "value": "11",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "random_state"
     },
     {
-     "id": "F14",
+     "id": "F11",
      "value": "y",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "stratify"
     },
     {
-     "id": "F24",
+     "id": "F21",
      "value": "11",
      "source": "xgb_params.json:7",
      "kind": "config",
@@ -590,7 +562,7 @@
     {
      "token": "11",
      "value": 11.0,
-     "matched": "F13",
+     "matched": "F10",
      "how": "tag"
     }
    ],
@@ -609,14 +581,14 @@
    "text": "Software: xgboost 2.0.3 .",
    "facts": [
     {
-     "id": "F9",
+     "id": "F6",
      "value": "xgboost 2.0.3",
      "source": "model.ipynb:14",
      "kind": "doc",
      "key": "output_line"
     },
     {
-     "id": "F10",
+     "id": "F7",
      "value": "2.0.3",
      "source": "model.ipynb:14",
      "kind": "log",
@@ -626,7 +598,7 @@
    "numbers": [
     {
      "token": "2.0.3",
-     "matched": "F9",
+     "matched": "F6",
      "how": "version-tag"
     }
    ],
@@ -658,35 +630,35 @@
    "text": "- Results rest on one split seed (11) and one test set of 7500 rows ; variance across splits is unknown. - Hyperparameters were not reported as tuned; only the fixed values in xgb_params.json were evaluated .",
    "facts": [
     {
-     "id": "F12",
+     "id": "F9",
      "value": "0.25",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "test_size"
     },
     {
-     "id": "F13",
+     "id": "F10",
      "value": "11",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "random_state"
     },
     {
-     "id": "F14",
+     "id": "F11",
      "value": "y",
      "source": "model.ipynb:5",
      "kind": "code",
      "key": "stratify"
     },
     {
-     "id": "F8",
+     "id": "F5",
      "value": "train rows: 22500, test rows: 7500",
      "source": "model.ipynb:8",
      "kind": "doc",
      "key": "output_line"
     },
     {
-     "id": "F19",
+     "id": "F16",
      "value": "400",
      "source": "xgb_params.json:2",
      "kind": "config",
@@ -697,13 +669,13 @@
     {
      "token": "11",
      "value": 11.0,
-     "matched": "F13",
+     "matched": "F10",
      "how": "tag"
     },
     {
      "token": "7500",
      "value": 7500.0,
-     "matched": "F8",
+     "matched": "F5",
      "how": "tag"
     }
    ],
@@ -811,7 +783,7 @@
    "question": "Only one seed value appears in the materials: were results from a single run? If several runs, list their seeds.",
    "status": "ambiguous",
    "facts": [
-    "F24"
+    "F21"
    ]
   },
   {
@@ -867,29 +839,31 @@
  "status_reason": "all checks pass; 17 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.2.0"
+  "version": "0.3.0"
  },
  "language": "en",
  "profile": "generic",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh___u9hsa7\\output\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_fresh_w65lbm72\\output\\result.json"
  },
  "preview": "pymupdf story, 2 pages",
  "checks": {
   "fail": 0,
-  "warn": 5,
+  "flagged_in_text": [],
+  "blocking": 0,
+  "warn": 2,
   "accepted": 0,
   "fail_items": [],
   "coverage": [
@@ -941,7 +915,7 @@
     ],
     "facts_cited": [
      "F12",
-     "F15"
+     "F9"
     ]
    },
    {
@@ -968,7 +942,7 @@
      "u20"
     ],
     "facts_cited": [
-     "F10"
+     "F7"
     ]
    },
    {
@@ -982,7 +956,7 @@
      "u22"
     ],
     "facts_cited": [
-     "F24"
+     "F21"
     ]
    },
    {
@@ -1022,14 +996,10 @@
      "u12",
      "u15",
      "u17",
-     "u19",
      "u22"
     ],
     "facts_cited": [
-     "F2",
-     "F18",
-     "F6",
-     "F4"
+     "F15"
     ]
    },
    {
@@ -1182,7 +1152,7 @@
    "question": "Only one seed value appears in the materials: were results from a single run? If several runs, list their seeds.",
    "status": "ambiguous",
    "facts": [
-    "F24"
+    "F21"
    ]
   },
   {
@@ -1243,20 +1213,17 @@
   "G6: baselines with versions and same-budget conditions - missing",
   "G8: code version and run commands - missing",
   "G11: single seed only? - ambiguous",
-  "T05 cited F18 (metric = roc_auc_score) but its value is not in the sentence",
-  "T05 cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence",
-  "T05 cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence",
-  "T05 cited F6 (auc_test.metric = auc_test) but its value is not in the sentence",
-  "T05 cited F14 (stratify = y) but its value is not in the sentence"
+  "T05 cited F15 (metric = roc_auc_score) but its value is not in the sentence",
+  "T05 cited F11 (stratify = y) but its value is not in the sentence"
  ],
  "change_records": {
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-25T06:13:00Z",
-    "draft_sha256": "e406b2df407c75f8873b65a448b25d2133e682f21ab51f86cc26dac36b4aa792",
+    "at": "2026-11-27T03:14:35Z",
+    "draft_sha256": "797f0c3f0509b68e78f6c1d32f584709aa1b762e233b8e1056c095f4b6254f6c",
     "fails": 0,
-    "warns": 5,
+    "warns": 2,
     "changed_sentences": 0,
     "fail_codes": []
    }
@@ -1375,9 +1342,9 @@
   "F5",
   "F6",
   "F7",
-  "F8",
   "F9",
   "F10",
+  "F11",
   "F12",
   "F13",
   "F14",
@@ -1387,11 +1354,8 @@
   "F18",
   "F19",
   "F20",
-  "F21",
-  "F22",
-  "F23",
-  "F24"
+  "F21"
  ],
- "n_facts_extracted": 24,
- "built_at": "2026-11-25T06:13:00Z"
+ "n_facts_extracted": 21,
+ "built_at": "2026-11-27T03:14:35Z"
 }

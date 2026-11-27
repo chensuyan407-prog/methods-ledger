@@ -1154,24 +1154,24 @@
  "status_reason": "all checks pass; 10 items await author confirmation",
  "skill": {
   "name": "methods-ledger",
-  "version": "0.2.0"
+  "version": "0.3.0"
  },
  "language": "zh",
  "profile": "simulation",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_765fymq_\\tmpykopyujx\\out\\result.json"
+  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods.md",
+  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods_annotated.md",
+  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods_annotated.html",
+  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods.docx",
+  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods_preview.pdf",
+  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\methods_preview.png",
+  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\param_table.csv",
+  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\param_table.md",
+  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\fact_map.json",
+  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\questions.md",
+  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\check_report.json",
+  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\review.md",
+  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_tvot7kui\\tmp34erd2cr\\out\\result.json"
  },
  "preview": "pymupdf story, 2 pages",
  "sources": [
@@ -1218,6 +1218,8 @@
  ],
  "checks": {
   "fail": 0,
+  "flagged_in_text": [],
+  "blocking": 0,
   "warn": 0,
   "accepted": 0,
   "fail_items": [],
@@ -1264,12 +1266,12 @@
     ],
     "facts_cited": [
      "F6",
-     "F11",
-     "F8",
-     "F10",
-     "F13",
      "F40",
-     "F43"
+     "F11",
+     "F10",
+     "F43",
+     "F13",
+     "F8"
     ]
    },
    {
@@ -1282,8 +1284,8 @@
      "u20"
     ],
     "facts_cited": [
-     "F35",
-     "F15"
+     "F15",
+     "F35"
     ]
    },
    {
@@ -1544,7 +1546,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-25T06:12:30Z",
+    "at": "2026-11-27T03:14:13Z",
     "draft_sha256": "764c66a582d63b5528543bbec5dad69d4c2e4b1dcc17630bb0414cd33d553e2c",
     "fails": 0,
     "warns": 0,
@@ -1954,5 +1956,5 @@
   "F44"
  ],
  "n_facts_extracted": 44,
- "built_at": "2026-11-25T06:12:30Z"
+ "built_at": "2026-11-27T03:14:13Z"
 }

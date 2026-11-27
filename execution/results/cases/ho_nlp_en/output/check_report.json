@@ -92,7 +92,8 @@
    "msg": "element not covered and not marked as a gap: preprocessing / filtering -> write it with sources or add [[GAP: Describe preprocessing and filtering (what was removed and h...]]",
    "unit": null,
    "line": null,
-   "element": "E_preproc"
+   "element": "E_preproc",
+   "question": "Describe preprocessing and filtering (what was removed and how many items)."
   },
   {
    "level": "warn",
@@ -100,7 +101,8 @@
    "msg": "element not covered and not marked as a gap: data availability / access -> write it with sources or add [[GAP: How can readers obtain the data (URL/DOI, license, access re...]]",
    "unit": null,
    "line": null,
-   "element": "E_data_access"
+   "element": "E_data_access",
+   "question": "How can readers obtain the data (URL/DOI, license, access restrictions)?"
   }
  ],
  "coverage": [
@@ -164,8 +166,8 @@
    "status": "missing",
    "units": [],
    "facts_cited": [
-    "F80",
-    "F65"
+    "F65",
+    "F80"
    ]
   },
   {
@@ -197,14 +199,14 @@
     "u29"
    ],
    "facts_cited": [
-    "F72",
-    "F41",
+    "F63",
     "F64",
+    "F44",
     "F61",
     "F79",
-    "F44",
-    "F63",
-    "F43"
+    "F43",
+    "F72",
+    "F41"
    ]
   },
   {
@@ -221,11 +223,11 @@
     "u26"
    ],
    "facts_cited": [
+    "F36",
+    "F57",
     "F14",
     "F9",
-    "F36",
-    "F7",
-    "F57"
+    "F7"
    ]
   },
   {
@@ -238,10 +240,10 @@
     "u18"
    ],
    "facts_cited": [
+    "F52",
     "F54",
-    "F53",
     "F55",
-    "F52"
+    "F53"
    ]
   },
   {
@@ -259,11 +261,11 @@
     "u29"
    ],
    "facts_cited": [
+    "F2",
+    "F11",
     "F21",
     "F23",
-    "F11",
     "F19",
-    "F2",
     "F16"
    ]
   },
@@ -338,8 +340,8 @@
    ],
    "facts_cited": [
     "F6",
-    "F8",
     "F32",
+    "F8",
     "F13"
    ]
   },

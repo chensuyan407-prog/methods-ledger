@@ -1,4 +1,4 @@
-# Facts for case `dev_ml_textcls` (methods-ledger 0.2.0)
+# Facts for case `dev_ml_textcls` (methods-ledger 0.3.0)
 profile: **ml** · target language: **zh** · 119 facts from 13 files · 1 conflicts · 5 gaps/questions
 Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
 

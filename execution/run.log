@@ -1,4 +1,4 @@
-# methods-ledger 0.1.0 self-evaluation, started 2026-11-25T06:12:28.852401Z
+# methods-ledger 0.1.0 self-evaluation, started 2026-11-27T03:14:11.981135Z
 $ python tests/run_eval.py --cases all --out execution/results
 {
  "tag": "",
@@ -9,7 +9,7 @@ $ python tests/run_eval.py --cases all --out execution/results
   "ho_nlp_en",
   "ho_stats"
  ],
- "seconds": 30.9,
+ "seconds": 22.7,
  "extraction": {
   "fact_recall": 0.9213,
   "facts_expected": 127,
@@ -114,15 +114,15 @@ $ python tests/run_eval.py --cases all --out execution/results
   "failed": []
  }
 }
-[exit 0, 31.1 s]
+[exit 0, 23.0 s]
 
 $ python tests/fresh_run.py
 $ python.exe ml_extract.py --case case.json --out output --work work
 case_id: fresh_xgb_credit
-language: en   profile: generic   files: 4   facts: 24   conflicts: 0   gaps: 11   (0.03 s)
+language: en   profile: generic   files: 4   facts: 21   conflicts: 0   gaps: 11   (0.05 s)
 contract fields: methods, parameters, sources, open_questions
   case           case.json  facts=0
-  table          metrics.csv  facts=7
+  table          metrics.csv  facts=4
   code           model.ipynb  facts=11
   config         xgb_params.json  facts=6
 next: read <tmp>\work\facts.md, write <tmp>\work\draft.md
@@ -131,15 +131,12 @@ next: read <tmp>\work\facts.md, write <tmp>\work\draft.md
 $ cp tests/fresh_case/draft.md work/draft.md   (draft written by the agent after reading work/facts.md)
 $ python.exe ml_build.py --work work --out output
 status: success - all checks pass; 17 items await author confirmation
-fails 0  warns 5  facts cited 22  questions 17  preview: pymupdf story, 2 pages
-warn T05 l.7: cited F18 (metric = roc_auc_score) but its value is not in the sentence
-warn T05 l.21: cited F2 (auc_cv_mean.metric = auc_cv_mean) but its value is not in the sentence
-warn T05 l.21: cited F4 (auc_cv_sd.metric = auc_cv_sd) but its value is not in the sentence
-warn T05 l.21: cited F6 (auc_test.metric = auc_test) but its value is not in the sentence
-warn T05 l.21: cited F14 (stratify = y) but its value is not in the sentence
+flags 0 (auto-marked in methods.md, non-blocking)  warns 2  facts cited 19  questions 17  preview: pymupdf story, 2 pages
+warn T05 l.7: cited F15 (metric = roc_auc_score) but its value is not in the sentence
+warn T05 l.21: cited F11 (stratify = y) but its value is not in the sentence
 outputs in <tmp>\output
 
 [exit 0]
-total 0.5 s
-[exit 0, 0.6 s]
-wall 31.71 s
+total 0.8 s
+[exit 0, 1.0 s]
+wall 23.91 s
