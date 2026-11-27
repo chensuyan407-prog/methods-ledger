@@ -23,7 +23,7 @@ CODE_EXT = {".py", ".r", ".m", ".jl", ".sh", ".bash", ".zsh", ".slurm", ".sbatch
 LOG_EXT = {".log", ".out", ".err", ".stdout", ".stderr", ".trace"}
 TABLE_EXT = {".csv", ".tsv"}
 DOC_EXT = {".md", ".markdown", ".txt", ".rst", ".tex", ".docx", ".pdf", ".text", ".org", ".html", ".htm"}
-SKIP_EXT = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".tiff", ".svg", ".pt", ".pth", ".ckpt", ".bin", ".npy", ".npz", ".pkl", ".h5", ".hdf5", ".zip", ".gz", ".tar", ".xz", ".7z", ".safetensors", ".parquet", ".arrow", ".xlsx", ".xls", ".pptx", ".so", ".dll", ".exe"}
+SKIP_EXT = {".png", ".jpg", ".jpeg", ".gif", ".bmp", ".tif", ".tiff", ".svg", ".pt", ".pth", ".ckpt", ".bin", ".npy", ".npz", ".pkl", ".h5", ".hdf5", ".zip", ".gz", ".tar", ".xz", ".7z", ".safetensors", ".parquet", ".arrow", ".xls", ".pptx", ".so", ".dll", ".exe"}
 SPECIAL_NAMES = {"incar": "config", "kpoints": "config", "poscar": "data", "makefile": "code", "dockerfile": "code", "snakefile": "code", "procfile": "code"}
 KIND_RANK = {"log": 1, "cli": 2, "env": 3, "config": 4, "code": 5, "table": 6, "doc_kv": 7, "doc": 8}
 SPLIT_WORDS = [("val", r"(?i)(?<![a-z_])(?:val|valid|validation|dev)(?![a-z])|验证"), ("test", r"(?i)(?<![a-z_])(?:test|testing|eval|evaluation)(?![a-z])|测试|评测")]
@@ -121,7 +121,7 @@ def classify(rel, text, task_text):
         return "config"
     if ext in CODE_EXT:
         return "code"
-    if ext in TABLE_EXT:
+    if ext in TABLE_EXT or ext in (".xlsx", ".xlsm"):
         return "table"
     if ext in DOC_EXT or ext == "":
         if text and re.search(r"(?im)^\s*\[?\d{4}-\d{2}-\d{2}[ T]\d{2}:\d{2}", text) and len(re.findall(r"(?m)^\s*\[?\d{4}-\d{2}-\d{2}", text)) > 5:
@@ -581,7 +581,20 @@ def extract_env(rel, text, F):
               extra={"pinned": op in ("==", "=")})
 
 
-def extract_table(rel, text, F):
+def extract_sheets(rel, text, F):
+    """xlsx text from C.read_xlsx: one '## sheet <name>' block per sheet; line numbers stay those of the text."""
+    lines = text.split("\n")
+    starts = [i for i, ln in enumerate(lines) if ln.startswith("## sheet ")] or [-1]
+    info = {"sheets": []}
+    for k, st in enumerate(starts):
+        end = starts[k + 1] if k + 1 < len(starts) else len(lines)
+        block = "\n".join(lines[st + 1:end])
+        sub = extract_table(rel, block, F, offset=st + 1, sheet=lines[st][9:].strip() if st >= 0 else "")
+        info["sheets"].append({"sheet": lines[st][9:].strip() if st >= 0 else "", **sub})
+    return info
+
+
+def extract_table(rel, text, F, offset=0, sheet=""):
     delim = "\t" if rel.lower().endswith(".tsv") or text.count("\t") > text.count(",") else ","
     rows = list(csv.reader(io.StringIO(text), delimiter=delim))
     rows = [r for r in rows if any(c.strip() for c in r)]
@@ -590,7 +603,7 @@ def extract_table(rel, text, F):
     header = [h.strip() for h in rows[0]]
     body = rows[1:]
     info = {"rows": len(body), "columns": header}
-    F.add(rel, 1, "table", "n_rows", str(len(body)), context="header: " + ", ".join(header)[:200], canon=None, how="table-size")
+    F.add(rel, 1 + offset, "table", (sheet + ".") * bool(sheet) + "n_rows", str(len(body)), context="header: " + ", ".join(header)[:200], canon=None, how="table-size")
     if len(body) <= 80:
         for i, r in enumerate(body, 2):
             label = r[0].strip() if r else ""
@@ -601,7 +614,7 @@ def extract_table(rel, text, F):
                 canon, how = C.canon_key(header[j], rel)
                 if j == 0 and not canon:
                     continue
-                F.add(rel, i, "table", header[j], cell, context=f"{label} | {header[j]} = {cell}", path=f"{label}.{header[j]}" if label else header[j],
+                F.add(rel, i + offset, "table", header[j], cell, context=f"{label} | {header[j]} = {cell}", path=f"{label}.{header[j]}" if label else header[j],
                       canon=canon, how=how or "table-cell", extra={"row_label": label})
     else:
         for j, h in enumerate(header):
@@ -610,7 +623,7 @@ def extract_table(rel, text, F):
                 vals = list(dict.fromkeys(r[j].strip() for r in body if j < len(r)))
                 if len(vals) <= 5:
                     for v in vals:
-                        F.add(rel, 2, "table", h, v, context=f"column {h}", canon=canon, how="table-column")
+                        F.add(rel, 2 + offset, "table", h, v, context=f"column {h}", canon=canon, how="table-column")
     return info
 
 
@@ -881,18 +894,36 @@ def load_case(case_path):
     return case, info
 
 
+def _schema_type(v):
+    if isinstance(v, dict):
+        t = v.get("type")
+        if isinstance(t, list):
+            t = next((x for x in t if x != "null"), None)
+        return t if isinstance(t, str) else None
+    return None
+
+
 def contract_fields(case):
+    """Top-level fields of the output contract; JSON Schema (properties/required/type) is honoured."""
     oc = case.get("output_contract") or case.get("outputs") or case.get("output_fields") or case.get("expected_output") or {}
     fields = []
     if isinstance(oc, dict):
         if "fields" in oc and isinstance(oc["fields"], (list, dict)):
             return contract_fields({"output_contract": oc["fields"]})
-        if "required" in oc and isinstance(oc["required"], list) and "properties" in oc:
-            for k in oc["properties"]:
-                fields.append({"name": k, "desc": json.dumps(oc["properties"][k], ensure_ascii=False)[:300]})
+        if isinstance(oc.get("properties"), dict):
+            req = oc.get("required") if isinstance(oc.get("required"), list) else []
+            names = list(oc["properties"]) + [r for r in req if isinstance(r, str) and r not in oc["properties"]]
+            for k in names:
+                spec = oc["properties"].get(k, {})
+                desc = spec.get("description") if isinstance(spec, dict) and isinstance(spec.get("description"), str) else json.dumps(spec, ensure_ascii=False)
+                fields.append({"name": k, "desc": desc[:300], "type": _schema_type(spec), "required": k in req})
             return fields
+        if isinstance(oc.get("required"), list) and set(oc) <= {"required", "type", "$schema", "title", "description", "additionalProperties"}:
+            return [{"name": k, "desc": "", "type": None, "required": True} for k in oc["required"] if isinstance(k, str)]
         for k, v in oc.items():
-            fields.append({"name": k, "desc": v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)[:300]})
+            if k in ("$schema", "title", "type", "additionalProperties") and not isinstance(v, dict):
+                continue
+            fields.append({"name": k, "desc": v if isinstance(v, str) else json.dumps(v, ensure_ascii=False)[:300], "type": _schema_type(v)})
     elif isinstance(oc, list):
         for x in oc:
             if isinstance(x, str):
@@ -900,11 +931,65 @@ def contract_fields(case):
             elif isinstance(x, dict):
                 n = x.get("name") or x.get("field") or x.get("key")
                 if n:
-                    fields.append({"name": n, "desc": x.get("description") or x.get("desc") or json.dumps(x, ensure_ascii=False)[:300]})
+                    fields.append({"name": n, "desc": x.get("description") or x.get("desc") or json.dumps(x, ensure_ascii=False)[:300], "type": _schema_type(x)})
     elif isinstance(oc, str):
         for n in re.findall(r"[A-Za-z_][\w]*", oc):
             fields.append({"name": n, "desc": ""})
     return fields
+
+
+def contract_closed(case):
+    oc = case.get("output_contract") if isinstance(case, dict) else None
+    return bool(isinstance(oc, dict) and oc.get("additionalProperties") is False)
+
+
+PATH_KEYS = ("path", "file", "filename", "file_path", "uri", "src", "location", "name")
+ROLE_KEYS = ("role", "type", "kind", "purpose", "category", "usage", "description", "label")
+PRIMARY_RE = re.compile(r"(?i)primary|main|principal|core|source[_ ]?of[_ ]?truth|主材料|主要|核心|事实底稿|底稿")
+
+
+def declared_materials(case):
+    """[(path, role)] declared anywhere in case.json; role 'primary' when the entry or its parent key says so."""
+    out = []
+
+    def walk(o, parent=""):
+        if isinstance(o, dict):
+            p = next((o[k] for k in PATH_KEYS if isinstance(o.get(k), str) and re.search(r"[./\\]", o[k])), None)
+            if p:
+                role_txt = " ".join(str(o.get(k, "")) for k in ROLE_KEYS) + " " + parent
+                if PRIMARY_RE.search(role_txt) or o.get("primary") is True or o.get("is_primary") is True:
+                    role = "primary"
+                else:
+                    role = str(o.get("role") or o.get("type") or "")[:40] or "declared"
+                out.append((p, role))
+            for k, v in o.items():
+                if k != "output_contract":
+                    walk(v, k)
+        elif isinstance(o, list):
+            for v in o:
+                walk(v, parent)
+        elif isinstance(o, str) and parent and len(o) < 300 and re.search(r"\.\w{1,6}$", o) and not re.search(r"\s", o):
+            out.append((o, "primary" if PRIMARY_RE.search(parent) else "declared"))
+    walk(case)
+    return out
+
+
+def resolve_declared(p, in_dir, paths):
+    cands = [p] if os.path.isabs(p) else []
+    cands += [os.path.join(in_dir, p), os.path.join("/input", p), os.path.join(os.path.dirname(in_dir), p)]
+    for c in cands:
+        if os.path.isfile(c):
+            return os.path.abspath(c)
+    base = os.path.basename(p.replace("\\", "/"))
+    hit = [x for x in paths if os.path.basename(x) == base]
+    return os.path.abspath(hit[0]) if len(hit) == 1 else None
+
+
+def default_case():
+    for c in ("/input/case.json", os.path.join(os.getcwd(), "input", "case.json"), "/app/input/case.json", os.path.join(os.getcwd(), "case.json")):
+        if os.path.isfile(c):
+            return c
+    return "/input/case.json"
 
 
 def target_language(task_text, case, override):
@@ -925,11 +1010,23 @@ def render_facts_md(state, facts, conflicts, gaps, stages, series, lang):
     L.append(f"# Facts for case `{state['case_id']}` (methods-ledger {C.VERSION})")
     L.append(f"profile: **{state['profile']}** · target language: **{lang}** · {len(facts)} facts from {len(state['files'])} files · "
              f"{len(conflicts)} conflicts · {len(gaps)} gaps/questions")
-    L.append("Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).")
+    L.append("Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name "
+             "to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.")
     L.append("")
-    L.append("## Files")
-    for fi in state["files"]:
-        L.append(f"- `{fi['path']}` — {fi['class']}, {fi.get('lines', '?')} lines, {fi.get('n_facts', 0)} facts" + (f" — {'; '.join(fi['problems'])}" if fi.get("problems") else ""))
+    L.append("## Material index (primary materials first)")
+    for fi in sorted(state["files"], key=lambda x: (x.get("role") != "primary", x["path"])):
+        L.append(f"- `{fi['path']}` — {fi.get('role') or 'material'}, {fi['class']}, {fi.get('lines', '?')} lines, {fi.get('n_facts', 0)} facts" + (f" — {'; '.join(fi['problems'])}" if fi.get("problems") else ""))
+    for m in state.get("declared_missing", []):
+        L.append(f"- `{m}` — declared in case.json but NOT FOUND (write the dependent items as GAP)")
+    L.append("")
+    L.append("## Required sections (each must be written with material values, or marked GAP)")
+    for e in elements_for(state["profile"]):
+        L.append(f"- [{e['level']}] {e['label'][lang]} ({e['category']})")
+    if state.get("contract"):
+        L.append("")
+        L.append("## output_contract (result.json gets exactly these top-level fields; filled by ml_build.py)")
+        for f in state["contract"]:
+            L.append(f"- `{f['name']}`" + (f" ({f['type']})" if f.get("type") else "") + (f": {f['desc'][:120]}" if f.get("desc") else ""))
     if state.get("task_excerpt"):
         L.append("")
         L.append("## Task (excerpt)")
@@ -1046,15 +1143,19 @@ derived numbers [[CALC: 8000/10000 = 0.8 | F3,F4]]; a material line not in facts
 
 def main(argv=None):
     ap = argparse.ArgumentParser(description=__doc__, formatter_class=argparse.RawDescriptionHelpFormatter)
-    ap.add_argument("--case", default="/input/case.json")
+    ap.add_argument("--case", default=None, help="default: /input/case.json, ./input/case.json or /app/input/case.json")
     ap.add_argument("--input-dir", default=None, help="material directory (default: directory of case.json)")
-    ap.add_argument("--out", default="/app/output")
-    ap.add_argument("--work", default="/app/work")
+    ap.add_argument("--out", default=None, help="default: /app/output (./output outside the evaluator)")
+    ap.add_argument("--work", default=None, help="default: /app/work (./work outside the evaluator)")
     ap.add_argument("--lang", choices=["zh", "en"], default=None)
     ap.add_argument("--profile", default=None)
     ap.add_argument("--max-file-mb", type=float, default=20.0)
     a = ap.parse_args(argv)
     t0 = time.time()
+    a.case = a.case or default_case()
+    app = os.path.isdir("/app")
+    a.out = a.out or ("/app/output" if app else os.path.join(os.getcwd(), "output"))
+    a.work = a.work or ("/app/work" if app else os.path.join(os.getcwd(), "work"))
     case, cinfo = load_case(a.case)
     in_dir = a.input_dir or (os.path.dirname(os.path.abspath(a.case)) if a.case else ".")
     case_id = str(case.get("case_id") or case.get("id") or os.path.basename(os.path.normpath(in_dir)) or "case")
@@ -1076,10 +1177,20 @@ def main(argv=None):
         ds[:] = sorted(d for d in ds if not d.startswith(".") and d not in ("__pycache__", "node_modules"))
         for fn in sorted(fs):
             paths.append(os.path.join(r, fn))
-    # files referenced in case.json outside in_dir
-    for v in json.dumps(case, ensure_ascii=False).split('"'):
-        if "/" in v and len(v) < 300 and os.path.isfile(v) and os.path.abspath(v) not in {os.path.abspath(p) for p in paths}:
-            paths.append(v)
+    # files declared in case.json (with roles), also outside in_dir
+    roles, declared_missing = {}, []
+    for p, role in declared_materials(case if isinstance(case, dict) else {}):
+        rp = resolve_declared(p, in_dir, paths)
+        if not rp:
+            if not re.match(r"^(https?:|/app/output|/app/work)", p) and "output" not in role.lower() and p not in declared_missing:
+                declared_missing.append(p)
+            continue
+        if rp not in {os.path.abspath(x) for x in paths}:
+            paths.append(rp)
+        if roles.get(rp) != "primary":
+            roles[rp] = role
+    for p in declared_missing:
+        problems.append(f"material declared in case.json not found: {p}")
     F = Facts()
     stages, series, texts = [], {}, []
     state_files = []
@@ -1087,7 +1198,7 @@ def main(argv=None):
     for p in paths:
         rel = os.path.relpath(p, in_dir).replace(os.sep, "/") if os.path.abspath(p).startswith(os.path.abspath(in_dir)) else p
         ext = os.path.splitext(p)[1].lower()
-        fi = {"path": rel, "bytes": os.path.getsize(p), "sha256": C.sha256_file(p), "problems": []}
+        fi = {"path": rel, "bytes": os.path.getsize(p), "sha256": C.sha256_file(p), "problems": [], "role": roles.get(os.path.abspath(p))}
         if ext in SKIP_EXT:
             fi["class"] = "binary-skipped"
             fi["problems"].append("binary/unsupported format, not read" + (" (export spreadsheets to CSV)" if ext in (".xlsx", ".xls") else ""))
@@ -1138,7 +1249,7 @@ def main(argv=None):
         elif cls == "code":
             text = extract_code(rel, text, F) or text
         elif cls == "table":
-            fi["table"] = extract_table(rel, text, F)
+            fi["table"] = extract_sheets(rel, text, F) if ext in (".xlsx", ".xlsm") else extract_table(rel, text, F)
         elif cls in ("doc", "datacard", "draft", "data", "other"):
             extract_doc(rel, text, F, cls)
         stages += extract_common_patterns(rel, text, F, {"doc": "doc_kv", "datacard": "doc_kv", "draft": "doc_kv", "other": "doc_kv"}.get(cls, cls if cls in ("log", "code", "config", "env", "table") else "doc_kv"))
@@ -1165,7 +1276,7 @@ def main(argv=None):
              "input_dir": os.path.abspath(in_dir), "out": os.path.abspath(a.out), "work": os.path.abspath(a.work), "lang": lang,
              "profile": profile, "profile_scores": pscores, "contract": contract, "files": state_files, "problems": problems,
              "task_excerpt": task_text.strip()[:1500], "stages": stages, "series": [{"file": k[0], "key": k[1], **v} for k, v in series.items()],
-             "extract_seconds": round(time.time() - t0, 2), "case_keys": sorted(case.keys()) if isinstance(case, dict) else []}
+             "declared_missing": declared_missing, "contract_closed": contract_closed(case), "extract_seconds": round(time.time() - t0, 2), "case_keys": sorted(case.keys()) if isinstance(case, dict) else []}
     os.makedirs(a.work, exist_ok=True)
     C.dump_json({"facts": facts, "conflicts": conflicts, "gaps": gaps}, os.path.join(a.work, "facts.json"))
     C.dump_json(state, os.path.join(a.work, "state.json"))
@@ -1176,13 +1287,19 @@ def main(argv=None):
     agentp = os.path.join(a.work, "agent.json")
     if not os.path.exists(agentp):
         C.dump_json({"resolutions": [], "accept": {}, "fields": {}, "notes": [], "status_note": ""}, agentp)
-    # provisional result so that a valid file exists even if the run is cut off
+    # provisional result so that a valid file exists even if the run is cut off; a checked result is never
+    # replaced by a provisional one from a run whose case.json could not be read
     import ml_build  # noqa
-    try:
-        ml_build.build(a.work, a.out, provisional=True)
-    except Exception as e:  # noqa
-        C.dump_json({"case_id": case_id, "status": "partial", "status_reason": f"provisional result; build failed: {e}",
-                     **{f["name"]: None for f in contract}}, os.path.join(a.out, "result.json"))
+    rp = os.path.join(a.out, "result.json")
+    prev = (C.load_json(rp, {}) or {}) if os.path.exists(rp) else {}
+    if cinfo["problems"] and isinstance(prev, dict) and prev.get("status") and "provisional" not in str(prev.get("status_reason", "")):
+        print("NOTE: case.json could not be read; existing result.json kept")
+    else:
+        try:
+            ml_build.build(a.work, a.out, provisional=True)
+        except Exception as e:  # noqa
+            C.dump_json({"case_id": case_id, "status": "partial", "status_reason": f"provisional result; build failed: {e}",
+                         **{f["name"]: None for f in contract}}, rp)
     print(f"case_id: {case_id}")
     print(f"language: {lang}   profile: {profile}   files: {len(state_files)}   facts: {len(facts)}   conflicts: {len(conflicts)}   gaps: {len(gaps)}   ({state['extract_seconds']} s)")
     print("contract fields: " + (", ".join(f["name"] for f in contract) or "(none found in case.json)"))

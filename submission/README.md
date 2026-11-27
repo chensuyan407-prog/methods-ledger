@@ -1,4 +1,4 @@
-# methods-ledger 0.1.0 — Methods / Experiments section writer with source checking
+# methods-ledger 0.1.1 — Methods / Experiments section writer with source checking
 
 Skill for 写作09｜方法与实验章节写作. It turns scattered research materials (configs, code, run logs, environment
 files, data cards, notebooks, tables, lab notes, old drafts) into an editable Methods/Experiments chapter in which
@@ -35,7 +35,7 @@ Input: `case.json` (any of `case_id`, `task`/`instruction`, `output_contract` as
 ```bash
 python scripts/ml_extract.py --case /input/case.json --out /app/output --work /app/work [--lang zh|en] [--profile ml|wetlab|simulation|stats|generic]
 # agent reads work/facts.md, writes work/draft.md (+ optional work/agent.json)
-python scripts/ml_build.py --work /app/work --out /app/output     # exit 1 while FAILs remain
+python scripts/ml_build.py --work /app/work --out /app/output     # exit 1 only for factual errors, at most 2 fix rounds
 ```
 
 ### What extraction recognises
@@ -60,7 +60,7 @@ default > notes) is shown but never applied silently.
 
 `[[F12]]`, `[[@file:line]]`, `[[@file:line#key]]`, `[[SRC: file:line]]`, `[[CALC: expr = value | F…]]`, `[[CONFIRM: …]]`,
 `[[GAP: …]]`, `[[PARAM_TABLE]]`. A tag covers the clause since the previous tag; numbers in that clause must be values of
-the tagged facts (T02 otherwise), numbers in untagged text must still trace somewhere (N01 fail / N03 warn).
+the tagged facts (T02 otherwise), numbers in untagged text are auto-mapped to their facts (A01, listed in review.md) and must still trace somewhere (N01 fail).
 
 ### Outputs and result.json fields
 
@@ -145,7 +145,7 @@ Fresh-directory run (`execution/results/fresh_run`): only `submission/` copied t
   match an invented value to a nearby material value (1 invented-number mutation passed as a warning).
 - **Coverage is pattern-based**: an element counts as covered when a tagged sentence matches its pattern, not when the
   sentence is complete; one "instrument removed" mutation still matched a GAP sentence mentioning the reader.
-- **Not handled**: XLSX (ask for CSV), scanned PDFs (no OCR), images, LaTeX table parsing, checking that prose *describes*
+- **Not handled**: .xls (XLSX is read per sheet, cached values only), scanned PDFs (no OCR), images, LaTeX table parsing, checking that prose *describes*
   a step correctly (only that its numbers and names are sourced). Profiles: ml, wetlab, simulation, stats, generic.
 - **Status semantics**: `success` means no check failed, not that the science is complete; open author questions are listed.
 
@@ -155,4 +155,19 @@ Fresh-directory run (`execution/results/fresh_run`): only `submission/` copied t
 robustness checks in ~30 s. `python scripts/ml_build.py` on the agent's draft is the per-case self-check; `review.md` lists
 every finding.
 
-Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.1.0 (2026-11-23).
+Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.1.1 (2026-11-27).
+
+## Changes in 0.1.1
+
+- Natural prose: the draft needs no tags; ml_build maps every number, version and name to its source (fact_map.json,
+  review.md "Review notes", source map in methods_annotated.md). Conflicting values used in untagged prose get an inline
+  author-confirmation marker (C02); missing required elements become explicit author questions in the chapter (K01 warn).
+- Exit policy: exit 1 only for factual errors (N01, N02, T02, P02, C01 on a tagged clause, M01) and only for the first
+  two builds; malformed tags are ignored with a warning. Condition crossover (X01) is also checked for untagged numbers.
+- Harbor: case.json material roles (primary first in facts.md, missing declared files reported), default paths
+  (/input, ./input, /app), JSON-Schema output_contract (properties/required/type; values coerced to the declared type;
+  additionalProperties false -> clean result.json + result_full.json), a bad --case never overwrites a checked result.json,
+  XLSX read with the standard library.
+- Self-evaluation effect: missing-element mutations are now caught as warnings with an auto-inserted author question
+  instead of FAIL (mutation caught_fail 0.97 -> 0.67, caught_any 0.97 unchanged).
+

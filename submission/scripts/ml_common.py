@@ -9,7 +9,7 @@ import zipfile
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULES_DIR = os.path.join(SKILL_DIR, "rules")
 CJK = "㐀-䶿一-鿿豈-﫿"
-VERSION = "0.1.0"
+VERSION = "0.1.1"
 
 
 def load_json(path, default=None):
@@ -108,6 +108,62 @@ def read_docx(path):
     return "\n".join(x for x in paras if x.strip())
 
 
+def read_xlsx(path, max_rows=5000):
+    """Spreadsheet -> CSV-like text with stdlib only (sharedStrings + sheet XML; cached formula values)."""
+    import csv as _csv
+    import io as _io
+    import xml.etree.ElementTree as ET
+    ns = {"m": "http://schemas.openxmlformats.org/spreadsheetml/2006/main"}
+    rid = "{http://schemas.openxmlformats.org/officeDocument/2006/relationships}id"
+    with zipfile.ZipFile(path) as z:
+        names = set(z.namelist())
+        shared = []
+        if "xl/sharedStrings.xml" in names:
+            for si in ET.fromstring(z.read("xl/sharedStrings.xml")).findall("m:si", ns):
+                shared.append("".join(t.text or "" for t in si.iter("{%s}t" % ns["m"])))
+        sheets = []
+        try:
+            wb = ET.fromstring(z.read("xl/workbook.xml"))
+            rels = ET.fromstring(z.read("xl/_rels/workbook.xml.rels"))
+            target = {r.get("Id"): r.get("Target") for r in rels}
+            for sh in wb.findall("m:sheets/m:sheet", ns):
+                t = target.get(sh.get(rid), "")
+                t = t.lstrip("/") if t.startswith("/") else "xl/" + t
+                sheets.append((sh.get("name"), t))
+        except (KeyError, ET.ParseError):
+            sheets = [(os.path.basename(n), n) for n in sorted(names) if n.startswith("xl/worksheets/sheet")]
+        out = []
+        for name, member in sheets:
+            if member not in names:
+                continue
+            buf = _io.StringIO()
+            w = _csv.writer(buf, lineterminator="\n")
+            for i, row in enumerate(ET.fromstring(z.read(member)).iter("{%s}row" % ns["m"])):
+                if i >= max_rows:
+                    break
+                cells = {}
+                for c in row.findall("m:c", ns):
+                    ref = re.match(r"([A-Z]+)", c.get("r") or "A")
+                    col = 0
+                    for ch in ref.group(1):
+                        col = col * 26 + ord(ch) - 64
+                    v = c.find("m:v", ns)
+                    tp = c.get("t")
+                    if tp == "s" and v is not None:
+                        val = shared[int(v.text)] if v.text and int(v.text) < len(shared) else ""
+                    elif tp == "inlineStr":
+                        val = "".join(t.text or "" for t in c.iter("{%s}t" % ns["m"]))
+                    else:
+                        val = v.text if v is not None and v.text is not None else ""
+                    cells[col] = val
+                if cells:
+                    w.writerow([cells.get(k, "") for k in range(1, max(cells) + 1)])
+            out.append(f"## sheet {name}\n" + buf.getvalue())
+    if not out:
+        raise ValueError("xlsx without readable sheets")
+    return "\n".join(out)
+
+
 def read_pdf(path):
     fitz = None
     try:
@@ -137,6 +193,8 @@ def read_any(path):
     ext = os.path.splitext(path)[1].lower()
     if ext == ".docx":
         return read_docx(path), {"encoding": "docx-xml", "repairs": ["DOCX formatting not kept; one line per paragraph"]}
+    if ext in (".xlsx", ".xlsm"):
+        return read_xlsx(path), {"encoding": "xlsx-xml", "repairs": ["XLSX read as CSV text (one '## sheet' block per sheet, formulas as cached values)"]}
     if ext == ".pdf":
         text, info = read_pdf(path)
         info["repairs"] = ["text extracted from PDF; line numbers refer to the extracted text ([page N] markers)"]

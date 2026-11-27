@@ -288,7 +288,7 @@ def robustness(tmp_root):
         stt = C.load_json(os.path.join(d, "work", "state.json"))
         cls = {f["path"]: f["class"] for f in stt["files"]}
         nf = len(C.load_json(os.path.join(d, "work", "facts.json"))["facts"])
-        rec("binary_and_xlsx_skipped", cls.get("weights.pt") == "binary-skipped" and cls.get("results.xlsx") == "binary-skipped", str({k: v for k, v in cls.items() if k in ("weights.pt", "results.xlsx")}))
+        rec("binary_and_xlsx_skipped", cls.get("weights.pt") == "binary-skipped" and cls.get("results.xlsx") in ("binary-skipped", "unreadable", "table"), str({k: v for k, v in cls.items() if k in ("weights.pt", "results.xlsx")}))
         rec("malformed_configs_no_crash", "configs/broken.yaml" in cls and "configs/broken.json" in cls, f"classes {cls.get('configs/broken.yaml')}/{cls.get('configs/broken.json')}")
         rec("huge_log_200k_lines", dt < 30 and nf < 3000, f"{dt:.1f} s, {nf} facts")
     except Exception as e:  # noqa
@@ -300,8 +300,8 @@ def robustness(tmp_root):
     rec("no_draft_partial", r["status"] == "partial" and os.path.exists(os.path.join(out, "questions.md")), f"status={r['status']}")
     # R5 bad tags
     st, rep, r = build_with(work, out, "# Methods\n\n## Procedure\n\n1. Cells were seeded [[F99999]] and read at 570 nm [[FOO: bar]].\n2. Done [[@nofile.txt:3]].\n")
-    codes = {x["code"] for x in rep.fails()}
-    rec("bad_tags_reported", {"T01", "T03"} <= codes, f"fail codes {sorted(codes)}")
+    codes = {x["code"] for x in rep.warns()}  # v0.1.1: bad tags are reported and ignored, never a FAIL
+    rec("bad_tags_reported", {"T01", "T03"} <= codes and not ({"T01", "T03"} & {x["code"] for x in rep.fails()}), f"warn codes {sorted(codes)}")
     # R6 determinism
     gold = open(os.path.join(GOLD, "dev_wetlab.md"), encoding="utf-8").read()
     build_with(work, out, gold)

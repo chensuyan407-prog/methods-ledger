@@ -1,10 +1,13 @@
 """Step 2 of methods-ledger: check the agent's draft (work/draft.md) against the extracted facts and build every output.
 
 python ml_build.py --work /app/work --out /app/output
-Exit 0 = no FAIL left, 1 = FAILs left (outputs are still written; status partial), 2 = no state (run ml_extract first).
+The draft is normal prose: every number, version and name is mapped to the extracted facts automatically (fact_map.json,
+review.md). Exit 0 = outputs written and no factual error left (or the fix budget is used up: remaining items are recorded,
+status partial), 1 = a factual error worth one fix (unsourced number, value of another condition, invented command/GPU,
+unmarked tagged conflict, placeholder), 2 = no state (run ml_extract first). Tag-format problems never cause exit 1.
 
-Draft tags: [[F12]] / [[F12,F30]] cite facts · [[GAP: question]] missing information · [[CONFIRM: C1 ...]] conflicting or
-assumed value the author must confirm · [[CALC: 8000/10000 = 0.8 | F3,F4]] derived number · [[SRC: file:line]] material line
+Optional draft tags: [[F12]] / [[F12,F30]] cite facts · [[GAP: question]] missing information · [[CONFIRM: C1 ...]] conflicting
+or assumed value the author must confirm · [[CALC: 8000/10000 = 0.8 | F3,F4]] derived number · [[SRC: file:line]] material line
 not in facts.md · [[PARAM_TABLE]] where the generated parameter table goes."""
 import argparse
 import datetime
@@ -29,6 +32,10 @@ PLACEHOLDER_RE = re.compile(r"(?<![A-Za-z])(?:XX+|xx+|TBD|TODO|\?\?+|N/A|待补�
 UNIT_CONSTANTS = {10.0 ** k for k in range(-12, 13)} | {60.0, 24.0, 3600.0, 1024.0, 86400.0, 2.0, 0.5}
 LIMIT_HEAD_RE = re.compile(r"(?i)limitation|threats? to validity|caveat|局限|限制|不足")
 PARAM_HEAD_RE = re.compile(r"(?i)param|hyper|参数")
+NAME_CANONS = {"model", "baseline", "dataset", "dataset_version", "hardware", "optimizer", "scheduler", "loss", "metric", "statistical_test", "software",
+               "instrument", "reagent", "force_field", "functional", "ensemble", "thermostat", "basis_set", "code_version", "container", "software_stats", "precision"}
+HARD_CODES = {"N01", "N02", "T02", "P02", "C01", "M01", "D00"}  # factual errors; tag-format/coverage problems are soft
+FIX_ROUNDS = 2  # builds that may return exit 1; later builds record what is left and return 0
 
 
 def now():
@@ -354,7 +361,15 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
     corpus_lines = {p: t.split("\n") for p, t in corpus.items()}
     cited, fact_map = set(), []
     lang = state["lang"]
+    name_facts, seen_names = [], set()
+    for f in sorted(facts, key=lambda f: f["id"] not in conf_of):
+        v = f["value"].strip()
+        if f["canon"] in NAME_CANONS and f["kind"] != "doc" and 4 <= len(v) <= 60 and not re.fullmatch(r"[\d.,eE+\-%\s]+", v) \
+                and C.norm_str(v) not in ("true", "false", "none", "null") and v.lower() not in seen_names:
+            seen_names.add(v.lower())
+            name_facts.append(f)
     for u in units:
+        u.setdefault("auto", [])
         tg = parse_tags(u["tags"])
         u["parsed"] = tg
         entry = {"unit": u["uid"], "line": u["line"], "type": u["type"], "section": u["section"], "text": u["text"][:400],
@@ -411,6 +426,8 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
             fact_map.append(entry)
             continue
         text = u["text"]
+        u["auto"] = []
+        splits_here = {name for name, rx in [("train", r"(?i)\btrain(?:ing)?\b|训练"), ("val", r"(?i)\bvalidation\b|\bval\b|\bdev\b|验证"), ("test", r"(?i)\btest(?:ing)?\b|测试")] if re.search(rx, text)}
         for m in re.finditer(r"`([^`]{6,})`", text):
             if re.match(r"^\$?\s*(python3?|torchrun|accelerate|deepspeed|bash|sh|Rscript|julia|gmx|lmp|mpirun|srun|sbatch|make)\b", m.group(1)):
                 check_code({"text": m.group(1), "uid": u["uid"], "line": u["line"] - 1}, facts, corpus, corpus_low, rep, entry)
@@ -503,10 +520,19 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                     entry["numbers"].append(rec)
                     continue
                 if cands:
-                    rec.update({"matched": None, "candidates": [c["id"] for c in cands[:6]], "how": "untagged"})
+                    # natural prose: map the number to its source automatically; prefer a fact of the split the sentence talks about
+                    same = [c for c in cands if (c["scope"] or "").split("/")[-1] in splits_here] if splits_here else []
+                    best = (same or cands)[0]
+                    rec.update({"matched": best["id"], "candidates": [c["id"] for c in cands[:6]], "how": "auto", "source": f"{best['file']}:{best['line']}"})
                     if not small:
-                        rep.add("warn", "N03", f"{tok} matches {', '.join(c['id'] for c in cands[:4])} ({cands[0]['file']}:{cands[0]['line']}) but no tag follows it", u["uid"], u["line"],
-                                candidates=[c["id"] for c in cands[:6]])
+                        cited.add(best["id"])
+                        u["auto"].append(best["id"])
+                        rep.add("info", "A01", f"{tok} auto-mapped to {best['id']} ({best['file']}:{best['line']})", u["uid"], u["line"])
+                        bsplit = (best["scope"] or "").split("/")[-1]
+                        if splits_here and not same and bsplit in ("val", "test") and all((c["scope"] or "").split("/")[-1] in ("val", "test") for c in cands):
+                            rep.add("warn", "X01", f"{tok} occurs in the materials only in the {bsplit} context ({best['file']}:{best['line']}) but the sentence talks about "
+                                    f"{'/'.join(sorted(splits_here))} - condition crossover?", u["uid"], u["line"], token=tok, auto=True)
+                            entry["status"] = "crossover?"
                 elif re.search(r"(?<![\w.])" + re.escape(tok.replace(",", "")) + r"(?![\w]|\.\d)", corpus_low):
                     rec.update({"matched": None, "how": "literal-in-materials"})
                     rep.add("warn", "N04", f"{tok} appears in the materials but not as an extracted fact: add [[SRC: file:line]]", u["uid"], u["line"])
@@ -529,8 +555,12 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                 entry["numbers"].append({"token": m.group(0), "matched": next(f["id"] for f in tagged if tok in f["value"]), "how": "version-tag"})
             elif tok.lower() in corpus_low:
                 cands = [f["id"] for f in facts if tok in f["value"]][:4]
-                entry["numbers"].append({"token": m.group(0), "matched": None, "candidates": cands, "how": "version-untagged"})
-                rep.add("warn", "N03", f"version {m.group(0)} is in the materials ({', '.join(cands) or 'text'}) but not tagged", u["uid"], u["line"])
+                entry["numbers"].append({"token": m.group(0), "matched": cands[0] if cands else "TEXT", "candidates": cands, "how": "version-auto",
+                                         "source": f"{byid[cands[0]]['file']}:{byid[cands[0]]['line']}" if cands else "material text"})
+                if cands:
+                    cited.add(cands[0])
+                    u["auto"].append(cands[0])
+                rep.add("info", "A01", f"version {m.group(0)} auto-mapped to {', '.join(cands) or 'material text'}", u["uid"], u["line"])
             else:
                 rep.add("fail", "N01", f"version {m.group(0)} has no source in the materials", u["uid"], u["line"], token=m.group(0))
                 entry["status"] = "unsourced"
@@ -550,6 +580,13 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
         # tagged string facts should appear in the sentence
         squash = lambda x: re.sub(r"[\s_\-./]+", "", x.lower())  # noqa: E731
         tsq = squash(text)
+        # names (dataset, model, GPU, optimizer, baseline, software) written in prose: map them to their facts
+        for f in name_facts:
+            sv = squash(f["value"])
+            if f["id"] not in u["auto"] and len(sv) >= 4 and sv in tsq and not any(f["id"] == x["id"] for x in tagged):
+                u["auto"].append(f["id"])
+                cited.add(f["id"])
+                entry["facts"].append({"id": f["id"], "value": f["value"][:120], "source": f"{f['file']}:{f['line']}", "kind": f["kind"], "key": f["path"], "via": "auto-name"})
         for f in tagged:
             if not f["nums"] and f["kind"] != "doc" and len(f["value"]) <= 40 and len(f["value"].split()) <= 3 and C.norm_str(f["value"]) not in ("true", "false", "none", "null"):
                 val = re.sub(r"^(torch\.)?optim\.", "", f["value"]).lower()
@@ -558,24 +595,34 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                 if val and squash(val) not in tsq and squash(os.path.basename(val)) not in tsq:
                     rep.add("warn", "T05", f"cited {f['id']} ({f['path']} = {f['value'][:30]}) but its value is not in the sentence", u["uid"], u["line"])
         # conflicts
-        touched = set()
+        touched, touched_tag = set(), set()
         for f in tagged:
             for c in conf_of.get(f["id"], []):
                 touched.add(c["id"])
+                touched_tag.add(c["id"])
         for rec in entry["numbers"]:
             for fid in rec.get("candidates", []) or []:
                 for c in conf_of.get(fid, []):
                     touched.add(c["id"])
+                    if rec.get("how") != "auto":
+                        touched_tag.add(c["id"])
+        for fid in u["auto"]:
+            for c in conf_of.get(fid, []):
+                touched.add(c["id"])
         for cid in sorted(touched):
             c = next(x for x in conflicts if x["id"] == cid)
             vals = [C.norm_str(v["value"])[:40] for v in c["values"]]
             mentioned = any(cid in x or any(re.search(r"\b%s\b" % fid, x) for fid in c["facts"])
                             or sum(1 for v in vals if v and v in C.norm_str(x)) >= 2 for x in tg["confirms"])
             if not mentioned and cid not in resolved and not accept.get(cid):
-                rep.add("fail", "C01", f"uses a value of conflict {cid} ({c['label']}: " + " vs ".join(v["value"][:20] for v in c["values"][:3]) +
-                        f") without [[CONFIRM: {cid} ...]] or a resolution in agent.json", u["uid"], u["line"])
+                desc = f"{c['label']}: " + " vs ".join(f"{v['value'][:20]} ({v['sources'][0] if v.get('sources') else ''})" for v in c["values"][:3])
+                if cid in touched_tag:
+                    rep.add("fail", "C01", f"uses a value of conflict {cid} ({desc}) without [[CONFIRM: {cid} ...]] or a resolution in agent.json", u["uid"], u["line"])
+                else:
+                    # prose without tags: mark the conflict in the chapter for the author instead of bouncing the draft
+                    u.setdefault("auto_confirm", []).append(f"{cid} {desc}")
+                    rep.add("warn", "C02", f"value of conflict {cid} ({desc}) used; marked automatically for author confirmation", u["uid"], u["line"])
         # split crossover
-        splits_here = {name for name, rx in [("train", r"(?i)\btrain(?:ing)?\b|训练"), ("val", r"(?i)\bvalidation\b|\bval\b|\bdev\b|验证"), ("test", r"(?i)\btest(?:ing)?\b|测试")] if re.search(rx, text)}
         for f in tagged:
             fsplit = f["scope"].split("/")[-1] if f["scope"] else ""
             if fsplit in ("val", "test") and f["nums"] and splits_here and fsplit not in splits_here:
@@ -624,7 +671,7 @@ def coverage(units, facts, gaps, state, rep, cited):
         pat = e["draft_patterns"].get(lang) or e["draft_patterns"]["en"]
         pat_en = e["draft_patterns"]["en"]
         hits = [u for u in content if re.search(pat, u["raw"]) or (lang != "en" and re.search(pat_en, u["raw"]))]
-        anchored = [u for u in hits if u["parsed"]["facts"] or u["parsed"]["srcs"] or u["parsed"]["calcs"] or u["parsed"]["gaps"] or u["parsed"]["confirms"]]
+        anchored = [u for u in hits if u["parsed"]["facts"] or u["parsed"]["srcs"] or u["parsed"]["calcs"] or u["parsed"]["gaps"] or u["parsed"]["confirms"] or u.get("auto")]
         key_cited = [fid for fid in cited for f in [next((x for x in facts if x["id"] == fid), None)] if f and f["canon"] in e["keys"]]
         status = "missing"
         if e["id"] == "E_steps":
@@ -634,12 +681,16 @@ def coverage(units, facts, gaps, state, rep, cited):
             lim = [u for u in content if LIMIT_HEAD_RE.search(u["section"]) or re.search(pat, u["raw"])]
             status = "covered" if lim else "missing"
         elif anchored:
-            status = "covered" if any(u["parsed"]["facts"] or u["parsed"]["srcs"] or u["parsed"]["calcs"] for u in anchored) else "marked_gap"
+            status = "covered" if any(u["parsed"]["facts"] or u["parsed"]["srcs"] or u["parsed"]["calcs"] or u.get("auto") for u in anchored) else "marked_gap"
         elif any(re.search(pat, g) or re.search(pat_en, g) for u in content for g in u["parsed"]["gaps"] + u["parsed"]["confirms"]):
             status = "marked_gap"
-        if status == "missing":
-            lvl = "fail" if e["level"] == "required" else "warn"
-            rep.add(lvl, "K01" if lvl == "fail" else "K02", f"element not covered and not marked as a gap: {e['label'][lang]} -> write it with sources or add [[GAP: {e['question'][lang][:60]}...]]", element=e["id"])
+        if status == "missing" and e["level"] == "required":
+            # not bounced back: the element is written into the chapter as an explicit author question
+            status = "auto_gap"
+            rep.add("warn", "K01", f"required element missing: {e['label'][lang]} -> added to the chapter as an author question (write it with material values if they exist)",
+                    element=e["id"], question=e["question"][lang], category=e["category"], label=e["label"][lang])
+        elif status == "missing":
+            rep.add("warn", "K02", f"element not covered and not marked as a gap: {e['label'][lang]} -> write it with sources or add [[GAP: {e['question'][lang][:60]}...]]", element=e["id"])
         result.append({"element": e["id"], "category": e["category"], "label": e["label"][lang], "level": e["level"], "status": status,
                        "units": [u["uid"] for u in (hits if e["id"] not in ("E_steps", "E_limits") else [])][:10], "facts_cited": key_cited[:10]})
     # important facts never used
@@ -991,6 +1042,67 @@ def map_contract(state, outputs, agent):
     return fields, notes
 
 
+def auto_marks(draft_text, units, rep, lang):
+    """Rendered text only: conflicts used in untagged prose get an inline author-confirmation marker, required
+    elements that are missing get an explicit author question at the end of the chapter."""
+    lines = draft_text.split("\n")
+    add = {}
+    for u in units:
+        for c in u.get("auto_confirm", []):
+            i = u["line"] - 1
+            while i + 1 < len(lines) and lines[i + 1].strip() and not lines[i + 1].lstrip().startswith(("#", "-", "*", "|", "```")) and not re.match(r"^\s*\d+[.)]", lines[i + 1]):
+                i += 1
+            if 0 <= i < len(lines):
+                add.setdefault(i, []).append(c)
+    for i, cs in add.items():
+        lines[i] = lines[i].rstrip() + " " + " ".join(f"[[CONFIRM: {c}]]" for c in dict.fromkeys(cs))
+    text = "\n".join(lines)
+    gaps = [x for x in rep.items if x["code"] == "K01" and x.get("question") and x["level"] == "warn"]
+    if gaps:
+        head = "## 待作者补充的材料缺口" if lang == "zh" else "## Missing information for the author to supply"
+        text = text.rstrip() + "\n\n" + head + "\n\n" + "\n".join(f"- {x['label']}: [[GAP: {x['question']}]]" for x in gaps) + "\n"
+    return text
+
+
+def review_notes(fact_map, rep, lang):
+    nums = [(e, r) for e in fact_map for r in e["numbers"]]
+    auto = [(e, r) for e, r in nums if r.get("how") in ("auto", "version-auto")]
+    L = ["## 审核说明（自动映射）" if lang == "zh" else "## Review notes (automatic source mapping)", "",
+         f"- numbers/versions in the text: {len(nums)}; matched by tag {sum(1 for _, r in nums if str(r.get('how', '')).startswith('tag'))}, "
+         f"auto-mapped {len(auto)}, CALC/SRC {sum(1 for _, r in nums if r.get('how') in ('calc', 'source-line'))}, "
+         f"unsourced {sum(1 for _, r in nums if r.get('how') == 'none')}"]
+    for code, title in [("N01", "unsourced numbers (not in any material)"), ("T02", "value differs from the cited fact"), ("X01", "condition crossover (val/test/stage)"),
+                        ("N02", "names not in the materials"), ("P02", "commands not in the materials"), ("C01", "conflicting values without confirmation"),
+                        ("C02", "conflicts marked automatically for the author"), ("K01", "required elements added as author questions")]:
+        its = [x for x in rep.items if x["code"] == code and x["level"] in ("fail", "warn")]
+        if its:
+            L.append(f"- **{code} {title}** ({len(its)}):")
+            L += [f"  - l.{x.get('line')}: {x['msg'][:220]}" for x in its[:12]]
+    L += ["", "| line | token | fact | source | how |", "|---|---|---|---|---|"]
+    for e, r in nums[:300]:
+        L.append(f"| {e['line']} | `{r['token']}` | {r.get('matched') or '-'} | {r.get('source', '')} | {r.get('how', '')} |")
+    return L
+
+
+def coerce(value, typ):
+    """Align a mapped value with the JSON-Schema type declared for its contract field."""
+    if typ is None or value is None:
+        return value
+    if typ == "string" and not isinstance(value, str):
+        if isinstance(value, list) and all(isinstance(x, str) for x in value):
+            return "\n".join(value)
+        return json.dumps(value, ensure_ascii=False)
+    if typ == "array" and not isinstance(value, list):
+        return [value]
+    if typ == "object" and not isinstance(value, dict):
+        return {"items": value} if isinstance(value, list) else {"value": value}
+    if typ in ("number", "integer") and isinstance(value, (list, dict)):
+        return len(value)
+    if typ == "boolean" and not isinstance(value, bool):
+        return bool(value)
+    return value
+
+
 def diff_records(old, new):
     a = [x for x in re.split(r"(?<=[。！？.!?])\s*|\n+", old) if x.strip()]
     b = [x for x in re.split(r"(?<=[。！？.!?])\s*|\n+", new) if x.strip()]
@@ -1031,6 +1143,10 @@ def build(work, out, provisional=False):
     stages = check_stages(units, state, rep) if content_units else []
     if not content_units:
         rep.add("fail", "D00", "draft.md has no content yet")
+    for it in rep.items:  # a malformed or wrong tag is ignored, never a reason to bounce the draft
+        if it["level"] == "fail" and it["code"] in ("T01", "T03", "T06", "K10", "K11"):
+            it["level"] = "warn"
+            it["msg"] += " (tag ignored)"
     # accepted warnings/fails by code+unit
     acc = agent.get("accept") or {}
     for it in rep.items:
@@ -1041,7 +1157,7 @@ def build(work, out, provisional=False):
     rows = param_rows(facts, conflicts, cited, lang, units)
     table_md = md_table(rows, lang)
     has_pt = any(parse_tags(u["tags"])["param_table"] for u in units)
-    draft_for_render = draft_text
+    draft_for_render = auto_marks(draft_text, units, rep, lang)
     if not has_pt and content_units:
         cap = "\n\n**表 参数及来源**\n\n[[PARAM_TABLE]]\n" if lang == "zh" else "\n\n**Table. Parameters and their sources**\n\n[[PARAM_TABLE]]\n"
         heads = [m for m in re.finditer(r"(?m)^#{1,6}\s+(.*)$", draft_text)]
@@ -1088,6 +1204,9 @@ def build(work, out, provisional=False):
             qs.append({"id": f"Q-{u['uid']}", "type": "draft_gap", "section": u["section"], "line": u["line"], "question": g, "status": "open"})
         for g in u.get("parsed", {}).get("confirms", []):
             qs.append({"id": f"Q-{u['uid']}c", "type": "draft_confirm", "section": u["section"], "line": u["line"], "question": g, "status": "open"})
+    for x in rep.items:
+        if x["code"] == "K01" and x.get("question") and x["level"] == "warn":
+            qs.append({"id": f"Q-{x['element']}", "type": "auto_gap", "category": x.get("category"), "question": x["question"], "status": "open"})
     QL = ["# 待作者确认清单" if lang == "zh" else "# Questions for the author", ""]
     for q in qs:
         QL.append(f"- [ ] **{q['id']}** ({q['type']}{', ' + q['category'] if q.get('category') else ''}) {q['question']}" + (f" — facts {', '.join(q['facts'][:5])}" if q.get("facts") else "") +
@@ -1182,9 +1301,14 @@ def build(work, out, provisional=False):
         "built_at": now(),
     })
     for fdef in state.get("contract", []):
-        result[fdef["name"]] = mapped.get(fdef["name"])
+        result[fdef["name"]] = coerce(mapped.get(fdef["name"]), fdef.get("type"))
     if "status" in [f["name"] for f in state.get("contract", [])]:
-        result["status"] = status
+        result["status"] = coerce(status, next(f.get("type") for f in state["contract"] if f["name"] == "status"))
+    full = result
+    if state.get("contract_closed"):
+        # additionalProperties: false -> result.json holds only the contract fields (+ case_id); the rest goes to result_full.json
+        C.dump_json(result, os.path.join(out, "result_full.json"))
+        result = {"case_id": state["case_id"], **{f["name"]: result.get(f["name"]) for f in state["contract"]}}
     C.dump_json(fm_out, os.path.join(out, "fact_map.json"))
     C.dump_json({"status": status, "reason": reason, "items": rep.items, "coverage": cov, "limitations": lim, "stages": stages}, os.path.join(out, "check_report.json"))
     C.dump_json(result, os.path.join(out, "result.json"))
@@ -1192,12 +1316,15 @@ def build(work, out, provisional=False):
          f"facts extracted {len(facts)}, cited {len(cited)}; conflicts {len(conflicts)}; questions {len(qs)}; preview: {preview_note}", "", "## Coverage"]
     for c in cov:
         R.append(f"- {c['element']} ({c['category']}, {c['level']}): **{c['status']}** — {c['label']}")
-    R += ["", "## Check items"]
+    notes = review_notes(fm_out, rep, lang) if content_units else []
+    R += [""] + notes + ["", "## Check items"]
     for x in rep.items:
         if x["level"] != "info":
             R.append(f"- {x['level'].upper()} {x['code']} l.{x.get('line')}: {x['msg']}" + (f" (accepted: {x['accepted']})" if x.get("accepted") else ""))
     C.write_text(os.path.join(out, "review.md"), "\n".join(R) + "\n")
-    return status, rep, result
+    if notes:  # the annotated chapter carries the source of every number, also for untagged prose
+        C.write_text(os.path.join(out, "methods_annotated.md"), annotated.rstrip() + "\n\n" + "\n".join(notes) + "\n")
+    return status, rep, full
 
 
 def main(argv=None):
@@ -1220,8 +1347,15 @@ def main(argv=None):
             print(f"warn {x['code']} l.{x.get('line')}: {x['msg']}")
         if len(warns) > 40:
             print(f"... {len(warns) - 40} more warnings in check_report.json")
-    print(f"outputs in {a.out}")
-    return 1 if fails else 0
+    print(f"outputs in {a.out}  (source map and review notes: review.md, fact_map.json)")
+    hard = [x for x in fails if x["code"] in HARD_CODES]
+    rounds = len(C.load_json(os.path.join(a.work, "history.json"), []) or [])
+    if hard and rounds <= FIX_ROUNDS:
+        print(f"exit 1: {len(hard)} factual error(s) above ({', '.join(sorted({x['code'] for x in hard}))}); fix those lines only and rebuild (build {rounds}/{FIX_ROUNDS + 1})")
+        return 1
+    if fails:
+        print("remaining items are recorded in review.md / result.json (status partial); no further fixing required")
+    return 0
 
 
 if __name__ == "__main__":
