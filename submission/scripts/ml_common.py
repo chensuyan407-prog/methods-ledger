@@ -9,7 +9,7 @@ import zipfile
 SKILL_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 RULES_DIR = os.path.join(SKILL_DIR, "rules")
 CJK = "㐀-䶿一-鿿豈-﫿"
-VERSION = "0.1.1"
+VERSION = "0.1.2"
 
 
 def load_json(path, default=None):

@@ -34,6 +34,19 @@ LIMIT_HEAD_RE = re.compile(r"(?i)limitation|threats? to validity|caveat|局限|�
 PARAM_HEAD_RE = re.compile(r"(?i)param|hyper|参数")
 NAME_CANONS = {"model", "baseline", "dataset", "dataset_version", "hardware", "optimizer", "scheduler", "loss", "metric", "statistical_test", "software",
                "instrument", "reagent", "force_field", "functional", "ensemble", "thermostat", "basis_set", "code_version", "container", "software_stats", "precision"}
+NUMBER_CUES = [
+    ("n_train", r"训练(?:集|样本)|\btrain(?:ing)?(?:[ _]+(?:set|samples|examples|count))?\b"),
+    ("n_val", r"验证(?:集|样本)|\b(?:val|validation|dev)(?:[ _]+(?:set|samples|examples|count))?\b"),
+    ("n_test", r"测试(?:集|样本)|\btest(?:ing)?(?:[ _]+(?:set|samples|examples|count))?\b"),
+    ("warmup", r"预热(?:比例|步数)?|\bwarm[-_ ]?up(?:[-_ ](?:ratio|steps))?\b"),
+    ("batch_size", r"批大小|\bbatch[ _-]size\b"),
+    ("learning_rate", r"学习率|\b(?:learning[ _-]rate|lr)\b"),
+    ("epochs", r"训练轮数|\bepochs\b"),
+    ("split_seed", r"划分(?:随机)?种子|\brandom_state\b|\bsplit[ _-]seed\b"),
+    ("seed", r"种子|\bseed\b"),
+    ("num_gpus", r"\bGPUs?\b|显卡"),
+]
+ABLATION_RE = re.compile(r"(?i)\bablation\b|消融|\bno[-_ ]warm[-_ ]?up\b")
 HARD_CODES = {"N01", "N02", "T02", "P02", "C01", "M01", "D00"}  # factual errors; tag-format/coverage problems are soft
 FIX_ROUNDS = 2  # builds that may return exit 1; later builds record what is left and return 0
 
@@ -337,6 +350,45 @@ def lookup_any(idx, facts, v, pct):
     return res
 
 
+def rank_number_sources(candidates, span, start, end, paragraph, splits):
+    from ml_extract import KIND_RANK, RATIO_RE
+
+    ratio = next((m for m in RATIO_RE.finditer(span) if m.start() <= start < m.end()), None)
+    before = span[max(0, start - 42):start]
+    after = span[end:end + 18]
+    if ratio:
+        canon = "split_ratio"
+    elif re.match(r"(?i)\s*(?:张|块|个)?\s*(?:GPUs?\b|显卡)", after):
+        canon = "num_gpus"
+    elif re.match(r"(?i)\s*(?:个?\s*)?(?:epochs?\b|轮)", after) and "训练" in before:
+        canon = "epochs"
+    else:
+        canon = next((key for key, pattern in NUMBER_CUES if re.search(
+            r"(?i)(?:" + pattern + r")[\s`*]*(?:[：:=为共是有]|was|of|is)?[\s`*（(]*$", before
+        )), None)
+    row_context = re.sub(r"[\s_-]+", "", re.split(r"[，,；;]", before)[-1].lower())
+    ablation = bool(ABLATION_RE.search(paragraph))
+
+    def score(fact):
+        row = re.sub(r"[\s_-]+", "", fact.get("row_label", "").lower())
+        from_ablation = ablation and fact["kind"] == "table" and ABLATION_RE.search(
+            " ".join((fact["file"], fact.get("sheet", ""), fact.get("row_label", "")))
+        )
+        key = fact.get("canon")
+        scope = (fact.get("scope") or "").rsplit("/", 1)[-1]
+        return (
+            fact.get("how") == "table-size",
+            bool(ratio) and not (key == "split_ratio" and fact["nums"][:3] == [float(x) for x in ratio.groups()]),
+            not (canon and key == canon),
+            not (row and row in row_context),
+            not bool(from_ablation),
+            scope not in splits if splits else False,
+            KIND_RANK.get(fact["kind"], 9) if canon and key == canon else 0,
+        )
+
+    return sorted(candidates, key=score)
+
+
 def exempt_number(text, start, end, tok):
     before = text[max(0, start - 14):start]
     after = text[end:end + 4]
@@ -361,6 +413,9 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
     corpus_lines = {p: t.split("\n") for p, t in corpus.items()}
     cited, fact_map = set(), []
     lang = state["lang"]
+    paragraphs = {}
+    for unit in units:
+        paragraphs.setdefault(unit["line"], []).append(unit["text"])
     name_facts, seen_names = [], set()
     for f in sorted(facts, key=lambda f: f["id"] not in conf_of):
         v = f["value"].strip()
@@ -520,11 +575,14 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                     entry["numbers"].append(rec)
                     continue
                 if cands:
-                    # natural prose: map the number to its source automatically; prefer a fact of the split the sentence talks about
+                    # Use the local field and condition before falling back to a shared split.
+                    cands = rank_number_sources(cands, stext, st_, en_, " ".join(paragraphs[u["line"]]), splits_here)
                     same = [c for c in cands if (c["scope"] or "").split("/")[-1] in splits_here] if splits_here else []
-                    best = (same or cands)[0]
+                    best = cands[0]
                     rec.update({"matched": best["id"], "candidates": [c["id"] for c in cands[:6]], "how": "auto", "source": f"{best['file']}:{best['line']}"})
-                    if not small:
+                    if best.get("sheet"):
+                        rec["sheet"] = best["sheet"]
+                    if not small or best.get("row_label") or best["canon"] in ("split_ratio", "num_gpus", "n_runs"):
                         cited.add(best["id"])
                         u["auto"].append(best["id"])
                         rep.add("info", "A01", f"{tok} auto-mapped to {best['id']} ({best['file']}:{best['line']})", u["uid"], u["line"])
@@ -685,10 +743,20 @@ def coverage(units, facts, gaps, state, rep, cited):
         elif any(re.search(pat, g) or re.search(pat_en, g) for u in content for g in u["parsed"]["gaps"] + u["parsed"]["confirms"]):
             status = "marked_gap"
         if status == "missing" and e["level"] == "required":
-            # not bounced back: the element is written into the chapter as an explicit author question
-            status = "auto_gap"
-            rep.add("warn", "K01", f"required element missing: {e['label'][lang]} -> added to the chapter as an author question (write it with material values if they exist)",
-                    element=e["id"], question=e["question"][lang], category=e["category"], label=e["label"][lang])
+            in_materials = [f for f in facts if not f.get("series") and
+                            (f["canon"] in e["keys"] or
+                             (e["id"] in ("E_baseline", "E_controls") and f["scope"].startswith("baseline")))]
+            if in_materials:
+                # the materials hold the value but the chapter does not state it: bounce back once more, with the sources
+                ref = "; ".join(f"{f['file']}:{f['line']} {f['value'][:40]}" for f in in_materials[:4])
+                status = "omitted_from_draft"
+                rep.add("fail", "K12", f"required element written nowhere although the materials record it: {e['label'][lang]} -> write these values in the chapter: {ref}",
+                        element=e["id"], label=e["label"][lang])
+            else:
+                # the materials do not record it: the element becomes an explicit author question, not a placeholder in the text
+                status = "material_gap"
+                rep.add("warn", "K01", f"required element missing: {e['label'][lang]} -> verify the material text and record any genuine gap in questions.md",
+                        element=e["id"], question=e["question"][lang], category=e["category"], label=e["label"][lang])
         elif status == "missing":
             rep.add("warn", "K02", f"element not covered and not marked as a gap: {e['label'][lang]} -> write it with sources or add [[GAP: {e['question'][lang][:60]}...]]", element=e["id"])
         result.append({"element": e["id"], "category": e["category"], "label": e["label"][lang], "level": e["level"], "status": status,
@@ -773,7 +841,8 @@ def param_rows(facts, conflicts, cited, lang, units):
     text = " ".join(u["text"] for u in units).lower()
     rank = {"log": 1, "cli": 2, "env": 3, "config": 4, "code": 5}
     for f in sorted(pool, key=lambda f: (CAT_ORDER.get(f["category"], 9), f["canon"], 0 if f["id"] in cited else 1, rank.get(f["kind"], 6))):
-        key = (f["canon"], f["scope"], f["path"].split(".")[-1] if f["canon"] in ("software", "software_stats") else "")
+        variant = f["path"].split(".")[-1] if f["canon"] in ("software", "software_stats", "hardware") else ""
+        key = (f["canon"], f["scope"], variant, f.get("row_label", ""))
         if key in seen:
             r = seen[key]
             if C.norm_str(f["value"]) != C.norm_str(r["value"]) and C.norm_str(f["value"]) not in [C.norm_str(x.split("=", 1)[-1]) for x in r["other_values"]]:
@@ -787,7 +856,7 @@ def param_rows(facts, conflicts, cited, lang, units):
         if parent in ("version", "text") or not parent:
             parent = ""
         applies = "/".join(dict.fromkeys(x for x in f["scope"].split("/") + parent.split(".") if x)) or "-"
-        r = {"name": C.key_label(f["canon"], lang) + (f" ({f['path'].split('.')[-1]})" if f["canon"] in ("software", "software_stats") else ""),
+        r = {"name": C.key_label(f["canon"], lang) + (f" ({variant})" if variant else ""),
              "canonical": f["canon"], "category": f["category"], "value": f["value"], "unit": unit_of(f["value"], f["context"]), "applies_to": applies,
              "source": f"{f['file']}:{f['line']}", "fact": f["id"], "source_kind": f["kind"], "status": status, "other_values": [], "all_sources": [f"{f['file']}:{f['line']}"]}
         seen[key] = r
@@ -997,6 +1066,7 @@ def map_contract(state, outputs, agent):
     notes = []
     kinds = [
         ("case_id", r"^(case_?id|id)$"), ("status", r"^status$"),
+        ("status_reason", r"^status_reason$"), ("output_contract", r"^output_contract$"),
         ("change_records", r"change|diff|revision|修改|版本差异|变更"),
         ("conflicts", r"conflict|冲突|不一致"),
         ("questions", r"gap|question|missing|confirm|issue|todo|pending|unresolved|query|queries|待确认|缺口|追问|human|manual|人工|问题"),
@@ -1042,9 +1112,8 @@ def map_contract(state, outputs, agent):
     return fields, notes
 
 
-def auto_marks(draft_text, units, rep, lang):
-    """Rendered text only: conflicts used in untagged prose get an inline author-confirmation marker, required
-    elements that are missing get an explicit author question at the end of the chapter."""
+def auto_marks(draft_text, units):
+    """Render unresolved conflicts inline."""
     lines = draft_text.split("\n")
     add = {}
     for u in units:
@@ -1056,12 +1125,7 @@ def auto_marks(draft_text, units, rep, lang):
                 add.setdefault(i, []).append(c)
     for i, cs in add.items():
         lines[i] = lines[i].rstrip() + " " + " ".join(f"[[CONFIRM: {c}]]" for c in dict.fromkeys(cs))
-    text = "\n".join(lines)
-    gaps = [x for x in rep.items if x["code"] == "K01" and x.get("question") and x["level"] == "warn"]
-    if gaps:
-        head = "## 待作者补充的材料缺口" if lang == "zh" else "## Missing information for the author to supply"
-        text = text.rstrip() + "\n\n" + head + "\n\n" + "\n".join(f"- {x['label']}: [[GAP: {x['question']}]]" for x in gaps) + "\n"
-    return text
+    return "\n".join(lines)
 
 
 def review_notes(fact_map, rep, lang):
@@ -1073,7 +1137,8 @@ def review_notes(fact_map, rep, lang):
          f"unsourced {sum(1 for _, r in nums if r.get('how') == 'none')}"]
     for code, title in [("N01", "unsourced numbers (not in any material)"), ("T02", "value differs from the cited fact"), ("X01", "condition crossover (val/test/stage)"),
                         ("N02", "names not in the materials"), ("P02", "commands not in the materials"), ("C01", "conflicting values without confirmation"),
-                        ("C02", "conflicts marked automatically for the author"), ("K01", "required elements added as author questions")]:
+                        ("C02", "conflicts marked automatically for the author"), ("K01", "material gaps to verify"),
+                        ("K12", "source-backed omissions in the chapter")]:
         its = [x for x in rep.items if x["code"] == code and x["level"] in ("fail", "warn")]
         if its:
             L.append(f"- **{code} {title}** ({len(its)}):")
@@ -1157,16 +1222,16 @@ def build(work, out, provisional=False):
     rows = param_rows(facts, conflicts, cited, lang, units)
     table_md = md_table(rows, lang)
     has_pt = any(parse_tags(u["tags"])["param_table"] for u in units)
-    draft_for_render = auto_marks(draft_text, units, rep, lang)
+    draft_for_render = auto_marks(draft_text, units)
     if not has_pt and content_units:
         cap = "\n\n**表 参数及来源**\n\n[[PARAM_TABLE]]\n" if lang == "zh" else "\n\n**Table. Parameters and their sources**\n\n[[PARAM_TABLE]]\n"
-        heads = [m for m in re.finditer(r"(?m)^#{1,6}\s+(.*)$", draft_text)]
+        heads = list(re.finditer(r"(?m)^#{1,6}\s+(.*)$", draft_for_render))
         pos = None
         for i, m in enumerate(heads):
             if PARAM_HEAD_RE.search(m.group(1)):
-                pos = heads[i + 1].start() if i + 1 < len(heads) else len(draft_text)
+                pos = heads[i + 1].start() if i + 1 < len(heads) else len(draft_for_render)
                 break
-        draft_for_render = (draft_text[:pos] + cap + "\n" + draft_text[pos:]) if pos is not None else draft_text + cap
+        draft_for_render = (draft_for_render[:pos] + cap + "\n" + draft_for_render[pos:]) if pos is not None else draft_for_render + cap
     clean = render_clean(draft_for_render, lang, table_md, False, byid)
     annotated = render_clean(draft_for_render, lang, table_md, True, byid)
     os.makedirs(out, exist_ok=True)
@@ -1204,8 +1269,9 @@ def build(work, out, provisional=False):
             qs.append({"id": f"Q-{u['uid']}", "type": "draft_gap", "section": u["section"], "line": u["line"], "question": g, "status": "open"})
         for g in u.get("parsed", {}).get("confirms", []):
             qs.append({"id": f"Q-{u['uid']}c", "type": "draft_confirm", "section": u["section"], "line": u["line"], "question": g, "status": "open"})
+    gap_elements = {g.get("element") for g in gaps}
     for x in rep.items:
-        if x["code"] == "K01" and x.get("question") and x["level"] == "warn":
+        if x["code"] == "K01" and x.get("question") and x["level"] == "warn" and x["element"] not in gap_elements:
             qs.append({"id": f"Q-{x['element']}", "type": "auto_gap", "category": x.get("category"), "question": x["question"], "status": "open"})
     QL = ["# 待作者确认清单" if lang == "zh" else "# Questions for the author", ""]
     for q in qs:
@@ -1271,26 +1337,31 @@ def build(work, out, provisional=False):
             uncertainty.append(f"{fi['path']}: {p}")
     uncertainty += [f"{x['code']} {x['msg']}" for x in warns[:30]]
     uncertainty += problems
-    files_out = sorted(os.listdir(out)) if os.path.isdir(out) else []
+    files_out = ["methods.md", "methods_annotated.md", "methods_annotated.html", "param_table.csv", "param_table.md",
+                 "fact_map.json", "questions.md", "check_report.json", "review.md", "result.json"]
+    files_out += [name for name in ("methods.docx", "methods_preview.pdf", "methods_preview.png")
+                  if os.path.isfile(os.path.join(out, name))]
+    if state.get("contract_closed"):
+        files_out.append("result_full.json")
     contract_outputs = {
-        "case_id": state["case_id"], "status": status, "methods_text": clean, "parameters": rows, "fact_map": fm_out,
+        "case_id": state["case_id"], "status": status, "status_reason": reason,
+        "output_contract": state.get("output_contract", {}), "methods_text": clean, "parameters": rows, "fact_map": fm_out,
         "questions": qs, "conflicts": conflicts, "uncertainty": uncertainty, "change_records": {"against_input_draft": changes, "build_history": hist},
         "repro": rc, "limitations": limits_list, "datasets": [r for r in rows if r["category"] == "data"],
         "controls": [r for r in rows if r["category"] == "control"], "setup": [r for r in rows if r["category"] == "setup"],
         "steps": sec(r"step|procedure|pipeline|流程|步骤|方法") or [u["text"] for u in units if u.get("list_item")],
         "summary": f"{len(content_units)} text units, {len(cited)} facts cited, {len(rows)} parameters, {len(open_q)} questions, status {status}",
-        "files": ["methods.md", "methods_annotated.md", "methods_annotated.html", "methods.docx", "methods_preview.pdf", "methods_preview.png", "param_table.csv", "param_table.md",
-                  "fact_map.json", "questions.md", "check_report.json", "review.md", "result.json"],
+        "files": files_out,
     }
     mapped, map_notes = map_contract(state, contract_outputs, agent)
     uncertainty += map_notes
     result = {"case_id": state["case_id"]}
     result.update(mapped)
     result.update({
-        "status": status, "status_reason": reason,
+        "status": status, "status_reason": reason, "output_contract": contract_outputs["output_contract"],
         "skill": {"name": "methods-ledger", "version": C.VERSION},
         "language": lang, "profile": state["profile"],
-        "artifacts": {k: os.path.join(out, k) for k in contract_outputs["files"] if os.path.exists(os.path.join(out, k)) or k == "result.json"},
+        "artifacts": {name: name for name in files_out},
         "preview": preview_note,
         "sources": [{"path": f["path"], "class": f["class"], "sha256": f["sha256"], "bytes": f["bytes"], "facts": f.get("n_facts", 0), "problems": f.get("problems", [])} for f in state["files"]],
         "checks": {"fail": len(fails), "warn": len(warns), "accepted": len([x for x in rep.items if x["level"] == "accepted"]),

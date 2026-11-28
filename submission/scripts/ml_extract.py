@@ -615,7 +615,7 @@ def extract_table(rel, text, F, offset=0, sheet=""):
                 if j == 0 and not canon:
                     continue
                 F.add(rel, i + offset, "table", header[j], cell, context=f"{label} | {header[j]} = {cell}", path=f"{label}.{header[j]}" if label else header[j],
-                      canon=canon, how=how or "table-cell", extra={"row_label": label})
+                      canon=canon, how=how or "table-cell", extra={"row_label": label, "sheet": sheet})
     else:
         for j, h in enumerate(header):
             canon, how = C.canon_key(h, rel)
@@ -652,7 +652,7 @@ def between_ok(b):
     rest = re.sub(r"(?i)\b(of|is|was|were|set|to|at|for|all|runs?|approximately|about|initial|final|used|a|an|the)\b", "", rest)
     return not re.search(r"[A-Za-z]", rest)
 DURATION_RE = re.compile(r"(?i)(incubat\w*|reaction|react\w*|centrifug\w*|shak\w*|stir\w*|anneal\w*|sonicat\w*|equilibrat\w*|hold\w*|treat\w*|孵育|反应|离心|振荡|搅拌|退火|超声|平衡|处理)[^.;。；\n]{0,30}?(?<![\w.])(\d+(?:\.\d+)?)\s*(min|minutes?|h|hrs?|hours?|s|sec|seconds?|days?|d|ps|ns|fs|分钟|小时|秒|天)(?![A-Za-z])")
-REPEAT_RE = re.compile(r"(?i)\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\s+(?:independent\s+|biological\s+|technical\s+)?(experiments|replicates|repeats|runs|repetitions|trials|seeds)\b|\bin\s+(duplicate|triplicate|quadruplicate)\b|(?:重复|独立)\s*(\d+)\s*次|(\d+)\s*次(?:独立|重复)|(\d+)\s*个?(?:平行|复孔|生物学重复)|(?:只|仅)(?:跑|运行|做)了?\s*(一|1)\s*(?:条|次|个)")
+REPEAT_RE = re.compile(r"(?i)\b(\d+|two|three|four|five|six|seven|eight|nine|ten)\s+(?:independent\s+|biological\s+|technical\s+)?(experiments|replicates|repeats|runs|repetitions|trials|seeds)\b|\bin\s+(duplicate|triplicate|quadruplicate)\b|(?:重复|独立)\s*(\d+)\s*次|(\d+)\s*次(?:独立|重复)|(\d+)\s*个?(?:平行|复孔|生物学重复)|(?:只|仅)(?:跑|运行|做)了?\s*(?:(?:seed|随机种子)\s*[:=：]?\s*\d+\s*)?(一|1)\s*(?:条|次|个)")
 WORDNUM = {"one": "1", "two": "2", "three": "3", "four": "4", "five": "5", "six": "6", "seven": "7", "eight": "8", "nine": "9", "ten": "10",
            "duplicate": "2", "triplicate": "3", "quadruplicate": "4", "一": "1"}
 STATWORD_RE = re.compile(r"(?i)\b(dunnett'?s?|tukey'?s?(?: hsd)?|bonferroni|holm|sidak|welch'?s? t-test|student'?s? t-test|paired t-test|t-test|mann[- ]whitney|wilcoxon|kruskal[- ]wallis|one-way anova|two-way anova|anova|chi-square|fisher'?s exact|bootstrap|permutation test|mixed[- ]effects? model|linear mixed model)\b|(t\s*检验|方差分析|卡方检验|秩和检验|多重比较)")
@@ -690,7 +690,9 @@ def extract_doc(rel, text, F, kind):
                 continue
             if canon and (C.key_category(canon) == "params" or canon in TEXT_NUM_CANONS):
                 F.add(rel, ln, "doc_kv", label, num, context=s, path=f"text.{label}", canon=canon, how="text-mention")
-        if C.num_tokens(s) or re.search(r"(?i)\bv?\d+\.\d+", s):
+        if C.num_tokens(s) or re.search(r"(?i)\bv?\d+\.\d+", s) or (
+            rel.lower().endswith(".pdf") and re.search(r"(?i)\b(?:fp16|bf16|mixed precision|gpu|cpu)\b|混合精度", s)
+        ):
             F.add(rel, ln, "doc", "sentence", s[:380], context=s, canon=None, how="sentence", extra={"doc_class": kind})
 
 
@@ -1024,7 +1026,7 @@ def render_facts_md(state, facts, conflicts, gaps, stages, series, lang):
         L.append(f"- [{e['level']}] {e['label'][lang]} ({e['category']})")
     if state.get("contract"):
         L.append("")
-        L.append("## output_contract (result.json gets exactly these top-level fields; filled by ml_build.py)")
+        L.append("## output_contract (ml_build.py writes these fields at the top level of result.json)")
         for f in state["contract"]:
             L.append(f"- `{f['name']}`" + (f" ({f['type']})" if f.get("type") else "") + (f": {f['desc'][:120]}" if f.get("desc") else ""))
     if state.get("task_excerpt"):
@@ -1076,7 +1078,7 @@ def render_facts_md(state, facts, conflicts, gaps, stages, series, lang):
     docs = [f for f in facts if f["kind"] == "doc"]
     if docs:
         L.append("")
-        L.append("## Lines with numbers in notes / data cards / drafts (cite them like any fact)")
+        L.append("## Evidence lines in notes / data cards / PDFs / drafts")
         for f in docs[:200]:
             L.append(f"- {f['id']} `{f['file']}:{f['line']}` {f['value'][:200]}")
         if len(docs) > 200:
@@ -1276,7 +1278,9 @@ def main(argv=None):
              "input_dir": os.path.abspath(in_dir), "out": os.path.abspath(a.out), "work": os.path.abspath(a.work), "lang": lang,
              "profile": profile, "profile_scores": pscores, "contract": contract, "files": state_files, "problems": problems,
              "task_excerpt": task_text.strip()[:1500], "stages": stages, "series": [{"file": k[0], "key": k[1], **v} for k, v in series.items()],
-             "declared_missing": declared_missing, "contract_closed": contract_closed(case), "extract_seconds": round(time.time() - t0, 2), "case_keys": sorted(case.keys()) if isinstance(case, dict) else []}
+             "declared_missing": declared_missing, "contract_closed": contract_closed(case),
+             "output_contract": case.get("output_contract", {}) if isinstance(case, dict) else {},
+             "extract_seconds": round(time.time() - t0, 2), "case_keys": sorted(case.keys()) if isinstance(case, dict) else []}
     os.makedirs(a.work, exist_ok=True)
     C.dump_json({"facts": facts, "conflicts": conflicts, "gaps": gaps}, os.path.join(a.work, "facts.json"))
     C.dump_json(state, os.path.join(a.work, "state.json"))
@@ -1298,8 +1302,14 @@ def main(argv=None):
         try:
             ml_build.build(a.work, a.out, provisional=True)
         except Exception as e:  # noqa
-            C.dump_json({"case_id": case_id, "status": "partial", "status_reason": f"provisional result; build failed: {e}",
-                         **{f["name"]: None for f in contract}}, rp)
+            fallback = {f["name"]: None for f in contract}
+            fallback.update({"case_id": case_id, "status": "partial",
+                             "status_reason": f"provisional result; build failed: {e}",
+                             "output_contract": state["output_contract"]})
+            if state["contract_closed"]:
+                C.dump_json(fallback, os.path.join(a.out, "result_full.json"))
+                fallback = {"case_id": case_id, **{f["name"]: fallback[f["name"]] for f in contract}}
+            C.dump_json(fallback, rp)
     print(f"case_id: {case_id}")
     print(f"language: {lang}   profile: {profile}   files: {len(state_files)}   facts: {len(facts)}   conflicts: {len(conflicts)}   gaps: {len(gaps)}   ({state['extract_seconds']} s)")
     print("contract fields: " + (", ".join(f["name"] for f in contract) or "(none found in case.json)"))

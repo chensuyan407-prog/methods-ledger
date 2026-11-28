@@ -154,7 +154,7 @@ def mutations(case, gold, lang, facts, corpus_low):
     if m:
         nxt = re.search(r"(?m)^#{1,%d}\s" % len(m.group(1)), gold[m.end():])
         end = m.end() + nxt.start() if nxt else len(gold)
-        out.append(("drop_limits", "missing_element", gold[:m.start()] + gold[end:], {"K01"}, "limitations section removed"))
+        out.append(("drop_limits", "missing_element", gold[:m.start()] + gold[end:], {"K01", "K12"}, "limitations section removed"))
         out.append(("boiler_limits", "boilerplate_limits", gold[:m.end()] + "\n\n" + "\n".join(BOILER[lang]) + "\n\n" + gold[end:], {"L02"}, "generic limitations"))
     # missing elements: remove every unit matching a covered required element
     st = {"profile": PROFILE[case]}
@@ -173,7 +173,8 @@ def mutations(case, gold, lang, facts, corpus_low):
                     txt = txt.replace(sent, "", 1)
                     removed += 1
         if removed:
-            out.append((f"drop_{eid}", "missing_element", txt, {"K01"}, f"{removed} sentences on {eid} removed"))
+            # K12 (FAIL) when the materials hold the element, K01 (warn, author question) when they do not
+            out.append((f"drop_{eid}", "missing_element", txt, {"K01", "K12"}, f"{removed} sentences on {eid} removed"))
     # command edit
     cm = re.search(r"(?m)^((?:python3?|lmp|Rscript|bash)\b[^\n`]*)$", gold) or re.search(r"`((?:python3?|lmp|Rscript|bash)\b[^`]*)`", gold)
     if cm:
@@ -235,7 +236,7 @@ def naive_grep_catch(draft, corpus_low):
 
 
 def checklist_catch(codes):
-    return bool(codes & {"K01", "L02"})
+    return bool(codes & {"K01", "K12", "L02"})
 
 
 # ---------------------------------------------------------------- robustness

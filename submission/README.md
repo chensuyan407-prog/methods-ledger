@@ -67,6 +67,7 @@ the tagged facts (T02 otherwise), numbers in untagged text are auto-mapped to th
 | field / file | content |
 |---|---|
 | `case_id`, `status`, `status_reason` | `success` = draft present, no FAIL (open author questions listed); `partial` = FAILs left / no draft / provisional; `failed` = nothing readable |
+| `output_contract`, `artifacts` | Original contract plus a manifest with paths relative to the result directory. Closed schemas put undeclared metadata in `result_full.json`. |
 | contract fields | filled by name: chapter text, parameter rows, fact map, questions, conflicts, uncertainty, change records, repro checklist, limitations, datasets, controls, setup, steps, summary, files; anything else via `agent.json` `fields` (unmapped fields are `null` and listed in `uncertainty`) |
 | `sources` | every material file: class, SHA-256, bytes, number of facts, reading problems |
 | `checks` | fail/warn counts, fail items, coverage per element (`covered` / `marked_gap` / `missing`), limitation stats, pipeline stages described |
@@ -107,9 +108,9 @@ drafts (`tests/run_eval.py`).
 | false conflicts | 0 | 3 | 0 | 0 |
 | expected gaps found | 8/8 | 4/4 | 4/4 | 12/12 |
 | gold drafts without FAIL | 3/3 | 0/2 | 2/2 | 5/5 |
-| planted defects caught (FAIL) | 58/60 | 39/40 | 39/40 | 97/100 |
+| planted defects caught (FAIL) | 58/60 | 39/40 | 39/40 | 89/100 (0.1.2; 97/100 in 0.1.0) |
 | baseline B1: grep every number/version in the materials | 35/60 | 17/40 | 17/40 | 52/100 |
-| baseline B2: checklist/coverage only | 21/60 | 14/40 | 14/40 | 35/100 |
+| baseline B2: checklist/coverage only | 21/60 | 14/40 | 14/40 | 27/100 (0.1.2 run) |
 | robustness checks | | | | 13/13 |
 
 Planted defects by type (all 5 cases, final): wrong value 29/29 (grep 25), invented number 9/10 (grep 10),
@@ -155,7 +156,16 @@ Fresh-directory run (`execution/results/fresh_run`): only `submission/` copied t
 robustness checks in ~30 s. `python scripts/ml_build.py` on the agent's draft is the per-case self-check; `review.md` lists
 every finding.
 
-Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.1.1 (2026-11-27).
+Maintainer: chensuyan407 (GitHub chensuyan407-prog). Licence: MIT. Version 0.1.2 (2026-11-28).
+
+## Changes in 0.1.2
+
+- Numeric provenance uses the field near each number, the full split ratio, and the comparison context. XLSX matches
+  retain the sheet name. The parameter table keeps CPU and GPU entries and workbook conditions distinct.
+- K12 flags required elements supported by input evidence and gives the source for a targeted revision. K01 routes
+  genuine input gaps to the author checklist. The editable draft keeps factual limits and unresolved conflicts in context.
+- The result retains the original contract and lists generated artifact paths relative to the output directory.
+- The mutation checks accept K12 or K01 for removed required elements. See the self-check command for the current metrics.
 
 ## Changes in 0.1.1
 
