@@ -208,7 +208,7 @@
    "fails": [],
    "warns": 0,
    "warn_codes": [],
-   "facts_cited": 28,
+   "facts_cited": 29,
    "questions": 10,
    "coverage": {
     "E_steps": "covered",
@@ -512,20 +512,20 @@
    "type": "missing_element",
    "note": "limitations section removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "K03",
     "T05"
    ],
    "baseline_grep": true,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "dev_ml",
@@ -555,15 +555,17 @@
    "type": "missing_element",
    "note": "5 sentences on E_seed removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
+    "K01",
     "K03",
     "T05"
    ],
@@ -576,13 +578,14 @@
    "type": "missing_element",
    "note": "6 sentences on E_hparams removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -598,13 +601,14 @@
    "type": "missing_element",
    "note": "9 sentences on E_split removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -619,13 +623,14 @@
    "type": "missing_element",
    "note": "7 sentences on E_software removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -640,13 +645,14 @@
    "type": "missing_element",
    "note": "7 sentences on E_baseline removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -662,20 +668,20 @@
    "type": "missing_element",
    "note": "3 sentences on E_repeats removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "K03",
     "T05"
    ],
    "baseline_grep": true,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "dev_ml",
@@ -683,13 +689,14 @@
    "type": "missing_element",
    "note": "2 sentences on E_hardware removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -941,17 +948,18 @@
    "type": "missing_element",
    "note": "limitations section removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
+   "any_new_fail": false,
+   "fail_codes": [],
+   "warn_codes": [
     "K01"
    ],
-   "warn_codes": [],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "dev_sim",
@@ -979,13 +987,14 @@
    "type": "missing_element",
    "note": "1 sentences on E_seed removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02"
@@ -999,13 +1008,14 @@
    "type": "missing_element",
    "note": "4 sentences on E_software removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03"
@@ -1019,13 +1029,14 @@
    "type": "missing_element",
    "note": "7 sentences on E_conditions removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03"
@@ -1039,13 +1050,14 @@
    "type": "missing_element",
    "note": "2 sentences on E_repeats removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02"
@@ -1059,13 +1071,14 @@
    "type": "missing_element",
    "note": "1 sentences on E_hardware removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03"
@@ -1292,7 +1305,6 @@
    "fail_codes": [],
    "warn_codes": [
     "N02",
-    "N03",
     "T05"
    ],
    "baseline_grep": true,
@@ -1347,19 +1359,19 @@
    "type": "missing_element",
    "note": "limitations section removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "N02"
    ],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "dev_wetlab",
@@ -1388,13 +1400,14 @@
    "type": "missing_element",
    "note": "2 sentences on E_software removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -1410,13 +1423,14 @@
    "type": "missing_element",
    "note": "9 sentences on E_conditions removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -1432,13 +1446,14 @@
    "type": "missing_element",
    "note": "4 sentences on E_repeats removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -1454,7 +1469,8 @@
    "type": "missing_element",
    "note": "5 sentences on E_instrument removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": false,
    "caught_any": false,
@@ -1765,20 +1781,20 @@
    "type": "missing_element",
    "note": "limitations section removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "K02",
     "T05"
    ],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "ho_nlp_en",
@@ -1808,13 +1824,14 @@
    "type": "missing_element",
    "note": "7 sentences on E_seed removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02",
@@ -1829,19 +1846,19 @@
    "type": "missing_element",
    "note": "5 sentences on E_hparams removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "C01",
-    "K01"
+    "K12"
    ],
    "warn_codes": [
+    "C02",
     "K02",
     "K03",
-    "N03",
     "T05"
    ],
    "baseline_grep": false,
@@ -1853,13 +1870,14 @@
    "type": "missing_element",
    "note": "2 sentences on E_split removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02",
@@ -1874,13 +1892,14 @@
    "type": "missing_element",
    "note": "1 sentences on E_software removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02",
@@ -1897,20 +1916,20 @@
    "type": "missing_element",
    "note": "3 sentences on E_baseline removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "K02",
     "T05"
    ],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "ho_nlp_en",
@@ -1918,15 +1937,17 @@
    "type": "missing_element",
    "note": "12 sentences on E_repeats removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
+    "K01",
     "K02",
     "K03",
     "P01",
@@ -1941,13 +1962,14 @@
    "type": "missing_element",
    "note": "6 sentences on E_hardware removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K02",
@@ -2238,19 +2260,19 @@
    "type": "missing_element",
    "note": "limitations section removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "T05"
    ],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "ho_stats",
@@ -2279,13 +2301,14 @@
    "type": "missing_element",
    "note": "1 sentences on E_seed removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "T05"
@@ -2299,19 +2322,19 @@
    "type": "missing_element",
    "note": "1 sentences on E_split removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
-   "caught_fail": true,
+   "caught_fail": false,
    "caught_any": true,
-   "any_new_fail": true,
-   "fail_codes": [
-    "K01"
-   ],
+   "any_new_fail": false,
+   "fail_codes": [],
    "warn_codes": [
+    "K01",
     "T05"
    ],
    "baseline_grep": false,
-   "baseline_checklist": true
+   "baseline_checklist": false
   },
   {
    "case": "ho_stats",
@@ -2319,13 +2342,14 @@
    "type": "missing_element",
    "note": "2 sentences on E_software removed",
    "expected": [
-    "K01"
+    "K01",
+    "K12"
    ],
    "caught_fail": true,
    "caught_any": true,
    "any_new_fail": true,
    "fail_codes": [
-    "K01"
+    "K12"
    ],
    "warn_codes": [
     "K03",
@@ -2431,7 +2455,7 @@
   {
    "check": "binary_and_xlsx_skipped",
    "pass": true,
-   "detail": "{'results.xlsx': 'binary-skipped', 'weights.pt': 'binary-skipped'}"
+   "detail": "{'results.xlsx': 'unreadable', 'weights.pt': 'binary-skipped'}"
   },
   {
    "check": "malformed_configs_no_crash",
@@ -2441,7 +2465,7 @@
   {
    "check": "huge_log_200k_lines",
    "pass": true,
-   "detail": "27.4 s, 527 facts"
+   "detail": "21.1 s, 527 facts"
   },
   {
    "check": "no_draft_partial",
@@ -2451,7 +2475,7 @@
   {
    "check": "bad_tags_reported",
    "pass": true,
-   "detail": "fail codes ['K01', 'T01', 'T03', 'T06']"
+   "detail": "warn codes ['K01', 'K02', 'K03', 'T01', 'T03', 'T06']"
   },
   {
    "check": "deterministic_rebuild",

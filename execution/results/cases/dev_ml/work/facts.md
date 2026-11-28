@@ -1,21 +1,47 @@
-# Facts for case `dev_ml_textcls` (methods-ledger 0.1.0)
+# Facts for case `dev_ml_textcls` (methods-ledger 0.1.2)
 profile: **ml** · target language: **zh** · 119 facts from 13 files · 1 conflicts · 5 gaps/questions
-Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
+Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.
 
-## Files
-- `case.json` — case, 12 lines, 0 facts
-- `data_card.md` — datacard, 8 lines, 12 facts
-- `notes.md` — doc, 6 lines, 6 facts
-- `requirements.txt` — env, 6 lines, 5 facts
-- `task.md` — task, 4 lines, 0 facts
-- `configs/baseline_tfidf.yaml` — config, 8 lines, 6 facts
-- `configs/train.yaml` — config, 26 lines, 20 facts
-- `logs/baseline.log` — log, 3 lines, 5 facts
-- `logs/preprocess.log` — log, 6 lines, 10 facts
-- `logs/train_bert_seed42.log` — log, 13 lines, 36 facts
-- `src/baseline.py` — code, 8 lines, 3 facts
-- `src/preprocess.py` — code, 13 lines, 6 facts
-- `src/train.py` — code, 19 lines, 10 facts
+## Material index (primary materials first)
+- `case.json` — material, case, 12 lines, 0 facts
+- `configs/baseline_tfidf.yaml` — material, config, 8 lines, 6 facts
+- `configs/train.yaml` — material, config, 26 lines, 20 facts
+- `data_card.md` — material, datacard, 8 lines, 12 facts
+- `logs/baseline.log` — material, log, 3 lines, 5 facts
+- `logs/preprocess.log` — material, log, 6 lines, 10 facts
+- `logs/train_bert_seed42.log` — material, log, 13 lines, 36 facts
+- `notes.md` — material, doc, 6 lines, 6 facts
+- `requirements.txt` — material, env, 6 lines, 5 facts
+- `src/baseline.py` — material, code, 8 lines, 3 facts
+- `src/preprocess.py` — material, code, 13 lines, 6 facts
+- `src/train.py` — material, code, 19 lines, 10 facts
+- `task.md` — material, task, 4 lines, 0 facts
+
+## Required sections (each must be written with material values, or marked GAP)
+- [required] 有序步骤（每步输入→操作→输出） (steps)
+- [required] 数据集名称与来源 (data)
+- [required] 数据集版本/发布号/快照日期 (data)
+- [required] 划分规模/比例与划分方式 (data)
+- [recommended] 预处理/筛选 (data)
+- [recommended] 模型/结构及初始化 (control)
+- [required] 优化器、学习率、批大小、训练长度 (params)
+- [required] 硬件（设备型号与数量） (setup)
+- [required] 软件及版本 (setup)
+- [required] 随机种子 (repro)
+- [required] 重复次数/平行样数及结果汇总方式 (control)
+- [required] 基线（含版本）及同预算对照条件 (control)
+- [required] 评价指标/测量结局 (control)
+- [recommended] 统计检验/不确定度估计 (control)
+- [required] 代码版本与运行命令 (repro)
+- [recommended] 数据获取方式 (repro)
+- [required] 落到具体失效场景的限制条件 (repro)
+
+## output_contract (ml_build.py writes these fields at the top level of result.json)
+- `methods_section`: 可编辑的方法与实验章节正文（Markdown）
+- `parameter_table`: 参数表：名称、取值、单位、作用对象、来源
+- `source_map`: 正文数字与关键论断的来源映射
+- `open_questions`: 材料缺口与需作者确认的问题
+- `status`: success|partial|failed
 
 ## Task (excerpt)
 # 任务
@@ -57,15 +83,15 @@ Cite a fact in the draft as `[[F12]]` right after the sentence part it supports 
 | F39 | train.lr (learning_rate) | `3.0e-5` | configs/train.yaml:14 | config | CONFLICT C1 |
 | F111 | lr (learning_rate) | `2e-5` | src/train.py:9 | code | argparse default |
 | F13 | text.学习率 (learning_rate) | `2e-5` | notes.md:2 | doc_kv | CONFLICT C1 |
+| F103 | max_iter (max_iter) | `1000` | src/baseline.py:6 | code | scope baseline; keyword argument |
 | F70 | max_length (max_length) | `256` | logs/train_bert_seed42.log:5 | log |  |
 | F31 | model.max_length (max_length) | `256` | configs/train.yaml:4 | config |  |
-| F103 | max_iter (max_steps) | `1000` | src/baseline.py:6 | code | scope baseline; keyword argument |
-| F28 | baseline.solver (optimizer) | `liblinear` | configs/baseline_tfidf.yaml:6 | config | scope baseline |
 | F38 | train.optimizer (optimizer) | `AdamW` | configs/train.yaml:13 | config |  |
-| F102 | solver (optimizer) | `liblinear` | src/baseline.py:6 | code | scope baseline; keyword argument |
 | F119 | optimizer (optimizer) | `AdamW` | src/train.py:17 | code |  |
 | F44 | train.scheduler (scheduler) | `linear` | configs/train.yaml:19 | config |  |
 | F115 | scheduler (scheduler) | `get_linear_schedule_with_warmup` | src/train.py:4 | code |  |
+| F28 | baseline.solver (solver) | `liblinear` | configs/baseline_tfidf.yaml:6 | config | scope baseline |
+| F102 | solver (solver) | `liblinear` | src/baseline.py:6 | code | scope baseline; keyword argument |
 | F71 | warmup_ratio (warmup) | `0.1` | logs/train_bert_seed42.log:5 | log |  |
 | F43 | train.warmup_ratio (warmup) | `0.1` | configs/train.yaml:18 | config |  |
 | F40 | train.weight_decay (weight_decay) | `0.01` | configs/train.yaml:15 | config |  |
@@ -135,7 +161,7 @@ Cite a fact in the draft as `[[F12]]` right after the sentence part it supports 
 - `logs/train_bert_seed42.log` val_macro_f1: 6 values, first 0.912 (l.6), last 0.940 (l.11), range 0.912–0.94
 - `logs/train_bert_seed42.log` accuracy: 1 values, first 0.941 (l.12), last 0.941 (l.12), range 0.941–0.941
 
-## Lines with numbers in notes / data cards / drafts (cite them like any fact)
+## Evidence lines in notes / data cards / PDFs / drafts
 - F2 `data_card.md:2` - Name: THUCNews (subset of 10 categories)
 - F6 `data_card.md:5` - Raw dump: thucnews_2016.zip (downloaded 2024-02-28)
 - F8 `data_card.md:6` - Categories: 10

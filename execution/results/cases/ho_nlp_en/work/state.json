@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.1.2",
  "case_id": "ho_nlp_sst2",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_nlp_en\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmp_o2wh8zl\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmp_o2wh8zl\\work",
  "lang": "en",
  "profile": "ml",
  "profile_scores": {
@@ -17,23 +17,28 @@
  "contract": [
   {
    "name": "section_md",
-   "desc": "Experimental Setup section in Markdown"
+   "desc": "Experimental Setup section in Markdown",
+   "type": null
   },
   {
    "name": "hyperparameter_table",
-   "desc": "hyperparameters with sources"
+   "desc": "hyperparameters with sources",
+   "type": null
   },
   {
    "name": "provenance",
-   "desc": "where each number comes from"
+   "desc": "where each number comes from",
+   "type": null
   },
   {
    "name": "issues_for_authors",
-   "desc": "gaps and conflicts"
+   "desc": "gaps and conflicts",
+   "type": null
   },
   {
    "name": "status",
-   "desc": "{\"name\": \"status\"}"
+   "desc": "{\"name\": \"status\"}",
+   "type": null
   }
  ],
  "files": [
@@ -42,6 +47,7 @@
    "bytes": 172,
    "sha256": "9e059063392a91546ad4f1c5bfa84a4b7f6f74215fe9841c7713d6b6a2c5e346",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 4,
    "n_facts": 6
@@ -51,6 +57,7 @@
    "bytes": 654,
    "sha256": "8247083cda1680f70e9e0b78cb1c7172860f5e99d7cfb3defa1b98b9c595287c",
    "problems": [],
+   "role": null,
    "class": "case",
    "lines": 4
   },
@@ -59,6 +66,7 @@
    "bytes": 258,
    "sha256": "096b001f1edb3469f3220b4c56ae017dee3adb6c595418b778c8410b60149b53",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 6,
    "n_facts": 11
@@ -68,6 +76,7 @@
    "bytes": 119,
    "sha256": "133cb6b8d4a93e70c0641558d4e8c9781cf11bd15a0c5f47fdb4c41794986613",
    "problems": [],
+   "role": null,
    "class": "table",
    "lines": 8,
    "table": {
@@ -85,6 +94,7 @@
    "bytes": 422,
    "sha256": "219837ee3f1fe4a41ac88269b6385926abda89119cef9e381eaada4be44b70ee",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 12,
    "n_facts": 4
@@ -94,6 +104,7 @@
    "bytes": 544,
    "sha256": "084531381e327bb036c8ee3d0950f028daf71ff300d933a694216d8e5c0e47a9",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 7,
    "n_facts": 25
@@ -103,6 +114,7 @@
    "bytes": 205,
    "sha256": "6de570322a6b3c3f2238c6e861cb46c82086e83a42b09d6b2d82bbd66007a742",
    "problems": [],
+   "role": null,
    "class": "config",
    "lines": 11,
    "n_facts": 6
@@ -112,6 +124,7 @@
    "bytes": 425,
    "sha256": "460b5c1de0b82437877b2649ea2c411903f23272bb1fdb156d22f94ed9d8d022",
    "problems": [],
+   "role": null,
    "class": "config",
    "lines": 24,
    "n_facts": 18
@@ -142,6 +155,29 @@
    "last_line": 6,
    "min": 0.9622,
    "max": 0.9622
+  }
+ ],
+ "declared_missing": [],
+ "contract_closed": false,
+ "output_contract": [
+  {
+   "name": "section_md",
+   "description": "Experimental Setup section in Markdown"
+  },
+  {
+   "name": "hyperparameter_table",
+   "description": "hyperparameters with sources"
+  },
+  {
+   "name": "provenance",
+   "description": "where each number comes from"
+  },
+  {
+   "name": "issues_for_authors",
+   "description": "gaps and conflicts"
+  },
+  {
+   "name": "status"
   }
  ],
  "extract_seconds": 0.01,

@@ -1,6 +1,6 @@
 {
  "case_id": "dev_sim_water",
- "section_text": "# 2 计算方法\n\n## 2.1 计算流程\n\n1. 体系构建：读入数据文件 water_4096.data，体系含 4096 个 TIP4P/2005 水分子，共 12288 个原子，置于立方盒子中。\n2. 初始化：按 298.0 K 的高斯分布生成初始速度。\n3. 平衡：先进行 100 ps 的 NVT 平衡 【待确认：NVT 平衡的输入文件未提供，请补充其控温方式与参数】。\n4. 生产：在 NPT 系综下运行 500000 步，输出每 1000 步的热力学量。\n5. 分析：密度取生产段后 500 ps 的平均值。\n\n## 2.2 力场与模拟参数\n\n采用 TIP4P/2005 水模型，非键相互作用为 lj/cut/tip4p/long，截断 12.0 Å，长程静电用 PPPM（精度 1.0e-5），并用 SHAKE 约束水分子几何（容差 0.0001）。时间步长为 2.0 fs 【待作者确认：C1 输入文件为 2.0 fs，笔记写 1 fs（与 Vega 2005 一致）；正文按实际输入文件写 2.0 fs】，因此 500000 步对应 1 ns，与笔记中的 1 ns 生产时长一致。温度控制在 298.0 K（阻尼 100.0），压强 1.0 atm（阻尼 1000.0）各向同性耦合；LAMMPS 采用 real 单位制。\n\n\n\n| 参数 | 取值 | 单位 | 作用对象 | 来源 | 状态 |\n|---|---|---|---|---|---|\n| 时长 | 100 ps | - | text/duration | notes_gbk.txt:2 (F43) | 正文已引用 |\n| 系综/积分器 | npt | - | - | in.npt:10 (F9) | 正文已引用 |\n| 力场/势函数 | lj/cut/tip4p/long 1 2 1 1 0.1546 12.0 | - | - | in.npt:5 (F4) | 正文已引用 |\n| 模拟步数 | 500000 | - | - | in.npt:12 (F13) | 正文已引用 |\n| 压强 | 1.0 1.0 1000.0 | - | - | in.npt:10 (F11) | 正文已引用 |\n| 温度 | 298.0 | - | velocity | in.npt:7 (F6) | 正文已引用; 其他取值：in.npt:10=298.0 298.0 100.0 |\n| 时间步长 | 2.0 | - | - | in.npt:8 (F8) | 冲突 C1，待作者确认 |\n| 体系规模 | 12288 atoms | - | text/system_size | log.lammps:4 (F33) | 正文已引用; 其他取值：log.lammps:5=4096 molecules |\n| 硬件 | Intel(R) Xeon(R) Gold 6248R | - | - | log.lammps:6 (F35) | 正文已引用 |\n| 节点数 | 1 | - | - | job.slurm:3 (F15) | 正文已引用 |\n| 进程/线程数 | 32 | - | - | job.slurm:4 (F16) | 正文已引用 |\n| 软件 (lammps) | 2 Aug 2023 - Update 1 | - | - | log.lammps:1 (F32) | 正文已引用; 其他取值：job.slurm:7=2Aug2023 |\n| 运行时间 | 11:27:15 | - | - | log.lammps:11 (F36) | 正文已引用 |\n| 重复次数 | 1 | - | - | notes_gbk.txt:5 (F44) | 正文已引用 |\n| 随机种子 | 4928459 | - | velocity | in.npt:7 (F7) | 正文已引用 |\n\n\n\n## 2.3 软硬件环境\n\n模拟使用 LAMMPS（2 Aug 2023 - Update 1），在 1 个节点 的 32 个 MPI 进程上运行，处理器为 Intel(R) Xeon(R) Gold 6248R；生产段总墙钟时间 11:27:15。\n\n## 2.4 重复与统计\n\n仅模拟了一条轨迹，初始速度随机种子为 4928459，因此未给出轨迹间的统计误差 【待确认：是否补充不同速度种子的独立轨迹，或用分块平均给出密度的标准误？】。\n\n## 2.5 可复现性\n\n运行命令为 `lmp -in in.npt -log log.lammps`，作业脚本见 job.slurm。数据文件 water_4096.data 未包含在材料中 【待确认：请说明 water_4096.data 的生成方式或公开获取方式】。\n\n## 2.6 局限\n\n- 结果仅基于单条轨迹，未估计初始条件带来的涨落。\n- 仅在 298.0 K、1.0 atm 单一状态点模拟，其他温度压强下的密度未验证。\n- 时间步长 2.0 fs 与笔记中 1 fs 的说法不一致 【待作者确认：C1 若作者实际意图为 1 fs，则生产时长仅为 0.5 ns】。\n",
+ "section_text": "# 2 计算方法\n\n## 2.1 计算流程\n\n1. 体系构建：读入数据文件 water_4096.data，体系含 4096 个 TIP4P/2005 水分子，共 12288 个原子，置于立方盒子中。\n2. 初始化：按 298.0 K 的高斯分布生成初始速度。\n3. 平衡：先进行 100 ps 的 NVT 平衡 【待确认：NVT 平衡的输入文件未提供，请补充其控温方式与参数】。\n4. 生产：在 NPT 系综下运行 500000 步，输出每 1000 步的热力学量。\n5. 分析：密度取生产段后 500 ps 的平均值。\n\n## 2.2 力场与模拟参数\n\n采用 TIP4P/2005 水模型，非键相互作用为 lj/cut/tip4p/long，截断 12.0 Å，长程静电用 PPPM（精度 1.0e-5），并用 SHAKE 约束水分子几何（容差 0.0001）。时间步长为 2.0 fs 【待作者确认：C1 输入文件为 2.0 fs，笔记写 1 fs（与 Vega 2005 一致）；正文按实际输入文件写 2.0 fs】，因此 500000 步对应 1 ns，与笔记中的 1 ns 生产时长一致。温度控制在 298.0 K（阻尼 100.0），压强 1.0 atm（阻尼 1000.0）各向同性耦合；LAMMPS 采用 real 单位制。\n\n\n\n| 参数 | 取值 | 单位 | 作用对象 | 来源 | 状态 |\n|---|---|---|---|---|---|\n| 时长 | 100 ps | - | text/duration | notes_gbk.txt:2 (F43) | 正文已引用 |\n| 系综/积分器 | npt | - | - | in.npt:10 (F9) | 正文已引用 |\n| 力场/势函数 | lj/cut/tip4p/long 1 2 1 1 0.1546 12.0 | - | - | in.npt:5 (F4) | 正文已引用 |\n| 模拟步数 | 500000 | - | - | in.npt:12 (F13) | 正文已引用 |\n| 压强 | 1.0 1.0 1000.0 | - | - | in.npt:10 (F11) | 正文已引用 |\n| 温度 | 298.0 | - | velocity | in.npt:7 (F6) | 正文已引用; 其他取值：in.npt:10=298.0 298.0 100.0 |\n| 时间步长 | 2.0 | - | - | in.npt:8 (F8) | 冲突 C1，待作者确认 |\n| 体系规模 | 12288 atoms | - | text/system_size | log.lammps:4 (F33) | 正文已引用; 其他取值：log.lammps:5=4096 molecules |\n| 硬件 (cpu) | Intel(R) Xeon(R) Gold 6248R | - | - | log.lammps:6 (F35) | 正文已引用 |\n| 节点数 | 1 | - | - | job.slurm:3 (F15) | 正文已引用 |\n| 进程/线程数 | 32 | - | - | job.slurm:4 (F16) | 正文已引用 |\n| 软件 (lammps) | 2 Aug 2023 - Update 1 | - | - | log.lammps:1 (F32) | 正文已引用; 其他取值：job.slurm:7=2Aug2023 |\n| 运行时间 | 11:27:15 | - | - | log.lammps:11 (F36) | 正文已引用 |\n| 重复次数 | 1 | - | - | notes_gbk.txt:5 (F44) | 正文已引用 |\n| 随机种子 | 4928459 | - | velocity | in.npt:7 (F7) | 正文已引用 |\n\n\n\n## 2.3 软硬件环境\n\n模拟使用 LAMMPS（2 Aug 2023 - Update 1），在 1 个节点 的 32 个 MPI 进程上运行，处理器为 Intel(R) Xeon(R) Gold 6248R；生产段总墙钟时间 11:27:15。\n\n## 2.4 重复与统计\n\n仅模拟了一条轨迹，初始速度随机种子为 4928459，因此未给出轨迹间的统计误差 【待确认：是否补充不同速度种子的独立轨迹，或用分块平均给出密度的标准误？】。\n\n## 2.5 可复现性\n\n运行命令为 `lmp -in in.npt -log log.lammps`，作业脚本见 job.slurm。数据文件 water_4096.data 未包含在材料中 【待确认：请说明 water_4096.data 的生成方式或公开获取方式】。\n\n## 2.6 局限\n\n- 结果仅基于单条轨迹，未估计初始条件带来的涨落。\n- 仅在 298.0 K、1.0 atm 单一状态点模拟，其他温度压强下的密度未验证。\n- 时间步长 2.0 fs 与笔记中 1 fs 的说法不一致 【待作者确认：C1 若作者实际意图为 1 fs，则生产时长仅为 0.5 ns】。\n",
  "parameter_table": [
   {
    "name": "时长",
@@ -140,7 +140,7 @@
    ]
   },
   {
-   "name": "硬件",
+   "name": "硬件 (cpu)",
    "canonical": "hardware",
    "category": "setup",
    "value": "Intel(R) Xeon(R) Gold 6248R",
@@ -763,6 +763,14 @@
      "source": "log.lammps:6",
      "kind": "log",
      "key": "cpu"
+    },
+    {
+     "id": "F19",
+     "value": "2Aug2023",
+     "source": "job.slurm:7",
+     "kind": "code",
+     "key": "version.lammps",
+     "via": "auto-name"
     }
    ],
    "numbers": [
@@ -1152,26 +1160,32 @@
  ],
  "status": "success",
  "status_reason": "all checks pass; 10 items await author confirmation",
+ "output_contract": {
+  "section_text": "章节正文",
+  "parameter_table": "参数表",
+  "provenance": "来源映射",
+  "questions": "待作者确认项"
+ },
  "skill": {
   "name": "methods-ledger",
-  "version": "0.1.0"
+  "version": "0.1.2"
  },
  "language": "zh",
  "profile": "simulation",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out\\result.json"
+  "methods.md": "methods.md",
+  "methods_annotated.md": "methods_annotated.md",
+  "methods_annotated.html": "methods_annotated.html",
+  "param_table.csv": "param_table.csv",
+  "param_table.md": "param_table.md",
+  "fact_map.json": "fact_map.json",
+  "questions.md": "questions.md",
+  "check_report.json": "check_report.json",
+  "review.md": "review.md",
+  "result.json": "result.json",
+  "methods.docx": "methods.docx",
+  "methods_preview.pdf": "methods_preview.pdf",
+  "methods_preview.png": "methods_preview.png"
  },
  "preview": "pymupdf story, 2 pages",
  "sources": [
@@ -1243,8 +1257,8 @@
     ],
     "facts_cited": [
      "F34",
-     "F4",
-     "F33"
+     "F33",
+     "F4"
     ]
    },
    {
@@ -1263,13 +1277,13 @@
      "u30"
     ],
     "facts_cited": [
+     "F8",
      "F40",
-     "F13",
+     "F10",
+     "F43",
      "F6",
      "F11",
-     "F8",
-     "F10",
-     "F43"
+     "F13"
     ]
    },
    {
@@ -1282,8 +1296,8 @@
      "u20"
     ],
     "facts_cited": [
-     "F15",
-     "F35"
+     "F35",
+     "F15"
     ]
    },
    {
@@ -1298,7 +1312,8 @@
      "u25"
     ],
     "facts_cited": [
-     "F32"
+     "F32",
+     "F19"
     ]
    },
    {
@@ -1544,7 +1559,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-23T10:20:31Z",
+    "at": "2026-11-28T09:03:12Z",
     "draft_sha256": "764c66a582d63b5528543bbec5dad69d4c2e4b1dcc17630bb0414cd33d553e2c",
     "fails": 0,
     "warns": 0,
@@ -1692,7 +1707,7 @@
    ]
   },
   {
-   "name": "硬件",
+   "name": "硬件 (cpu)",
    "canonical": "hardware",
    "category": "setup",
    "value": "Intel(R) Xeon(R) Gold 6248R",
@@ -1934,6 +1949,7 @@
   "F13",
   "F15",
   "F16",
+  "F19",
   "F20",
   "F21",
   "F22",
@@ -1954,5 +1970,5 @@
   "F44"
  ],
  "n_facts_extracted": 44,
- "built_at": "2026-11-23T10:20:31Z"
+ "built_at": "2026-11-28T09:03:12Z"
 }

@@ -30,11 +30,11 @@ BERT 微调使用 AdamW 优化器 <sup>[F38: configs/train.yaml:13]</sup>，学�
 | 评测批大小 | 64 | - | test/eval | configs/train.yaml:25 (F49) | 正文未使用 |
 | 梯度裁剪阈值 | 1.0 | - | train | configs/train.yaml:20 (F45) | 正文已引用 |
 | 学习率 | 2e-05 | - | - | logs/train_bert_seed42.log:5 (F66) | 冲突 C1，待作者确认 |
+| 最大迭代次数（求解器） | 1000 | - | baseline | src/baseline.py:6 (F103) | 正文未使用 |
 | 最大序列长度 | 256 | - | - | logs/train_bert_seed42.log:5 (F70) | 正文已引用 |
-| 训练步数/迭代次数 | 1000 | - | baseline | src/baseline.py:6 (F103) | 正文未使用 |
-| 优化器 | liblinear | - | baseline | configs/baseline_tfidf.yaml:6 (F28) | 正文已引用 |
 | 优化器 | AdamW | - | train | configs/train.yaml:13 (F38) | 正文已引用 |
 | 学习率调度 | linear | - | train | configs/train.yaml:19 (F44) | 正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu |
+| 求解器 | liblinear | - | baseline | configs/baseline_tfidf.yaml:6 (F28) | 正文已引用 |
 | 预热 | 0.1 | - | - | logs/train_bert_seed42.log:5 (F71) | 正文已引用 |
 | 权重衰减 | 0.01 | - | train | configs/train.yaml:15 (F40) | 正文已引用 |
 | 数据集 | THUCNews-subset | - | data | configs/train.yaml:7 (F33) | 正文未使用 |
@@ -52,7 +52,7 @@ BERT 微调使用 AdamW 优化器 <sup>[F38: configs/train.yaml:13]</sup>，学�
 | 验证集文件 | data/val.jsonl | - | val/data | configs/train.yaml:9 (F35) | 正文未使用 |
 | CUDA 版本 | 12.1 | - | - | logs/train_bert_seed42.log:2 (F96) | 正文已引用 |
 | cuDNN 版本 | 8902 | - | - | logs/train_bert_seed42.log:2 (F97) | 正文未使用 |
-| 硬件 | NVIDIA A100-SXM4-80GB | - | - | logs/train_bert_seed42.log:3 (F98) | 正文已引用 |
+| 硬件 (gpu) | NVIDIA A100-SXM4-80GB | - | - | logs/train_bert_seed42.log:3 (F98) | 正文已引用 |
 | GPU/设备数 | 1 | - | - | logs/train_bert_seed42.log:3 (F99) | 正文已引用 |
 | 数值精度 | true | - | train | configs/train.yaml:21 (F46) | 正文已引用 |
 | 软件 (transformers) | 4.36.2 | - | - | requirements.txt:2 (F20) | 正文已引用 |
@@ -92,3 +92,54 @@ python src/baseline.py --config configs/baseline_tfidf.yaml
 - 基线未调参而 BERT 使用了经调整的学习率 <sup>[F14: notes.md:2; F17: notes.md:4]</sup>，比较不在相同调参预算下进行。
 - 仅在 THUCNews 10 类子集、长度 20–2000 字符的文档上评测 <sup>[F37: configs/train.yaml:11; F104: src/preprocess.py:4; F105: src/preprocess.py:5]</sup>，更长文档会被 256 的最大序列长度截断 <sup>[F70: logs/train_bert_seed42.log:5]</sup>，其效果未测试。
 - 仅在单块 A100 上训练 <sup>[F98: logs/train_bert_seed42.log:3]</sup>，未验证其他硬件与 fp16 关闭时的结果。
+
+## 审核说明（自动映射）
+
+- numbers/versions in the text: 44; matched by tag 40, auto-mapped 0, CALC/SRC 1, unsourced 0
+
+| line | token | fact | source | how |
+|---|---|---|---|---|
+| 5 | `74000` | F55 |  | tag |
+| 5 | `1210` | F56 |  | tag |
+| 5 | `790` | F57 |  | tag |
+| 5 | `72000` | CALC |  | calc |
+| 6 | `0.2` | F106 |  | tag |
+| 6 | `0.5` | F108 |  | tag |
+| 6 | `2023` | F107 |  | tag |
+| 6 | `57600` | F62 |  | tag |
+| 6 | `7200` | F63 |  | tag |
+| 6 | `7200` | F63 |  | tag |
+| 6 | `8` | F9 |  | tag |
+| 6 | `1` | F9 |  | tag |
+| 6 | `1` | F9 |  | tag |
+| 7 | `5` | F68 |  | tag |
+| 13 | `1` | F99 |  | tag |
+| 13 | `12.1` | F96 |  | tag |
+| 13 | `2.1.2+cu121` | F95 |  | version-tag |
+| 13 | `4.36.2` | F20 |  | version-tag |
+| 13 | `1.3.2` | F21 |  | version-tag |
+| 13 | `1.24` | F22 |  | tag |
+| 17 | `10` | F1 |  | tag |
+| 17 | `2024` | F11 |  | tag |
+| 17 | `02` | F11 |  | tag |
+| 17 | `28` | F11 |  | tag |
+| 21 | `2e-5` | F66 |  | tag |
+| 21 | `0.01` | F40 |  | tag |
+| 21 | `32` | F67 |  | tag |
+| 21 | `256` | F70 |  | tag |
+| 21 | `0.1` | F32 |  | tag |
+| 21 | `0.1` | F71 |  | tag |
+| 21 | `1.0` | F45 |  | tag |
+| 21 | `1` | F25 |  | tag |
+| 21 | `2` | F25 |  | tag |
+| 21 | `50000` | F26 |  | tag |
+| 21 | `1.0` | F27 |  | tag |
+| 27 | `42` | F16 |  | tag |
+| 31 | `9` | F65 |  | tag |
+| 39 | `42` | F69 |  | tag |
+| 39 | `2023` | F107 |  | tag |
+| 43 | `42` | F16 |  | tag |
+| 43 | `10` | F37 |  | tag |
+| 43 | `20` | F104 |  | tag |
+| 43 | `2000` | F105 |  | tag |
+| 43 | `256` | F70 |  | tag |

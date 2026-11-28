@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.1.2",
  "case_id": "dev_wetlab_mtt",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_wetlab\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp1yiaulzt\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpaq0k0x35\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpaq0k0x35\\work",
  "lang": "en",
  "profile": "wetlab",
  "profile_scores": {
@@ -17,23 +17,28 @@
  "contract": [
   {
    "name": "methods_markdown",
-   "desc": "editable Methods section"
+   "desc": "editable Methods section",
+   "type": null
   },
   {
    "name": "parameters",
-   "desc": "table of conditions with sources"
+   "desc": "table of conditions with sources",
+   "type": null
   },
   {
    "name": "evidence",
-   "desc": "source for each number"
+   "desc": "source for each number",
+   "type": null
   },
   {
    "name": "author_queries",
-   "desc": "missing or conflicting items"
+   "desc": "missing or conflicting items",
+   "type": null
   },
   {
    "name": "status",
-   "desc": "success|partial|failed"
+   "desc": "success|partial|failed",
+   "type": null
   }
  ],
  "files": [
@@ -42,6 +47,7 @@
    "bytes": 318,
    "sha256": "df8ff88757304dda01fdca26da768ba3639b3def5e6f2d1bc25c427387c8eafb",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 10,
    "n_facts": 7
@@ -51,6 +57,7 @@
    "bytes": 601,
    "sha256": "297944448718813172c425a64f78e7aa9f83f3a01050db5c22eee53a146bc0c3",
    "problems": [],
+   "role": null,
    "class": "case",
    "lines": 4
   },
@@ -59,6 +66,7 @@
    "bytes": 319,
    "sha256": "a48a720a82c2cc55595f3a8727cbd0306b65d76d6bbfd72e469470a1655e70ea",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 6,
    "n_facts": 9
@@ -68,6 +76,7 @@
    "bytes": 523,
    "sha256": "317b0421f05ed5c292a0b27d1254679122f8b33fd3d5807f9e3f8bab14b88c3b",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 12,
    "n_facts": 13
@@ -77,6 +86,7 @@
    "bytes": 199,
    "sha256": "810f6d7e6f236562cb0de8c3de22e99bac574db6046a36f4dc10c74ccaf0e1a4",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 9,
    "n_facts": 17
@@ -86,6 +96,7 @@
    "bytes": 128,
    "sha256": "e3e212783ad755f024e4913a13520b44205f120b77b45417eccd6bf43a538e3a",
    "problems": [],
+   "role": null,
    "class": "table",
    "lines": 8,
    "table": {
@@ -104,6 +115,15 @@
  "task_excerpt": "Write the Materials and Methods section (English, for a cell-biology journal) for the cytotoxicity experiment, from the protocol, notebook, plate-reader export and analysis script. Include materials, procedure, instrument settings, controls, replicates, statistics, and reproducibility notes. Do not invent values.",
  "stages": [],
  "series": [],
+ "declared_missing": [],
+ "contract_closed": false,
+ "output_contract": {
+  "methods_markdown": "editable Methods section",
+  "parameters": "table of conditions with sources",
+  "evidence": "source for each number",
+  "author_queries": "missing or conflicting items",
+  "status": "success|partial|failed"
+ },
  "extract_seconds": 0.01,
  "case_keys": [
   "case_id",

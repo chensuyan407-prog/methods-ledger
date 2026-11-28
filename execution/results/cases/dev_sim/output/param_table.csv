@@ -7,7 +7,7 @@
 温度,temperature,params,298.0,,velocity,in.npt:7,F6,config,正文已引用; 其他取值：in.npt:10=298.0 298.0 100.0
 时间步长,timestep,params,2.0,,-,in.npt:8,F8,config,冲突 C1，待作者确认
 体系规模,system_size,data,12288 atoms,,text/system_size,log.lammps:4,F33,log,正文已引用; 其他取值：log.lammps:5=4096 molecules
-硬件,hardware,setup,Intel(R) Xeon(R) Gold 6248R,,-,log.lammps:6,F35,log,正文已引用
+硬件 (cpu),hardware,setup,Intel(R) Xeon(R) Gold 6248R,,-,log.lammps:6,F35,log,正文已引用
 节点数,num_nodes,setup,1,,-,job.slurm:3,F15,cli,正文已引用
 进程/线程数,num_workers,setup,32,,-,job.slurm:4,F16,cli,正文已引用
 软件 (lammps),software,setup,2 Aug 2023 - Update 1,,-,log.lammps:1,F32,log,正文已引用; 其他取值：job.slurm:7=2Aug2023

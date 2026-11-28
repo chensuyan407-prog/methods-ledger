@@ -17,7 +17,7 @@
 | training samples | 67349, | - | - | train_lora_s1.log:3 (F58) | cited in text |
 | validation samples | 872 | - | - | train_lora_s1.log:3 (F59) | cited in text |
 | CUDA version | 12.1 | - | - | train_lora_s1.log:1 (F56) | in text (untagged) |
-| hardware | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |
+| hardware (gpu) | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |
 | number of GPUs / devices | 4 | - | - | train_lora_s1.log:2 (F36) | cited in text |
 | numeric precision | true | - | training | conf/lora.yaml:20 (F81) | cited in text |
 | Python version | 3.10.13 | - | - | train_lora_s1.log:1 (F52) | cited in text |
@@ -26,5 +26,7 @@
 | PyTorch version | 2.2.1 | - | - | train_lora_s1.log:1 (F53) | cited in text |
 | model / architecture | roberta-large | - | model | conf/full_ft.yaml:3 (F60) | cited in text |
 | code version / commit | bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c | - | - | run_glue.py:10 (F32) | cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main |
-| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3 |
+| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: run_glue.py:6=0 |
 | random seed | 1 | - | val | README.md:2 (F2) | cited in text |
+| random seed | 1 | - | lora | results.csv:2 (F19) | cited in text; other values: results.csv:3=2; results.csv:4=3 |
+| random seed | 1 | - | full_ft | results.csv:5 (F25) | not used in text; other values: results.csv:6=2; results.csv:7=3 |

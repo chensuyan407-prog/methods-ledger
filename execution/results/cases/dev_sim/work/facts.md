@@ -1,13 +1,33 @@
-# Facts for case `dev_sim_water` (methods-ledger 0.1.0)
+# Facts for case `dev_sim_water` (methods-ledger 0.1.2)
 profile: **simulation** · target language: **zh** · 44 facts from 5 files · 1 conflicts · 4 gaps/questions
-Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
+Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.
 
-## Files
-- `case.json` — case, 4 lines, 0 facts
-- `in.npt` — config, 13 lines, 13 facts
-- `job.slurm` — code, 9 lines, 9 facts
-- `log.lammps` — log, 12 lines, 14 facts
-- `notes_gbk.txt` — doc, 6 lines, 8 facts
+## Material index (primary materials first)
+- `case.json` — material, case, 4 lines, 0 facts
+- `in.npt` — material, config, 13 lines, 13 facts
+- `job.slurm` — material, code, 9 lines, 9 facts
+- `log.lammps` — material, log, 12 lines, 14 facts
+- `notes_gbk.txt` — material, doc, 6 lines, 8 facts
+
+## Required sections (each must be written with material values, or marked GAP)
+- [required] 有序步骤（每步输入→操作→输出） (steps)
+- [required] 模拟体系与模型（规模、力场/泛函） (data)
+- [required] 操作条件（含单位） (params)
+- [required] 硬件（设备型号与数量） (setup)
+- [required] 软件及版本 (setup)
+- [required] 随机种子 (repro)
+- [required] 重复次数/平行样数及结果汇总方式 (control)
+- [required] 评价指标/测量结局 (control)
+- [recommended] 统计检验/不确定度估计 (control)
+- [required] 代码版本与运行命令 (repro)
+- [recommended] 数据获取方式 (repro)
+- [required] 落到具体失效场景的限制条件 (repro)
+
+## output_contract (ml_build.py writes these fields at the top level of result.json)
+- `section_text`: 章节正文
+- `parameter_table`: 参数表
+- `provenance`: 来源映射
+- `questions`: 待作者确认项
 
 ## Task (excerpt)
 根据模拟输入文件、作业脚本、日志和笔记，撰写论文“2 计算方法”一节（中文）。需写清体系、力场、系综与控温控压、步长与模拟时长、平衡与采样、软硬件、重复与统计、复现方式和局限。
@@ -66,7 +86,7 @@ Cite a fact in the draft as `[[F12]]` right after the sentence part it supports 
 | F21 | in | `in.npt` | job.slurm:8 | cli |
 | F22 | log | `log.lammps` | job.slurm:8 | cli |
 
-## Lines with numbers in notes / data cards / drafts (cite them like any fact)
+## Evidence lines in notes / data cards / PDFs / drafts
 - F23 `log.lammps:1` LAMMPS (2 Aug 2023 - Update 1)
 - F24 `log.lammps:2` OMP_NUM_THREADS environment is not set. Defaulting to 1 thread.
 - F25 `log.lammps:4` 12288 atoms

@@ -24,7 +24,7 @@
 | 温度 | 298.0 | - | velocity | in.npt:7 (F6) | 正文已引用; 其他取值：in.npt:10=298.0 298.0 100.0 |
 | 时间步长 | 2.0 | - | - | in.npt:8 (F8) | 冲突 C1，待作者确认 |
 | 体系规模 | 12288 atoms | - | text/system_size | log.lammps:4 (F33) | 正文已引用; 其他取值：log.lammps:5=4096 molecules |
-| 硬件 | Intel(R) Xeon(R) Gold 6248R | - | - | log.lammps:6 (F35) | 正文已引用 |
+| 硬件 (cpu) | Intel(R) Xeon(R) Gold 6248R | - | - | log.lammps:6 (F35) | 正文已引用 |
 | 节点数 | 1 | - | - | job.slurm:3 (F15) | 正文已引用 |
 | 进程/线程数 | 32 | - | - | job.slurm:4 (F16) | 正文已引用 |
 | 软件 (lammps) | 2 Aug 2023 - Update 1 | - | - | log.lammps:1 (F32) | 正文已引用; 其他取值：job.slurm:7=2Aug2023 |
@@ -51,3 +51,38 @@
 - 结果仅基于单条轨迹 <sup>[F44: notes_gbk.txt:5]</sup>，未估计初始条件带来的涨落。
 - 仅在 298.0 K、1.0 atm 单一状态点模拟 <sup>[F10: in.npt:10; F11: in.npt:10]</sup>，其他温度压强下的密度未验证。
 - 时间步长 2.0 fs 与笔记中 1 fs 的说法不一致 <sup>[F8: in.npt:8; F40: notes_gbk.txt:3; F41: notes_gbk.txt:3]</sup> 【待作者确认：C1 若作者实际意图为 1 fs，则生产时长仅为 0.5 ns】。
+
+## 审核说明（自动映射）
+
+- numbers/versions in the text: 28; matched by tag 24, auto-mapped 0, CALC/SRC 4, unsourced 0
+
+| line | token | fact | source | how |
+|---|---|---|---|---|
+| 5 | `4096` | F26 |  | tag |
+| 5 | `12288` | F25 |  | tag |
+| 6 | `298.0` | F6 |  | tag |
+| 9 | `500` | SRC |  | source-line |
+| 13 | `12.0` | F4 |  | tag |
+| 13 | `1.0e-5` | SRC |  | source-line |
+| 13 | `0.0001` | SRC |  | source-line |
+| 13 | `2.0` | F8 |  | tag |
+| 13 | `1` | CALC |  | calc |
+| 13 | `1` | F39 |  | tag |
+| 13 | `298.0` | F10 |  | tag |
+| 13 | `100.0` | F10 |  | tag |
+| 13 | `1.0` | F11 |  | tag |
+| 13 | `1000.0` | F11 |  | tag |
+| 19 | `2` | F23 |  | tag |
+| 19 | `2023` | F23 |  | tag |
+| 19 | `1` | F23 |  | tag |
+| 19 | `1` | F15 |  | tag |
+| 19 | `32` | F16 |  | tag |
+| 19 | `6248` | F27 |  | tag |
+| 19 | `11` | F31 |  | tag |
+| 19 | `27` | F31 |  | tag |
+| 19 | `15` | F31 |  | tag |
+| 23 | `4928459` | F7 |  | tag |
+| 31 | `298.0` | F10 |  | tag |
+| 31 | `1.0` | F11 |  | tag |
+| 31 | `2.0` | F8 |  | tag |
+| 31 | `1` | F40 |  | tag |

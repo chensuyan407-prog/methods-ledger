@@ -7,7 +7,7 @@
   "ho_nlp_en",
   "ho_stats"
  ],
- "seconds": 30.9,
+ "seconds": 24.8,
  "extraction": {
   "fact_recall": 0.9213,
   "facts_expected": 127,
@@ -29,10 +29,10 @@
  },
  "mutations": {
   "n": 100,
-  "caught_fail": 0.97,
+  "caught_fail": 0.89,
   "caught_any": 0.97,
   "baseline_grep": 0.52,
-  "baseline_checklist": 0.35,
+  "baseline_checklist": 0.27,
   "by_type": {
    "wrong_value": {
     "n": 29,
@@ -57,10 +57,10 @@
    },
    "missing_element": {
     "n": 31,
-    "caught_fail": 30,
+    "caught_fail": 22,
     "caught_any": 30,
     "baseline_grep": 8,
-    "baseline_checklist": 30
+    "baseline_checklist": 22
    },
    "boilerplate_limits": {
     "n": 5,

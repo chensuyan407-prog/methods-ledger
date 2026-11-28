@@ -506,6 +506,14 @@
     "source": "log.lammps:6",
     "kind": "log",
     "key": "cpu"
+   },
+   {
+    "id": "F19",
+    "value": "2Aug2023",
+    "source": "job.slurm:7",
+    "kind": "code",
+    "key": "version.lammps",
+    "via": "auto-name"
    }
   ],
   "numbers": [

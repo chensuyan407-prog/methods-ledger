@@ -687,7 +687,8 @@ def check_units(units, facts, conflicts, gaps, state, agent, corpus, rep):
                 rep.add("warn", "X01", f"{f['id']} comes from the {f['scope']} context ({f['file']}:{f['line']}) but the sentence talks about {'/'.join(sorted(splits_here))}", u["uid"], u["line"])
         # significance
         sig = C.rules("checklist")["significance_words"]
-        if re.search(sig.get(lang, sig["en"]), text) and not any(f["canon"] in ("statistical_test", "alpha_level") for f in tagged) and not tg["gaps"] and not tg["confirms"]:
+        sig_neg = r"(?i)(未进行统计检验|未做统计检验|未作统计检验|未进行显著性检验|未报告显著性|未进行显著性分析|无统计检验|not statistically tested|no statistical test|no significance test|not tested for significance|significance (?:was )?not tested|statistical test(?:ing)? (?:was )?not (?:performed|conducted|done))"
+        if re.search(sig.get(lang, sig["en"]), text) and not re.search(sig_neg, text) and not any(f["canon"] in ("statistical_test", "alpha_level") for f in tagged) and not tg["gaps"] and not tg["confirms"]:
             if not any(f["canon"] == "statistical_test" for f in facts):
                 rep.add("warn", "S01", "claims significance but no statistical test exists in the materials", u["uid"], u["line"])
             else:
@@ -1232,6 +1233,11 @@ def build(work, out, provisional=False):
                 pos = heads[i + 1].start() if i + 1 < len(heads) else len(draft_for_render)
                 break
         draft_for_render = (draft_for_render[:pos] + cap + "\n" + draft_for_render[pos:]) if pos is not None else draft_for_render + cap
+    k01_items = [x for x in rep.items if x["code"] == "K01" and x.get("question") and x["level"] == "warn"]
+    if k01_items and content_units and not re.search(r"(?m)^#{1,6}\s+.*(?:待作者补充的材料缺口|Material gaps)", draft_for_render, re.I):
+        gap_head = "\n\n## 待作者补充的材料缺口\n\n" if lang == "zh" else "\n\n## Material gaps for author confirmation\n\n"
+        gap_lines = [f"- **{x['element']}**: {x['question']}" for x in k01_items]
+        draft_for_render = draft_for_render.rstrip() + gap_head + "\n".join(gap_lines) + "\n"
     clean = render_clean(draft_for_render, lang, table_md, False, byid)
     annotated = render_clean(draft_for_render, lang, table_md, True, byid)
     os.makedirs(out, exist_ok=True)

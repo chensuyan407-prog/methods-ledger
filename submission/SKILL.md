@@ -69,7 +69,7 @@ Optional precision tags, only where a value occurs in several facts or must be d
   verbatim from logs/scripts in a code block; training seed and data-split seed named separately.
 - **Defensible (说得住)**: limitations name concrete untested conditions from the facts (single seed, one dataset version,
   truncation length, untuned baseline, one GPU type, n per group) - not "may not generalise". No significance claim
-  without a test in the materials.
+  without a test in the materials. 不要为通过检查而改写专业术语，直接说明未报告或材料缺口。
 - Style: past tense; target language for prose, original spelling for identifiers, files, models and values; keep the
   author's numbering. If an old draft is among the materials, keep its correct sentences and fix wrong values (diff in
   result.json `change_records`).

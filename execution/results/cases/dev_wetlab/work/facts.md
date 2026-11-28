@@ -1,14 +1,34 @@
-# Facts for case `dev_wetlab_mtt` (methods-ledger 0.1.0)
+# Facts for case `dev_wetlab_mtt` (methods-ledger 0.1.2)
 profile: **wetlab** · target language: **en** · 65 facts from 6 files · 2 conflicts · 4 gaps/questions
-Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
+Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.
 
-## Files
-- `analysis.R` — code, 10 lines, 7 facts
-- `case.json` — case, 4 lines, 0 facts
-- `notebook_2024-05.txt` — doc, 6 lines, 9 facts
-- `protocol.md` — doc, 12 lines, 13 facts
-- `reader_settings.txt` — doc, 9 lines, 17 facts
-- `viability_summary.csv` — table, 8 lines, 19 facts
+## Material index (primary materials first)
+- `analysis.R` — material, code, 10 lines, 7 facts
+- `case.json` — material, case, 4 lines, 0 facts
+- `notebook_2024-05.txt` — material, doc, 6 lines, 9 facts
+- `protocol.md` — material, doc, 12 lines, 13 facts
+- `reader_settings.txt` — material, doc, 9 lines, 17 facts
+- `viability_summary.csv` — material, table, 8 lines, 19 facts
+
+## Required sections (each must be written with material values, or marked GAP)
+- [required] ordered procedure (input -> operation -> output per step) (steps)
+- [required] materials/samples with source and lot (data)
+- [required] operating conditions with units (params)
+- [required] instruments (manufacturer, model) (setup)
+- [required] software and versions (setup)
+- [required] number of repetitions / replicates and how results are aggregated (control)
+- [required] control groups (positive/negative/vehicle) (control)
+- [required] evaluation metrics / measured outcomes (control)
+- [recommended] statistical test / uncertainty estimate (control)
+- [recommended] data availability / access (repro)
+- [required] limitations tied to concrete failure scenarios (repro)
+
+## output_contract (ml_build.py writes these fields at the top level of result.json)
+- `methods_markdown`: editable Methods section
+- `parameters`: table of conditions with sources
+- `evidence`: source for each number
+- `author_queries`: missing or conflicting items
+- `status`: success|partial|failed
 
 ## Task (excerpt)
 Write the Materials and Methods section (English, for a cell-biology journal) for the cytotoxicity experiment, from the protocol, notebook, plate-reader export and analysis script. Include materials, procedure, instrument settings, controls, replicates, statistics, and reproducibility notes. Do not invent values.
@@ -79,7 +99,7 @@ Write the Materials and Methods section (English, for a cell-biology journal) fo
 | F64 | 100.sd_pct | `2.9` | viability_summary.csv:7 | table |
 | F65 | 100.n | `3` | viability_summary.csv:7 | table |
 
-## Lines with numbers in notes / data cards / drafts (cite them like any fact)
+## Evidence lines in notes / data cards / PDFs / drafts
 - F8 `notebook_2024-05.txt:1` 2024-05-06 seeded plates P1-P3, HeLa passage 12 (ATCC CCL-2)
 - F9 `notebook_2024-05.txt:2` 2024-05-07 treatment K-17 lot KX-0412, dilution series as SOP
 - F10 `notebook_2024-05.txt:3` 2024-05-09 MTT added; incubation 45 min this time (reader booked)

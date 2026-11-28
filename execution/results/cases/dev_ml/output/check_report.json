@@ -26,7 +26,7 @@
   {
    "level": "warn",
    "code": "K03",
-   "msg": "facts in the materials never used in the chapter: dataset (F33); validation file (F35); test file (F36); cuDNN version (F97); training steps / iterations (F103)",
+   "msg": "facts in the materials never used in the chapter: dataset (F33); validation file (F35); test file (F36); cuDNN version (F97); max iterations (solver) (F103)",
    "unit": null,
    "line": null,
    "unused": {
@@ -42,7 +42,7 @@
     "cudnn": [
      "F97"
     ],
-    "max_steps": [
+    "max_iter": [
      "F103"
     ]
    }
@@ -68,8 +68,8 @@
     "u20"
    ],
    "facts_cited": [
-    "F3",
-    "F62"
+    "F62",
+    "F3"
    ]
   },
   {
@@ -107,13 +107,13 @@
     "u38"
    ],
    "facts_cited": [
-    "F108",
     "F9",
+    "F106",
     "F62",
     "F63",
-    "F12",
-    "F106",
-    "F64"
+    "F108",
+    "F64",
+    "F12"
    ]
   },
   {
@@ -163,12 +163,11 @@
     "u41"
    ],
    "facts_cited": [
-    "F92",
-    "F28",
-    "F66",
-    "F67",
     "F38",
-    "F68"
+    "F68",
+    "F66",
+    "F92",
+    "F67"
    ]
   },
   {
@@ -200,11 +199,11 @@
     "u37"
    ],
    "facts_cited": [
-    "F96",
-    "F20",
+    "F22",
     "F21",
+    "F20",
     "F95",
-    "F22"
+    "F96"
    ]
   },
   {
@@ -323,8 +322,8 @@
     "u22"
    ],
    "facts_cited": [
-    "F3",
-    "F4"
+    "F4",
+    "F3"
    ]
   },
   {

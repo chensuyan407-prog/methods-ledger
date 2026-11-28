@@ -1,13 +1,35 @@
-# Facts for case `ho_stats_sleep` (methods-ledger 0.1.0)
+# Facts for case `ho_stats_sleep` (methods-ledger 0.1.2)
 profile: **stats** · target language: **zh** · 31 facts from 5 files · 1 conflicts · 8 gaps/questions
-Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
+Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.
 
-## Files
-- `analysis.R` — code, 10 lines, 8 facts
-- `case.json` — case, 4 lines, 0 facts
-- `cleaning_log.txt` — log, 6 lines, 8 facts
-- `notes.txt` — doc, 4 lines, 5 facts
-- `问卷说明.md` — doc, 9 lines, 10 facts
+## Material index (primary materials first)
+- `analysis.R` — material, code, 10 lines, 8 facts
+- `case.json` — material, case, 4 lines, 0 facts
+- `cleaning_log.txt` — material, log, 6 lines, 8 facts
+- `notes.txt` — material, doc, 4 lines, 5 facts
+- `问卷说明.md` — material, doc, 9 lines, 10 facts
+
+## Required sections (each must be written with material values, or marked GAP)
+- [required] 有序步骤（每步输入→操作→输出） (steps)
+- [required] 数据集名称与来源 (data)
+- [required] 数据集版本/发布号/快照日期 (data)
+- [required] 划分规模/比例与划分方式 (data)
+- [recommended] 预处理/筛选 (data)
+- [required] 软件及版本 (setup)
+- [required] 随机种子 (repro)
+- [required] 对照组（阳性/阴性/溶剂对照） (control)
+- [required] 评价指标/测量结局 (control)
+- [recommended] 统计检验/不确定度估计 (control)
+- [required] 代码版本与运行命令 (repro)
+- [recommended] 数据获取方式 (repro)
+- [required] 落到具体失效场景的限制条件 (repro)
+
+## output_contract (ml_build.py writes these fields at the top level of result.json)
+- `methods_text`: 方法正文
+- `params`: 关键设置与来源
+- `trace`: 数字来源
+- `confirm_list`: 需作者确认的问题
+- `status`: 状态
 
 ## Task (excerpt)
 撰写“2 研究方法”一节（中文，面向公共卫生期刊），基于问卷说明、数据清洗日志和 R 分析脚本。需写清研究对象与纳排标准、样本量、变量、统计方法、软件版本与复现，以及局限。
@@ -46,7 +68,7 @@ Cite a fact in the draft as `[[F12]]` right after the sentence part it supports 
 | F1 | seed (seed) | `2023` | analysis.R:5 | code | keyword argument |
 | F7 | set.seed (seed) | `2023` | analysis.R:4 | code |  |
 
-## Lines with numbers in notes / data cards / drafts (cite them like any fact)
+## Evidence lines in notes / data cards / PDFs / drafts
 - F11 `cleaning_log.txt:1` 2023-11-02 raw responses: 2846
 - F12 `cleaning_log.txt:2` 2023-11-02 excluded completion time < 120 s: 131
 - F13 `cleaning_log.txt:3` 2023-11-02 excluded missing > 20%: 77

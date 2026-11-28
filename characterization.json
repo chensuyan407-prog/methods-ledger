@@ -33,10 +33,10 @@
   {
    "target": "planted defects caught at fail level (all 5 cases)",
    "metric": "absolute_error",
-   "actual_value": 0.97,
+   "actual_value": 0.89,
    "reference_value": 1.0,
-   "score": 0.7,
-   "explanation": "100 deterministic mutations of gold drafts; baselines: grep 0.52, checklist only 0.35",
+   "score": 0.0,
+   "explanation": "v0.1.2: 100 deterministic mutations of gold drafts (caught_any 0.97); baselines: grep 0.52, checklist only 0.27 (v0.1.1 measured 0.67 at FAIL level before the K12 fix)",
    "evidence_artifact": "metrics",
    "tolerance": 0.1
   },

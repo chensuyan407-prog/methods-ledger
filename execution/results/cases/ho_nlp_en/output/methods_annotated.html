@@ -28,7 +28,7 @@
 <tr><td>training samples</td><td>67349,</td><td>-</td><td>-</td><td>train_lora_s1.log:3 (F58)</td><td>cited in text</td></tr>
 <tr><td>validation samples</td><td>872</td><td>-</td><td>-</td><td>train_lora_s1.log:3 (F59)</td><td>cited in text</td></tr>
 <tr><td>CUDA version</td><td>12.1</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F56)</td><td>in text (untagged)</td></tr>
-<tr><td>hardware</td><td>NVIDIA A100-SXM4-40GB</td><td>-</td><td>-</td><td>train_lora_s1.log:2 (F57)</td><td>cited in text</td></tr>
+<tr><td>hardware (gpu)</td><td>NVIDIA A100-SXM4-40GB</td><td>-</td><td>-</td><td>train_lora_s1.log:2 (F57)</td><td>cited in text</td></tr>
 <tr><td>number of GPUs / devices</td><td>4</td><td>-</td><td>-</td><td>train_lora_s1.log:2 (F36)</td><td>cited in text</td></tr>
 <tr><td>numeric precision</td><td>true</td><td>-</td><td>training</td><td>conf/lora.yaml:20 (F81)</td><td>cited in text</td></tr>
 <tr><td>Python version</td><td>3.10.13</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F52)</td><td>cited in text</td></tr>
@@ -37,8 +37,10 @@
 <tr><td>PyTorch version</td><td>2.2.1</td><td>-</td><td>-</td><td>train_lora_s1.log:1 (F53)</td><td>cited in text</td></tr>
 <tr><td>model / architecture</td><td>roberta-large</td><td>-</td><td>model</td><td>conf/full_ft.yaml:3 (F60)</td><td>cited in text</td></tr>
 <tr><td>code version / commit</td><td>bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c</td><td>-</td><td>-</td><td>run_glue.py:10 (F32)</td><td>cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main</td></tr>
-<tr><td>random seed</td><td>$SEED</td><td>-</td><td>-</td><td>launch.sh:3 (F11)</td><td>cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3</td></tr>
+<tr><td>random seed</td><td>$SEED</td><td>-</td><td>-</td><td>launch.sh:3 (F11)</td><td>cited in text; other values: run_glue.py:6=0</td></tr>
 <tr><td>random seed</td><td>1</td><td>-</td><td>val</td><td>README.md:2 (F2)</td><td>cited in text</td></tr>
+<tr><td>random seed</td><td>1</td><td>-</td><td>lora</td><td>results.csv:2 (F19)</td><td>cited in text; other values: results.csv:3=2; results.csv:4=3</td></tr>
+<tr><td>random seed</td><td>1</td><td>-</td><td>full_ft</td><td>results.csv:5 (F25)</td><td>not used in text; other values: results.csv:6=2; results.csv:7=3</td></tr>
 </table>
 <h2>4.3 Compute and software</h2>
 <p>Each run used 4 GPUs (torchrun, 4 processes per node) <sup>[F7: launch.sh:3; F8: launch.sh:3; F9: launch.sh:3; F10: launch.sh:3; F11: launch.sh:3; F12: launch.sh:3]</sup> of type NVIDIA A100-SXM4-40GB <sup>[F36: train_lora_s1.log:2; F47: train_lora_s1.log:2; F57: train_lora_s1.log:2]</sup>, with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1 <sup>[F35: train_lora_s1.log:1; F46: train_lora_s1.log:1; F52: train_lora_s1.log:1; F53: train_lora_s1.log:1; F54: train_lora_s1.log:1; F55: train_lora_s1.log:1]</sup>. Total compute was about 40 GPU-hours <sup>[F4: README.md:3; F5: README.md:3]</sup>.</p>

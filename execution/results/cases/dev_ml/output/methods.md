@@ -30,11 +30,11 @@ BERT 微调使用 AdamW 优化器，学习率 2e-5 【待作者确认：C1 配�
 | 评测批大小 | 64 | - | test/eval | configs/train.yaml:25 (F49) | 正文未使用 |
 | 梯度裁剪阈值 | 1.0 | - | train | configs/train.yaml:20 (F45) | 正文已引用 |
 | 学习率 | 2e-05 | - | - | logs/train_bert_seed42.log:5 (F66) | 冲突 C1，待作者确认 |
+| 最大迭代次数（求解器） | 1000 | - | baseline | src/baseline.py:6 (F103) | 正文未使用 |
 | 最大序列长度 | 256 | - | - | logs/train_bert_seed42.log:5 (F70) | 正文已引用 |
-| 训练步数/迭代次数 | 1000 | - | baseline | src/baseline.py:6 (F103) | 正文未使用 |
-| 优化器 | liblinear | - | baseline | configs/baseline_tfidf.yaml:6 (F28) | 正文已引用 |
 | 优化器 | AdamW | - | train | configs/train.yaml:13 (F38) | 正文已引用 |
 | 学习率调度 | linear | - | train | configs/train.yaml:19 (F44) | 正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu |
+| 求解器 | liblinear | - | baseline | configs/baseline_tfidf.yaml:6 (F28) | 正文已引用 |
 | 预热 | 0.1 | - | - | logs/train_bert_seed42.log:5 (F71) | 正文已引用 |
 | 权重衰减 | 0.01 | - | train | configs/train.yaml:15 (F40) | 正文已引用 |
 | 数据集 | THUCNews-subset | - | data | configs/train.yaml:7 (F33) | 正文未使用 |
@@ -52,7 +52,7 @@ BERT 微调使用 AdamW 优化器，学习率 2e-5 【待作者确认：C1 配�
 | 验证集文件 | data/val.jsonl | - | val/data | configs/train.yaml:9 (F35) | 正文未使用 |
 | CUDA 版本 | 12.1 | - | - | logs/train_bert_seed42.log:2 (F96) | 正文已引用 |
 | cuDNN 版本 | 8902 | - | - | logs/train_bert_seed42.log:2 (F97) | 正文未使用 |
-| 硬件 | NVIDIA A100-SXM4-80GB | - | - | logs/train_bert_seed42.log:3 (F98) | 正文已引用 |
+| 硬件 (gpu) | NVIDIA A100-SXM4-80GB | - | - | logs/train_bert_seed42.log:3 (F98) | 正文已引用 |
 | GPU/设备数 | 1 | - | - | logs/train_bert_seed42.log:3 (F99) | 正文已引用 |
 | 数值精度 | true | - | train | configs/train.yaml:21 (F46) | 正文已引用 |
 | 软件 (transformers) | 4.36.2 | - | - | requirements.txt:2 (F20) | 正文已引用 |

@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.1.2",
  "case_id": "dev_ml_textcls",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_ml\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp029l_2ys\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpwn9au2w0\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpwn9au2w0\\work",
  "lang": "zh",
  "profile": "ml",
  "profile_scores": {
@@ -17,23 +17,28 @@
  "contract": [
   {
    "name": "methods_section",
-   "desc": "可编辑的方法与实验章节正文（Markdown）"
+   "desc": "可编辑的方法与实验章节正文（Markdown）",
+   "type": null
   },
   {
    "name": "parameter_table",
-   "desc": "参数表：名称、取值、单位、作用对象、来源"
+   "desc": "参数表：名称、取值、单位、作用对象、来源",
+   "type": null
   },
   {
    "name": "source_map",
-   "desc": "正文数字与关键论断的来源映射"
+   "desc": "正文数字与关键论断的来源映射",
+   "type": null
   },
   {
    "name": "open_questions",
-   "desc": "材料缺口与需作者确认的问题"
+   "desc": "材料缺口与需作者确认的问题",
+   "type": null
   },
   {
    "name": "status",
-   "desc": "success|partial|failed"
+   "desc": "success|partial|failed",
+   "type": null
   }
  ],
  "files": [
@@ -42,6 +47,7 @@
    "bytes": 644,
    "sha256": "8547b5b7032e90044190dc4da8be8a1c437304eabbe6db6d62d70ceb2d828715",
    "problems": [],
+   "role": null,
    "class": "case",
    "lines": 12
   },
@@ -50,6 +56,7 @@
    "bytes": 256,
    "sha256": "8c0c2dec6b3b7b4041ebc1efe05acd365fb2409f5a1a0544cf3b5d3c610944cf",
    "problems": [],
+   "role": null,
    "class": "datacard",
    "lines": 8,
    "n_facts": 12
@@ -59,6 +66,7 @@
    "bytes": 271,
    "sha256": "5e12c47e4594cda10d4bf38bf317b3473e4331be3dd2f6fd2f50310212a9d1d1",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 6,
    "n_facts": 6
@@ -68,6 +76,7 @@
    "bytes": 80,
    "sha256": "a0d3f69962070b81a99cb74955ec0c49e502e2d71b0303e655dc052a89431d0e",
    "problems": [],
+   "role": null,
    "class": "env",
    "lines": 6,
    "n_facts": 5
@@ -77,6 +86,7 @@
    "bytes": 402,
    "sha256": "2b2a9b51a2f0e431bef14cde1b728c388af5a3af69e072e115b2c3f0acf562f5",
    "problems": [],
+   "role": null,
    "class": "task",
    "lines": 4
   },
@@ -85,6 +95,7 @@
    "bytes": 113,
    "sha256": "4ae11985a19e4c33402eba590d70c472f67d7b016191a1133126bdaf3b820c1f",
    "problems": [],
+   "role": null,
    "class": "config",
    "lines": 8,
    "n_facts": 6
@@ -94,6 +105,7 @@
    "bytes": 463,
    "sha256": "0b67f16e4586de17751c7ead39ea367bc3610e717cb546aa06ce436946988ba7",
    "problems": [],
+   "role": null,
    "class": "config",
    "lines": 26,
    "n_facts": 20
@@ -103,6 +115,7 @@
    "bytes": 147,
    "sha256": "4caab3e7075208c649a230034e529d8ae71d1887859ea006435c80fa39a49e5d",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 3,
    "n_facts": 5
@@ -112,6 +125,7 @@
    "bytes": 365,
    "sha256": "5626045a5ac103d4914e4f85dc1493ffe0f6108359e57bae3a2ac54d6b344691",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 6,
    "n_facts": 10
@@ -121,6 +135,7 @@
    "bytes": 877,
    "sha256": "54fd3ccab215e58712145da36284b4ac114977bcda9dd690dab149be75969b82",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 13,
    "n_facts": 36
@@ -130,6 +145,7 @@
    "bytes": 361,
    "sha256": "dabfb1b9f29187b8c5a1cc2645eed176e70ac8e9c9a8b6eb33ebbe29d3a606fd",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 8,
    "n_facts": 3
@@ -139,6 +155,7 @@
    "bytes": 529,
    "sha256": "d94448dc95b5cd13d944af7ade81c21443c7be01c1f8fdc9218003645b49cdc0",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 13,
    "n_facts": 6
@@ -148,6 +165,7 @@
    "bytes": 865,
    "sha256": "f5d4e40ec635db9c5f06ed25ea07e40450a7df405e3682462f47b6d87a61bb51",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 19,
    "n_facts": 10
@@ -218,6 +236,15 @@
    "max": 0.941
   }
  ],
+ "declared_missing": [],
+ "contract_closed": false,
+ "output_contract": {
+  "methods_section": "可编辑的方法与实验章节正文（Markdown）",
+  "parameter_table": "参数表：名称、取值、单位、作用对象、来源",
+  "source_map": "正文数字与关键论断的来源映射",
+  "open_questions": "材料缺口与需作者确认的问题",
+  "status": "success|partial|failed"
+ },
  "extract_seconds": 0.03,
  "case_keys": [
   "case_id",

@@ -1,6 +1,6 @@
 {
  "case_id": "ho_nlp_sst2",
- "section_md": "# 4 Experimental Setup\n\n## 4.1 Procedure\n\n1. Data loading: GLUE SST-2 was loaded with `load_dataset(\"glue\", \"sst2\")` at dataset revision bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c; output: 67349 training and 872 validation sentences.\n2. LoRA fine-tuning: roberta-large was adapted with LoRA on the query and value projections, training 1,838,082 of 357,199,876 parameters.\n3. Baseline: full fine-tuning of the same roberta-large model with its own configuration.\n4. Evaluation: accuracy on the official SST-2 validation split, because GLUE test labels are hidden; the best epoch was selected on the same split (epoch 14 in the logged LoRA run).\n\n## 4.2 Hyperparameters\n\nLoRA used rank r = 8, alpha = 16 and dropout 0.05. Optimisation used adamw_torch with learning rate 4e-4, weight decay 0.1, a linear schedule with warm-up ratio 0.06, 20 epochs, maximum sequence length 128 and bf16. The logged run used a per-device batch size of 32 without gradient accumulation [AUTHOR TO CONFIRM: conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?].\nThe full fine-tuning baseline used learning rate 1.0e-5, weight decay 0.1, per-device batch size 16 [AUTHOR TO CONFIRM: batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16] for 10 epochs at sequence length 128.\n\n\n\n| Parameter | Value | Unit | Applies to | Source | Status |\n|---|---|---|---|---|---|\n| batch size | 32 | - | - | train_lora_s1.log:5 (F41) | CONFLICT C1 - author to confirm |\n| dropout | 0.05 | - | lora | conf/lora.yaml:7 (F70) | cited in text |\n| epochs | 20 | - | - | train_lora_s1.log:5 (F44) | cited in text; other values: conf/full_ft.yaml:9=10 |\n| gradient accumulation steps | 1 | - | - | train_lora_s1.log:5 (F42) | CONFLICT C2 - author to confirm |\n| learning rate | 4e-4 | - | - | train_lora_s1.log:5 (F43) | cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4 |\n| LoRA alpha | 16 | - | lora | conf/lora.yaml:6 (F69) | cited in text |\n| LoRA rank | 8 | - | lora | conf/lora.yaml:5 (F68) | cited in text |\n| maximum sequence length | 128 | - | training | conf/full_ft.yaml:10 (F65) | cited in text |\n| optimizer | adamw_torch | - | optim | conf/lora.yaml:10 (F72) | cited in text |\n| learning-rate schedule | linear | - | optim | conf/lora.yaml:13 (F75) | cited in text |\n| warm-up | 0.06 | - | optim | conf/lora.yaml:14 (F76) | cited in text |\n| weight decay | 0.1 | - | optim | conf/full_ft.yaml:6 (F62) | cited in text |\n| dataset | glue | - | - | run_glue.py:10 (F33) | cited in text |\n| dataset version | sst2 | - | - | run_glue.py:10 (F34) | cited in text |\n| training samples | 67349, | - | - | train_lora_s1.log:3 (F58) | cited in text |\n| validation samples | 872 | - | - | train_lora_s1.log:3 (F59) | cited in text |\n| CUDA version | 12.1 | - | - | train_lora_s1.log:1 (F56) | in text (untagged) |\n| hardware | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |\n| number of GPUs / devices | 4 | - | - | train_lora_s1.log:2 (F36) | cited in text |\n| numeric precision | true | - | training | conf/lora.yaml:20 (F81) | cited in text |\n| Python version | 3.10.13 | - | - | train_lora_s1.log:1 (F52) | cited in text |\n| software (transformers) | 4.40.0 | - | - | train_lora_s1.log:1 (F54) | cited in text |\n| software (peft) | 0.10.0 | - | - | train_lora_s1.log:1 (F55) | cited in text |\n| PyTorch version | 2.2.1 | - | - | train_lora_s1.log:1 (F53) | cited in text |\n| model / architecture | roberta-large | - | model | conf/full_ft.yaml:3 (F60) | cited in text |\n| code version / commit | bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c | - | - | run_glue.py:10 (F32) | cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main |\n| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3 |\n| random seed | 1 | - | val | README.md:2 (F2) | cited in text |\n\n\n\n## 4.3 Compute and software\n\nEach run used 4 GPUs (torchrun, 4 processes per node) of type NVIDIA A100-SXM4-40GB, with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1. Total compute was about 40 GPU-hours.\n\n## 4.4 Seeds, repetitions and statistics\n\nEvery method was run with seeds 1, 2 and 3 [AUTHOR TO CONFIRM: C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds]; results are the mean over the three seeds. No significance test or confidence interval was computed [TO CONFIRM: Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?].\n\n## 4.5 Reproducibility\n\nCode commit 4be1d0e. Commands, run for SEED in 1 2 3:\n\n```\ntorchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED\ntorchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED\n```\n\nData are public through the GLUE benchmark [TO CONFIRM: cite the GLUE/SST-2 licence and the Hugging Face dataset page].\n\n## 4.6 Limitations\n\n- Model selection and reporting both use the 872-sentence validation split, so the reported accuracy is optimistically biased.\n- Only one model (roberta-large) and one task (SST-2) were tested.\n- Only 3 seeds per method; the baseline used 10 epochs against 20 for LoRA, so the budgets differ.\n",
+ "section_md": "# 4 Experimental Setup\n\n## 4.1 Procedure\n\n1. Data loading: GLUE SST-2 was loaded with `load_dataset(\"glue\", \"sst2\")` at dataset revision bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c; output: 67349 training and 872 validation sentences.\n2. LoRA fine-tuning: roberta-large was adapted with LoRA on the query and value projections, training 1,838,082 of 357,199,876 parameters.\n3. Baseline: full fine-tuning of the same roberta-large model with its own configuration.\n4. Evaluation: accuracy on the official SST-2 validation split, because GLUE test labels are hidden; the best epoch was selected on the same split (epoch 14 in the logged LoRA run).\n\n## 4.2 Hyperparameters\n\nLoRA used rank r = 8, alpha = 16 and dropout 0.05. Optimisation used adamw_torch with learning rate 4e-4, weight decay 0.1, a linear schedule with warm-up ratio 0.06, 20 epochs, maximum sequence length 128 and bf16. The logged run used a per-device batch size of 32 without gradient accumulation [AUTHOR TO CONFIRM: conf/lora.yaml sets per-device batch 16 with accumulation 2; the log shows 32 and 1. Both give an effective batch of 128 on 4 GPUs, but which setting was used for seeds 2 and 3?].\nThe full fine-tuning baseline used learning rate 1.0e-5, weight decay 0.1, per-device batch size 16 [AUTHOR TO CONFIRM: batch size 16 here is the baseline config value; the LoRA log shows 32, the LoRA config 16] for 10 epochs at sequence length 128.\n\n\n\n| Parameter | Value | Unit | Applies to | Source | Status |\n|---|---|---|---|---|---|\n| batch size | 32 | - | - | train_lora_s1.log:5 (F41) | CONFLICT C1 - author to confirm |\n| dropout | 0.05 | - | lora | conf/lora.yaml:7 (F70) | cited in text |\n| epochs | 20 | - | - | train_lora_s1.log:5 (F44) | cited in text; other values: conf/full_ft.yaml:9=10 |\n| gradient accumulation steps | 1 | - | - | train_lora_s1.log:5 (F42) | CONFLICT C2 - author to confirm |\n| learning rate | 4e-4 | - | - | train_lora_s1.log:5 (F43) | cited in text; other values: conf/full_ft.yaml:5=1.0e-5; conf/lora.yaml:11=4.0e-4 |\n| LoRA alpha | 16 | - | lora | conf/lora.yaml:6 (F69) | cited in text |\n| LoRA rank | 8 | - | lora | conf/lora.yaml:5 (F68) | cited in text |\n| maximum sequence length | 128 | - | training | conf/full_ft.yaml:10 (F65) | cited in text |\n| optimizer | adamw_torch | - | optim | conf/lora.yaml:10 (F72) | cited in text |\n| learning-rate schedule | linear | - | optim | conf/lora.yaml:13 (F75) | cited in text |\n| warm-up | 0.06 | - | optim | conf/lora.yaml:14 (F76) | cited in text |\n| weight decay | 0.1 | - | optim | conf/full_ft.yaml:6 (F62) | cited in text |\n| dataset | glue | - | - | run_glue.py:10 (F33) | cited in text |\n| dataset version | sst2 | - | - | run_glue.py:10 (F34) | cited in text |\n| training samples | 67349, | - | - | train_lora_s1.log:3 (F58) | cited in text |\n| validation samples | 872 | - | - | train_lora_s1.log:3 (F59) | cited in text |\n| CUDA version | 12.1 | - | - | train_lora_s1.log:1 (F56) | in text (untagged) |\n| hardware (gpu) | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |\n| number of GPUs / devices | 4 | - | - | train_lora_s1.log:2 (F36) | cited in text |\n| numeric precision | true | - | training | conf/lora.yaml:20 (F81) | cited in text |\n| Python version | 3.10.13 | - | - | train_lora_s1.log:1 (F52) | cited in text |\n| software (transformers) | 4.40.0 | - | - | train_lora_s1.log:1 (F54) | cited in text |\n| software (peft) | 0.10.0 | - | - | train_lora_s1.log:1 (F55) | cited in text |\n| PyTorch version | 2.2.1 | - | - | train_lora_s1.log:1 (F53) | cited in text |\n| model / architecture | roberta-large | - | model | conf/full_ft.yaml:3 (F60) | cited in text |\n| code version / commit | bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c | - | - | run_glue.py:10 (F32) | cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main |\n| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: run_glue.py:6=0 |\n| random seed | 1 | - | val | README.md:2 (F2) | cited in text |\n| random seed | 1 | - | lora | results.csv:2 (F19) | cited in text; other values: results.csv:3=2; results.csv:4=3 |\n| random seed | 1 | - | full_ft | results.csv:5 (F25) | not used in text; other values: results.csv:6=2; results.csv:7=3 |\n\n\n\n## 4.3 Compute and software\n\nEach run used 4 GPUs (torchrun, 4 processes per node) of type NVIDIA A100-SXM4-40GB, with Python 3.10.13, PyTorch 2.2.1, transformers 4.40.0, peft 0.10.0 and CUDA 12.1. Total compute was about 40 GPU-hours.\n\n## 4.4 Seeds, repetitions and statistics\n\nEvery method was run with seeds 1, 2 and 3 [AUTHOR TO CONFIRM: C1 launch.sh passes --seed $SEED from the loop; results.csv lists the seeds]; results are the mean over the three seeds. No significance test or confidence interval was computed [TO CONFIRM: Report standard deviation over seeds and a paired test or bootstrap CI for LoRA vs full fine-tuning?].\n\n## 4.5 Reproducibility\n\nCode commit 4be1d0e. Commands, run for SEED in 1 2 3:\n\n```\ntorchrun --nproc_per_node 4 run_glue.py --config conf/lora.yaml --seed $SEED --output_dir out/lora_s$SEED\ntorchrun --nproc_per_node 4 run_glue.py --config conf/full_ft.yaml --seed $SEED --output_dir out/full_s$SEED\n```\n\nData are public through the GLUE benchmark [TO CONFIRM: cite the GLUE/SST-2 licence and the Hugging Face dataset page].\n\n## 4.6 Limitations\n\n- Model selection and reporting both use the 872-sentence validation split, so the reported accuracy is optimistically biased.\n- Only one model (roberta-large) and one task (SST-2) were tested.\n- Only 3 seeds per method; the baseline used 10 epochs against 20 for LoRA, so the budgets differ.\n",
  "hyperparameter_table": [
   {
    "name": "batch size",
@@ -294,7 +294,7 @@
    ]
   },
   {
-   "name": "hardware",
+   "name": "hardware (gpu)",
    "canonical": "hardware",
    "category": "setup",
    "value": "NVIDIA A100-SXM4-40GB",
@@ -456,23 +456,14 @@
    "source": "launch.sh:3",
    "fact": "F11",
    "source_kind": "cli",
-   "status": "cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3",
+   "status": "cited in text; other values: run_glue.py:6=0",
    "other_values": [
-    "results.csv:2=1",
-    "results.csv:3=2",
-    "results.csv:4=3",
     "run_glue.py:6=0"
    ],
    "all_sources": [
     "launch.sh:3",
     "launch.sh:4",
-    "results.csv:2",
-    "results.csv:3",
-    "results.csv:4",
-    "run_glue.py:6",
-    "results.csv:5",
-    "results.csv:6",
-    "results.csv:7"
+    "run_glue.py:6"
    ]
   },
   {
@@ -489,6 +480,48 @@
    "other_values": [],
    "all_sources": [
     "README.md:2"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "results.csv:2",
+   "fact": "F19",
+   "source_kind": "table",
+   "status": "cited in text; other values: results.csv:3=2; results.csv:4=3",
+   "other_values": [
+    "results.csv:3=2",
+    "results.csv:4=3"
+   ],
+   "all_sources": [
+    "results.csv:2",
+    "results.csv:3",
+    "results.csv:4"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "full_ft",
+   "source": "results.csv:5",
+   "fact": "F25",
+   "source_kind": "table",
+   "status": "not used in text; other values: results.csv:6=2; results.csv:7=3",
+   "other_values": [
+    "results.csv:6=2",
+    "results.csv:7=3"
+   ],
+   "all_sources": [
+    "results.csv:5",
+    "results.csv:6",
+    "results.csv:7"
    ]
   }
  ],
@@ -640,6 +673,14 @@
      "source": "train_lora_s1.log:4",
      "kind": "doc",
      "key": "log_line"
+    },
+    {
+     "id": "F60",
+     "value": "roberta-large",
+     "source": "conf/full_ft.yaml:3",
+     "kind": "config",
+     "key": "model.name_or_path",
+     "via": "auto-name"
     }
    ],
    "numbers": [
@@ -765,6 +806,22 @@
      "value": "# GLUE test labels are hidden: we report on the official validation split",
      "source": "run_glue.py:11",
      "kind": "source-line"
+    },
+    {
+     "id": "F33",
+     "value": "glue",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset",
+     "via": "auto-name"
+    },
+    {
+     "id": "F34",
+     "value": "sst2",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset_config",
+     "via": "auto-name"
     }
    ],
    "numbers": [
@@ -1489,7 +1546,16 @@
    "type": "sentence",
    "section": "4 Experimental Setup > 4.5 Reproducibility",
    "text": "Data are public through the GLUE benchmark .",
-   "facts": [],
+   "facts": [
+    {
+     "id": "F33",
+     "value": "glue",
+     "source": "run_glue.py:10",
+     "kind": "code",
+     "key": "dataset",
+     "via": "auto-name"
+    }
+   ],
    "numbers": [],
    "gaps": [
     "cite the GLUE/SST-2 licence and the Hugging Face dataset page"
@@ -1622,6 +1688,14 @@
      "source": "conf/lora.yaml:18",
      "kind": "config",
      "key": "training.num_train_epochs"
+    },
+    {
+     "id": "F60",
+     "value": "roberta-large",
+     "source": "conf/full_ft.yaml:3",
+     "kind": "config",
+     "key": "model.name_or_path",
+     "via": "auto-name"
     }
    ],
    "numbers": [
@@ -1778,26 +1852,47 @@
  ],
  "status": "success",
  "status_reason": "all checks pass; 13 items await author confirmation",
+ "output_contract": [
+  {
+   "name": "section_md",
+   "description": "Experimental Setup section in Markdown"
+  },
+  {
+   "name": "hyperparameter_table",
+   "description": "hyperparameters with sources"
+  },
+  {
+   "name": "provenance",
+   "description": "where each number comes from"
+  },
+  {
+   "name": "issues_for_authors",
+   "description": "gaps and conflicts"
+  },
+  {
+   "name": "status"
+  }
+ ],
  "skill": {
   "name": "methods-ledger",
-  "version": "0.1.0"
+  "version": "0.1.2"
  },
  "language": "en",
  "profile": "ml",
  "artifacts": {
-  "methods.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods.md",
-  "methods_annotated.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_annotated.md",
-  "methods_annotated.html": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_annotated.html",
-  "methods.docx": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods.docx",
-  "methods_preview.pdf": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_preview.pdf",
-  "methods_preview.png": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\methods_preview.png",
-  "param_table.csv": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\param_table.csv",
-  "param_table.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\param_table.md",
-  "fact_map.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\fact_map.json",
-  "questions.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\questions.md",
-  "check_report.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\check_report.json",
-  "review.md": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\review.md",
-  "result.json": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp69v8ehud\\out\\result.json"
+  "methods.md": "methods.md",
+  "methods_annotated.md": "methods_annotated.md",
+  "methods_annotated.html": "methods_annotated.html",
+  "param_table.csv": "param_table.csv",
+  "param_table.md": "param_table.md",
+  "fact_map.json": "fact_map.json",
+  "questions.md": "questions.md",
+  "check_report.json": "check_report.json",
+  "review.md": "review.md",
+  "result.json": "result.json",
+  "methods.docx": "methods.docx",
+  "methods_preview.pdf": "methods_preview.pdf",
+  "methods_preview.png": "methods_preview.png"
  },
  "preview": "pymupdf story, 3 pages",
  "sources": [
@@ -1965,14 +2060,14 @@
      "u29"
     ],
     "facts_cited": [
-     "F41",
-     "F61",
-     "F63",
      "F44",
      "F72",
+     "F41",
+     "F43",
+     "F63",
+     "F61",
      "F64",
-     "F79",
-     "F43"
+     "F79"
     ]
    },
    {
@@ -1991,9 +2086,9 @@
     "facts_cited": [
      "F9",
      "F36",
+     "F14",
      "F7",
-     "F57",
-     "F14"
+     "F57"
     ]
    },
    {
@@ -2006,10 +2101,10 @@
      "u18"
     ],
     "facts_cited": [
+     "F55",
      "F53",
      "F52",
-     "F54",
-     "F55"
+     "F54"
     ]
    },
    {
@@ -2027,12 +2122,12 @@
      "u29"
     ],
     "facts_cited": [
+     "F16",
      "F2",
-     "F11",
-     "F21",
      "F19",
+     "F21",
      "F23",
-     "F16"
+     "F11"
     ]
    },
    {
@@ -2105,10 +2200,10 @@
      "u25"
     ],
     "facts_cited": [
-     "F13",
-     "F6",
+     "F8",
      "F32",
-     "F8"
+     "F6",
+     "F13"
     ]
    },
    {
@@ -2391,7 +2486,7 @@
   "against_input_draft": [],
   "build_history": [
    {
-    "at": "2026-11-23T10:20:32Z",
+    "at": "2026-11-28T09:03:13Z",
     "draft_sha256": "67a5861d9a6ab883e4fc98a6438ea4a5297043504210c86f97bd8ece347e8352",
     "fails": 0,
     "warns": 14,
@@ -2693,7 +2788,7 @@
    ]
   },
   {
-   "name": "hardware",
+   "name": "hardware (gpu)",
    "canonical": "hardware",
    "category": "setup",
    "value": "NVIDIA A100-SXM4-40GB",
@@ -2855,23 +2950,14 @@
    "source": "launch.sh:3",
    "fact": "F11",
    "source_kind": "cli",
-   "status": "cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3",
+   "status": "cited in text; other values: run_glue.py:6=0",
    "other_values": [
-    "results.csv:2=1",
-    "results.csv:3=2",
-    "results.csv:4=3",
     "run_glue.py:6=0"
    ],
    "all_sources": [
     "launch.sh:3",
     "launch.sh:4",
-    "results.csv:2",
-    "results.csv:3",
-    "results.csv:4",
-    "run_glue.py:6",
-    "results.csv:5",
-    "results.csv:6",
-    "results.csv:7"
+    "run_glue.py:6"
    ]
   },
   {
@@ -2888,6 +2974,48 @@
    "other_values": [],
    "all_sources": [
     "README.md:2"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "lora",
+   "source": "results.csv:2",
+   "fact": "F19",
+   "source_kind": "table",
+   "status": "cited in text; other values: results.csv:3=2; results.csv:4=3",
+   "other_values": [
+    "results.csv:3=2",
+    "results.csv:4=3"
+   ],
+   "all_sources": [
+    "results.csv:2",
+    "results.csv:3",
+    "results.csv:4"
+   ]
+  },
+  {
+   "name": "random seed",
+   "canonical": "seed",
+   "category": "repro",
+   "value": "1",
+   "unit": "",
+   "applies_to": "full_ft",
+   "source": "results.csv:5",
+   "fact": "F25",
+   "source_kind": "table",
+   "status": "not used in text; other values: results.csv:6=2; results.csv:7=3",
+   "other_values": [
+    "results.csv:6=2",
+    "results.csv:7=3"
+   ],
+   "all_sources": [
+    "results.csv:5",
+    "results.csv:6",
+    "results.csv:7"
    ]
   }
  ],
@@ -3118,5 +3246,5 @@
   "F81"
  ],
  "n_facts_extracted": 83,
- "built_at": "2026-11-23T10:20:32Z"
+ "built_at": "2026-11-28T09:03:13Z"
 }

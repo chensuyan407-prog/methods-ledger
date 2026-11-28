@@ -23,6 +23,55 @@ facts extracted 83, cited 68; conflicts 2; questions 13; preview: pymupdf story,
 - E_data_access (repro, recommended): **missing** — data availability / access
 - E_limits (repro, required): **covered** — limitations tied to concrete failure scenarios
 
+## Review notes (automatic source mapping)
+
+- numbers/versions in the text: 38; matched by tag 31, auto-mapped 0, CALC/SRC 3, unsourced 0
+- **X01 condition crossover (val/test/stage)** (3):
+  - l.38: F20 comes from the test context (results.csv:2) but the sentence talks about val
+  - l.38: F22 comes from the test context (results.csv:3) but the sentence talks about val
+  - l.38: F24 comes from the test context (results.csv:4) but the sentence talks about val
+
+| line | token | fact | source | how |
+|---|---|---|---|---|
+| 5 | `67349` | F37 |  | tag |
+| 5 | `872` | F38 |  | tag |
+| 6 | `1,838,082` | F39 |  | tag |
+| 6 | `357,199,876` | F40 |  | tag |
+| 8 | `14` | F51 |  | tag |
+| 12 | `8` | F68 |  | tag |
+| 12 | `16` | F69 |  | tag |
+| 12 | `0.05` | F70 |  | tag |
+| 12 | `4e-4` | F43 |  | tag |
+| 12 | `0.1` | F74 |  | tag |
+| 12 | `0.06` | F76 |  | tag |
+| 12 | `20` | F44 |  | tag |
+| 12 | `128` | F80 |  | tag |
+| 12 | `32` | F41 |  | tag |
+| 12 | `1.0e-5` | F61 |  | tag |
+| 12 | `0.1` | F62 |  | tag |
+| 12 | `16` | F63 |  | tag |
+| 12 | `10` | F64 |  | tag |
+| 12 | `128` | F65 |  | tag |
+| 19 | `4` | F7 |  | tag |
+| 19 | `4` | F7 |  | tag |
+| 19 | `12.1` | F46 |  | tag |
+| 19 | `3.10.13` | F35 |  | version-tag |
+| 19 | `2.2.1` | F46 |  | version-tag |
+| 19 | `4.40.0` | F46 |  | version-tag |
+| 19 | `0.10.0` | F46 |  | version-tag |
+| 19 | `40` | F4 |  | tag |
+| 23 | `1` | F19 |  | tag |
+| 23 | `2` | F21 |  | tag |
+| 23 | `3` | F23 |  | tag |
+| 27 | `4` | F6 |  | tag |
+| 27 | `1` | SRC |  | source-line |
+| 27 | `2` | SRC |  | source-line |
+| 27 | `3` | SRC |  | source-line |
+| 38 | `872` | F38 |  | tag |
+| 38 | `3` | F23 |  | tag |
+| 38 | `10` | F64 |  | tag |
+| 38 | `20` | F79 |  | tag |
+
 ## Check items
 - WARN T05 l.6: cited F71 (lora.target_modules = [query, value]) but its value is not in the sentence
 - WARN T05 l.7: cited F15 (config = conf/full_ft.yaml) but its value is not in the sentence

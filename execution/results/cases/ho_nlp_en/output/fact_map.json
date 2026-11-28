@@ -146,6 +146,14 @@
     "source": "train_lora_s1.log:4",
     "kind": "doc",
     "key": "log_line"
+   },
+   {
+    "id": "F60",
+    "value": "roberta-large",
+    "source": "conf/full_ft.yaml:3",
+    "kind": "config",
+    "key": "model.name_or_path",
+    "via": "auto-name"
    }
   ],
   "numbers": [
@@ -271,6 +279,22 @@
     "value": "# GLUE test labels are hidden: we report on the official validation split",
     "source": "run_glue.py:11",
     "kind": "source-line"
+   },
+   {
+    "id": "F33",
+    "value": "glue",
+    "source": "run_glue.py:10",
+    "kind": "code",
+    "key": "dataset",
+    "via": "auto-name"
+   },
+   {
+    "id": "F34",
+    "value": "sst2",
+    "source": "run_glue.py:10",
+    "kind": "code",
+    "key": "dataset_config",
+    "via": "auto-name"
    }
   ],
   "numbers": [
@@ -995,7 +1019,16 @@
   "type": "sentence",
   "section": "4 Experimental Setup > 4.5 Reproducibility",
   "text": "Data are public through the GLUE benchmark .",
-  "facts": [],
+  "facts": [
+   {
+    "id": "F33",
+    "value": "glue",
+    "source": "run_glue.py:10",
+    "kind": "code",
+    "key": "dataset",
+    "via": "auto-name"
+   }
+  ],
   "numbers": [],
   "gaps": [
    "cite the GLUE/SST-2 licence and the Hugging Face dataset page"
@@ -1128,6 +1161,14 @@
     "source": "conf/lora.yaml:18",
     "kind": "config",
     "key": "training.num_train_epochs"
+   },
+   {
+    "id": "F60",
+    "value": "roberta-large",
+    "source": "conf/full_ft.yaml:3",
+    "kind": "config",
+    "key": "model.name_or_path",
+    "via": "auto-name"
    }
   ],
   "numbers": [

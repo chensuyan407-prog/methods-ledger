@@ -33,7 +33,7 @@ The full fine-tuning baseline used learning rate 1.0e-5 <sup>[F61: conf/full_ft.
 | training samples | 67349, | - | - | train_lora_s1.log:3 (F58) | cited in text |
 | validation samples | 872 | - | - | train_lora_s1.log:3 (F59) | cited in text |
 | CUDA version | 12.1 | - | - | train_lora_s1.log:1 (F56) | in text (untagged) |
-| hardware | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |
+| hardware (gpu) | NVIDIA A100-SXM4-40GB | - | - | train_lora_s1.log:2 (F57) | cited in text |
 | number of GPUs / devices | 4 | - | - | train_lora_s1.log:2 (F36) | cited in text |
 | numeric precision | true | - | training | conf/lora.yaml:20 (F81) | cited in text |
 | Python version | 3.10.13 | - | - | train_lora_s1.log:1 (F52) | cited in text |
@@ -42,8 +42,10 @@ The full fine-tuning baseline used learning rate 1.0e-5 <sup>[F61: conf/full_ft.
 | PyTorch version | 2.2.1 | - | - | train_lora_s1.log:1 (F53) | cited in text |
 | model / architecture | roberta-large | - | model | conf/full_ft.yaml:3 (F60) | cited in text |
 | code version / commit | bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c | - | - | run_glue.py:10 (F32) | cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main |
-| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3 |
+| random seed | $SEED | - | - | launch.sh:3 (F11) | cited in text; other values: run_glue.py:6=0 |
 | random seed | 1 | - | val | README.md:2 (F2) | cited in text |
+| random seed | 1 | - | lora | results.csv:2 (F19) | cited in text; other values: results.csv:3=2; results.csv:4=3 |
+| random seed | 1 | - | full_ft | results.csv:5 (F25) | not used in text; other values: results.csv:6=2; results.csv:7=3 |
 
 
 
@@ -71,3 +73,52 @@ Data are public through the GLUE benchmark [TO CONFIRM: cite the GLUE/SST-2 lice
 - Model selection and reporting both use the 872-sentence validation split <sup>[F37: train_lora_s1.log:3; F38: train_lora_s1.log:3; F48: train_lora_s1.log:3; F58: train_lora_s1.log:3; F59: train_lora_s1.log:3]</sup>, so the reported accuracy is optimistically biased.
 - Only one model (roberta-large) <sup>[F66: conf/lora.yaml:2]</sup> and one task (SST-2) <sup>[F32: run_glue.py:10; F33: run_glue.py:10; F34: run_glue.py:10]</sup> were tested.
 - Only 3 seeds per method <sup>[F19: results.csv:2; F20: results.csv:2; F21: results.csv:3; F22: results.csv:3; F23: results.csv:4; F24: results.csv:4]</sup>; the baseline used 10 epochs against 20 for LoRA <sup>[F64: conf/full_ft.yaml:9; F79: conf/lora.yaml:18]</sup>, so the budgets differ.
+
+## Review notes (automatic source mapping)
+
+- numbers/versions in the text: 38; matched by tag 31, auto-mapped 0, CALC/SRC 3, unsourced 0
+- **X01 condition crossover (val/test/stage)** (3):
+  - l.38: F20 comes from the test context (results.csv:2) but the sentence talks about val
+  - l.38: F22 comes from the test context (results.csv:3) but the sentence talks about val
+  - l.38: F24 comes from the test context (results.csv:4) but the sentence talks about val
+
+| line | token | fact | source | how |
+|---|---|---|---|---|
+| 5 | `67349` | F37 |  | tag |
+| 5 | `872` | F38 |  | tag |
+| 6 | `1,838,082` | F39 |  | tag |
+| 6 | `357,199,876` | F40 |  | tag |
+| 8 | `14` | F51 |  | tag |
+| 12 | `8` | F68 |  | tag |
+| 12 | `16` | F69 |  | tag |
+| 12 | `0.05` | F70 |  | tag |
+| 12 | `4e-4` | F43 |  | tag |
+| 12 | `0.1` | F74 |  | tag |
+| 12 | `0.06` | F76 |  | tag |
+| 12 | `20` | F44 |  | tag |
+| 12 | `128` | F80 |  | tag |
+| 12 | `32` | F41 |  | tag |
+| 12 | `1.0e-5` | F61 |  | tag |
+| 12 | `0.1` | F62 |  | tag |
+| 12 | `16` | F63 |  | tag |
+| 12 | `10` | F64 |  | tag |
+| 12 | `128` | F65 |  | tag |
+| 19 | `4` | F7 |  | tag |
+| 19 | `4` | F7 |  | tag |
+| 19 | `12.1` | F46 |  | tag |
+| 19 | `3.10.13` | F35 |  | version-tag |
+| 19 | `2.2.1` | F46 |  | version-tag |
+| 19 | `4.40.0` | F46 |  | version-tag |
+| 19 | `0.10.0` | F46 |  | version-tag |
+| 19 | `40` | F4 |  | tag |
+| 23 | `1` | F19 |  | tag |
+| 23 | `2` | F21 |  | tag |
+| 23 | `3` | F23 |  | tag |
+| 27 | `4` | F6 |  | tag |
+| 27 | `1` | SRC |  | source-line |
+| 27 | `2` | SRC |  | source-line |
+| 27 | `3` | SRC |  | source-line |
+| 38 | `872` | F38 |  | tag |
+| 38 | `3` | F23 |  | tag |
+| 38 | `10` | F64 |  | tag |
+| 38 | `20` | F79 |  | tag |

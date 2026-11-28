@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.1.2",
  "case_id": "ho_stats_sleep",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_stats\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\ho_stats\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmpxjczwrsx\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpcaott7p1\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpcaott7p1\\work",
  "lang": "zh",
  "profile": "stats",
  "profile_scores": {
@@ -17,23 +17,28 @@
  "contract": [
   {
    "name": "methods_text",
-   "desc": "方法正文"
+   "desc": "方法正文",
+   "type": null
   },
   {
    "name": "params",
-   "desc": "关键设置与来源"
+   "desc": "关键设置与来源",
+   "type": null
   },
   {
    "name": "trace",
-   "desc": "数字来源"
+   "desc": "数字来源",
+   "type": null
   },
   {
    "name": "confirm_list",
-   "desc": "需作者确认的问题"
+   "desc": "需作者确认的问题",
+   "type": null
   },
   {
    "name": "status",
-   "desc": "状态"
+   "desc": "状态",
+   "type": null
   }
  ],
  "files": [
@@ -42,6 +47,7 @@
    "bytes": 290,
    "sha256": "80cf862bb3fd91aa5e37d9b3b3e248c1a2b85eb7db4841f217070e645f99cb53",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 10,
    "n_facts": 8
@@ -51,6 +57,7 @@
    "bytes": 469,
    "sha256": "333610e33aaa2aa1f564d58dbf84ce515b7eb6d159198b00523a7fda32b44180",
    "problems": [],
+   "role": null,
    "class": "case",
    "lines": 4
   },
@@ -59,6 +66,7 @@
    "bytes": 208,
    "sha256": "65545cb1f531198ad49f54d9a0626edd65f9572593e8e252fccc73342198ad10",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 6,
    "n_facts": 8
@@ -68,6 +76,7 @@
    "bytes": 181,
    "sha256": "8a5717299e172e204047c18ebce8270db502dc3fdd5384fb8728a6f0b624342d",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 4,
    "n_facts": 5
@@ -77,6 +86,7 @@
    "bytes": 401,
    "sha256": "5cfec3654b88b3e168c8e1e9fca3293fad3c02973cc333f3f109fd20eb2a1f2c",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 9,
    "n_facts": 10
@@ -86,7 +96,16 @@
  "task_excerpt": "撰写“2 研究方法”一节（中文，面向公共卫生期刊），基于问卷说明、数据清洗日志和 R 分析脚本。需写清研究对象与纳排标准、样本量、变量、统计方法、软件版本与复现，以及局限。",
  "stages": [],
  "series": [],
- "extract_seconds": 0.01,
+ "declared_missing": [],
+ "contract_closed": false,
+ "output_contract": {
+  "methods_text": "方法正文",
+  "params": "关键设置与来源",
+  "trace": "数字来源",
+  "confirm_list": "需作者确认的问题",
+  "status": "状态"
+ },
+ "extract_seconds": 0.0,
  "case_keys": [
   "case_id",
   "output_contract",

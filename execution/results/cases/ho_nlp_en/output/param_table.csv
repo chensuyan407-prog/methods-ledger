@@ -16,7 +16,7 @@ dataset version,dataset_version,data,sst2,,-,run_glue.py:10,F34,code,cited in te
 training samples,n_train,data,"67349,",,-,train_lora_s1.log:3,F58,log,cited in text
 validation samples,n_val,data,872,,-,train_lora_s1.log:3,F59,log,cited in text
 CUDA version,cuda,setup,12.1,,-,train_lora_s1.log:1,F56,log,in text (untagged)
-hardware,hardware,setup,NVIDIA A100-SXM4-40GB,,-,train_lora_s1.log:2,F57,log,cited in text
+hardware (gpu),hardware,setup,NVIDIA A100-SXM4-40GB,,-,train_lora_s1.log:2,F57,log,cited in text
 number of GPUs / devices,num_gpus,setup,4,,-,train_lora_s1.log:2,F36,log,cited in text
 numeric precision,precision,setup,true,,training,conf/lora.yaml:20,F81,config,cited in text
 Python version,python,setup,3.10.13,,-,train_lora_s1.log:1,F52,log,cited in text
@@ -25,5 +25,7 @@ software (peft),software,setup,0.10.0,,-,train_lora_s1.log:1,F55,log,cited in te
 PyTorch version,torch,setup,2.2.1,,-,train_lora_s1.log:1,F53,log,cited in text
 model / architecture,model,control,roberta-large,,model,conf/full_ft.yaml:3,F60,config,cited in text
 code version / commit,code_version,repro,bcdcba79d07bc864c1c254ccfcedcce55bcc9a8c,,-,run_glue.py:10,F32,code,cited in text; other values: README.md:2=4be1d0e; conf/lora.yaml:3=main
-random seed,seed,repro,$SEED,,-,launch.sh:3,F11,cli,cited in text; other values: results.csv:2=1; results.csv:3=2; results.csv:4=3
+random seed,seed,repro,$SEED,,-,launch.sh:3,F11,cli,cited in text; other values: run_glue.py:6=0
 random seed,seed,repro,1,,val,README.md:2,F2,doc_kv,cited in text
+random seed,seed,repro,1,,lora,results.csv:2,F19,table,cited in text; other values: results.csv:3=2; results.csv:4=3
+random seed,seed,repro,1,,full_ft,results.csv:5,F25,table,not used in text; other values: results.csv:6=2; results.csv:7=3

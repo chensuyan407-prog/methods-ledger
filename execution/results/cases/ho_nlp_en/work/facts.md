@@ -1,16 +1,42 @@
-# Facts for case `ho_nlp_sst2` (methods-ledger 0.1.0)
+# Facts for case `ho_nlp_sst2` (methods-ledger 0.1.2)
 profile: **ml** · target language: **en** · 83 facts from 8 files · 2 conflicts · 6 gaps/questions
-Cite a fact in the draft as `[[F12]]` right after the sentence part it supports (several: `[[F12,F30]]`).
+Write the chapter in normal academic prose, copying values exactly as listed. ml_build.py maps every number, version and name to these facts automatically; tags such as `[[F12]]` are optional and only help where a value occurs in several facts.
 
-## Files
-- `README.md` — doc, 4 lines, 6 facts
-- `case.json` — case, 4 lines, 0 facts
-- `launch.sh` — code, 6 lines, 11 facts
-- `results.csv` — table, 8 lines, 13 facts
-- `run_glue.py` — code, 12 lines, 4 facts
-- `train_lora_s1.log` — log, 7 lines, 25 facts
-- `conf/full_ft.yaml` — config, 11 lines, 6 facts
-- `conf/lora.yaml` — config, 24 lines, 18 facts
+## Material index (primary materials first)
+- `README.md` — material, doc, 4 lines, 6 facts
+- `case.json` — material, case, 4 lines, 0 facts
+- `conf/full_ft.yaml` — material, config, 11 lines, 6 facts
+- `conf/lora.yaml` — material, config, 24 lines, 18 facts
+- `launch.sh` — material, code, 6 lines, 11 facts
+- `results.csv` — material, table, 8 lines, 13 facts
+- `run_glue.py` — material, code, 12 lines, 4 facts
+- `train_lora_s1.log` — material, log, 7 lines, 25 facts
+
+## Required sections (each must be written with material values, or marked GAP)
+- [required] ordered procedure (input -> operation -> output per step) (steps)
+- [required] dataset name and source (data)
+- [required] dataset version / release / snapshot date (data)
+- [required] split sizes/ratios and how they were drawn (data)
+- [recommended] preprocessing / filtering (data)
+- [recommended] model / architecture and initialisation (control)
+- [required] optimiser, learning rate, batch size, training length (params)
+- [required] hardware (device type and count) (setup)
+- [required] software and versions (setup)
+- [required] random seed(s) (repro)
+- [required] number of repetitions / replicates and how results are aggregated (control)
+- [required] baselines with versions and same-budget conditions (control)
+- [required] evaluation metrics / measured outcomes (control)
+- [recommended] statistical test / uncertainty estimate (control)
+- [required] code version and run commands (repro)
+- [recommended] data availability / access (repro)
+- [required] limitations tied to concrete failure scenarios (repro)
+
+## output_contract (ml_build.py writes these fields at the top level of result.json)
+- `section_md`: Experimental Setup section in Markdown
+- `hyperparameter_table`: hyperparameters with sources
+- `provenance`: where each number comes from
+- `issues_for_authors`: gaps and conflicts
+- `status`: {"name": "status"}
 
 ## Task (excerpt)
 Draft Section 4 'Experimental Setup' (English, NeurIPS style) for our LoRA fine-tuning study from the configs, launch script, logs and results. Report datasets and splits, hyperparameters, baselines, compute, seeds/repetitions and reproducibility. Flag anything missing.
@@ -109,7 +135,7 @@ Draft Section 4 'Experimental Setup' (English, NeurIPS style) for our LoRA fine-
 ## Logged series (values that change during a run; not conflicts)
 - `train_lora_s1.log` eval_accuracy: 1 values, first 0.9622 (l.6), last 0.9622 (l.6), range 0.9622–0.9622
 
-## Lines with numbers in notes / data cards / drafts (cite them like any fact)
+## Evidence lines in notes / data cards / PDFs / drafts
 - F3 `README.md:2` Code commit: 4be1d0e. Results: mean over seeds 1-3 on the GLUE SST-2 validation set (872 sentences).
 - F5 `README.md:3` Total compute: about 40 GPU-hours.
 - F46 `train_lora_s1.log:1` env: python 3.10.13, torch 2.2.1, transformers 4.40.0, peft 0.10.0, CUDA 12.1

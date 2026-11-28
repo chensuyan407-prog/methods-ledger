@@ -5,11 +5,11 @@ dropout,dropout,params,0.1,,model,configs/train.yaml:5,F32,config,正文已引�
 评测批大小,eval_batch_size,params,64,,test/eval,configs/train.yaml:25,F49,config,正文未使用
 梯度裁剪阈值,grad_clip,params,1.0,,train,configs/train.yaml:20,F45,config,正文已引用
 学习率,learning_rate,params,2e-05,,-,logs/train_bert_seed42.log:5,F66,log,冲突 C1，待作者确认
+最大迭代次数（求解器）,max_iter,params,1000,,baseline,src/baseline.py:6,F103,code,正文未使用
 最大序列长度,max_length,params,256,,-,logs/train_bert_seed42.log:5,F70,log,正文已引用
-训练步数/迭代次数,max_steps,params,1000,,baseline,src/baseline.py:6,F103,code,正文未使用
-优化器,optimizer,params,liblinear,,baseline,configs/baseline_tfidf.yaml:6,F28,config,正文已引用
 优化器,optimizer,params,AdamW,,train,configs/train.yaml:13,F38,config,正文已引用
 学习率调度,scheduler,params,linear,,train,configs/train.yaml:19,F44,config,正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu
+求解器,solver,params,liblinear,,baseline,configs/baseline_tfidf.yaml:6,F28,config,正文已引用
 预热,warmup,params,0.1,,-,logs/train_bert_seed42.log:5,F71,log,正文已引用
 权重衰减,weight_decay,params,0.01,,train,configs/train.yaml:15,F40,config,正文已引用
 数据集,dataset,data,THUCNews-subset,,data,configs/train.yaml:7,F33,config,正文未使用
@@ -27,7 +27,7 @@ dropout,dropout,params,0.1,,model,configs/train.yaml:5,F32,config,正文已引�
 验证集文件,val_file,data,data/val.jsonl,,val/data,configs/train.yaml:9,F35,config,正文未使用
 CUDA 版本,cuda,setup,12.1,,-,logs/train_bert_seed42.log:2,F96,log,正文已引用
 cuDNN 版本,cudnn,setup,8902,,-,logs/train_bert_seed42.log:2,F97,log,正文未使用
-硬件,hardware,setup,NVIDIA A100-SXM4-80GB,,-,logs/train_bert_seed42.log:3,F98,log,正文已引用
+硬件 (gpu),hardware,setup,NVIDIA A100-SXM4-80GB,,-,logs/train_bert_seed42.log:3,F98,log,正文已引用
 GPU/设备数,num_gpus,setup,1,,-,logs/train_bert_seed42.log:3,F99,log,正文已引用
 数值精度,precision,setup,true,,train,configs/train.yaml:21,F46,config,正文已引用
 软件 (transformers),software,setup,4.36.2,,-,requirements.txt:2,F20,env,正文已引用

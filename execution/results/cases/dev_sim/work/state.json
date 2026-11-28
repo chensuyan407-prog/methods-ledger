@@ -1,11 +1,11 @@
 {
  "tool": "methods-ledger",
- "version": "0.1.0",
+ "version": "0.1.2",
  "case_id": "dev_sim_water",
  "case_path": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_sim\\input\\case.json",
  "input_dir": "C:\\Users\\12117\\Desktop\\bohrium-pdf-evidence-reader\\methods\\tests\\cases\\dev_sim\\input",
- "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\out",
- "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval__hq39s5g\\tmp7anu4f13\\work",
+ "out": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpopygv7jo\\out",
+ "work": "C:\\Users\\12117\\AppData\\Local\\Temp\\ml_eval_72aptjfo\\tmpopygv7jo\\work",
  "lang": "zh",
  "profile": "simulation",
  "profile_scores": {
@@ -17,19 +17,23 @@
  "contract": [
   {
    "name": "section_text",
-   "desc": "章节正文"
+   "desc": "章节正文",
+   "type": null
   },
   {
    "name": "parameter_table",
-   "desc": "参数表"
+   "desc": "参数表",
+   "type": null
   },
   {
    "name": "provenance",
-   "desc": "来源映射"
+   "desc": "来源映射",
+   "type": null
   },
   {
    "name": "questions",
-   "desc": "待作者确认项"
+   "desc": "待作者确认项",
+   "type": null
   }
  ],
  "files": [
@@ -38,6 +42,7 @@
    "bytes": 453,
    "sha256": "a4e6d0ab7e2ed024096f621606e6622bf28a74a38d7db51e4079c837749095a7",
    "problems": [],
+   "role": null,
    "class": "case",
    "lines": 4
   },
@@ -46,6 +51,7 @@
    "bytes": 432,
    "sha256": "36e2c321e6c2363156274aa3932a516660be7d071a27f31fcb48431dcfd732f9",
    "problems": [],
+   "role": null,
    "class": "config",
    "lines": 13,
    "n_facts": 13
@@ -55,6 +61,7 @@
    "bytes": 191,
    "sha256": "85287a27fa7aafd4d216fda48c7f240392dc54bde9e33b8ae462eed23451af21",
    "problems": [],
+   "role": null,
    "class": "code",
    "lines": 9,
    "n_facts": 9
@@ -64,6 +71,7 @@
    "bytes": 407,
    "sha256": "278c2b56c17e74e7782a3b492aa4b2f2bf02a83ba0508584819fe1484a37009c",
    "problems": [],
+   "role": null,
    "class": "log",
    "lines": 12,
    "n_facts": 14
@@ -73,6 +81,7 @@
    "bytes": 156,
    "sha256": "e63ef8e92f2761d89f3a3602939cc542937602e2d21752ce2320aa5ff88e3ba7",
    "problems": [],
+   "role": null,
    "class": "doc",
    "lines": 6,
    "n_facts": 8
@@ -88,6 +97,14 @@
   }
  ],
  "series": [],
+ "declared_missing": [],
+ "contract_closed": false,
+ "output_contract": {
+  "section_text": "章节正文",
+  "parameter_table": "参数表",
+  "provenance": "来源映射",
+  "questions": "待作者确认项"
+ },
  "extract_seconds": 0.01,
  "case_keys": [
   "case_id",

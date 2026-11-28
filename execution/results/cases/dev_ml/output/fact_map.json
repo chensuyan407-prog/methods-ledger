@@ -385,6 +385,14 @@
     "source": "notes.md:5",
     "kind": "doc",
     "key": "sentence"
+   },
+   {
+    "id": "F48",
+    "value": "macro_f1",
+    "source": "configs/train.yaml:24",
+    "kind": "config",
+    "key": "eval.metric",
+    "via": "auto-name"
    }
   ],
   "numbers": [],
@@ -832,6 +840,14 @@
     "source": "notes.md:4",
     "kind": "doc",
     "key": "sentence"
+   },
+   {
+    "id": "F44",
+    "value": "linear",
+    "source": "configs/train.yaml:19",
+    "kind": "config",
+    "key": "train.scheduler",
+    "via": "auto-name"
    }
   ],
   "numbers": [

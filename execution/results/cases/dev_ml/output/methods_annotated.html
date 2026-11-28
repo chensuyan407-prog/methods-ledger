@@ -21,11 +21,11 @@
 <tr><td>评测批大小</td><td>64</td><td>-</td><td>test/eval</td><td>configs/train.yaml:25 (F49)</td><td>正文未使用</td></tr>
 <tr><td>梯度裁剪阈值</td><td>1.0</td><td>-</td><td>train</td><td>configs/train.yaml:20 (F45)</td><td>正文已引用</td></tr>
 <tr><td>学习率</td><td>2e-05</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F66)</td><td>冲突 C1，待作者确认</td></tr>
+<tr><td>最大迭代次数（求解器）</td><td>1000</td><td>-</td><td>baseline</td><td>src/baseline.py:6 (F103)</td><td>正文未使用</td></tr>
 <tr><td>最大序列长度</td><td>256</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F70)</td><td>正文已引用</td></tr>
-<tr><td>训练步数/迭代次数</td><td>1000</td><td>-</td><td>baseline</td><td>src/baseline.py:6 (F103)</td><td>正文未使用</td></tr>
-<tr><td>优化器</td><td>liblinear</td><td>-</td><td>baseline</td><td>configs/baseline_tfidf.yaml:6 (F28)</td><td>正文已引用</td></tr>
 <tr><td>优化器</td><td>AdamW</td><td>-</td><td>train</td><td>configs/train.yaml:13 (F38)</td><td>正文已引用</td></tr>
 <tr><td>学习率调度</td><td>linear</td><td>-</td><td>train</td><td>configs/train.yaml:19 (F44)</td><td>正文已引用; 其他取值：src/train.py:4=get_linear_schedule_with_warmu</td></tr>
+<tr><td>求解器</td><td>liblinear</td><td>-</td><td>baseline</td><td>configs/baseline_tfidf.yaml:6 (F28)</td><td>正文已引用</td></tr>
 <tr><td>预热</td><td>0.1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:5 (F71)</td><td>正文已引用</td></tr>
 <tr><td>权重衰减</td><td>0.01</td><td>-</td><td>train</td><td>configs/train.yaml:15 (F40)</td><td>正文已引用</td></tr>
 <tr><td>数据集</td><td>THUCNews-subset</td><td>-</td><td>data</td><td>configs/train.yaml:7 (F33)</td><td>正文未使用</td></tr>
@@ -43,7 +43,7 @@
 <tr><td>验证集文件</td><td>data/val.jsonl</td><td>-</td><td>val/data</td><td>configs/train.yaml:9 (F35)</td><td>正文未使用</td></tr>
 <tr><td>CUDA 版本</td><td>12.1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:2 (F96)</td><td>正文已引用</td></tr>
 <tr><td>cuDNN 版本</td><td>8902</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:2 (F97)</td><td>正文未使用</td></tr>
-<tr><td>硬件</td><td>NVIDIA A100-SXM4-80GB</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:3 (F98)</td><td>正文已引用</td></tr>
+<tr><td>硬件 (gpu)</td><td>NVIDIA A100-SXM4-80GB</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:3 (F98)</td><td>正文已引用</td></tr>
 <tr><td>GPU/设备数</td><td>1</td><td>-</td><td>-</td><td>logs/train_bert_seed42.log:3 (F99)</td><td>正文已引用</td></tr>
 <tr><td>数值精度</td><td>true</td><td>-</td><td>train</td><td>configs/train.yaml:21 (F46)</td><td>正文已引用</td></tr>
 <tr><td>软件 (transformers)</td><td>4.36.2</td><td>-</td><td>-</td><td>requirements.txt:2 (F20)</td><td>正文已引用</td></tr>
